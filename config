@@ -1,0 +1,16 @@
+#!/bin/env bash
+
+# Add more using 'source $HOME/Devlabs/cmd/@PATH'
+
+# add nix based information
+export NIX_PATH=~/.nix-defexpr/channels:$NIX_PATH
+
+source $HOME/Devlabs/cmd/paths
+source $HOME/Devlabs/cmd/nvm
+source $HOME/Devlabs/cmd/emsdk
+source $HOME/Devlabs/cmd/golang
+source $HOME/Devlabs/cmd/git
+source $HOME/Devlabs/cmd/rbenv
+source $HOME/Devlabs/cmd/android
+source $HOME/Devlabs/cmd/functions
+source $HOME/Devlabs/cmd/java_envs

@@ -1,0 +1,21 @@
+#!/bin/env bash
+
+reload!(){
+	echo "Running source ~/.profile"
+	source ~/.profile $@
+}
+
+
+killNodeJS(){
+	killall -9 node
+}
+
+fl(){
+ if [[ -x "$(command -v bundler)" ]]; then
+   bundler exec fastlane $*
+ elif [[ -x "$(command -v fastlane)" ]]; then
+    fastlane $*
+ else
+   echo "fastlane is not install, do 'sudo gem install bundler fastlane'"
+ fi
+}

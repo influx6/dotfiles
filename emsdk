@@ -1,0 +1,5 @@
+#!/bin/env bash
+
+
+# source $EMSCRIPTD/emsdk_env.sh > /dev/null
+#

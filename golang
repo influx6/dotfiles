@@ -1,0 +1,40 @@
+#!/bin/env bash
+
+
+export GO111MODULE=on
+export GOPATH=$Devlabs
+# export GOROOT=$SRC/go.googlesource.com/go
+# export GOROOT_BOOTSTRAP=$Devlabs/bootstraps/go1.11.9.linux-amd64
+
+
+export PATH=/home/darkstar/Devlabs/src/bin:$SRC/go.googlesource.com/go/bin:$Local/bin/go/bin:$PATH
+
+
+goget(){
+	echo "Running go get -v \"$@\" without GO111MODULE"
+	GO111MODULE=off go get -v $@
+}
+
+modget(){
+	echo "Running go get -v \"$@\" with GO111MODULE"
+	GO111MODULE=off go get -v $@
+}
+
+gomodto(){
+	echo "Go modules set into mode with GO111MODULE=$@"
+	export GO111MODULE=$@ 
+}
+
+gomodon(){
+	echo "Turning on go modules with GO111MODULE"
+	export GO111MODULE=on 
+}
+
+gomodoff(){
+	echo "Turning off go modules with GO111MODULE"
+	export GO111MODULE=off 
+}
+
+gomodshow(){
+	echo "Go modules env is: $GO111MODULE"
+}

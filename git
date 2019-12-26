@@ -1,0 +1,168 @@
+#!/bin/env bash
+
+gt(){
+	echo "Running: git $@"
+	git $@
+}
+
+gtadd(){
+	echo "Running: git add $@"
+	git add $@
+}
+
+gtall(){
+	echo "Running: git add $@ ."
+	git add $@ .
+}
+
+gtb(){
+	echo "Running: git branch $@"
+	git branch $@
+}
+
+gtrebase(){
+	echo "Running: git rebase $@"
+	git rebase $@
+}
+
+gtmerge(){
+	echo "Running: git merge $@"
+	git merge $@
+}
+
+gtstash(){
+	echo "Running: git stash $@"
+	git stash $@
+}
+
+gtwipe(){
+	echo "Running: git stash && git stash drop"
+	git stash && git stash drop
+}
+
+gtsh(){
+	echo "Running: git show $@"
+	git show $@
+}
+
+gtdiff(){
+	echo "Running: git diff $@"
+	git diff $@
+}
+
+gtfetch(){
+	echo "Running: git fetch $@"
+	git fetch $@
+}
+
+gtupdate(){
+	echo "Running: git fetch origin $@"
+	git fetch origin $@
+}
+
+gtrm(){
+	echo "Running: git rm $@"
+	git rm $@
+}
+
+gtlog(){
+	echo "Running: git log $@"
+	git log $@
+}
+
+gtcommitdestroy(){
+	echo "Running: git reset --hard $@"
+	git reset --hard $@
+}
+
+gtcommitundo(){
+	echo "Running: git reset --soft $@"
+	git reset --soft $@
+}
+
+gtreset(){
+	echo "Running: git reset $@"
+	git reset $@
+}
+
+gtst(){
+	echo "Running: git status $@"
+	git status $@
+}
+
+gtclone(){
+	echo "Running: git clone $@"
+	git clone $@
+}
+
+gtcc(){
+	echo "Running: git commit $@"
+	git commit $@
+}
+
+gtcnv(){
+	echo "Running: git commit --no-verify $@"
+	git commit --no-verify $@
+}
+
+gttag(){
+	echo "Running: git tag $@"
+	git tag $@
+}
+
+gtc(){
+	echo "Running: git checkout $@"
+	git checkout $@
+}
+
+gtbr() {
+	echo "Running git checkout $@ "
+	git checkout -b $@
+	echo "Running git push --set-upstream origin $@"
+	git push --set-upstream origin $@
+}
+
+gtcf(){
+	echo "Running: git checkout -f $@"
+	git checkout -f $@
+}
+
+gtup(){
+	echo "Running: git push origin $@"
+	git push origin $@
+}
+
+gtupf(){
+	echo "Running: git push -f origin $@"
+	git push -f origin $@
+}
+
+gtpsh(){
+	echo "Running: git push $@"
+	git push $@
+}
+
+gtpshf(){
+	echo "Running: git push -f $@"
+	git push -f $@
+}
+
+gtpull(){
+	echo "Running: git pull $@"
+	git pull $@
+}
+
+gtsync(){
+	echo "Running: git pull origin $@"
+	git pull origin $@
+}
+
+gtsyncf(){
+	echo "Running: git pull -f origin $@"
+	git pull -f origin $@
+}
+
+gtpullf(){
+	echo "Running: git pull -f $@"
+	git pull -f $@
+}
