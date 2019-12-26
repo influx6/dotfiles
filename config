@@ -5,6 +5,7 @@
 # add nix based information
 export NIX_PATH=~/.nix-defexpr/channels:$NIX_PATH
 
+source $HOME/Devlabs/cmd/alias
 source $HOME/Devlabs/cmd/paths
 source $HOME/Devlabs/cmd/nvm
 source $HOME/Devlabs/cmd/emsdk

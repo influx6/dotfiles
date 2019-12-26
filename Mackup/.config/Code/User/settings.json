@@ -1,0 +1,126 @@
+{
+    "peacock.favoriteColors": [
+        {
+            "name": "Angular Red",
+            "value": "#b52e31"
+        },
+        {
+            "name": "Auth0 Orange",
+            "value": "#eb5424"
+        },
+        {
+            "name": "Azure Blue",
+            "value": "#007fff"
+        },
+        {
+            "name": "C# Purple",
+            "value": "#68217A"
+        },
+        {
+            "name": "Gatsby Purple",
+            "value": "#639"
+        },
+        {
+            "name": "Go Cyan",
+            "value": "#5dc9e2"
+        },
+        {
+            "name": "Java Blue-Gray",
+            "value": "#557c9b"
+        },
+        {
+            "name": "JavaScript Yellow",
+            "value": "#f9e64f"
+        },
+        {
+            "name": "Mandalorian Blue",
+            "value": "#1857a4"
+        },
+        {
+            "name": "Node Green",
+            "value": "#215732"
+        },
+        {
+            "name": "React Blue",
+            "value": "#00b3e6"
+        },
+        {
+            "name": "Something Different",
+            "value": "#832561"
+        },
+        {
+            "name": "Vue Green",
+            "value": "#42b883"
+        }
+    ],
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "workbench.colorCustomizations": {
+        "activityBarBadge.background": "#616161",
+        "list.activeSelectionForeground": "#616161",
+        "list.inactiveSelectionForeground": "#616161",
+        "list.highlightForeground": "#616161",
+        "scrollbarSlider.activeBackground": "#61616150",
+        "editorSuggestWidget.highlightForeground": "#616161",
+        "textLink.foreground": "#616161",
+        "progressBar.background": "#616161",
+        "pickerGroup.foreground": "#616161",
+        "tab.activeBorder": "#616161",
+        "notificationLink.foreground": "#616161",
+        "editorWidget.resizeBorder": "#616161",
+        "editorWidget.border": "#616161",
+        "settings.modifiedItemIndicator": "#616161",
+        "settings.headerForeground": "#616161",
+        "panelTitle.activeBorder": "#616161",
+        "breadcrumb.activeSelectionForeground": "#616161",
+        "menu.selectionForeground": "#616161",
+        "menubar.selectionForeground": "#616161",
+        "editor.findMatchBorder": "#616161",
+        "selection.background": "#61616140",
+        "statusBar.background": "#005f5f",
+        "statusBar.noFolderBackground": "#005f5f",
+        "statusBar.debuggingBackground": "#005f5f"
+    },
+    "materialTheme.accent": "Graphite",
+    "vim.camelCaseMotion.enable": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "sync.gist": "f25c02387e496b515f0f728c17d84631",
+    "sync.autoUpload": false,
+    "sync.autoDownload": false,
+    "sync.quietSync": false,
+    "sync.forceUpload": false,
+    "vs-kubernetes": {
+        "vs-kubernetes.draft-path": "/Users/alexewetumo/.vs-kubernetes/tools/draft/darwin-amd64/draft",
+        "vs-kubernetes.helm-path": "/Users/alexewetumo/.vs-kubernetes/tools/helm/darwin-amd64/helm",
+        "vs-kubernetes.minikube-path": "/Users/alexewetumo/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
+        "vs-kubernetes.kubectl-path": "/Users/alexewetumo/.vs-kubernetes/tools/kubectl/kubectl"
+    },
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "prettier.requireConfig": true,
+    "prettier.semi": false,
+    "editor.tabSize": 2,
+    "vim.easymotion": true,
+    "vim.highlightedyank.enable": true,
+    "vim.replaceWithRegister": true,
+    "vim.statusBarColorControl": true,
+    "workbench.colorTheme": "Mariana Pro (Gray)",
+    "cSpell.userWords": [
+        "Backoff",
+        "Passcode",
+        "Powerup",
+        "Powerups",
+        "Signup",
+        "carret",
+        "lokalise",
+        "testflight"
+    ],
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "files.associations": {
+        "*.js": "javascriptreact",
+        "*.go": "go"
+    },
+    "go.coverOnSingleTest": true,
+    "go.gocodeAutoBuild": true,
+    "go.useCodeSnippetsOnFunctionSuggest": true,
+    "go.useLanguageServer": true
+}
