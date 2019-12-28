@@ -3,8 +3,8 @@
 
 export GO111MODULE=on
 export GOPATH=$Devlabs
-# export GOROOT=$SRC/go.googlesource.com/go
-# export GOROOT_BOOTSTRAP=$Devlabs/bootstraps/go1.11.9.linux-amd64
+# export GOROOT=$GOPATH/src/github.com/golang/go
+# export GOROOT_BOOTSTRAP=$Devlabs/bootstraps/go
 
 
 export PATH=/home/darkstar/Devlabs/src/bin:$SRC/go.googlesource.com/go/bin:$Local/bin/go/bin:$PATH
