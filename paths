@@ -25,5 +25,4 @@ export LDFLAGS="-L/usr/local/opt/ncurses/lib"
 export CPPFLAGS="-I/usr/local/opt/ncurses/include"
 
 # add nix based information
-export NIX_PATH=~/.nix-defexpr/channels:$NIX_PATH
 export PATH="$HOME/.rbenv/bin:$PATH"

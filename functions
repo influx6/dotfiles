@@ -1,11 +1,5 @@
 #!/bin/env bash
 
-reload!(){
-	echo "Running source ~/.profile"
-	source ~/.profile $@
-}
-
-
 killNodeJS(){
 	killall -9 node
 }

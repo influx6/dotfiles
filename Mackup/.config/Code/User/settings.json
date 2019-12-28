@@ -106,13 +106,21 @@
     "workbench.colorTheme": "Mariana Pro (Gray)",
     "cSpell.userWords": [
         "Backoff",
+        "CPPFLAGS",
+        "Devlabs",
+        "EMSC",
+        "LDFLAGS",
         "Passcode",
         "Powerup",
         "Powerups",
         "Signup",
         "carret",
+        "darkstar",
+        "emsdk",
         "lokalise",
-        "testflight"
+        "ncurses",
+        "testflight",
+        "ziglang"
     ],
     "javascript.updateImportsOnFileMove.enabled": "always",
     "files.associations": {
