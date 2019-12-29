@@ -1,7 +1,11 @@
 #!/bin/env bash
 
 killNodeJS(){
-	killall -9 node
+ killall -9 node
+}
+
+reload() {
+ source "$DOTFILES/config"
 }
 
 fl(){

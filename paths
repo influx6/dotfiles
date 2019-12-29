@@ -4,6 +4,8 @@
 export Devlabs=$HOME/Devlabs
 export Local=$HOME/local
 export SRC=$Devlabs/src
+export DOOMDIR=$HOME/.doom.d/
+export EMACSDIR=$HOME/.emacs.d/
 export GITHUB=$Devlabs/src/github.com
 export ZIG=$GITHUB/ziglang/zig/
 export NPM=$HOME/.node_modules

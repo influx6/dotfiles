@@ -51,7 +51,7 @@ their `package!' declarations, which is simpler than lockfiles, where version
 management would be done in a whole new file that users shouldn't have to deal
 with.")
 
-(defvar doom-core-packages '(straight use-package async)
+(defvar doom-core-packages '(straight use-package)
   "A list of packages that must be installed (and will be auto-installed if
 missing) and shouldn't be deleted.")
 
@@ -80,8 +80,7 @@ missing) and shouldn't be deleted.")
 
 ;; Ensure that, if we do need package.el, it is configured correctly. You really
 ;; shouldn't be using it, but it may be convenient for quick package testing.
-(setq package--init-file-ensured t
-      package-enable-at-startup nil
+(setq package-enable-at-startup nil
       package-user-dir (concat doom-local-dir "elpa/")
       package-gnupghome-dir (expand-file-name "gpg" package-user-dir)
       ;; I omit Marmalade because its packages are manually submitted rather
@@ -91,6 +90,8 @@ missing) and shouldn't be deleted.")
         `(("gnu"   . ,(concat proto "://elpa.gnu.org/packages/"))
           ("melpa" . ,(concat proto "://melpa.org/packages/"))
           ("org"   . ,(concat proto "://orgmode.org/elpa/")))))
+
+(advice-add #'package--ensure-init-file :override #'ignore)
 
 ;; Don't save `package-selected-packages' to `custom-file'
 (defadvice! doom--package-inhibit-custom-file-a (&optional value)
@@ -117,15 +118,11 @@ missing) and shouldn't be deleted.")
       ;; certain things to work (like magit and org), but we can deal with that
       ;; when we cross that bridge.
       straight-vc-git-default-clone-depth 1
-      ;; Straight's own emacsmirror mirror is a little smaller and faster.
-      straight-recipes-emacsmirror-use-mirror t
       ;; Prefix declarations are unneeded bulk added to our autoloads file. Best
       ;; we just don't have to deal with them at all.
-      autoload-compute-prefixes nil)
-
-(defun doom--finalize-straight ()
-  (mapc #'funcall (delq nil (mapcar #'cdr straight--transaction-alist)))
-  (setq straight--transaction-alist nil))
+      autoload-compute-prefixes nil
+      ;; We handle it ourselves
+      straight-fix-org nil)
 
 ;;; Getting straight to behave in batch mode
 (when noninteractive
@@ -246,9 +243,7 @@ necessary package metadata is initialized and available for them."
                 (print! (warn "%s\n%s")
                         (format "You've disabled %S" name)
                         (indent 2 (concat "This is a core package. Disabling it will cause errors, as Doom assumes\n"
-                                          "core packages are always available. Disable their minor-modes or hooks instead.")))))))))
-    (unless doom-interactive-mode
-      (add-hook 'kill-emacs-hook #'doom--finalize-straight))))
+                                          "core packages are always available. Disable their minor-modes or hooks instead.")))))))))))
 
 (defun doom-ensure-straight ()
   "Ensure `straight' is installed and was compiled with this version of Emacs."
@@ -334,17 +329,24 @@ elsewhere."
          (plist-put! plist prop val)))
      ;; Some basic key validation; error if you're not using a valid key
      (condition-case e
-         (cl-destructuring-bind
-             (&key _local-repo _files _flavor _no-build
-                   _type _repo _host _branch _remote _nonrecursive _fork _depth)
-             (plist-get plist :recipe))
+         (when-let (recipe (plist-get plist :recipe))
+           (cl-destructuring-bind
+               (&key local-repo _files _flavor _no-build
+                     _type _repo _host _branch _remote _nonrecursive _fork _depth)
+               recipe
+             ;; Expand :local-repo from current directory
+             (when local-repo
+               (plist-put! plist :recipe
+                           (plist-put recipe :local-repo
+                                      (expand-file-name local-repo ,(dir!)))))))
        (error
         (signal 'doom-package-error
                 (cons ,(symbol-name name)
                       (error-message-string e)))))
      ;; This is the only side-effect of this macro!
      (setf (alist-get name doom-packages) plist)
-     (not (plist-get plist :disable))))
+     (with-no-warnings
+       (not (plist-get plist :disable)))))
 
 (defmacro disable-packages! (&rest packages)
   "A convenience macro for disabling packages in bulk.
