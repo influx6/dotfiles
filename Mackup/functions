@@ -5,7 +5,7 @@ killNodeJS(){
 }
 
 reload() {
- source "$DOTFILES/config"
+ source "$DOTFILES/Mackup/config"
 }
 
 fl(){

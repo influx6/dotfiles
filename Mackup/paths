@@ -6,10 +6,14 @@ export Local=$HOME/local
 export SRC=$Devlabs/src
 export DOOMDIR=$HOME/.doom.d/
 export EMACSDIR=$HOME/.emacs.d/
-export GITHUB=$Devlabs/src/github.com
+export GITHUB=$SRC/github.com
 export ZIG=$GITHUB/ziglang/zig/
 export NPM=$HOME/.node_modules
 export EMSC=$SRC/github.com/juj/emsdk
+
+export github=$SRC/github.com
+export influx6=$SRC/github.com/influx6
+export forkkit=$SRC/github.com/forkkit
 
 export NODE_OPTIONS="--max-old-space-size=4096"
 
