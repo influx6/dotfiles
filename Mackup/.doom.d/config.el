@@ -72,6 +72,11 @@
 ;; `nil' to disable it:
 (setq display-line-numbers-type t)
 
+  ;; (add-hook 'prog-mode-hook 'real-auto-save-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+;; (setq real-auto-save-interval 1) ;; in seconds
+;; (add-hook 'prog-mode-hook 'real-auto-save-mode)
+
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (winum-mode)
@@ -94,12 +99,6 @@
 (setq make-backup-files nil)
 
 
-;; (add-hook 'prog-mode-hook 'real-auto-save-mode)
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
-;; (setq real-auto-save-interval 1) ;; in seconds
-;; (add-hook 'prog-mode-hook 'real-auto-save-mode)
-
-
 ;; buffer search customization
 (map! (:leader
      (:desc "buffer find" :g "bf" nil)))
@@ -114,7 +113,14 @@
         (:desc "search buffer project" :g "bfp" #'counsel-git-grep)))
 
 
-;; ein customization
+;; ein treemacs customization
+(map! (:leader
+        (:desc "Treemacs" :g "T" nil)))
+
+(map! (:leader
+        (:desc "run" :g "Tt" #'treemacs)))
+
+;; ein Jupiter customization
 (map! (:leader
         (:desc "Jupyter" :g "J" nil)))
 
@@ -124,6 +130,7 @@
 (map! (:leader
         (:desc "login" :g "Jl" #'ein:login)))
 
+;; ein customization
 (map! (:leader
         (:desc "open file" :g "Jf" #'ein:connect-to-notebook)))
 
@@ -154,9 +161,23 @@
 (map! (:leader
         (:desc "Major mode" :g "Mm" #'displaymode)))
 
+;; evil customizatioN
+(evil-define-motion evil-jzz (count)
+  "j to jzz"
+  :type line
+  (evil-next-line (or count 1))
+  (evil-scroll-line-to-center nil))
+(define-key evil-normal-state-map (kbd "j") 'evil-jzz)
+
+(evil-define-motion evil-kzz (count)
+  "j to kzz"
+  :type line
+  (evil-previous-line (or count 1))
+  (evil-scroll-line-to-center nil))
+(define-key evil-normal-state-map (kbd "k") 'evil-kzz)
+
 ;; enable whitespace minor mode after major mode of emacs-list-mode
 ;; (add-hook 'emacs-lisp-mode-hook 'whitespace-mode)
-
 (global-whitespace-mode)
 
 (progn
@@ -172,20 +193,9 @@
           (newline-mark 10 [9166 10]) ; LINE FEED,
           (tab-mark 9 [9655 9] [92 9]) ; tab
           )))
-;; evil customizatioN
-(evil-define-motion evil-jzz (count)
-  "j to jzz"
-  :type line
-  (evil-next-line (or count 1))
-  (evil-scroll-line-to-center nil))
-(define-key evil-normal-state-map (kbd "j") 'evil-jzz)
 
-(evil-define-motion evil-kzz (count)
-  "j to kzz"
-  :type line
-  (evil-previous-line (or count 1))
-  (evil-scroll-line-to-center nil))
-(define-key evil-normal-state-map (kbd "k") 'evil-kzz)
+(setq-default evil-shift-width 2 ;; I normally use 2wide for my projects.
+              tab-width 2)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
