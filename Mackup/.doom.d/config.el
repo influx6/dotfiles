@@ -31,10 +31,6 @@
 (after! yasnippet
   (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 
-;; typescript and javascript
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
-
 (after! typescript-mode
   (add-hook 'typescript-mode-hook #'flycheck-mode)
   (setq typescript-indent-level 2))
@@ -250,3 +246,5 @@
 ;;
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
+(load! "./typescript")
+(load! "./assoc")

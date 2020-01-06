@@ -44,6 +44,7 @@
 
 ;; Filestuff
 (package! ranger)
+(package! flycheck)
 (package! org-super-agenda)
 (package! real-auto-save)
 (package! winum)
@@ -123,6 +124,7 @@
 
 ;; typescript stuff
 (package! typescript-mode)
+(package! tide)
 (package! ob-typescript)
 
 ;;
