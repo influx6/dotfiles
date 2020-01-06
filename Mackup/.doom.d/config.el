@@ -13,7 +13,9 @@
       user-mail-address "trinoxf@gmail.com")
 
 (fset 'battery-update #'ignore)
+
 (setq explicit-shell-file-name "/bin/bash")
+
 (defun my/term ()
   "My personal term command."
   (interactive)
@@ -24,6 +26,42 @@
 (map! (:leader
         (:desc "open shell" :g "oe" #'my/term)) ;; 这个快捷键是SPC o e
 )
+
+;; Load snippets
+(after! yasnippet
+  (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
+
+;; typescript and javascript
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
+
+(after! typescript-mode
+  (add-hook 'typescript-mode-hook #'flycheck-mode)
+  (setq typescript-indent-level 2))
+
+(setq js-indent-level 2
+      js2-basic-offset 2)
+
+(setq +set-eslint-checker nil)
+
+;; lsp
+(after! lsp-ui
+  ;; for whatever reason, this was running twice.
+  (setq lsp-ui-sideline-show-hover t)
+  (when (not +set-eslint-checker)
+    (progn
+      (setq +set-eslint-checker t)
+      (flycheck-add-mode 'javascript-eslint 'web-mode)
+      (flycheck-add-next-checker 'lsp-ui '(warning . javascript-eslint)))))
+
+;; web mode
+(after! web-mode
+  (add-hook 'web-mode-hook #'flycheck-mode)
+
+  (setq web-mode-markup-indent-offset 2 ;; Indentation
+        web-mode-code-indent-offset 2
+        web-mode-enable-auto-quoting nil ;; disbale adding "" after an =
+        web-mode-auto-close-style 2))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:

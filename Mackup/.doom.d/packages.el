@@ -41,6 +41,9 @@
 ;; This is required for some packages whose default branch isn't 'master' (which
 ;; our package manager can't deal with; see raxod502/straight.el#279)
 ;(package! builtin-package :recipe (:branch "develop"))
+
+;; Filestuff
+(package! ranger)
 (package! org-super-agenda)
 (package! real-auto-save)
 (package! winum)
@@ -50,12 +53,48 @@
 (package! treemacs-magit)
 (package! treemacs-projectile)
 (package! treemacs-icons-dired)
+
+;; Misc stuff
+;; Can highlight a region and hit M-x carbon-now-sh to get a
+;; https://carbon.now.sh of the region
+(package! carbon-now-sh)
+(package! yasnippet)
+(package! emmet-mode)
+
+;; Email stuff
+(package! notmuch)
+(if (featurep! :completion ivy)
+    (package! counsel-notmuch)
+  (package! helm-notmuch))
+(package! org-mime)
+
+;; golden ratio stuff
+(package! golden-ratio)
+(package! golden-ratio-scroll-screen)
+
+;; lsp stuff
+(package! lsp-ui)
+(package! lsp-treemacs)
+(package! lsp-java)
+(package! lsp-ivy)
+
+;; web stuff
+(package! web-mode)
+(package! web-mode-edit-element)
+
+;;js-stuff
 (package! js-doc)
 (package! prettier-js)
 (package! requirejs-mode)
 (package! js-import)
 (package! js-format)
 (package! js-react-redux-yasnippets)
+(package! pkgbuild-mode)
+(package! eslint-fix)
+(package! eslintd-fix)
+(package! flymake-eslint)
+
+;; go related stuff
 (package! go-mode)
 (package! flymake-go)
 (package! flymake-golangci)
@@ -81,7 +120,15 @@
 (package! go-playground)
 (package! go-playground-cli)
 (package! go-gen-test)
+
+;; typescript stuff
 (package! typescript-mode)
 (package! ob-typescript)
-(package! golden-ratio)
-(package! golden-ratio-scroll-screen)
+
+;;
+;; Ruby stuff
+(package! enh-ruby-mode)
+(package! rbenv) ;; i use rbenv
+(package! yard-mode)
+(package! rinari)
+(package! rubocop)
