@@ -175,7 +175,39 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(ansi-color-names-vector
+   ["#212337" "#ff5370" "#c7f59b" "#ffbd76" "#70b0ff" "#baacff" "#34d3fb" "#e4f3fa"])
+ '(custom-safe-themes
+   (quote
+    ("32fd809c28baa5813b6ca639e736946579159098d7768af6c68d78ffa32063f4" default)))
+ '(fci-rule-color "#383e5c")
+ '(jdee-db-active-breakpoint-face-colors (cons "#161a2a" "#baacff"))
+ '(jdee-db-requested-breakpoint-face-colors (cons "#161a2a" "#c7f59b"))
+ '(jdee-db-spec-breakpoint-face-colors (cons "#161a2a" "#383e5c"))
+ '(objed-cursor-color "#ff5370")
+ '(pdf-view-midnight-colors (cons "#212337" "#e4f3fa"))
+ '(vc-annotate-background "#212337")
+ '(vc-annotate-color-map
+   (list
+    (cons 20 "#c7f59b")
+    (cons 40 "#d9e28e")
+    (cons 60 "#eccf82")
+    (cons 80 "#ffbd76")
+    (cons 100 "#ffb071")
+    (cons 120 "#ffa36c")
+    (cons 140 "#ff9668")
+    (cons 160 "#e89d9a")
+    (cons 180 "#d1a4cc")
+    (cons 200 "#baacff")
+    (cons 220 "#d18ecf")
+    (cons 240 "#e8709f")
+    (cons 260 "#ff5370")
+    (cons 280 "#cd4d6b")
+    (cons 300 "#9b4866")
+    (cons 320 "#694361")
+    (cons 340 "#383e5c")
+    (cons 360 "#383e5c")))
+ '(vc-annotate-very-old-color nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
