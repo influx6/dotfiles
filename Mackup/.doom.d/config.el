@@ -149,7 +149,7 @@
 
 ;; indentation customation
 (map! (:leader
-        (:desc "indent-relative" :g "c-i" #'indent-relative)))
+        (:desc "indent-relative" :g "ir" #'indent-relative)))
 
 ;; ein treemacs customization
 (map! (:leader
