@@ -95,7 +95,6 @@
   :config
   (org-super-agenda-mode)
   )
-(setq display-line-numbers-type 'relative)
 
 (setq doom-theme 'doom-nord)
 
@@ -104,8 +103,10 @@
 
 ;; If you want to change the style of line numbers, change this to `relative' or
 ;; `nil' to disable it:
-(setq display-line-numbers-type t)
-;; (setq doom (toggle-line-numbers-type t))
+(global-display-line-numbers-mode)
+(setq display-line-numbers-type 'normal)
+;;(setq display-line-numbers-type 'relative')
+;;(setq doom-line-numbers-style t)
 
   ;; (add-hook 'prog-mode-hook 'real-auto-save-mode)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
@@ -149,7 +150,7 @@
 
 ;; indentation customation
 (map! (:leader
-        (:desc "indent-relative" :g "ir" #'indent-relative)))
+        (:desc "Indent Relative" :g "r" #'indent-relative)))
 
 ;; ein treemacs customization
 (map! (:leader
