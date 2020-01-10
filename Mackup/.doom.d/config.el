@@ -97,7 +97,7 @@
   )
 (setq display-line-numbers-type 'relative)
 
-(setq doom-theme 'doom-peacock)
+(setq doom-theme 'doom-nord)
 
 ;; If you intend to use org, it is recommended you change this!
 (setq org-directory "~/org/")
@@ -105,6 +105,7 @@
 ;; If you want to change the style of line numbers, change this to `relative' or
 ;; `nil' to disable it:
 (setq display-line-numbers-type t)
+;; (setq doom (toggle-line-numbers-type t))
 
   ;; (add-hook 'prog-mode-hook 'real-auto-save-mode)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
@@ -146,13 +147,13 @@
 (map! (:leader
         (:desc "search buffer project" :g "bfp" #'counsel-git-grep)))
 
+;; indentation customation
+(map! (:leader
+        (:desc "indent-relative" :g "c-i" #'indent-relative)))
 
 ;; ein treemacs customization
 (map! (:leader
-        (:desc "Treemacs" :g "T" nil)))
-
-(map! (:leader
-        (:desc "run" :g "Tt" #'treemacs)))
+        (:desc "Treemacs" :g "z" #'treemacs)))
 
 ;; ein Jupiter customization
 (map! (:leader
