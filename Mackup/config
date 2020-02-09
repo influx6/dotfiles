@@ -6,6 +6,7 @@ source $HOME/.cargo/env
 
 source $Dotfiles/Mackup/alias
 source $Dotfiles/Mackup/paths
+source $Dotfiles/Mackup/linuxbrew
 source $Dotfiles/Mackup/nvm
 source $Dotfiles/Mackup/emsdk
 source $Dotfiles/Mackup/golang

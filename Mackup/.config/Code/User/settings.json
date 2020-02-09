@@ -77,9 +77,9 @@
         "menubar.selectionForeground": "#616161",
         "editor.findMatchBorder": "#616161",
         "selection.background": "#61616140",
-        "statusBar.background": "#005f5f",
-        "statusBar.noFolderBackground": "#005f5f",
-        "statusBar.debuggingBackground": "#005f5f"
+        "statusBar.background": "#5f0000",
+        "statusBar.noFolderBackground": "#5f0000",
+        "statusBar.debuggingBackground": "#5f0000"
     },
     "materialTheme.accent": "Graphite",
     "vim.camelCaseMotion.enable": true,
