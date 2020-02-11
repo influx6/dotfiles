@@ -99,7 +99,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export Dotfiles="$HOME/Devlabs/src/github.com/influx6/dotfiles"
+export Dotfiles="$HOME/dotfiles"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 source $Dotfiles/Mackup/config

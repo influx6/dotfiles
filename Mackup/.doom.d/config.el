@@ -148,6 +148,10 @@
 (map! (:leader
         (:desc "search buffer project" :g "bfp" #'counsel-git-grep)))
 
+;; run prettier on buffer
+(map! (:leader
+        (:desc "Prettier" :g "bjp" #'prettier-js)))
+
 ;; indentation customation
 (map! (:leader
         (:desc "Indent Relative" :g "r" #'indent-relative)))
