@@ -5,6 +5,7 @@
 source $HOME/.cargo/env
 
 source $Dotfiles/Mackup/alias
+source $Dotfiles/Mackup/editor
 source $Dotfiles/Mackup/paths
 source $Dotfiles/Mackup/linuxbrew
 source $Dotfiles/Mackup/nvm
