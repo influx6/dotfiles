@@ -103,3 +103,13 @@ export Dotfiles="$HOME/dotfiles"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 source $Dotfiles/Mackup/config
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/alexewetumo/Devlabs/src/github.com/gini-app/gini/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/alexewetumo/Devlabs/src/github.com/gini-app/gini/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/alexewetumo/Devlabs/src/github.com/gini-app/gini/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/alexewetumo/Devlabs/src/github.com/gini-app/gini/node_modules/tabtab/.completions/sls.zsh
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /Users/alexewetumo/Devlabs/src/github.com/gini-app/gini/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/alexewetumo/Devlabs/src/github.com/gini-app/gini/node_modules/tabtab/.completions/slss.zsh
