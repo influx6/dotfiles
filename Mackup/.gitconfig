@@ -1,3 +1,12 @@
+[core]
+	filemode = false
+	autocrlf = input
 [user]
 	email = trinoxf@gmail.com
-	name = Alexander Ewetumo
+	name = "Alex Ewetumo"
+[gpg]
+	program = /usr/bin/gpg
+[url "git@gitlab.1password.io:"]
+	insteadOf = https://gitlab.1password.io/
+[url "git@gitlab.com:"]
+	insteadOf = [https://gitlab.com](https://gitlab.com)

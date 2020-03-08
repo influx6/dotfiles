@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Note: Bash on Windows does not currently apply umask properly.
+if [[ "$(umask)" = "0000" ]]; then
+  umask 0022
+fi
+
+export Projects=/mnt/c/Projects
+export Shell=$Projects/shell
+export PATH="/mnt/c/starcraft/.local/bin:/mnt/c/starcraft/.linuxbrew/bin"
+
+#_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+
+# initialize linuxbrew
+# test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+# test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+# test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+# echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+
+#source  $HOME/.cargo/env
+source $Dotfiles/config

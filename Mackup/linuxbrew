@@ -1,5 +1,5 @@
 
-eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+eval $(~/.linuxbrew/bin/brew shellenv)
 
-export LINUXBREW="/home/linuxbrew/.linuxbrew"
-export PATH=$HOME/Devlabs/bin:$HOME/Devlabs/local/bin:$HOME/Devlabs/local/sbin/bin:$HOME/Devlabs/local/sbin/go/bin:$PATH
+export LINUXBREW="$HOME/.linuxbrew"
+
