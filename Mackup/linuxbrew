@@ -1,5 +1,8 @@
 
+platform=$(uname)
+if [ "${platform}" != "Darwin" ]; then
 eval $(~/.linuxbrew/bin/brew shellenv)
-
 export LINUXBREW="$HOME/.linuxbrew"
+fi
+
 
