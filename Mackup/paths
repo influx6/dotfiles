@@ -1,4 +1,4 @@
-	#!/bin/env bash
+#!/bin/env bash
 
 export Devlabs=$HOME/Devlabs
 export Local=$HOME/local
