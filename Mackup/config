@@ -15,3 +15,5 @@ source $Dotfiles/Mackup/git
 source $Dotfiles/Mackup/android
 source $Dotfiles/Mackup/functions
 # source $Dotfiles/java_envs
+
+echo 'Done settup dotfiles'

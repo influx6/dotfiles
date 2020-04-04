@@ -1,6 +1,5 @@
 	#!/bin/env bash
 
-
 export Devlabs=$HOME/Devlabs
 export Local=$HOME/local
 export SRC=$Devlabs/src
@@ -22,7 +21,9 @@ export BOOST_ROOT=/usr/boost
 export ANACONDA_PATH=$HOME/anaconda3
 export SDKManager=$Devlabs/tools
 
-export PATH="/usr/local/sbin:$PATH"
+export RBENV=$HOME/.rbenv/
+
+export PATH=/usr/local/sbin:$PATH
 export PATH=$ZIG/build:$SDKManager/bin:$EMCC:/usr/local/opt/ncurses/bin:$NPM/bin:$HOME/.local/bin:$HOME/.cargo/bin:$Devlabs/bin:$Local/bin:$PATH
 export PATH=$PATH:$ANACONDA_PATH/bin:/home/darkstar/Devlabs/src/bin:/home/darkstar/Devlabs/src/github.com/juj/emsdk
 export PATH=$PATH:/home/darkstar/Devlabs/src/github.com/juj/emsdk/clang/fastcomp/build_incoming_64/bin
