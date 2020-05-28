@@ -21,5 +21,5 @@ alias grb="git rebase"
 alias gcp="git cherry-pick"
 
 # dotfiles
-alias dotfiles_commit="cd $HOME/dotfiles && git commit -am 'UPT: Updated dotfiles' && cd -"
+alias dotfiles_commit="cd $HOME/dotfiles && git commit -am 'UPT: Updated dotfiles'; cd -"
 alias dotfiles_push="cd $HOME/dotfiles && git push origin master && cd -"
