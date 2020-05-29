@@ -25,3 +25,7 @@ fi
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
+
+export DOCKER_HOST=tcp://192.168.31.176:2376
+export DOCKER_CERT_PATH=$HOME/.docker
+export DOCKER_TLS=true
