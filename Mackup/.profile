@@ -26,9 +26,11 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+export PATH="$HOME/.cargo/bin:$PATH"
 export PATH=/snap/bin:$HOME/.local/bin:$HOME/Devlabs/bin:$PATH
+
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 
-export PATH="$HOME/.cargo/bin:$PATH"
 if [ -e /home/darkvoid/.nix-profile/etc/profile.d/nix.sh ]; then . /home/darkvoid/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+

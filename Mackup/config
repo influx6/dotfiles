@@ -15,6 +15,7 @@ source $Dotfiles/Mackup/git
 source $Dotfiles/Mackup/android
 source $Dotfiles/Mackup/functions
 source $Dotfiles/Mackup/docker
+source $Dotfiles/Mackup/nix
 # source $Dotfiles/java_envs
 
 echo 'Done settup dotfiles'

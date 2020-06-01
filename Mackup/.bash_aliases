@@ -2,6 +2,13 @@ alias edit_aliases="vim ~/.bash_aliases"
 alias edit_profile="vim ~/.profile"
 alias edit_bash="vim ~/.bashrc"
 
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+
+# multipass
+alias mpass="multipass"
+alias mp="multipass"
+
 # docker
 alias dok="docker"
 
