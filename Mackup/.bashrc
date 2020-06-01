@@ -151,7 +151,7 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 export Dotfiles=$HOME/dotfiles
 
-if [ -n "/mnt/c" ]; then
+if [ -d "/mnt/c" ]; then
  source $Dotfiles/Mackup/config_wsl
 else
  source $Dotfiles/Mackup/config
