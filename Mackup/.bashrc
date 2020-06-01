@@ -146,10 +146,10 @@ source $OSH/oh-my-bash.sh
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+export Dotfiles=$HOME/dotfiles
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-export Dotfiles=$HOME/dotfiles
 
 if [ -d "/mnt/c" ]; then
  source $Dotfiles/Mackup/config_wsl

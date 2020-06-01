@@ -29,3 +29,5 @@ fi
 export PATH=/snap/bin:$HOME/.local/bin:$HOME/Devlabs/bin:$PATH
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
+
+export PATH="$HOME/.cargo/bin:$PATH"
