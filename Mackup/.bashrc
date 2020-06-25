@@ -156,3 +156,4 @@ if [ -d "/mnt/c" ]; then
 else
  source $Dotfiles/Mackup/config
 fi
+PATH=/home/darkvoid/apache-tomcat-7.0.104/bin:$PATH
