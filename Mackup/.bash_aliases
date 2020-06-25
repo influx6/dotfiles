@@ -17,7 +17,7 @@ alias k="kubectl"
 
 # git
 alias g="git"
-alias go="git checkout"
+alias goc="git checkout"
 alias gc="git commit"
 alias gr="git reset"
 alias gl="git pull"
