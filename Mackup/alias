@@ -10,8 +10,6 @@ alias dok="docker"
 # k8s, microk8s
 alias k="kubectl"
 
-# git
-
 # dotfiles
 alias dotfiles_commit="cd $HOME/dotfiles && git commit -am 'UPT: Updated dotfiles'; cd -"
 alias dotfiles_push="cd $HOME/dotfiles && git push origin master; cd -"

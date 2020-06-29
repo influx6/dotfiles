@@ -1,3 +1,6 @@
 [submodule "Mackup/oh-my-bash"]
 	path = Mackup/oh-my-bash
 	url = git@github.com:ohmybash/oh-my-bash.git
+[submodule "Mackup/.nvm"]
+	path = Mackup/.nvm
+	url = https://github.com/nvm-sh/nvm.git
