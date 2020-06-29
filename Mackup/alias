@@ -11,16 +11,6 @@ alias dok="docker"
 alias k="kubectl"
 
 # git
-alias g="git"
-alias go="git checkout"
-alias gc="git commit"
-alias gr="git reset"
-alias gl="git pull"
-alias gm="git merge"
-alias gp="git push"
-alias gb="git branch"
-alias grb="git rebase"
-alias gcp="git cherry-pick"
 
 # dotfiles
 alias dotfiles_commit="cd $HOME/dotfiles && git commit -am 'UPT: Updated dotfiles'; cd -"

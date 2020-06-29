@@ -35,3 +35,6 @@ alias pbpaste='xclip -selection clipboard -o'
 if [ -e /home/darkvoid/.nix-profile/etc/profile.d/nix.sh ]; then . /home/darkvoid/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 if [ -e /home/ubuntu/.nix-profile/etc/profile.d/nix.sh ]; then . /home/ubuntu/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+source $HOME/.profile.custom
+PATH=/home/darkvoid/apache-tomcat-7.0.104/bin:$PATH

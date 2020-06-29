@@ -1,119 +1,50 @@
 #!/bin/env bash
 
-gt(){
-	echo "Running: git "$@""
-	git "$@"
-}
+alias gt="git"
+alias gtadd="git add"
+alias gtall="git add ."
+alias gtb="git branch"
+alias gtm="git merge"
+alias gts="git stash"
+alias gtstash="git stash"
+alias gtwipe="git stash; git stash drop"
+alias gtrb="git rebase"
+alias gtsh="git show"
+alias gtst="git status"
+alias gtdiff="git diff"
+alias gtfetch="git fetch"
+alias gtupdate="git fetch origin"
+alias gtrm="git rm"
+alias gtlog="git log"
+alias gtignore="git reset --hard"
+alias gtundo="git reset --soft"
+alias gtreset="git reset"
+alias gtclone="git clone"
+alias gtcc="git commit"
+alias gtcnv="git commit --no-verify"
+alias gttag="git tag"
+alias gtc="git checkout"
+alias gtcf="git checkout -f"
+alias gtup="git push origin"
+alias gtupf="git push -f origin"
+alias gtpsh="git push -u origin HEAD"
+alias gtpshf="git push -f"
+alias gtpull="git pull"
+alias gtpullf="git pull -f"
+alias gtsync="git pull origin"
+alias gtsyncf="git pull -f origin"
 
-gtadd(){
-	echo "Running: git add "$@""
-	git add "$@"
-}
-
-gtall(){
-	echo "Running: git add "$@" ."
-	git add "$@" .
-}
-
-gtb(){
-	echo "Running: git branch "$@""
-	git branch "$@"
-}
-
-gtrebase(){
-	echo "Running: git rebase "$@""
-	git rebase "$@"
-}
-
-gtmerge(){
-	echo "Running: git merge "$@""
-	git merge "$@"
-}
-
-gtstash(){
-	echo "Running: git stash "$@""
-	git stash "$@"
-}
-
-gtwipe(){
-	echo "Running: git stash && git stash drop"
-	git stash && git stash drop
-}
-
-gtsh(){
-	echo "Running: git show "$@""
-	git show "$@"
-}
-
-gtdiff(){
-	echo "Running: git diff "$@""
-	git diff "$@"
-}
-
-gtfetch(){
-	echo "Running: git fetch "$@""
-	git fetch "$@"
-}
-
-gtupdate(){
-	echo "Running: git fetch origin "$@""
-	git fetch origin "$@"
-}
-
-gtrm(){
-	echo "Running: git rm "$@""
-	git rm "$@"
-}
-
-gtlog(){
-	echo "Running: git log "$@""
-	git log "$@"
-}
-
-gtcommitdestroy(){
-	echo "Running: git reset --hard "$@""
-	git reset --hard "$@"
-}
-
-gtcommitundo(){
-	echo "Running: git reset --soft "$@""
-	git reset --soft "$@"
-}
-
-gtreset(){
-	echo "Running: git reset "$@""
-	git reset "$@"
-}
-
-gtst(){
-	echo "Running: git status "$@""
-	git status "$@"
-}
-
-gtclone(){
-	echo "Running: git clone "$@""
-	git clone "$@"
-}
-
-gtcc(){
-	echo "Running: git commit "$@""
-	git commit "$@"
-}
-
-gtcnv(){
-	echo "Running: git commit --no-verify "$@""
-	git commit --no-verify "$@"
-}
-
-gttag(){
-	echo "Running: git tag "$@""
-	git tag "$@"
-}
-
-gtc(){
-	echo "Running: git checkout "$@""
-	git checkout "$@"
-}
+alias g="git"
+alias gco="git checkout"
+alias gc="git commit"
+alias gr="git reset"
+alias gl="git pull"
+alias gm="git merge"
+alias gp="git push"
+alias gb="git branch"
+alias grb="git rebase"
+alias gcp="git cherry-pick"
+alias gstash="git stash"
 
 gtbr() {
 	echo "Running git checkout "$@" "
@@ -122,47 +53,3 @@ gtbr() {
 	git push --set-upstream origin "$@"
 }
 
-gtcf(){
-	echo "Running: git checkout -f "$@""
-	git checkout -f "$@"
-}
-
-gtup(){
-	echo "Running: git push origin "$@""
-	git push origin "$@"
-}
-
-gtupf(){
-	echo "Running: git push -f origin "$@""
-	git push -f origin "$@"
-}
-
-gtpsh(){
-	echo "Running: git push "$@""
-	git push "$@"
-}
-
-gtpshf(){
-	echo "Running: git push -f "$@""
-	git push -f "$@"
-}
-
-gtpull(){
-	echo "Running: git pull "$@""
-	git pull "$@"
-}
-
-gtsync(){
-	echo "Running: git pull origin "$@""
-	git pull origin "$@"
-}
-
-gtsyncf(){
-	echo "Running: git pull -f origin "$@""
-	git pull -f origin "$@"
-}
-
-gtpullf(){
-	echo "Running: git pull -f "$@""
-	git pull -f "$@"
-}

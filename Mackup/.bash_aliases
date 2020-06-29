@@ -14,10 +14,12 @@ alias dok="docker"
 
 # k8s, microk8s
 alias k="kubectl"
+alias ms="microk8s"
+alias msk="microk8s.kubectl"
 
 # git
 alias g="git"
-alias go="git checkout"
+alias gco="git checkout"
 alias gc="git commit"
 alias gr="git reset"
 alias gl="git pull"
