@@ -38,3 +38,5 @@ if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc
 source "$HOME/dotfiles/Mackup/sdkman/bin/sdkman-init.sh"
 
 source $HOME/.profile.custom
+if [ -e /home/darkvoid/.nix-profile/etc/profile.d/nix.sh ]; then . /home/darkvoid/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+PATH=/home/darkvoid/apache-tomcat-7.0.104/bin:$PATH

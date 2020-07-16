@@ -13,3 +13,9 @@ alias k="kubectl"
 # dotfiles
 alias dotfiles_commit="cd $HOME/dotfiles && git commit -am 'UPT: Updated dotfiles'; cd -"
 alias dotfiles_push="cd $HOME/dotfiles && git push origin master; cd -"
+
+# Download as audio in respective folder
+alias youtube-audio='youtube-dl -ic -o "~/audios/%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist --extract-audio --audio-format mp3 --audio-quality 0'
+
+# Download as video in respective folder
+alias youtube='youtube-dl -f best --ignore-errors -o "~/%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist'

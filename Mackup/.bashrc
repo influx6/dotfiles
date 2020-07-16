@@ -164,3 +164,4 @@ export NVM_DIR="$HOME/.nvm"
 
 export SDKMAN_DIR="$HOME/dotfiles/Mackup/sdkman"
 [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
+PATH=/home/darkvoid/apache-tomcat-7.0.104/bin:$PATH
