@@ -26,6 +26,8 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+export EDITOR='vim'
+
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH=/snap/bin:$HOME/.local/bin:$HOME/Devlabs/bin:$PATH
 export PATH=$HOME/apache-tomcat-7.0.104/bin:$PATH
@@ -35,8 +37,6 @@ alias pbpaste='xclip -selection clipboard -o'
 
 if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
-source "$HOME/dotfiles/Mackup/sdkman/bin/sdkman-init.sh"
+source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-source $HOME/.profile.custom
-if [ -e /home/darkvoid/.nix-profile/etc/profile.d/nix.sh ]; then . /home/darkvoid/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-PATH=/home/darkvoid/apache-tomcat-7.0.104/bin:$PATH
+

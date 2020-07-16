@@ -1,4 +1,5 @@
 alias pbcopy='xclip -selection clipboard'
+alias ssh_up='eval $(ssh-agent)'
 alias pbpaste='xclip -selection clipboard -o'
 alias edit_aliases="vim ~/.bash_aliases"
 alias edit_profile="vim ~/.profile"
