@@ -37,6 +37,5 @@ alias pbpaste='xclip -selection clipboard -o'
 
 if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
-source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 
