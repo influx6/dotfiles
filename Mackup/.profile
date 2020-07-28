@@ -39,3 +39,5 @@ if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc
 
 
 
+if [ -e /home/darkside/.nix-profile/etc/profile.d/nix.sh ]; then . /home/darkside/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+PATH=/home/darkside/apache-tomcat-7.0.105/bin:$PATH
