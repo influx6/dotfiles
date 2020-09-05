@@ -148,21 +148,26 @@ source $OSH/oh-my-bash.sh
 export PATH="$PATH:$HOME/.rvm/bin"
 export Dotfiles=$HOME/dotfiles
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+export EDITOR='vim'
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
 
 
-if [ -d "/mnt/c" ]; then
- source $Dotfiles/Mackup/config_wsl
-else
- source $Dotfiles/Mackup/config
-fi
-
+export SDKMAN_DIR="$HOME/.sdkman"
 export NVM_DIR="$HOME/.nvm"
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH=$HOME/apache-tomcat-7.0.104/bin:$PATH
+export PATH=/snap/bin:$HOME/.local/bin:$HOME/Devlabs/bin:$PATH
+export PATH=/home/darkvoid/apache-tomcat-7.0.104/bin:/home/darkside/apache-tomcat-7.0.105/bin:$PATH
+
+[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-export SDKMAN_DIR="$HOME/dotfiles/Mackup/sdkman"
-[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
-PATH=/home/darkvoid/apache-tomcat-7.0.104/bin:$PATH
-PATH=/home/darkside/apache-tomcat-7.0.105/bin:$PATH
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+if [ -e $HOME/.profile.custom ]; then . $HOME/.profile.custom; fi # load .profile.custom
+
+source $Dotfiles/Mackup/config

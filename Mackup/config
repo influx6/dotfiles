@@ -7,16 +7,13 @@ source $HOME/.cargo/env
 source $Dotfiles/Mackup/alias
 source $Dotfiles/Mackup/editor
 source $Dotfiles/Mackup/paths
-source $Dotfiles/Mackup/linuxbrew
 source $Dotfiles/Mackup/deno
-source $Dotfiles/Mackup/nvm
 source $Dotfiles/Mackup/emsdk
 source $Dotfiles/Mackup/golang
 source $Dotfiles/Mackup/git
 source $Dotfiles/Mackup/android
 source $Dotfiles/Mackup/functions
 source $Dotfiles/Mackup/docker
-source $Dotfiles/Mackup/nix
 # source $Dotfiles/java_envs
 
 echo 'Done settup dotfiles'

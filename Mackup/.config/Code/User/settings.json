@@ -77,13 +77,13 @@
         "menubar.selectionForeground": "#616161",
         "editor.findMatchBorder": "#616161",
         "selection.background": "#61616140",
-        "statusBar.background": "#5f0000",
-        "statusBar.noFolderBackground": "#5f0000",
-        "statusBar.debuggingBackground": "#5f0000"
+        "statusBar.background": "#005f5f",
+        "statusBar.noFolderBackground": "#005f5f",
+        "statusBar.debuggingBackground": "#005f5f"
     },
     "materialTheme.accent": "Graphite",
     "vim.camelCaseMotion.enable": true,
-    "workbench.iconTheme": "material-icon-theme",
+    "workbench.iconTheme": "eq-material-theme-icons",
     "sync.gist": "f25c02387e496b515f0f728c17d84631",
     "sync.autoUpload": false,
     "sync.autoDownload": false,
@@ -98,12 +98,10 @@
     "typescript.updateImportsOnFileMove.enabled": "always",
     "prettier.requireConfig": true,
     "prettier.semi": false,
-    "editor.tabSize": 2,
     "vim.easymotion": true,
     "vim.highlightedyank.enable": true,
     "vim.replaceWithRegister": true,
     "vim.statusBarColorControl": true,
-    "workbench.colorTheme": "Mariana Pro (Gray)",
     "cSpell.userWords": [
         "Backoff",
         "CPPFLAGS",
@@ -127,8 +125,63 @@
         "*.js": "javascriptreact",
         "*.go": "go"
     },
-    "go.coverOnSingleTest": true,
     "go.gocodeAutoBuild": true,
     "go.useCodeSnippetsOnFunctionSuggest": true,
-    "go.useLanguageServer": true
+    "python.languageServer": "Pylance",
+    "terminal.integrated.rendererType": "dom",
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.tabCompletion": "on",
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "python.formatting.provider": "black",
+    "workbench.colorTheme": "Dracula",
+    "go.useLanguageServer": true,
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+        // Optional: Disable snippets, as they conflict with completion ranking.
+        "editor.snippetSuggestions": "none",
+    },
+    "[go.mod]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+    },
+    "gopls": {
+        // Add parameter placeholders when completing a function.
+        "usePlaceholders": true,
+
+        // If true, enable additional analyses with staticcheck.
+        // Warning: This will significantly increase memory usage.
+        "staticcheck": false,
+    },
+    "java.semanticHighlighting.enabled": true,
+    "go.gotoSymbol.includeGoroot": true,
+    "go.gotoSymbol.includeImports": true,
+    "go.languageServerExperimentalFeatures": {
+
+        "diagnostics": true,
+        "documentLink": true
+    },
+    "go.trace.server": "verbose",
+    "goModGrapher.engine": "dot",
+    "goOutliner.extendExplorerTab": true,
+    "html.format.indentHandlebars": true,
+    "html.format.indentInnerHtml": true,
+    "omnisharp.useEditorFormattingSettings": false,
+    "vim.enableNeovim": true,
+    "emmet.showSuggestionsAsSnippets": true,
+    "emmet.triggerExpansionOnTab": true,
+    "[dockerfile]": {
+        "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+        },
+        "prettier.vueIndentScriptAndStyle": true,
+        "files.autoSave": "afterDelay",
+        "editor.insertSpaces": false,
+        "vim.autoindent": false,
+        "window.zoomLevel": 0
 }

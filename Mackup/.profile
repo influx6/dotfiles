@@ -26,19 +26,3 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-export EDITOR='vim'
-
-export PATH="$HOME/.cargo/bin:$PATH"
-export PATH=/snap/bin:$HOME/.local/bin:$HOME/Devlabs/bin:$PATH
-export PATH=$HOME/apache-tomcat-7.0.104/bin:$PATH
-
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'
-
-if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-
-
-if [ -e /home/darkside/.nix-profile/etc/profile.d/nix.sh ]; then . /home/darkside/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-PATH=/home/darkside/apache-tomcat-7.0.105/bin:$PATH
-
-if [ -e $HOME/.profile.custom ]; then . $HOME/.profile.custom; fi # load .profile.custom
