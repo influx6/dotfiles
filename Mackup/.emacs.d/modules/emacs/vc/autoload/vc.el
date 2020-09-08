@@ -1,33 +1,5 @@
 ;;; emacs/vc/autoload/vc.el -*- lexical-binding: t; -*-
 
-(autoload 'browse-at-remote--file-url "browse-at-remote")
-
-;;;###autoload
-(defun +vc/browse-at-remote-file-or-region ()
-  "Open the current file at remote in your browser.
-If a selection is active, highlight them. Otherwise omits the #L<N> suffix in
-the URL."
-  (interactive)
-  (if (or (use-region-p)
-          (ignore-errors (evil-visual-state-p)))
-      (browse-at-remote)
-    (browse-url (browse-at-remote--file-url (buffer-file-name)))))
-
-;;;###autoload
-(defun +vc/browse-at-remote-kill-file-or-region ()
-  "Copy the current file's remote URL to your clipboard.
-If a selection is active, highlight them. Otherwise omits the #L<N> suffix in
-the URL."
-  (interactive)
-  (let ((url
-         (if (or (use-region-p)
-                 (evil-visual-state-p))
-             (browse-at-remote-get-url)
-           (browse-at-remote--file-url (buffer-file-name)))))
-    (kill-new url)
-    (message "Copied to clipboard: %S" url)))
-
-
 (defun +vc--remote-homepage ()
   (or (let ((url (browse-at-remote--remote-ref)))
         (cdr (browse-at-remote--get-url-from-remote (car url))))

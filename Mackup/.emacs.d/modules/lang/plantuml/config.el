@@ -9,13 +9,13 @@
   (set-popup-rule! "^\\*PLANTUML" :size 0.4 :select nil :ttl 0)
 
   (setq plantuml-default-exec-mode
-        (cond ((executable-find "plantuml") 'executable)
-              ((file-exists-p plantuml-jar-path) 'jar)
+        (cond ((file-exists-p plantuml-jar-path) 'jar)
+              ((executable-find "plantuml") 'executable)
               (plantuml-default-exec-mode))))
 
 
 (use-package! flycheck-plantuml
-  :when (featurep! :tools flycheck)
+  :when (featurep! :checkers syntax)
   :after plantuml-mode
   :config (flycheck-plantuml-setup))
 

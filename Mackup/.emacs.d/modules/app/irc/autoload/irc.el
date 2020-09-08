@@ -4,16 +4,17 @@
 
 (defun +irc-setup-wconf (&optional inhibit-workspace)
   (when (and (featurep! :ui workspaces)
-             (+workspace-exists-p +irc--workspace-name)
              (not inhibit-workspace))
     (+workspace-switch +irc--workspace-name 'auto-create))
   (let ((buffers (doom-buffers-in-mode 'circe-mode nil t)))
-    (if buffers
-        (ignore (switch-to-buffer (car buffers)))
-      (require 'circe)
-      (delete-other-windows)
-      (switch-to-buffer (doom-fallback-buffer))
-      t)))
+    (if (not (member (window-buffer) buffers))
+        (if buffers
+            (ignore (switch-to-buffer (car buffers)))
+          (require 'circe)
+          (delete-other-windows)
+          (switch-to-buffer (doom-fallback-buffer))
+          t)
+      (user-error "IRC buffer is already active and selected"))))
 
 ;;;###autoload
 (defun =irc (&optional inhibit-workspace)

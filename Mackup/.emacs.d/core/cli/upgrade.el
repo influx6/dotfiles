@@ -1,7 +1,8 @@
 ;;; core/cli/upgrade.el -*- lexical-binding: t; -*-
 
 (defcli! (upgrade up)
-  ((force-p ["-f" "--force"]))
+    ((force-p ["-f" "--force"] "Discard local changes to Doom and packages, and upgrade anyway")
+     (packages-only-p ["-p" "--packages"] "Only upgrade packages, not Doom"))
   "Updates Doom and packages.
 
 This requires that ~/.emacs.d is a git repo, and is the equivalent of the
@@ -10,18 +11,23 @@ following shell commands:
     cd ~/.emacs.d
     git pull --rebase
     bin/doom clean
-    bin/doom refresh
+    bin/doom sync
     bin/doom update"
   :bare t
-  (if (delq
-       nil (list
-            (doom-cli-upgrade doom-auto-accept force-p)
-            (doom-cli-execute "refresh")
-            (when (doom-cli-packages-update)
-              (doom-cli-reload-package-autoloads 'force)
-              t)))
-      (print! (success "Done! Restart Emacs for changes to take effect."))
-    (print! "Nothing to do. Doom is up-to-date!")))
+  (let ((doom-auto-discard force-p))
+    (cond
+     (packages-only-p
+      (doom-cli-execute "sync" "-u")
+      (print! (success "Finished upgrading Doom Emacs")))
+
+     ((doom-cli-upgrade doom-auto-accept doom-auto-discard)
+      ;; Reload Doom's CLI & libraries, in case there were any upstream changes.
+      ;; Major changes will still break, however
+      (print! (info "Reloading Doom Emacs"))
+      (throw 'exit (list "doom" "upgrade" "-p" (if force-p "-f"))))
+
+     ((print! "Doom is up-to-date!")
+      (doom-cli-execute "sync" "-u")))))
 
 
 ;;
@@ -42,12 +48,17 @@ following shell commands:
 
 (defun doom-cli-upgrade (&optional auto-accept-p force-p)
   "Upgrade Doom to the latest version non-destructively."
-  (require 'vc-git)
   (let ((default-directory doom-emacs-dir)
         process-file-side-effects)
     (print! (start "Preparing to upgrade Doom Emacs and its packages..."))
 
-    (let* ((branch (vc-git--symbolic-ref doom-emacs-dir))
+    (let* (;; git name-rev may return BRANCH~X for detached HEADs and fully
+           ;; qualified refs in some other cases, so an effort to strip out all
+           ;; but the branch name is necessary. git symbolic-ref (or
+           ;; `vc-git--symbolic-ref') won't work; it can't deal with submodules.
+           (branch (replace-regexp-in-string
+                    "^\\(?:[^/]+/[^/]+/\\)?\\(.+\\)\\(?:~[0-9]+\\)?$" "\\1"
+                    (cdr (doom-call-process "git" "name-rev" "--name-only" "HEAD"))))
            (target-remote (format "%s/%s" doom-repo-remote branch)))
       (unless branch
         (error! (if (file-exists-p! ".git" doom-emacs-dir)
@@ -73,8 +84,8 @@ following shell commands:
             (or (zerop (car (setq result (doom-call-process "git" "fetch" "--tags" doom-repo-remote branch))))
                 (error "Failed to fetch from upstream"))
 
-            (let ((this-rev (vc-git--rev-parse "HEAD"))
-                  (new-rev  (vc-git--rev-parse target-remote)))
+            (let ((this-rev (cdr (doom-call-process "git" "rev-parse" "HEAD")))
+                  (new-rev  (cdr (doom-call-process "git" "rev-parse" target-remote))))
               (cond
                ((and (null this-rev)
                      (null new-rev))
@@ -82,7 +93,7 @@ following shell commands:
 
                ((equal this-rev new-rev)
                 (print! (success "Doom is already up-to-date!"))
-                t)
+                nil)
 
                ((print! (info "A new version of Doom Emacs is available!\n\n  Old revision: %s (%s)\n  New revision: %s (%s)\n"
                               (substring this-rev 0 10)
@@ -103,11 +114,10 @@ following shell commands:
                   (print! (start "Upgrading Doom Emacs..."))
                   (print-group!
                    (doom-clean-byte-compiled-files)
-                   (if (and (zerop (car (doom-call-process "git" "reset" "--hard" target-remote)))
-                            (equal (vc-git--rev-parse "HEAD") new-rev))
-                       (print! (info "%s") (cdr result))
-                     (error "Failed to check out %s" (substring new-rev 0 10)))
-                   (print! (success "Finished upgrading Doom Emacs")))
-                  t)))))
+                   (or (and (zerop (car (doom-call-process "git" "reset" "--hard" target-remote)))
+                            (equal (cdr (doom-call-process "git" "rev-parse" "HEAD")) new-rev))
+                       (error "Failed to check out %s" (substring new-rev 0 10)))
+                   (print! (info "%s") (cdr result))
+                   t))))))
         (ignore-errors
           (doom-call-process "git" "remote" "remove" doom-repo-remote))))))

@@ -1,5 +1,8 @@
 ;;; lang/ocaml/config.el -*- lexical-binding: t; -*-
 
+;;
+;;; Packages
+
 (when (featurep! +lsp)
   (add-hook! '(tuareg-mode-local-vars-hook reason-mode-local-vars-hook)
              #'lsp!))
@@ -7,7 +10,7 @@
 
 (after! tuareg
   ;; tuareg-mode has the prettify symbols itself
-  (set-pretty-symbols! 'tuareg-mode :alist
+  (set-ligatures! 'tuareg-mode :alist
     (append tuareg-prettify-symbols-basic-alist
             tuareg-prettify-symbols-extra-alist))
   ;; harmless if `prettify-symbols-mode' isn't active
@@ -17,11 +20,6 @@
   (setq tuareg-opam-insinuate t)
   (tuareg-opam-update-env (tuareg-opam-current-compiler))
 
-  ;; Spell-check comments
-  (when (featurep! :tools flyspell)
-    (add-hook 'tuareg-mode-local-vars-hook #'flyspell-prog-mode))
-
-  ;; Ensure asterixes in block comments have at least one space of indentation
   (setq-hook! 'tuareg-mode-hook
     comment-line-break-function #'+ocaml/comment-indent-new-line)
 
@@ -31,7 +29,7 @@
 
   (use-package! utop
     :when (featurep! :tools eval)
-    :hook (tuareg-mode . +ocaml-init-utop-h)
+    :hook (tuareg-mode-local-vars . +ocaml-init-utop-h)
     :init
     (set-repl-handler! 'tuareg-mode #'utop)
     (set-eval-handler! 'tuareg-mode #'utop-eval-region)
@@ -44,7 +42,7 @@
 
 (use-package! merlin
   :unless (featurep! +lsp)
-  :hook (tuareg-mode . +ocaml-init-merlin-h)
+  :hook (tuareg-mode-local-vars . +ocaml-init-merlin-h)
   :init
   (defun +ocaml-init-merlin-h ()
     "Activate `merlin-mode' if the ocamlmerlin executable exists."
@@ -53,7 +51,7 @@
 
   (after! tuareg
     (set-company-backend! 'tuareg-mode 'merlin-company-backend)
-    (set-lookup-handlers! 'tuareg-mode
+    (set-lookup-handlers! 'tuareg-mode :async t
       :definition #'merlin-locate
       :references #'merlin-occurrences
       :documentation #'merlin-document))
@@ -65,7 +63,7 @@
         "t" #'merlin-type-enclosing)
 
   (use-package! flycheck-ocaml
-    :when (featurep! :tools flycheck)
+    :when (featurep! :checkers syntax)
     :hook (merlin-mode . +ocaml-init-flycheck-h)
     :config
     (defun +ocaml-init-flycheck-h ()
@@ -93,7 +91,7 @@
 (use-package! ocp-indent
   ;; must be careful to always defer this, it has autoloads that adds hooks
   ;; which we do not want if the executable can't be found
-  :hook (tuareg-mode . +ocaml-init-ocp-indent-h)
+  :hook (tuareg-mode-local-vars . +ocaml-init-ocp-indent-h)
   :config
   (defun +ocaml-init-ocp-indent-h ()
     "Run `ocp-setup-indent', so long as the ocp-indent binary exists."
@@ -104,7 +102,7 @@
 (use-package! ocamlformat
   :when (featurep! :editor format)
   :commands ocamlformat
-  :hook (tuareg-mode . +ocaml-init-ocamlformat-h)
+  :hook (tuareg-mode-local-vars . +ocaml-init-ocamlformat-h)
   :config
   (set-formatter! 'ocamlformat #'ocamlformat
     :modes '(caml-mode tuareg-mode))
@@ -113,4 +111,9 @@
     (setq +format-with 'ocp-indent)
     (when (and (executable-find "ocamlformat")
                (locate-dominating-file default-directory ".ocamlformat"))
+      (let ((ext (file-name-extension buffer-file-name t)))
+        (cond ((equal ext ".eliom")
+               (setq-local ocamlformat-file-kind 'implementation))
+              ((equal ext ".eliomi")
+               (setq-local ocamlformat-file-kind 'interface))))
       (setq +format-with 'ocamlformat))))

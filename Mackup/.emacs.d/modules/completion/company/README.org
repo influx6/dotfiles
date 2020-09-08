@@ -34,7 +34,6 @@ https://assets.doomemacs.org/completion/company/overlay.png
 ** Plugins
 + [[https://github.com/company-mode/company-mode][company-mode]]
 + [[https://github.com/hlissner/emacs-company-dict][company-dict]]
-+ [[https://github.com/raxod502/prescient.el][company-prescient]]
 + [[https://github.com/sebastiencs/company-box][company-box]]* (=+childframe=)
 
 * Prerequisites
@@ -116,7 +115,7 @@ There is no guarantee your language mode will have completion support.
 
 Some, like ~lua-mode~, don't have completion support in Emacs at all. Others may
 requires additional setup to get code completion working. For instance,
-~go-mode~ requires ~guru~ to be installed on your system, and ~enh-ruby-mode~
+~go-mode~ requires ~guru~ to be installed on your system, and ~ruby-mode~
 requires that you have a Robe server running (~M-x robe-start~).
 
 Check the relevant module's documentation for this kind of information.

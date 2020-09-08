@@ -24,11 +24,8 @@ export SDKManager=$Devlabs/tools
 
 export RBENV=$HOME/.rbenv/
 
-export PATH=/usr/local/sbin:$HOME/dotfiles/Mackup/apache-tomcat-7/bin:$PATH
-export PATH=$ZIG/build:$SDKManager/bin:$EMCC:/usr/local/opt/ncurses/bin:$NPM/bin:$HOME/.local/bin:$HOME/.cargo/bin:$Devlabs/bin:$Local/bin:$PATH
-export PATH=$PATH:$ANACONDA_PATH/bin:/home/darkstar/Devlabs/src/bin:/home/darkstar/Devlabs/src/github.com/juj/emsdk
-export PATH=$PATH:/home/darkstar/Devlabs/src/github.com/juj/emsdk/clang/fastcomp/build_incoming_64/bin
-export PATH="$PATH:/home/darkstar/Devlabs/src/github.com/juj/emsdk/emscripten/incoming:/home/darkside/dotfiles/Mackup/sdkman/candidates/ant/1.10.8/bin"
+export PATH=/usr/local/sbin:$PATH
+export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$Devlabs/bin:$Local/bin:$PATH
 
 export LDFLAGS="-L/usr/local/opt/ncurses/lib"
 export CPPFLAGS="-I/usr/local/opt/ncurses/include"
@@ -37,4 +34,4 @@ export CPPFLAGS="-I/usr/local/opt/ncurses/include"
 export PATH="$HOME/.rbenv/bin:$PATH"
 
 export PATH=$Projects/bin:$HOME/local/bin:$HOME/local/go/bin:$HOME/.cargo/bin:$PATH
-export PATH=$HOME/.linuxbrew/bin:$HOME/Devlabs/bin:$HOME/Devlabs/local/bin:$HOME/Devlabs/local/sbin/bin:$HOME/Devlabs/local/sbin/go/bin:$PATH
+export PATH=$HOME/Devlabs/bin:$HOME/Devlabs/local/bin:$HOME/Devlabs/local/sbin/bin:$HOME/Devlabs/local/sbin/go/bin:$PATH

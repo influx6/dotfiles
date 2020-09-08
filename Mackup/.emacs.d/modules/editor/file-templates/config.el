@@ -9,7 +9,7 @@
 don't have a :trigger property in `+file-templates-alist'.")
 
 (defvar +file-templates-alist
-  `(;; General
+  '(;; General
     (gitignore-mode)
     (dockerfile-mode)
     ("/docker-compose\\.yml$" :mode yaml-mode)
@@ -29,7 +29,7 @@ don't have a :trigger property in `+file-templates-alist'.")
      :trigger "__doom-module"
      :mode emacs-lisp-mode)
     ("-test\\.el$" :mode emacs-ert-mode)
-    (emacs-lisp-mode :trigger "__initfile")
+    (emacs-lisp-mode :trigger "__package")
     (snippet-mode)
     ;; C/C++
     ("/main\\.c\\(?:c\\|pp\\)$"   :trigger "__main.cpp"    :mode c++-mode)
@@ -73,7 +73,8 @@ don't have a :trigger property in `+file-templates-alist'.")
      :when +file-templates-in-emacs-dirs-p
      :trigger "__doom-readme"
      :mode org-mode)
-    ("\\.org$" :trigger "__" :mode org-mode)
+    (org-journal-mode :ignore t)
+    (org-mode)
     ;; PHP
     ("\\.class\\.php$" :trigger "__.class.php" :mode php-mode)
     (php-mode)
@@ -107,7 +108,7 @@ information.")
 
 
 ;;
-;; Library
+;;; Library
 
 (defun +file-templates-in-emacs-dirs-p (file)
   "Returns t if FILE is in Doom or your private directory."
@@ -118,11 +119,14 @@ information.")
   "Return t if RULE applies to the current buffer."
   (let ((pred (car rule))
         (plist (cdr rule)))
-    (and (cond ((symbolp pred) (eq major-mode pred))
-               ((and (stringp pred) buffer-file-name)
-                (string-match-p pred buffer-file-name))
-               ((not (plist-member plist :when)) t)
-               ((funcall (plist-get plist :when) buffer-file-name)))
+    (and (or (and (symbolp pred)
+                  (eq major-mode pred))
+             (and (stringp pred)
+                  (stringp buffer-file-name)
+                  (string-match-p pred buffer-file-name)))
+         (or (not (plist-member plist :when))
+             (funcall (plist-get plist :when)
+                      buffer-file-name))
          rule)))
 
 (defun +file-templates-check-h ()
@@ -134,10 +138,7 @@ must be non-read-only, empty, and there must be a rule in
        (bobp) (eobp)
        (not (member (substring (buffer-name) 0 1) '("*" " ")))
        (not (file-exists-p buffer-file-name))
-       ;; Prevent file-templates from breaking org-capture when target file
-       ;; doesn't exist and has a file template.
-       (or (not (fboundp 'org-capture-get))
-           (not (org-capture-get :new-buffer)))
+       (not (buffer-modified-p))
        (when-let (rule (cl-find-if #'+file-template-p +file-templates-alist))
          (apply #'+file-templates--expand rule))))
 
@@ -156,4 +157,4 @@ must be non-read-only, empty, and there must be a rule in
     (yas-reload-all)))
 
 ;;
-(add-hook 'find-file-hook #'+file-templates-check-h)
+(add-hook 'doom-switch-buffer-hook #'+file-templates-check-h)

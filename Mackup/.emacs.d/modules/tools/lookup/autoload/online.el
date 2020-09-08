@@ -16,32 +16,30 @@
 
 ;;;###autoload
 (defun +lookup-online-backend-fn (identifier)
-  "Opens the browser and searches for IDENTIFIER online.
-
-Will prompt for which search engine to use the first time (or if the universal
-argument is non-nil)."
+  "Open the browser and search for IDENTIFIER online.
+When called for the first time, or with a non-nil prefix argument, prompt for
+the search engine to use."
   (+lookup/online
    identifier
    (+lookup--online-provider (not current-prefix-arg))))
 
 ;;;###autoload
-(defun +lookup/online (arg &optional query provider)
-  "Looks up QUERY (a string) in you browser using PROVIDER.
+(defun +lookup/online (query provider)
+  "Look up QUERY in the browser using PROVIDER.
+When called interactively, prompt for a query and, when called for the first
+time, the provider from `+lookup-provider-url-alist'. In subsequent calls, reuse
+the previous provider. With a non-nil prefix argument, always prompt for the
+provider.
 
-PROVIDER should be a key of `+lookup-provider-url-alist'.
-
-When used interactively, it will prompt for a query and, for the first time, the
-provider from `+lookup-provider-url-alist'. On consecutive uses, the last
-provider will be reused. If the universal argument is supplied, always prompt
-for the provider."
-  (interactive "P")
-  (let* ((provider (or provider (+lookup--online-provider arg)))
-         (query (or query (+lookup-symbol-or-region)))
-         (backend (cl-find-if (lambda (x) (or (stringp x) (fboundp x)))
-                              (cdr (assoc provider +lookup-provider-url-alist)))))
-    (if (and (functionp backend)
-             (commandp backend))
-        (call-interactively backend)
+QUERY must be a string, and PROVIDER must be a key of
+`+lookup-provider-url-alist'."
+  (interactive
+   (list (if (use-region-p) (doom-thing-at-point-or-region))
+         (+lookup--online-provider current-prefix-arg)))
+  (let ((backend (cl-find-if (lambda (x) (or (stringp x) (fboundp x)))
+                             (cdr (assoc provider +lookup-provider-url-alist)))))
+    (unless (and (functionp backend)
+                 (funcall backend query))
       (unless backend
         (user-error "%S is an invalid query engine backend for %S provider"
                     backend provider))
@@ -65,7 +63,36 @@ for the provider."
 
 ;;;###autoload
 (defun +lookup/online-select ()
-  "Runs `+lookup/online', but always prompts for the provider to use."
+  "Run `+lookup/online', but always prompt for the provider to use."
   (interactive)
   (let ((current-prefix-arg t))
     (call-interactively #'+lookup/online)))
+
+
+;;
+;;; Special provider frontends
+
+(defvar ivy-initial-inputs-alist)
+(defvar counsel-search-engine)
+;;;###autoload
+(defun +lookup--online-backend-google (query)
+  "Search Google, starting with QUERY, with live autocompletion."
+  (cond ((fboundp 'counsel-search)
+         (let ((ivy-initial-inputs-alist `((t . ,query)))
+               (counsel-search-engine 'google))
+           (call-interactively #'counsel-search)
+           t))
+        ((require 'helm-net nil t)
+         (helm :sources 'helm-source-google-suggest
+               :buffer "*helm google*"
+               :input query)
+         t)))
+
+;;;###autoload
+(defun +lookup--online-backend-duckduckgo (query)
+  "Search DuckDuckGo, starting with QUERY, with live autocompletion."
+  (cond ((fboundp 'counsel-search)
+         (let ((ivy-initial-inputs-alist `((t . ,query)))
+               (counsel-search-engine 'ddg))
+           (call-interactively #'counsel-search)
+           t))))

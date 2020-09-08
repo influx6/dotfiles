@@ -10,26 +10,28 @@
 (use-package! rustic
   :mode ("\\.rs$" . rustic-mode)
   :commands rustic-run-cargo-command rustic-cargo-outdated
+  :init
+  (after! org-src
+    (defalias 'org-babel-execute:rust #'org-babel-execute:rustic)
+    (add-to-list 'org-src-lang-modes '("rust" . rustic)))
   :config
   (set-docsets! 'rustic-mode "Rust")
+  (set-popup-rule! "^\\*rustic-compilation" :vslot -1)
 
   (setq rustic-indent-method-chain t
-        rustic-flycheck-setup-mode-line-p nil
         ;; use :editor format instead
-        rustic-format-trigger nil
-        ;; REVIEW `rust-ordinary-lt-gt-p' is terribly expensive in large rust
-        ;;        buffers, so we disable it, but only for evil users, because it
-        ;;        affects `forward-sexp' and its ilk. See
-        ;;        https://github.com/rust-lang/rust-mode/issues/288.
-        rustic-match-angle-brackets (not (featurep! :editor evil))
-        ;; We use the superior default client provided by `lsp-mode', not the
-        ;; one rustic-mode sets up for us.
-        rustic-lsp-client nil)
+        rustic-format-trigger nil)
 
-  (add-hook 'rustic-mode-hook #'rainbow-delimiters-mode)
+  (if (featurep! +lsp)
+      (add-hook 'rustic-mode-local-vars-hook #'lsp!)
+    (setq rustic-lsp-server nil)
+    (after! rustic-flycheck
+      (add-to-list 'flycheck-checkers 'rustic-clippy)))
 
   (when (featurep! +lsp)
-    (add-hook 'rustic-mode-local-vars-hook #'lsp!))
+    (if (featurep! :tools lsp +eglot)
+        (setq rustic-lsp-client 'eglot)
+      (setq rustic-lsp-client 'lsp-mode)))
 
   (map! :map rustic-mode-map
         :localleader
@@ -48,30 +50,30 @@
           :desc "all"          "a" #'rustic-cargo-test
           :desc "current test" "t" #'rustic-cargo-current-test))
 
-  (defadvice! +rust--dont-install-packages-p (orig-fn &rest args)
-    :around #'rustic-setup-lsp
-    (cl-letf (;; `rustic-setup-lsp' uses `package-installed-p' to determine if
-              ;; lsp-mode/elgot are available. This breaks because Doom doesn't
-              ;; use package.el to begin with (and lazy loads it).
-              ((symbol-function #'package-installed-p)
-               (lambda (pkg)
-                 (require pkg nil t)))
-              ;; If lsp/elgot isn't available, it attempts to install lsp-mode
-              ;; via package.el. Doom manages its own dependencies so we disable
-              ;; that behavior.
-              ((symbol-function #'rustic-install-lsp-client-p)
-               (lambda (&rest _)
-                 (message "No RLS server running"))))
-      (apply orig-fn args))))
+  ;; HACK Fixes #2541: RLS doesn't appear to support documentSymbol, but
+  ;;      lsp-rust thinks it does, and so yields imenu population to the server.
+  ;;      The result is an empty imenu list. Until RLS supports documentSymbol,
+  ;;      we disable `lsp-enable-imenu' is rust+RLS buffers.
+  (defadvice! +rust--disable-imenu-for-lsp-mode-a (&rest _)
+    :before #'rustic-lsp-mode-setup
+    (when (eq rustic-lsp-server 'rls)
+      (setq-local lsp-enable-imenu nil)))
+
+  ;; If lsp/elgot isn't available, it attempts to install lsp-mode via
+  ;; package.el. Doom manages its own dependencies through straight so disable
+  ;; this behavior to avoid package-not-initialized errors.
+  (defadvice! +rust--dont-install-packages-a (&rest _)
+    :override #'rustic-install-lsp-client-p
+    (message "No LSP server running")))
 
 
 (use-package! racer
   :unless (featurep! +lsp)
-  :hook (rustic-mode . racer-mode)
+  :hook (rustic-mode-local-vars . racer-mode)
   :init
-  ;; Fix #2132: `racer' depends on `rust-mode', which tries to modify
-  ;; `auto-mode-alist'. We make extra sure that doesn't stick, especially when a
-  ;; buffer is reverted, as it is after rustfmt is done wiht it.
+  ;; HACK Fix #2132: `racer' depends on `rust-mode', which tries to modify
+  ;;      `auto-mode-alist'. We make extra sure that doesn't stick, especially
+  ;;      when a buffer is reverted, as it is after rustfmt is done with it.
   (after! rust-mode
     (setq auto-mode-alist (delete '("\\.rs\\'" . rust-mode) auto-mode-alist)))
   :config

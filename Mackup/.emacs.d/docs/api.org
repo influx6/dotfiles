@@ -18,8 +18,8 @@ It is integrated into Helpful, in Doom.
     - [[#disable-packages][disable-packages!]]
     - [[#doom][doom!]]
     - [[#file-exists-p][file-exists-p!]]
-    - [[#lambda][lambda!]]
-    - [[#lambda-1][lambda!!]]
+    - [[#cmd][cmd!]]
+    - [[#cmd-1][cmd!!]]
     - [[#letenv][letenv!]]
     - [[#load][load!]]
     - [[#map][map!]]
@@ -28,13 +28,15 @@ It is integrated into Helpful, in Doom.
     - [[#prependq][prependq!]]
     - [[#quiet][quiet!]]
     - [[#remove-hook][remove-hook!]]
+    - [[#setq][setq!]]
     - [[#setq-hook][setq-hook!]]
     - [[#unsetq-hook][unsetq-hook!]]
     - [[#use-package][use-package!]]
 - [[#interesting-snippets][Interesting snippets]]
-  - [[#persist-emacs-initial-frame-size-across-sessions][Persist Emacs' initial frame size across sessions]]
+  - [[#center-emacs-initial-frame-with-a-fixed-size][Center Emacs' initial frame with a fixed size]]
   - [[#persist-emacs-initial-frame-position-dimensions-andor-full-screen-state-across-sessions][Persist Emacs' initial frame position, dimensions and/or full-screen state across sessions]]
   - [[#update-cursor-shape-under-terminal-emacs][Update cursor shape under terminal Emacs]]
+  - [[#create-a-paste-transient-state-to-cycle-through-kill-ring-on-paste][Create a paste-transient-state to cycle through kill ring on paste]]
 
 * Examples for Doom's library
 ** core-lib
@@ -150,7 +152,7 @@ It is integrated into Helpful, in Doom.
 
 *** custom-theme-set-faces!
 #+BEGIN_SRC elisp :eval no
-(custom-theme-set-faces! 'doom-one-theme
+(custom-theme-set-faces! 'doom-one
  '(outline-1 :weight normal)
  '(outline-2 :weight normal)
  '(outline-3 :weight normal)
@@ -237,38 +239,30 @@ It is integrated into Helpful, in Doom.
 #+RESULTS:
 : /home/hlissner/.emacs.d/LICENSE
 
-*** lambda!
+*** cmd!
 #+BEGIN_SRC elisp :eval no
-(map! "C-j" (lambda! (newline) (indent-according-to-mode)))
-
-;; The `λ!' short-form alias exists. If you have the snippets module enabled and
-;; Doom's default snippets, the 'lam' snippet will expand into 'λ!'. Otherwise,
-;; you can use `lambda!'.
-(map! "C-j" (λ! (newline) (indent-according-to-mode)))
+(map! "C-j" (cmd! (newline) (indent-according-to-mode)))
 #+END_SRC
-*** lambda!!
+
+*** cmd!!
 When ~newline~ is passed a numerical prefix argument (=C-u 5 M-x newline=), it
-inserts N newlines. We can use ~lambda!!~ to easily create a keybinds that bakes
-in the prefix arg into the command call:
+inserts N newlines. We can use ~cmd!!~ to easily create a keybinds that bakes in
+the prefix arg into the command call:
 
 #+BEGIN_SRC elisp :eval no
-(map! "C-j" (lambda!! #'newline 5))
-
-;; The `λ!!' short-form alias exists. If you have the snippets module enabled
-;; and Doom's default snippets, a 'lam' snippet is available to expand into
-;; 'λ!'. Otherwise, you can use `lambda!!'.
-(map! "C-j" (λ!! #'newline 5))
+(map! "C-j" (cmd!! #'newline 5))
 #+END_SRC
 
 Or to create aliases for functions that behave differently:
 
 #+BEGIN_SRC elisp :eval no
-(fset 'insert-5-newlines (lambda!! #'newline 5))
+(fset 'insert-5-newlines (cmd!! #'newline 5))
 
 ;; The equivalent of C-u M-x org-global-cycle, which resets the org document to
 ;; its startup visibility settings.
-(fset 'org-reset-global-visibility (lambda!! #'org-global-cycle '(4))
+(fset 'org-reset-global-visibility (cmd!! #'org-global-cycle '(4))
 #+END_SRC
+
 *** letenv!
 #+BEGIN_SRC elisp
 (letenv! (("SHELL" "/bin/sh"))
@@ -299,7 +293,7 @@ Or to create aliases for functions that behave differently:
 
       (:when IS-MAC
         :n "M-s" 'some-fn
-        :i "M-o" (lambda (interactive) (message "Hi"))))
+        :i "M-o" (cmd! (message "Hi"))))
 
 (map! (:when (featurep! :completion company) ; Conditional loading
         :i "C-@" #'+company/complete
@@ -323,8 +317,8 @@ These are side-by-side comparisons, showing how to bind keys with and without
 (map! "C-x y" #'do-something)
 
 ;; bind a key on a keymap
-(define-key emacs-lisp-mode (kbd "C-c p") #'do-something)
-(map! :map emacs-lisp-mode "C-c p" #'do-something)
+(define-key emacs-lisp-mode-map (kbd "C-c p") #'do-something)
+(map! :map emacs-lisp-mode-map "C-c p" #'do-something)
 
 ;; unbind a key defined elsewhere
 (define-key lua-mode-map (kbd "SPC m b") nil)
@@ -387,7 +381,7 @@ These are side-by-side comparisons, showing how to bind keys with and without
 *** package!
 #+BEGIN_SRC elisp :eval no
 ;; To install a package that can be found on ELPA or any of the sources
-;; specified in `doom-core-package-sources':
+;; specified in `straight-recipe-repositories':
 (package! evil)
 (package! js2-mode)
 (package! rainbow-delimiters)
@@ -404,15 +398,12 @@ These are side-by-side comparisons, showing how to bind keys with and without
 ;; you can tell the package manager not to clone the repo recursively:
 (package! ansible :recipe (:nonrecursive t))
 
-;; To install a particular branch, commit or tag:
-(package! evil
-  ;; if :host and :fetcher aren't specified, the package manager will fall back
-  ;; to evil's default source provided by their (M)ELPA recipes:
-  :recipe (:commit "e7bc39de2f961505e8e112da8c1b315ae8afce52"))
-
+;; To pin a package to a specific commit:
+(package! evil :pin "e7bc39de2f9")
+;; ...or branch:
 (package! evil :recipe (:branch "stable"))
-
-(package! evil :recipe (:tag "1.2.9"))
+;; To unpin a pinned package:
+(package! evil :pin nil)
 
 ;; If you share your config between two computers, and don't want bin/doom
 ;; refresh to delete packages used only on one system, use :ignore
@@ -473,6 +464,14 @@ These are side-by-side comparisons, showing how to bind keys with and without
 ;; Removing arbitrary forms (must be exactly the same as the definition)
 (remove-hook! (one-mode second-mode) (setq v 5) (setq a 2))
 #+END_SRC
+*** setq!
+#+BEGIN_SRC elisp
+;; Each of these have a setter associated with them, which must be triggered in
+;; order for their new values to have an effect.
+(setq! evil-want-Y-yank-to-eol nil
+       evil-want-C-u-scroll nil
+       evil-want-C-d-scroll nil)
+#+END_SRC
 *** setq-hook!
 #+BEGIN_SRC elisp :eval no
 ;; Set multiple variables after a hook
@@ -515,21 +514,23 @@ These are side-by-side comparisons, showing how to bind keys with and without
   :defer-incrementally t)
 #+END_SRC
 * Interesting snippets
-** Persist Emacs' initial frame size across sessions
+** Center Emacs' initial frame with a fixed size
 #+BEGIN_SRC elisp
-(let ((display-height   (display-pixel-height))
-      (display-width    (display-pixel-width)))
-  (add-to-list 'initial-frame-alist
-               `((left . ,(/ new-frame-width 2))
-                 (top . ,(/ new-frame-height 2))
-                 (width . ,(/ display-width 2))
-                 (height . ,(/ display-height 2)))))
+(let ((width  500)
+      (height 250)
+      (display-height (display-pixel-height))
+      (display-width  (display-pixel-width)))
+  (pushnew! initial-frame-alist
+            `(left . ,(- (/ display-width 2) (/ width 2)))
+            `(top . ,(- (/ display-height 2) (/ height 2)))
+            `(width text-pixels ,width)
+            `(height text-pixels ,height)))
 #+END_SRC
 
 ** Persist Emacs' initial frame position, dimensions and/or full-screen state across sessions
 #+BEGIN_SRC elisp
 ;; add to ~/.doom.d/config.el
-(when-let (dims (doom-cache-get 'last-frame-size))
+(when-let (dims (doom-store-get 'last-frame-size))
   (cl-destructuring-bind ((left . top) width height fullscreen) dims
     (setq initial-frame-alist
           (append initial-frame-alist
@@ -540,7 +541,7 @@ These are side-by-side comparisons, showing how to bind keys with and without
                     (fullscreen . ,fullscreen))))))
 
 (defun save-frame-dimensions ()
-  (doom-cache-set 'last-frame-size
+  (doom-store-put 'last-frame-size
                   (list (frame-position)
                         (frame-width)
                         (frame-height)
@@ -567,3 +568,24 @@ than unwarranted characters.
 
 Alternatively, an updated version exists at
 [[https://github.com/amosbird/evil-terminal-cursor-changer][amosbird/evil-terminal-cursor-changer]], with support for urxvt and tmux.
+
+** Create a paste-transient-state to cycle through kill ring on paste
+Replaces the default evil-paste binding to paste then let you cycle through entries in your kill ring. Gives you more flexibility when copying to your clipboard, making edits, then deciding to paste after.
+
+You will need to enable the `hydra` module first.
+
+#+BEGIN_SRC elisp
+(defhydra hydra-paste (:color red
+                       :hint nil)
+  "\n[%s(length kill-ring-yank-pointer)/%s(length kill-ring)] \
+ [_C-j_/_C-k_] cycles through yanked text, [_p_/_P_] pastes the same text \
+ above or below. Anything else exits."
+  ("C-j" evil-paste-pop)
+  ("C-k" evil-paste-pop-next)
+  ("p" evil-paste-after)
+  ("P" evil-paste-before))
+
+(map! :nv "p" #'hydra-paste/evil-paste-after
+      :nv "P" #'hydra-paste/evil-paste-before)
+#+END_SRC
+

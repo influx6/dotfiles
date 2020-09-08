@@ -44,10 +44,10 @@
         (:prefix ("ri" . "imports")
           "a" #'go-import-add
           "r" #'go-remove-unused-imports)
-        (:prefix ( "b" . "build")
-          :desc "go run ." "r" (λ! (compile "go run ."))
-          :desc "go build" "b" (λ! (compile "go build"))
-          :desc "go clean" "c" (λ! (compile "go clean")))
+        (:prefix ("b" . "build")
+          :desc "go run ." "r" (cmd! (compile "go run ."))
+          :desc "go build" "b" (cmd! (compile "go build"))
+          :desc "go clean" "c" (cmd! (compile "go clean")))
         (:prefix ("t" . "test")
           "t" #'+go/test-rerun
           "a" #'+go/test-all
@@ -55,7 +55,10 @@
           "n" #'+go/test-nested
           "g" #'go-gen-test-dwim
           "G" #'go-gen-test-all
-          "e" #'go-gen-test-exported)))
+          "e" #'go-gen-test-exported
+          (:prefix ("b" . "bench")
+            "s" #'+go/bench-single
+            "a" #'+go/bench-all))))
 
 
 (use-package! gorepl-mode
@@ -71,5 +74,5 @@
   (setq company-go-show-annotation t))
 
 (use-package! flycheck-golangci-lint
-  :when (featurep! :tools flycheck)
+  :when (featurep! :checkers syntax)
   :hook (go-mode . flycheck-golangci-lint-setup))

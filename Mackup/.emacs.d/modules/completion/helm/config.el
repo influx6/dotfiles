@@ -23,8 +23,7 @@ be negative.")
 ;;; Packages
 
 (use-package! helm-mode
-  :defer t
-  :after-call pre-command-hook
+  :hook (doom-first-input . helm-mode)
   :init
   (map! [remap apropos]                   #'helm-apropos
         [remap find-library]              #'helm-locate-library
@@ -43,7 +42,6 @@ be negative.")
         [remap recentf-open-files]        #'helm-recentf
         [remap yank-pop]                  #'helm-show-kill-ring)
   :config
-  (helm-mode +1)
   ;; helm is too heavy for `find-file-at-point'
   (add-to-list 'helm-completing-read-handlers-alist (cons #'find-file-at-point nil)))
 
@@ -57,8 +55,6 @@ be negative.")
         helm-mode-line-string nil
         helm-ff-auto-update-initial-value nil
         helm-find-files-doc-header nil
-        ;; Don't override evil-ex's completion
-        helm-mode-handle-completion-in-region nil
         ;; Default helm window sizes
         helm-display-buffer-default-width nil
         helm-display-buffer-default-height 0.25
@@ -73,38 +69,37 @@ be negative.")
 
   :init
   (when (featurep! +childframe)
+    ;; If this is set to 'iconify-top-level then Emacs will be minimized upon
+    ;; helm completion.
+    (setq iconify-child-frame 'make-invisible)
     (setq helm-display-function #'+helm-posframe-display-fn))
 
   (let ((fuzzy (featurep! +fuzzy)))
-    (setq helm-M-x-fuzzy-match fuzzy
-          helm-apropos-fuzzy-match fuzzy
-          helm-apropos-fuzzy-match fuzzy
+    (setq helm-apropos-fuzzy-match fuzzy
           helm-bookmark-show-location fuzzy
           helm-buffers-fuzzy-matching fuzzy
-          helm-completion-in-region-fuzzy-match fuzzy
-          helm-completion-in-region-fuzzy-match fuzzy
           helm-ff-fuzzy-matching fuzzy
           helm-file-cache-fuzzy-match fuzzy
           helm-flx-for-helm-locate fuzzy
           helm-imenu-fuzzy-match fuzzy
           helm-lisp-fuzzy-completion fuzzy
           helm-locate-fuzzy-match fuzzy
-          helm-mode-fuzzy-match fuzzy
           helm-projectile-fuzzy-match fuzzy
           helm-recentf-fuzzy-match fuzzy
-          helm-semantic-fuzzy-match fuzzy))
+          helm-semantic-fuzzy-match fuzzy)
+    ;; Make sure that we have helm-multi-matching or fuzzy matching,
+    ;; (as prescribed by the fuzzy flag) also in the following cases:
+    ;; - helmized commands that use `completion-at-point' and similar functions
+    ;; - native commands that fall back to `completion-styles' like `helm-M-x'
+    (push (if EMACS27+
+              (if fuzzy 'flex 'helm)
+            (if fuzzy 'helm-flex 'helm))
+          completion-styles))
 
   :config
   (set-popup-rule! "^\\*helm" :vslot -100 :size 0.22 :ttl nil)
 
-  ;; HACK Doom doesn't support these commands, which invite the user to install
-  ;; the package via ELPA. Force them to use +helm/* instead, because they work
-  ;; out of the box.
-  (advice-add #'helm-projectile-rg :override #'+helm/project-search)
-  (advice-add #'helm-projectile-ag :override #'+helm/project-search)
-  (advice-add #'helm-projectile-grep :override #'+helm/project-search)
-
-  ;; Hide the modeline
+  ;; Hide the modeline in helm windows as it serves little purpose.
   (defun +helm--hide-mode-line (&rest _)
     (with-current-buffer (helm-buffer-get)
       (unless helm-mode-line-string
@@ -113,10 +108,12 @@ be negative.")
   (advice-add #'helm-display-mode-line :override #'+helm--hide-mode-line)
   (advice-add #'helm-ag-show-status-default-mode-line :override #'ignore)
 
+  ;; Hide minibuffer if `helm-echo-input-in-header-line'
+  (add-hook 'helm-minibuffer-set-up-hook #'helm-hide-minibuffer-maybe)
+
   ;; Use helpful instead of describe-* to display documentation
   (dolist (fn '(helm-describe-variable helm-describe-function))
     (advice-add fn :around #'doom-use-helpful-a)))
-
 
 (use-package! helm-flx
   :when (featurep! +fuzzy)
@@ -131,7 +128,7 @@ be negative.")
         "C-c C-e" #'helm-rg--bounce)
   (map! :map helm-rg--bounce-mode-map
         "q" #'kill-current-buffer
-        "C-c C-c" (λ! (helm-rg--bounce-dump) (kill-current-buffer))
+        "C-c C-c" (cmd! (helm-rg--bounce-dump) (kill-current-buffer))
         "C-x C-c" #'helm-rg--bounce-dump-current-file
         "C-c C-k" #'kill-current-buffer))
 
@@ -183,3 +180,7 @@ be negative.")
         (lambda (buf &optional _resume) (pop-to-buffer buf)))
   (global-set-key [remap swiper] #'swiper-helm)
   (add-to-list 'swiper-font-lock-exclude #'+doom-dashboard-mode nil #'eq))
+
+
+(use-package! helm-descbinds
+  :hook (helm-mode . helm-descbinds-mode))

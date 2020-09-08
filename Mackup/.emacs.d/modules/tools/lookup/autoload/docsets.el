@@ -86,11 +86,12 @@ installed with `dash-docs-install-docset'."
   (interactive "P")
   (require 'dash-docs)
   (let ((dash-docs-common-docsets)
+        (dash-docs-browser-func +lookup-open-url-fn)
         (dash-docs-docsets
          (if arg
              (dash-docs-installed-docsets)
            (cl-remove-if-not #'dash-docs-docset-path (or docsets dash-docs-docsets))))
-        (query (or query (+lookup-symbol-or-region) "")))
+        (query (doom-thing-at-point-or-region query)))
     (doom-log "Searching docsets %s" dash-docs-docsets)
     (cond ((featurep! :completion helm)
            (helm-dash query))

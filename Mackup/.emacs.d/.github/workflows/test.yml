@@ -16,8 +16,6 @@ jobs:
     strategy:
       matrix:
         emacs_version:
-          - 26.1
-          - 26.2
           - 26.3
         include:
           - emacs_version: 26.3
@@ -29,7 +27,7 @@ jobs:
         with:
           version: ${{ matrix.emacs_version }}
 
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Doom version
         run: "bin/doom version"
       - name: Run tests

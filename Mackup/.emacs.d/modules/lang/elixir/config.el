@@ -14,7 +14,7 @@
   ;; a subset of them (defined below).
   (provide 'smartparens-elixir)
   :config
-  (set-pretty-symbols! 'elixir-mode
+  (set-ligatures! 'elixir-mode
     ;; Functional
     :def "def"
     :lambda "fn"
@@ -39,29 +39,33 @@
   (when (featurep! +lsp)
     (add-hook 'elixir-mode-local-vars-hook #'lsp!))
 
-  (use-package! flycheck-credo
-    :when (featurep! :tools flycheck)
-    :config (flycheck-credo-setup)))
+  (after! highlight-numbers
+    (puthash 'elixir-mode
+             "\\_<-?[[:digit:]]+\\(?:_[[:digit:]]\\{3\\}\\)*\\_>"
+             highlight-numbers-modelist)))
+
+
+(use-package! flycheck-credo
+  :when (featurep! :checkers syntax)
+  :after elixir-mode
+  :config (flycheck-credo-setup))
 
 
 (use-package! alchemist
   :hook (elixir-mode . alchemist-mode)
-  :init
-  (after! elixir-mode
-    (set-lookup-handlers! 'elixir-mode
-      :definition #'alchemist-goto-definition-at-point
-      :documentation #'alchemist-help-search-at-point)
-    (set-eval-handler! 'elixir-mode #'alchemist-eval-region)
-    (set-repl-handler! 'elixir-mode #'alchemist-iex-project-run)))
+  :config
+  (set-lookup-handlers! 'alchemist-mode
+    :definition #'alchemist-goto-definition-at-point
+    :documentation #'alchemist-help-search-at-point)
+  (set-eval-handler! 'alchemist-mode #'alchemist-eval-region)
+  (set-repl-handler! 'alchemist-mode #'alchemist-iex-project-run))
 
 
 (use-package! alchemist-company
   :when (featurep! :completion company)
   :commands alchemist-company
-  :init
-  (after! elixir-mode
-    (set-company-backend! 'elixir-mode '(alchemist-company company-yasnippet)))
   :config
+  (set-company-backend! 'alchemist-mode '(alchemist-company company-yasnippet))
   ;; Alchemist doesn't use hook symbols to add these backends, so we have to use
   ;; the entire closure to get rid of it.
   (let ((fn (byte-compile (lambda () (add-to-list (make-local-variable 'company-backends) 'alchemist-company)))))

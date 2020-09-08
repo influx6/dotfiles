@@ -7,17 +7,23 @@ modules/private
 .cask/
 cask/
 elpa/
+test/.local*/
+test/result
+result
 
 # emacs tempfiles that shouldn't be there
 .mc-lists.el
 .org-id-locations
 .tern-port
-auto-save-list
+.extension/
+.dap-breakpoints
+auto-save-list/
 semanticdb
 ede-projects.el
 tramp
 smex-items
 network-security.data
+server/
 
 # compiled files
 *.elc

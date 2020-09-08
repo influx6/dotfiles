@@ -1,33 +1,35 @@
 ;;; lang/python/config.el -*- lexical-binding: t; -*-
 
-(defvar +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info")
-  "CLI arguments to initialize ipython with when `+python/open-ipython-repl' is
-called.")
+(defvar +python-ipython-command '("ipython" "-i" "--simple-prompt" "--no-color-info")
+  "Command to initialize the ipython REPL for `+python/open-ipython-repl'.")
 
-(defvar +python-jupyter-repl-args '("--simple-prompt")
-  "CLI arguments to initialize 'jupiter console %s' with when
-`+python/open-ipython-repl' is called.")
+(defvar +python-jupyter-command '("jupyter" "console" "--simple-prompt")
+  "Command to initialize the jupyter REPL for `+python/open-jupyter-repl'.")
 
 (after! projectile
   (pushnew! projectile-project-root-files "setup.py" "requirements.txt"))
 
 
 ;;
-;; Packages
+;;; Packages
 
 (use-package! python
-  :defer t
+  :mode ("[./]flake8\\'" . conf-mode)
+  :mode ("/Pipfile\\'" . conf-mode)
   :init
   (setq python-environment-directory doom-cache-dir
         python-indent-guess-indent-offset-verbose nil)
 
   (when (featurep! +lsp)
-    (add-hook 'python-mode-local-vars-hook #'lsp!))
+    (add-hook 'python-mode-local-vars-hook #'lsp!)
+    ;; Use "mspyls" in eglot if in PATH
+    (when (executable-find "Microsoft.Python.LanguageServer")
+      (set-eglot-client! 'python-mode '("Microsoft.Python.LanguageServer"))))
   :config
   (set-repl-handler! 'python-mode #'+python/open-repl :persist t)
   (set-docsets! 'python-mode "Python 3" "NumPy" "SciPy")
 
-  (set-pretty-symbols! 'python-mode
+  (set-ligatures! 'python-mode
     ;; Functional
     :def "def"
     :lambda "lambda"
@@ -93,11 +95,12 @@ called.")
   (setq anaconda-mode-installation-directory (concat doom-etc-dir "anaconda/")
         anaconda-mode-eldoc-as-single-line t)
 
-  (add-hook! 'python-mode-local-vars-hook
+  (add-hook! 'python-mode-local-vars-hook :append
     (defun +python-init-anaconda-mode-maybe-h ()
       "Enable `anaconda-mode' if `lsp-mode' is absent and
 `python-shell-interpreter' is present."
       (unless (or (bound-and-true-p lsp-mode)
+                  (bound-and-true-p eglot--managed-mode)
                   (bound-and-true-p lsp--buffer-deferred)
                   (not (executable-find python-shell-interpreter)))
         (anaconda-mode +1))))
@@ -193,7 +196,7 @@ called.")
 
 
 ;;
-;; Environment management
+;;; Environment management
 
 (use-package! pipenv
   :commands pipenv-project-p
@@ -242,7 +245,7 @@ called.")
   (pyenv-mode +1)
   (when (executable-find "pyenv")
     (add-to-list 'exec-path (expand-file-name "shims" (or (getenv "PYENV_ROOT") "~/.pyenv"))))
-  (add-hook 'python-mode-hook #'+python-pyenv-mode-set-auto-h)
+  (add-hook 'python-mode-local-vars-hook #'+python-pyenv-mode-set-auto-h)
   (add-hook 'doom-switch-buffer-hook #'+python-pyenv-mode-set-auto-h))
 
 
@@ -261,14 +264,15 @@ called.")
                                 "~/.anaconda"
                                 "~/.miniconda"
                                 "~/.miniconda3"
+                                "~/anaconda3"
                                 "~/miniconda3"
                                 "/usr/bin/anaconda3"
                                 "/usr/local/anaconda3"
                                 "/usr/local/miniconda3"
                                 "/usr/local/Caskroom/miniconda/base")
                if (file-directory-p dir)
-               return (setq conda-anaconda-home dir
-                            conda-env-home-directory dir))
+               return (setq conda-anaconda-home (expand-file-name dir)
+                            conda-env-home-directory (expand-file-name dir)))
       (message "Cannot find Anaconda installation"))
 
   ;; integration with term/eshell
@@ -280,32 +284,9 @@ called.")
                'append))
 
 
-(use-package! lsp-python-ms
-  :when (featurep! +lsp)
-  :after (python lsp-clients)
-  :init
-  (setq lsp-python-ms-dir (concat doom-etc-dir "mspyls/"))
-
-  (after! python
-    (setq lsp-python-ms-python-executable-cmd python-shell-interpreter))
-
-  ;; HACK If you don't have python installed, then opening python buffers with
-  ;;      this on causes a "wrong number of arguments: nil 0" error, because of
-  ;;      careless usage of `cl-destructuring-bind'. This silences that error,
-  ;;      since we may still want to write some python on a system without
-  ;;      python installed!
-  (defadvice! +python--silence-errors-a (orig-fn &rest args)
-    :around #'lsp-python-ms--extra-init-params
-    (ignore-errors (apply orig-fn args)))
-
-  ;; HACK lsp-python-ms shouldn't install itself if it isn't present. This
-  ;;      circumvents LSP falling back to pyls when lsp-python-ms is absent.
-  ;;      Installing the server should be a deliberate act; either 'M-x
-  ;;      lsp-python-ms-setup' or setting `lsp-python-ms-executable' to an
-  ;;      existing install will do.
-  (defadvice! +python--dont-auto-install-server-a ()
-    :override #'lsp-python-ms--command-string
-    lsp-python-ms-executable))
+(use-package! poetry
+  :when (featurep! +poetry)
+  :after python)
 
 
 (use-package! cython-mode
@@ -321,5 +302,23 @@ called.")
 
 (use-package! flycheck-cython
   :when (featurep! +cython)
-  :when (featurep! :tools flycheck)
+  :when (featurep! :checkers syntax)
   :after cython-mode)
+
+
+;;
+;;; LSP
+
+(eval-when! (and (featurep! +lsp)
+                 (not (featurep! :tools lsp +eglot)))
+
+  (use-package! lsp-python-ms
+    :unless (featurep! +pyright)
+    :after lsp-mode
+    :preface
+    (after! python
+      (setq lsp-python-ms-python-executable-cmd python-shell-interpreter)))
+
+  (use-package! lsp-pyright
+    :when (featurep! +pyright)
+    :after lsp-mode))

@@ -14,31 +14,33 @@
         image-dired-db-file (concat image-dired-dir "db.el")
         image-dired-gallery-dir (concat image-dired-dir "gallery/")
         image-dired-temp-image-file (concat image-dired-dir "temp-image")
-        image-dired-temp-rotate-image-file (concat image-dired-dir "temp-rotate-image"))
+        image-dired-temp-rotate-image-file (concat image-dired-dir "temp-rotate-image")
+        ;; Screens are larger nowadays, we can afford slightly larger thumbnails
+        image-dired-thumb-size 150)
   :config
-  (let ((args (list "-aBhl" "--group-directories-first")))
+  (set-popup-rule! "^\\*image-dired"
+    :slot 20 :size 0.8 :select t :quit nil :ttl 0)
+  (set-evil-initial-state! 'image-dired-display-image-mode 'emacs)
+
+  (let ((args (list "-ahl" "-v" "--group-directories-first")))
     (when IS-BSD
       ;; Use GNU ls as `gls' from `coreutils' if available. Add `(setq
       ;; dired-use-ls-dired nil)' to your config to suppress the Dired warning
       ;; when not using GNU ls.
       (if-let (gls (executable-find "gls"))
           (setq insert-directory-program gls)
-        ;; BSD ls doesn't support --group-directories-first
-        (setq args (delete "--group-directories-first" args))))
-    (setq dired-listing-switches (string-join args " ")))
+        ;; BSD ls doesn't support -v or --group-directories-first
+        (setq args (list (car args)))))
+    (setq dired-listing-switches (string-join args " "))
 
-  (add-hook! 'dired-mode-hook
-    (defun +dired-disable-gnu-ls-flags-in-tramp-buffers-h ()
-      "Fix #1703: dired over TRAMP displays a blank screen.
+    (add-hook! 'dired-mode-hook
+      (defun +dired-disable-gnu-ls-flags-in-tramp-buffers-h ()
+        "Fix #1703: dired over TRAMP displays a blank screen.
 
 This is because there's no guarantee the remote system has GNU ls, which is the
 only variant that supports --group-directories-first."
-      (when (file-remote-p default-directory)
-        (setq-local dired-listing-switches
-                    (string-join
-                     (split-string dired-listing-switches
-                                   "--group-directories-first")
-                     " ")))))
+        (when (file-remote-p default-directory)
+          (setq-local dired-actual-switches (car args))))))
 
   ;; Don't complain about this command being disabled when we use it
   (put 'dired-find-alternate-file 'disabled nil)
@@ -59,7 +61,7 @@ only variant that supports --group-directories-first."
 
 
 (use-package! diff-hl
-  :hook (dired-mode . diff-hl-dired-mode)
+  :hook (dired-mode . diff-hl-dired-mode-unless-remote)
   :hook (magit-post-refresh . diff-hl-magit-post-refresh)
   :config
   ;; use margin instead of fringe
@@ -69,10 +71,7 @@ only variant that supports --group-directories-first."
 (use-package! ranger
   :when (featurep! +ranger)
   :after dired
-  :init
-  ;; set up image-dired to allow picture resize
-  (setq image-dired-dir (concat doom-cache-dir "image-dir")
-        ranger-override-dired t)
+  :init (setq ranger-override-dired t)
   :config
   (unless (file-directory-p image-dired-dir)
     (make-directory image-dired-dir))
@@ -117,13 +116,13 @@ we have to clean it up ourselves."
     (defvar +wdired-icons-enabled -1)
 
     (defadvice! +dired-disable-icons-in-wdired-mode-a (&rest _)
-      :before #'+wdired-before-start-advice
+      :before #'wdired-change-to-wdired-mode
       (setq-local +wdired-icons-enabled (if all-the-icons-dired-mode 1 -1))
       (when all-the-icons-dired-mode
         (all-the-icons-dired-mode -1)))
 
     (defadvice! +dired-restore-icons-after-wdired-mode-a (&rest _)
-      :after #'+wdired-after-finish-advice
+      :after #'wdired-change-to-dired-mode
       (all-the-icons-dired-mode +wdired-icons-enabled))))
 
 
@@ -163,17 +162,24 @@ we have to clean it up ourselves."
 
 
 (use-package! fd-dired
-  :when (executable-find doom-projectile-fd-binary)
+  :when doom-projectile-fd-binary
   :defer t
   :init
   (global-set-key [remap find-dired] #'fd-dired)
   (set-popup-rule! "^\\*F\\(?:d\\|ind\\)\\*$" :ignore t))
 
+(use-package! dired-aux
+  :defer t
+  :config
+  (setq dired-create-destination-dirs 'ask
+        dired-vc-rename-file t))
 
 ;;;###package dired-git-info
 (map! :after dired
       :map (dired-mode-map ranger-mode-map)
       :ng ")" #'dired-git-info-mode)
+(setq dgi-commit-message-format "%h %cs %s"
+      dgi-auto-hide-details-p nil)
 (after! wdired
   ;; Temporarily disable `dired-git-info-mode' when entering wdired, due to
   ;; reported incompatibilities.

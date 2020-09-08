@@ -47,7 +47,9 @@
   "TODO"
   (setq file (expand-file-name (or file (doom-session-file))))
   (message "Attempting to load %s" file)
-  (cond ((require 'persp-mode nil t)
+  (cond ((not (file-readable-p file))
+         (message "No session file at %S to read from" file))
+        ((require 'persp-mode nil t)
          (unless persp-mode
            (persp-mode +1))
          (let ((allowed (persp-list-persp-names-in-file file)))
@@ -68,6 +70,9 @@
 (defun doom-restore-session-handler (&rest _)
   "TODO"
   (add-hook 'window-setup-hook #'doom-load-session 'append))
+
+;;;###autoload
+(add-to-list 'command-switch-alist (cons "--restore" #'doom-restore-session-handler))
 
 
 ;;
@@ -128,5 +133,11 @@
   (interactive "P")
   (setq doom-autosave-session nil)
   (doom/quicksave-session)
-  (restart-emacs
-   (delq nil (list (if debug "--debug-init") "--restore"))))
+  (save-some-buffers nil t)
+  (letf! ((#'save-buffers-kill-emacs #'kill-emacs)
+          (confirm-kill-emacs))
+    (restart-emacs
+     (append (if debug (list "--debug-init"))
+             (when (boundp 'chemacs-current-emacs-profile)
+               (list "--with-profile" chemacs-current-emacs-profile))
+             (list "--restore")))))

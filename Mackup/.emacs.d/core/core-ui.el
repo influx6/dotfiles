@@ -4,7 +4,7 @@
 ;;; Variables
 
 (defvar doom-init-theme-p nil
-  "If non-nil, a theme as been loaded.")
+  "If non-nil, a theme has been loaded.")
 
 (defvar doom-theme nil
   "A symbol representing the Emacs theme to load at startup.
@@ -13,9 +13,7 @@ This is changed by `load-theme'.")
 
 (defvar doom-font nil
   "The default font to use.
-
-Expects either a `font-spec', font object, an XFT font string or an XLFD font
-string.
+Must be a `font-spec', a font object, an XFT font string, or an XLFD string.
 
 This affects the `default' and `fixed-pitch' faces.
 
@@ -24,35 +22,33 @@ Examples:
   (setq doom-font \"Terminus (TTF):pixelsize=12:antialias=off\")")
 
 (defvar doom-variable-pitch-font nil
-  "The font to use for variable-pitch text.
-
-Expects either a `font-spec', font object, a XFT font string or XLFD string. See
+  "The default font to use for variable-pitch text.
+Must be a `font-spec', a font object, an XFT font string, or an XLFD string. See
 `doom-font' for examples.
 
-It is recommended you don't set specify a font-size, as to inherit `doom-font's
-size.")
+An omitted font size means to inherit `doom-font''s size.")
 
 (defvar doom-serif-font nil
   "The default font to use for the `fixed-pitch-serif' face.
-
-Expects either a `font-spec', font object, a XFT font string or XLFD string. See
+Must be a `font-spec', a font object, an XFT font string, or an XLFD string. See
 `doom-font' for examples.
 
-It is recommended you don't set specify a font-size, as to inherit `doom-font's
-size.")
+An omitted font size means to inherit `doom-font''s size.")
 
 (defvar doom-unicode-font
   (if IS-MAC
       (font-spec :family "Apple Color Emoji")
     (font-spec :family "Symbola"))
-  "Fallback font for unicode glyphs.
+  "Fallback font for Unicode glyphs.
+Must be a `font-spec', a font object, an XFT font string, or an XLFD string. See
+`doom-font' for examples.
 
-It defaults to Apple Color Emoji on MacOS and Symbola on Linux. Expects either a
-`font-spec', font object, a XFT font string or XLFD string. See `doom-font' for
-examples.
+The defaults on macOS and Linux are Apple Color Emoji and Symbola, respectively.
 
-It is recommended you don't set specify a font-size, as to inherit `doom-font's
-size.")
+An omitted font size means to inherit `doom-font''s size.")
+
+(defvar doom-unicode-extra-fonts nil
+  "Fonts to inject into the Unicode charset before `doom-unicode-font'.")
 
 
 ;;
@@ -85,68 +81,75 @@ size.")
 (defvar doom--last-frame nil)
 
 (defun doom-run-switch-window-hooks-h ()
-  (let ((gc-cons-threshold most-positive-fixnum))
-    (unless (or doom-inhibit-switch-window-hooks
-                (eq doom--last-window (selected-window))
-                (minibufferp))
-      (let ((doom-inhibit-switch-window-hooks t))
-        (run-hooks 'doom-switch-window-hook)
-        (setq doom--last-window (selected-window))))))
+  (unless (or doom-inhibit-switch-window-hooks
+              (eq doom--last-window (selected-window))
+              (minibufferp))
+    (let ((gc-cons-threshold most-positive-fixnum)
+          (doom-inhibit-switch-window-hooks t)
+          (inhibit-redisplay t))
+      (run-hooks 'doom-switch-window-hook)
+      (setq doom--last-window (selected-window)))))
 
 (defun doom-run-switch-frame-hooks-h (&rest _)
   (unless (or doom-inhibit-switch-frame-hooks
               (eq doom--last-frame (selected-frame))
               (frame-parameter nil 'parent-frame))
-    (let ((doom-inhibit-switch-frame-hooks t))
+    (let ((gc-cons-threshold most-positive-fixnum)
+          (doom-inhibit-switch-frame-hooks t))
       (run-hooks 'doom-switch-frame-hook)
       (setq doom--last-frame (selected-frame)))))
 
 (defun doom-run-switch-buffer-hooks-a (orig-fn buffer-or-name &rest args)
-  (let ((gc-cons-threshold most-positive-fixnum))
-    (if (or doom-inhibit-switch-buffer-hooks
-            (eq (current-buffer) (get-buffer buffer-or-name))
-            (and (eq orig-fn #'switch-to-buffer) (car args)))
-        (apply orig-fn buffer-or-name args)
-      (let ((doom-inhibit-switch-buffer-hooks t))
-        (when-let (buffer (apply orig-fn buffer-or-name args))
-          (with-current-buffer (if (windowp buffer)
-                                   (window-buffer buffer)
-                                 buffer)
-            (run-hooks 'doom-switch-buffer-hook))
-          buffer)))))
+  (if (or doom-inhibit-switch-buffer-hooks
+          (and buffer-or-name
+               (eq (current-buffer)
+                   (get-buffer buffer-or-name)))
+          (and (eq orig-fn #'switch-to-buffer) (car args)))
+      (apply orig-fn buffer-or-name args)
+    (let ((gc-cons-threshold most-positive-fixnum)
+          (doom-inhibit-switch-buffer-hooks t)
+          (inhibit-redisplay t))
+      (when-let (buffer (apply orig-fn buffer-or-name args))
+        (with-current-buffer (if (windowp buffer)
+                                 (window-buffer buffer)
+                               buffer)
+          (run-hooks 'doom-switch-buffer-hook))
+        buffer))))
 
 (defun doom-run-switch-to-next-prev-buffer-hooks-a (orig-fn &rest args)
-  (let ((gc-cons-threshold most-positive-fixnum))
-    (if doom-inhibit-switch-buffer-hooks
-        (apply orig-fn args)
-      (let ((doom-inhibit-switch-buffer-hooks t))
-        (when-let (buffer (apply orig-fn args))
-          (with-current-buffer buffer
-            (run-hooks 'doom-switch-buffer-hook))
-          buffer)))))
+  (if doom-inhibit-switch-buffer-hooks
+      (apply orig-fn args)
+    (let ((gc-cons-threshold most-positive-fixnum)
+          (doom-inhibit-switch-buffer-hooks t)
+          (inhibit-redisplay t))
+      (when-let (buffer (apply orig-fn args))
+        (with-current-buffer buffer
+          (run-hooks 'doom-switch-buffer-hook))
+        buffer))))
 
 (defun doom-protect-fallback-buffer-h ()
   "Don't kill the scratch buffer. Meant for `kill-buffer-query-functions'."
   (not (eq (current-buffer) (doom-fallback-buffer))))
 
 (defun doom-highlight-non-default-indentation-h ()
-  "Highlight whitespace that doesn't match your `indent-tabs-mode' setting.
+  "Highlight whitespace at odds with `indent-tabs-mode'.
+That is, highlight tabs if `indent-tabs-mode' is `nil', and highlight spaces at
+the beginnings of lines if `indent-tabs-mode' is `t'. The purpose is to make
+incorrect indentation in the current buffer obvious to you.
 
-e.g. If you indent with spaces by default, tabs will be highlighted. If you
-indent with tabs, spaces at BOL are highlighted.
-
-Does nothing if `whitespace-mode' is already active or the current buffer is
-read-only or not file-visiting."
+Does nothing if `whitespace-mode' or `global-whitespace-mode' is already active
+or if the current buffer is read-only or not file-visiting."
   (unless (or (eq major-mode 'fundamental-mode)
-              buffer-read-only
+              (bound-and-true-p global-whitespace-mode)
               (null buffer-file-name))
     (require 'whitespace)
     (set (make-local-variable 'whitespace-style)
-         (let ((style (if indent-tabs-mode '(indentation) '(tabs tab-mark))))
-           (if whitespace-mode
-               (cl-union style whitespace-active-style)
-             style)))
-    (cl-pushnew 'face whitespace-style)
+         (cl-union (if indent-tabs-mode
+                       '(indentation)
+                     '(tabs tab-mark))
+                   (when whitespace-mode
+                     (remq 'face whitespace-active-style))))
+    (cl-pushnew 'face whitespace-style) ; must be first
     (whitespace-mode +1)))
 
 
@@ -156,6 +159,10 @@ read-only or not file-visiting."
 ;; Simpler confirmation prompt when killing Emacs
 (setq confirm-kill-emacs #'doom-quit-p)
 
+;; Don't prompt for confirmation when we create a new file or buffer (assume the
+;; user knows what they're doing).
+(setq confirm-nonexistent-file-or-buffer nil)
+
 (setq uniquify-buffer-name-style 'forward
       ;; no beeping or blinking please
       ring-bell-function #'ignore
@@ -164,8 +171,10 @@ read-only or not file-visiting."
 ;; middle-click paste at point, not at click
 (setq mouse-yank-at-point t)
 
-;; Enable mouse in terminal Emacs
-(add-hook 'tty-setup-hook #'xterm-mouse-mode)
+;; Larger column width for function name in profiler reports
+(after! profiler
+  (setf (caar profiler-report-cpu-line-format) 80
+        (caar profiler-report-memory-line-format) 80))
 
 
 ;;
@@ -173,7 +182,12 @@ read-only or not file-visiting."
 
 (setq hscroll-margin 2
       hscroll-step 1
-      scroll-conservatively 10
+      ;; Emacs spends too much effort recentering the screen if you scroll the
+      ;; cursor more than N lines past window edges (where N is the settings of
+      ;; `scroll-conservatively'). This is especially slow in larger files
+      ;; during large-scale scrolling commands. If kept over 100, the window is
+      ;; never automatically recentered.
+      scroll-conservatively 101
       scroll-margin 0
       scroll-preserve-screen-position t
       ;; Reduce cursor lag by a tiny bit by not auto-adjusting `window-vscroll'
@@ -186,22 +200,17 @@ read-only or not file-visiting."
 ;; Remove hscroll-margin in shells, otherwise it causes jumpiness
 (setq-hook! '(eshell-mode-hook term-mode-hook) hscroll-margin 0)
 
-(when IS-MAC
-  ;; sane trackpad/mouse scroll settings
-  (setq mac-redisplay-dont-reset-vscroll t
-        mac-mouse-wheel-smooth-scroll nil))
-
 
 ;;
 ;;; Cursor
 
-;; Don't blink the cursor, it's too distracting.
+;; The blinking cursor is distracting, but also interferes with cursor settings
+;; in some minor modes that try to change it buffer-locally (like treemacs) and
+;; can cause freezing for folks (esp on macOS) with customized & color cursors.
 (blink-cursor-mode -1)
 
 ;; Don't blink the paren matching the one at point, it's too distracting.
 (setq blink-matching-paren nil)
-
-(setq visible-cursor nil)
 
 ;; Don't stretch the cursor to fit wide characters, it is disorienting,
 ;; especially for tabs.
@@ -213,8 +222,6 @@ read-only or not file-visiting."
 
 ;; Make `next-buffer', `other-buffer', etc. ignore unreal buffers.
 (push '(buffer-predicate . doom-buffer-frame-predicate) default-frame-alist)
-
-(setq confirm-nonexistent-file-or-buffer t)
 
 (defadvice! doom--switch-to-fallback-buffer-maybe-a (&rest _)
   "Switch to `doom-fallback-buffer' if on last real buffer.
@@ -232,25 +239,30 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
            (message "Can't kill the fallback buffer.")
            t)
           ((doom-real-buffer-p buf)
-           (if (and buffer-file-name
-                    (buffer-modified-p buf)
-                    (not (y-or-n-p
-                          (format "Buffer %s is modified; kill anyway?" buf))))
-               (message "Aborted")
-             (set-buffer-modified-p nil)
-             (let (buffer-list-update-hook)
-               (when (or ;; if there aren't more real buffers than visible buffers,
-                      ;; then there are no real, non-visible buffers left.
-                      (not (cl-set-difference (doom-real-buffer-list)
-                                              (doom-visible-buffers)))
-                      ;; if we end up back where we start (or previous-buffer
-                      ;; returns nil), we have nowhere left to go
-                      (memq (switch-to-prev-buffer nil t) (list buf 'nil)))
-                 (switch-to-buffer (doom-fallback-buffer)))
-               (unless (delq (selected-window) (get-buffer-window-list buf nil t))
-                 (kill-buffer buf)))
-             (run-hooks 'buffer-list-update-hook))
-           t))))
+           (let ((visible-p (delq (selected-window) (get-buffer-window-list buf nil t)))
+                 (doom-inhibit-switch-buffer-hooks t)
+                 (inhibit-redisplay t)
+                 buffer-list-update-hook)
+             (unless visible-p
+               (when (and (buffer-modified-p buf)
+                          (not (y-or-n-p
+                                (format "Buffer %s is modified; kill anyway?"
+                                        buf))))
+                 (user-error "Aborted")))
+             (when (or ;; if there aren't more real buffers than visible buffers,
+                    ;; then there are no real, non-visible buffers left.
+                    (not (cl-set-difference (doom-real-buffer-list)
+                                            (doom-visible-buffers)))
+                    ;; if we end up back where we start (or previous-buffer
+                    ;; returns nil), we have nowhere left to go
+                    (memq (switch-to-prev-buffer nil t) (list buf 'nil)))
+               (switch-to-buffer (doom-fallback-buffer)))
+             (unless visible-p
+               (with-current-buffer buf
+                 (restore-buffer-modified-p nil))
+               (kill-buffer buf))
+             (run-hooks 'buffer-list-update-hook)
+             t)))))
 
 
 ;;
@@ -260,9 +272,6 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
 ;; useful information, like git-gutter and flycheck.
 (setq indicate-buffer-boundaries nil
       indicate-empty-lines nil)
-
-;; remove continuation arrow on right fringe
-(delq! 'continuation fringe-indicator-alist 'assq)
 
 
 ;;
@@ -277,39 +286,21 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
 (setq window-resize-pixelwise t
       frame-resize-pixelwise t)
 
-(unless EMACS27+  ; We already do this in early-init.el
-  ;; Disable tool and scrollbars; Doom encourages keyboard-centric workflows, so
-  ;; these are just clutter (the scrollbar also impacts Emacs' performance).
-  (push '(menu-bar-lines . 0) default-frame-alist)
-  (push '(tool-bar-lines . 0) default-frame-alist)
-  (push '(vertical-scroll-bars) default-frame-alist))
+(unless (assq 'menu-bar-lines default-frame-alist)
+  ;; We do this in early-init.el too, but in case the user is on Emacs 26 we do
+  ;; it here too: disable tool and scrollbars, as Doom encourages
+  ;; keyboard-centric workflows, so these are just clutter (the scrollbar also
+  ;; impacts performance).
+  (add-to-list 'default-frame-alist '(menu-bar-lines . 0))
+  (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
+  (add-to-list 'default-frame-alist '(vertical-scroll-bars)))
 
-(when IS-MAC
-  ;; Curse Lion and its sudden but inevitable fullscreen mode!
-  ;; NOTE Meaningless to railwaycat's emacs-mac build
-  (setq ns-use-native-fullscreen nil)
-
-  ;; Visit files opened outside of Emacs in existing frame, not a new one
-  (setq ns-pop-up-frames nil)
-
-  ;; Sets `ns-transparent-titlebar' and `ns-appearance' frame parameters so
-  ;; window borders will match the enabled theme.
-  (and (or (daemonp)
-           (display-graphic-p))
-       (require 'ns-auto-titlebar nil t)
-       (ns-auto-titlebar-mode +1))
-
-  ;; HACK On MacOS, disabling the menu bar makes MacOS treat Emacs as a
-  ;;      non-application window -- which means it doesn't automatically capture
-  ;;      focus when it is started, among other things. We enable menu-bar-lines
-  ;;      there, but we still want it disabled in terminal frames because there
-  ;;      it activates an ugly menu bar.
-  (add-hook! '(window-setup-hook after-make-frame-functions)
-    (defun doom-init-menu-bar-in-gui-frames-h (&optional frame)
-      "Re-enable menu-bar-lines in GUI frames."
-      (when-let (frame (or frame (selected-frame)))
-        (when (display-graphic-p frame)
-          (set-frame-parameter frame 'menu-bar-lines 1))))))
+;; These are disabled directly through their frame parameters, to avoid the
+;; extra work their minor modes do, but we have to unset these variables
+;; ourselves, otherwise users will have to cycle them twice to re-enable them.
+(setq menu-bar-mode nil
+      tool-bar-mode nil
+      scroll-bar-mode nil)
 
 ;; The native border "consumes" a pixel of the fringe on righter-most splits,
 ;; `window-divider' does not. Available since Emacs 25.1.
@@ -318,8 +309,9 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
       window-divider-default-right-width 1)
 (add-hook 'doom-init-ui-hook #'window-divider-mode)
 
-;; Prompt the user for confirmation when deleting a non-empty frame
-(global-set-key [remap delete-frame] #'doom/delete-frame)
+;; Prompt for confirmation when deleting a non-empty frame; a last line of
+;; defense against accidental loss of work.
+(global-set-key [remap delete-frame] #'doom/delete-frame-with-prompt)
 
 ;; always avoid GUI
 (setq use-dialog-box nil)
@@ -343,8 +335,8 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
 ;; while we're in the minibuffer.
 (setq enable-recursive-minibuffers t)
 
-;; Show current key-sequence in minibuffer, like vim does. Any feedback after
-;; typing is better UX than no feedback at all.
+;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
+;; feedback after typing is better UX than no feedback at all.
 (setq echo-keystrokes 0.02)
 
 ;; Expand the minibuffer to fit multi-line text displayed in the echo-area. This
@@ -354,7 +346,7 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
       max-mini-window-height 0.15)
 
 ;; Typing yes/no is obnoxious when y/n will do
-(fset #'yes-or-no-p #'y-or-n-p)
+(advice-add #'yes-or-no-p :override #'y-or-n-p)
 
 ;; Try really hard to keep the cursor from getting stuck in the read-only prompt
 ;; portion of the minibuffer.
@@ -367,6 +359,10 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
 
 ;;;###package ansi-color
 (setq ansi-color-for-comint-mode t)
+
+
+(after! comint
+  (setq comint-prompt-read-only t))
 
 
 (after! compile
@@ -393,16 +389,9 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
         (set-window-configuration doom--ediff-saved-wconf)))))
 
 
-(use-package! goto-addr
-  :hook (text-mode . goto-address-mode)
-  :hook (prog-mode . goto-address-prog-mode)
-  :config
-  (define-key goto-address-highlight-keymap (kbd "RET") #'goto-address-at-point))
-
-
 (use-package! hl-line
   ;; Highlights the current line
-  :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
+  :hook ((prog-mode text-mode conf-mode special-mode) . hl-line-mode)
   :config
   ;; Not having to render the hl-line overlay in multiple buffers offers a tiny
   ;; performance boost. I also don't need to see it in other buffers.
@@ -411,25 +400,25 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
 
   ;; Temporarily disable `hl-line' when selection is active, since it doesn't
   ;; serve much purpose when the selection is so much more visible.
-  (defvar doom-buffer-hl-line-mode nil)
+  (defvar doom--hl-line-mode nil)
 
   (add-hook! '(evil-visual-state-entry-hook activate-mark-hook)
     (defun doom-disable-hl-line-h ()
       (when hl-line-mode
-        (setq-local doom-buffer-hl-line-mode t)
+        (setq-local doom--hl-line-mode t)
         (hl-line-mode -1))))
 
   (add-hook! '(evil-visual-state-exit-hook deactivate-mark-hook)
     (defun doom-enable-hl-line-maybe-h ()
-      (when doom-buffer-hl-line-mode
+      (when doom--hl-line-mode
         (hl-line-mode +1)))))
 
 
 (use-package! winner
   ;; undo/redo changes to Emacs' window layout
-  :after-call after-find-file doom-switch-window-hook
   :preface (defvar winner-dont-bind-my-keys t) ; I'll bind keys myself
-  :config (winner-mode +1)
+  :hook (doom-first-buffer . winner-mode)
+  :config
   (appendq! winner-boring-buffers
             '("*Compile-Log*" "*inferior-lisp*" "*Fuzzy Completions*"
               "*Apropos*" "*Help*" "*cvs*" "*Buffer List*" "*Ibuffer*"
@@ -438,13 +427,12 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
 
 (use-package! paren
   ;; highlight matching delimiters
-  :after-call after-find-file doom-switch-buffer-hook
+  :hook (doom-first-buffer . show-paren-mode)
   :config
   (setq show-paren-delay 0.1
         show-paren-highlight-openparen t
         show-paren-when-point-inside-paren t
-        show-paren-when-point-in-periphery t)
-  (show-paren-mode +1))
+        show-paren-when-point-in-periphery t))
 
 
 ;;;###package whitespace
@@ -468,13 +456,21 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
              all-the-icons-wicon
              all-the-icons-material
              all-the-icons-alltheicon)
+  :preface
+  (setq doom-unicode-extra-fonts
+        (list "Weather Icons"
+              "github-octicons"
+              "FontAwesome"
+              "all-the-icons"
+              "file-icons"
+              "Material Icons"))
   :config
   (cond ((daemonp)
          (defadvice! doom--disable-all-the-icons-in-tty-a (orig-fn &rest args)
            "Return a blank string in tty Emacs, which doesn't support multiple fonts."
            :around '(all-the-icons-octicon all-the-icons-material
-                                           all-the-icons-faicon all-the-icons-fileicon
-                                           all-the-icons-wicon all-the-icons-alltheicon)
+                     all-the-icons-faicon all-the-icons-fileicon
+                     all-the-icons-wicon all-the-icons-alltheicon)
            (if (or (not after-init-time) (display-multi-font-p))
                (apply orig-fn args)
              "")))
@@ -503,10 +499,6 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
 ;; languages like Lisp.
 (setq rainbow-delimiters-max-face-count 3)
 
-;;;###package pos-tip
-(setq pos-tip-internal-border-width 6
-      pos-tip-border-width 1)
-
 
 ;;
 ;;; Line numbers
@@ -514,15 +506,15 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
 ;; Explicitly define a width to reduce computation
 (setq-default display-line-numbers-width 3)
 
-;; Show absolute line numbers for narrowed regions
+;; Show absolute line numbers for narrowed regions makes it easier to tell the
+;; buffer is narrowed, and where you are, exactly.
 (setq-default display-line-numbers-widen t)
 
-;; Enable line numbers in most text-editing modes
+;; Enable line numbers in most text-editing modes. We avoid
+;; `global-display-line-numbers-mode' because there are many special and
+;; temporary modes where we don't need/want them.
 (add-hook! '(prog-mode-hook text-mode-hook conf-mode-hook)
            #'display-line-numbers-mode)
-
-(defun doom-enable-line-numbers-h ()  (display-line-numbers-mode +1))
-(defun doom-disable-line-numbers-h () (display-line-numbers-mode -1))
 
 
 ;;
@@ -531,35 +523,44 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
 ;; Underline looks a bit better when drawn lower
 (setq x-underline-at-descent-line t)
 
+;; DEPRECATED In Emacs 27
 (defvar doom--prefer-theme-elc nil
   "If non-nil, `load-theme' will prefer the compiled theme (unlike its default
 behavior). Do not set this directly, this is let-bound in `doom-init-theme-h'.")
 
 (defun doom-init-fonts-h ()
   "Loads `doom-font'."
-  (cond (doom-font
-         (cl-pushnew
-          (cons 'font
-                (cond ((stringp doom-font) doom-font)
-                      ((fontp doom-font) (font-xlfd-name doom-font))
-                      ((signal 'wrong-type-argument (list '(fontp stringp)
-                                                          doom-font)))))
-          default-frame-alist
-          :key #'car :test #'eq))
-        ((display-graphic-p)
-         (setq font-use-system-font t
-               doom-font (face-attribute 'default :font)))))
+  (cond
+   (doom-font
+    (cl-pushnew
+     ;; Avoiding `set-frame-font' because it does a lot of extra, expensive
+     ;; work we can avoid by setting the font frame parameter instead.
+     (cons 'font
+           (cond ((stringp doom-font) doom-font)
+                 ((fontp doom-font) (font-xlfd-name doom-font))
+                 ((signal 'wrong-type-argument (list '(fontp stringp)
+                                                     doom-font)))))
+     default-frame-alist
+     :key #'car :test #'eq))
+   ((display-graphic-p)
+    ;; We try our best to record your system font, so `doom-big-font-mode'
+    ;; can still use it to compute a larger font size with.
+    (setq font-use-system-font t
+          doom-font (face-attribute 'default :font)))))
 
 (defun doom-init-extra-fonts-h (&optional frame)
   "Loads `doom-variable-pitch-font',`doom-serif-font' and `doom-unicode-font'."
   (condition-case e
       (with-selected-frame (or frame (selected-frame))
+        (when doom-font
+          (set-face-attribute 'fixed-pitch nil :font doom-font))
         (when doom-serif-font
           (set-face-attribute 'fixed-pitch-serif nil :font doom-serif-font))
         (when doom-variable-pitch-font
           (set-face-attribute 'variable-pitch nil :font doom-variable-pitch-font))
-        (when (and doom-unicode-font (fboundp 'set-fontset-font))
-          (set-fontset-font t 'unicode doom-unicode-font nil 'prepend)))
+        (when (fboundp 'set-fontset-font)
+          (dolist (font (append doom-unicode-extra-fonts (doom-enlist doom-unicode-font)))
+            (set-fontset-font t 'unicode font nil 'prepend))))
     ((debug error)
      (if (string-prefix-p "Font not available: " (error-message-string e))
          (lwarn 'doom-ui :warning
@@ -571,29 +572,54 @@ behavior). Do not set this directly, this is let-bound in `doom-init-theme-h'.")
   "Load the theme specified by `doom-theme' in FRAME."
   (when (and doom-theme (not (memq doom-theme custom-enabled-themes)))
     (with-selected-frame (or frame (selected-frame))
-      (let ((doom--prefer-theme-elc t))
+      (let ((doom--prefer-theme-elc t)) ; DEPRECATED in Emacs 27
         (load-theme doom-theme t)))))
 
-(defadvice! doom--run-load-theme-hooks-a (theme &optional _no-confirm no-enable)
-  "Set up `doom-load-theme-hook' to run after `load-theme' is called."
-  :after-while #'load-theme
-  (unless no-enable
-    (setq doom-theme theme
-          doom-init-theme-p t)
-    (run-hooks 'doom-load-theme-hook)))
+(defadvice! doom--load-theme-a (orig-fn theme &optional no-confirm no-enable)
+  "Run `doom-load-theme-hook' on `load-theme' and fix its issues.
 
-(defadvice! doom--prefer-compiled-theme-a (orig-fn &rest args)
-  "Make `load-theme' prioritize the byte-compiled theme for a moderate boost in
-startup (or theme switch) time, so long as `doom--prefer-theme-elc' is non-nil."
+1. Disable previously enabled themes.
+2. Don't let face-remapping screw up loading the new theme
+   (*cough*`mixed-pitch-mode').
+3. Record the current theme in `doom-theme'."
   :around #'load-theme
-  (if (or (null after-init-time)
-          doom--prefer-theme-elc)
-      (cl-letf* ((old-locate-file (symbol-function 'locate-file))
-                 ((symbol-function 'locate-file)
-                  (lambda (filename path &optional _suffixes predicate)
-                    (funcall old-locate-file filename path '("c" "") predicate))))
-        (apply orig-fn args))
-    (apply orig-fn args)))
+  ;; HACK Run `load-theme' from an estranged buffer, where we can be assured
+  ;;      that buffer-local face remaps (by `mixed-pitch-mode', for instance)
+  ;;      won't interfere with changing themes.
+  (with-temp-buffer
+    (when-let (result (funcall orig-fn theme no-confirm no-enable))
+      (unless no-enable
+        (setq doom-theme theme
+              doom-init-theme-p t)
+        ;; `load-theme' doesn't disable previously enabled themes, which seems
+        ;; like what you'd want. You could always use `enable-theme' to activate
+        ;; multiple themes instead.
+        (mapc #'disable-theme (remq theme custom-enabled-themes))
+        (run-hooks 'doom-load-theme-hook))
+      result)))
+
+(eval-when! (not EMACS27+)
+  ;; DEPRECATED `doom--load-theme-a' handles this for us after the theme is
+  ;;            loaded, but this only works on Emacs 27+. Disabling old themes
+  ;;            must be done *before* the theme is loaded in Emacs 26.
+  (defadvice! doom--disable-previous-themes-a (theme &optional _no-confirm no-enable)
+    "Disable other themes when loading a new one."
+    :before #'load-theme
+    (unless no-enable
+      (mapc #'disable-theme custom-enabled-themes)))
+
+  ;; DEPRECATED Not needed in Emacs 27
+  (defadvice! doom--prefer-compiled-theme-a (orig-fn &rest args)
+    "Have `load-theme' prioritize the byte-compiled theme.
+This offers a moderate boost in startup (or theme switch) time, so long as
+`doom--prefer-theme-elc' is non-nil."
+    :around #'load-theme
+    (if (or (null after-init-time)
+            doom--prefer-theme-elc)
+        (letf! (defun locate-file (filename path &optional _suffixes predicate)
+                 (funcall locate-file filename path '("c" "") predicate))
+          (apply orig-fn args))
+      (apply orig-fn args))))
 
 
 ;;
@@ -607,9 +633,13 @@ startup (or theme switch) time, so long as `doom--prefer-theme-elc' is non-nil."
   (add-hook 'after-change-major-mode-hook #'doom-highlight-non-default-indentation-h 'append)
 
   ;; Initialize custom switch-{buffer,window,frame} hooks:
+  ;;
   ;; + `doom-switch-buffer-hook'
   ;; + `doom-switch-window-hook'
   ;; + `doom-switch-frame-hook'
+  ;;
+  ;; These should be done as late as possible, as not to prematurely trigger
+  ;; hooks during startup.
   (add-hook 'buffer-list-update-hook #'doom-run-switch-window-hooks-h)
   (add-hook 'focus-in-hook #'doom-run-switch-frame-hooks-h)
   (dolist (fn '(switch-to-next-buffer switch-to-prev-buffer))
@@ -634,19 +664,27 @@ startup (or theme switch) time, so long as `doom--prefer-theme-elc' is non-nil."
 ;;; Fixes/hacks
 
 ;; Doom doesn't support `customize' and it never will. It's a clumsy interface
-;; for something that should be configured from only one place ($DOOMDIR), so we
-;; disable them.
-(put 'customize 'disabled "Doom doesn't support `customize', configure Emacs from $DOOMDIR/config.el instead")
+;; that sets variables at a time where it can be easily and unpredictably
+;; overwritten. Configure things from your $DOOMDIR instead.
+(dolist (sym '(customize-option customize-browse customize-group customize-face
+               customize-rogue customize-saved customize-apropos
+               customize-changed customize-unsaved customize-variable
+               customize-set-value customize-customized customize-set-variable
+               customize-apropos-faces customize-save-variable
+               customize-apropos-groups customize-apropos-options
+               customize-changed-options customize-save-customized))
+  (put sym 'disabled "Doom doesn't support `customize', configure Emacs from $DOOMDIR/config.el instead"))
 (put 'customize-themes 'disabled "Set `doom-theme' or use `load-theme' in $DOOMDIR/config.el instead")
 
-;; doesn't exist in terminal Emacs; we define it to prevent errors
+;; Doesn't exist in terminal Emacs, so we define it to prevent void-function
+;; errors emitted from packages that blindly try to use it.
 (unless (fboundp 'define-fringe-bitmap)
   (fset 'define-fringe-bitmap #'ignore))
 
 (after! whitespace
   (defun doom-disable-whitespace-mode-in-childframes-a (orig-fn)
-    "`whitespace-mode' inundates child frames with whitspace markers, so disable
-it to fix all that visual noise."
+    "`whitespace-mode' inundates child frames with whitespace markers, so
+disable it to fix all that visual noise."
     (unless (frame-parameter nil 'parent-frame)
       (funcall orig-fn)))
   (add-function :around whitespace-enable-predicate #'doom-disable-whitespace-mode-in-childframes-a))

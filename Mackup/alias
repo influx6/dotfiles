@@ -1,3 +1,5 @@
+#!/bin/sh
+
 alias pbcopy='xclip -selection clipboard'
 alias ssh_up='eval $(ssh-agent)'
 alias pbpaste='xclip -selection clipboard -o'

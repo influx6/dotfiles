@@ -67,7 +67,7 @@
      (doom-log "formatter (arglist) %s" args)
      (if ,(and (or ok-statuses error-regexp) t)
          (apply #'format-all--buffer-hard
-                ',ok-statuses ,error-regexp
+                ',ok-statuses ,error-regexp nil
                 (reverse args))
        (apply #'format-all--buffer-easy (reverse args)))))
 
@@ -91,7 +91,7 @@
     (name formatter &key modes filter ok-statuses error-regexp)
   "Define (or modify) a formatter named NAME.
 
-Supported keywords: :modes :install :filter :ok-statuses :error-regexp
+Supported keywords: :modes :filter :ok-statuses :error-regexp
 
 NAME is a symbol that identifies this formatter.
 

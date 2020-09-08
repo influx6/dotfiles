@@ -21,16 +21,27 @@ If prefix ARG is set, prompt for a directory to search from."
   (+default/search-cwd 'other))
 
 ;;;###autoload
+(defun +default/search-buffer ()
+  "Conduct a text search on the current buffer.
+If a selection is active, pre-fill the prompt with it."
+  (interactive)
+  (call-interactively
+   (if (region-active-p)
+       #'swiper-isearch-thing-at-point
+     #'swiper-isearch)))
+
+;;;###autoload
 (defun +default/search-project (&optional arg)
   "Conduct a text search in the current project root.
 If prefix ARG is set, prompt for a known project to search from."
   (interactive "P")
-  (let* ((disabled-command-function nil)
+  (let* ((projectile-project-root nil)
+         (disabled-command-function nil)
+         (current-prefix-arg nil)
          (default-directory
            (if arg
                (if-let (projects (projectile-relevant-known-projects))
-                   (completing-read "Search project: " projects
-                                    nil t nil nil (doom-project-root))
+                   (completing-read "Search project: " projects nil t)
                  (user-error "There are no known projects"))
              default-directory)))
     (call-interactively
@@ -45,24 +56,19 @@ If prefix ARG is set, prompt for a known project to search from."
   (+default/search-project 'other))
 
 ;;;###autoload
-(defun +default/search-project-for-symbol-at-point (&optional arg symbol)
+(defun +default/search-project-for-symbol-at-point (&optional symbol arg)
   "Search current project for symbol at point.
 If prefix ARG is set, prompt for a known project to search from."
   (interactive
-   (list current-prefix-arg
-         (or (and (use-region-p)
-                  (rxt-quote-pcre
-                   (buffer-substring-no-properties (region-beginning)
-                                                   (region-end))))
-             (rxt-quote-pcre (thing-at-point 'symbol t))
-             "")))
-  (let ((default-directory
-          (if arg
-              (if-let (projects (projectile-relevant-known-projects))
-                  (completing-read "Switch to project: " projects
-                                   nil t nil nil (doom-project-root))
-                (user-error "There are no known projects"))
-            default-directory)))
+   (list (rxt-quote-pcre (or (doom-thing-at-point-or-region) ""))
+         current-prefix-arg))
+  (let* ((projectile-project-root nil)
+         (default-directory
+           (if arg
+               (if-let (projects (projectile-relevant-known-projects))
+                   (completing-read "Search project: " projects nil t)
+                 (user-error "There are no known projects"))
+             default-directory)))
     (cond ((featurep! :completion ivy)
            (+ivy/project-search nil symbol))
           ((featurep! :completion helm)
@@ -74,7 +80,7 @@ If prefix ARG is set, prompt for a known project to search from."
   "Conduct a text search in the current project for symbol at point. If prefix
 ARG is set, prompt for a known project to search from."
   (interactive
-   (list (rxt-quote-pcre (or (thing-at-point 'symbol t) ""))))
+   (list (rxt-quote-pcre (or (doom-thing-at-point-or-region) ""))))
   (require 'org)
   (let ((default-directory org-directory))
     (+default/search-project-for-symbol-at-point
@@ -86,7 +92,7 @@ ARG is set, prompt for a known project to search from."
   (interactive)
   (require 'org)
   (let ((default-directory org-directory))
-    (+default/search-project-for-symbol-at-point nil "")))
+    (+default/search-project-for-symbol-at-point "")))
 
 ;;;###autoload
 (defun +default/org-notes-headlines ()

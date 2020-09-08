@@ -110,6 +110,7 @@ prevent the popup(s) from messing up the UI (or vice versa)."
   `(let* ((in-popup-p (+popup-buffer-p))
           (popups (+popup-windows))
           (+popup--inhibit-transient t)
+          buffer-list-update-hook
           +popup--last)
      (dolist (p popups)
        (+popup/close p 'force))
@@ -131,6 +132,8 @@ prevent the popup(s) from messing up the UI (or vice versa)."
       ("^ \\*" :slot 1 :vslot -1 :size +popup-shrink-to-fit)))
   (when (featurep! +defaults)
     '(("^\\*Completions" :ignore t)
+      ("^\\*Local variables\\*$"
+       :vslot -1 :slot 1 :size +popup-shrink-to-fit)
       ("^\\*\\(?:[Cc]ompil\\(?:ation\\|e-Log\\)\\|Messages\\)"
        :vslot -2 :size 0.3  :autosave t :quit t :ttl nil)
       ("^\\*\\(?:doom \\|Pp E\\)"  ; transient buffers (no interaction required)
@@ -144,7 +147,7 @@ prevent the popup(s) from messing up the UI (or vice versa)."
       ("^\\*Calc"
        :vslot -7 :side bottom :size 0.4 :select t :quit nil :ttl 0)
       ("^\\*Customize"
-       :slot 2 :side right :select t :quit t)
+       :slot 2 :side right :size 0.5 :select t :quit nil)
       ("^ \\*undo-tree\\*"
        :slot 2 :side left :size 20 :select t :quit t)
       ;; `help-mode', `helpful-mode'

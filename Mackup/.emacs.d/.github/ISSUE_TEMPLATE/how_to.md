@@ -1,28 +1,15 @@
 ---
 name: How do I...
 about: How to get Doom/Emacs to behave a certain way
-labels: is:question
-title: "[HOWTO] "
-assignees: ''
+labels: is:invalid
 ---
 
-**What are you trying to achieve?**
-...
+Please do not post usage/configuration questions on Doom's issue tracker.
 
+They will be deleted without warning.
 
-**What have you tried?**
-...
+Visit our Discord server to ask how-to and workflow questions:
+https://discord.gg/qvGgnVx
 
-
-**Additional information**
-- Do you have screenshots/casts of this workflow in another editor or Emacs
-  distro? (If possible, include names of specific commands or functions from
-  other editors/emacs distros)
-- Do you have additional material or links to resources that could help clarify
-  what you are trying to do?
-
-
-**System information**
-<details><pre>
-Include the output of `M-x doom/info` or `~/.emacs.d/bin/doom info` here.
-</pre></details>
+Or visit our FAQ:
+https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org

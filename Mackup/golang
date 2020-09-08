@@ -1,5 +1,4 @@
-#!/bin/env bash
-
+#!/bin/sh
 
 export GO111MODULE=on
 export GOPATH=$Devlabs

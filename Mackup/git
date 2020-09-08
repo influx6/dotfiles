@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/sh
 
 alias gt="git"
 alias gtadd="git add"

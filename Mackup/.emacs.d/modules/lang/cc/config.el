@@ -33,34 +33,25 @@ This is ignored by ccls.")
 ;;; Packages
 
 (use-package! cc-mode
-  :commands (c-mode c++-mode objc-mode java-mode)
   :mode ("\\.mm\\'" . objc-mode)
-  :init
-  ;; The plusses in c++-mode can be annoying to search for ivy/helm (which reads
-  ;; queries as regexps), so we add these for convenience.
-  (defalias 'cpp-mode 'c++-mode)
-  (defvaralias 'cpp-mode-map 'c++-mode-map)
-
-  ;; Activate `c-mode', `c++-mode' or `objc-mode' depending on heuristics
-  (add-to-list 'auto-mode-alist '("\\.h\\'" . +cc-c-c++-objc-mode))
-
-  ;; Ensure find-file-at-point works in C modes, must be added before irony
-  ;; and/or lsp hooks are run.
-  (add-hook! '(c-mode-local-vars-hook
-               c++-mode-local-vars-hook
-               objc-mode-local-vars-hook)
-             #'+cc-init-ffap-integration-h)
-
+  ;; Use `c-mode'/`c++-mode'/`objc-mode' depending on heuristics
+  :mode ("\\.h\\'" . +cc-c-c++-objc-mode) 
+  ;; Ensure find-file-at-point recognize system libraries in C modes. It must be
+  ;; set up before the likes of irony/lsp are initialized. Also, we use
+  ;; local-vars hooks to ensure these only run in their respective major modes,
+  ;; and not their derived modes.
+  :hook ((c-mode-local-vars c++-mode-local-vars objc-mode-local-vars) . +cc-init-ffap-integration-h)
+  ;;; Improve fontification in C/C++ (also see `modern-cpp-font-lock')
+  :hook (c-mode-common . rainbow-delimiters-mode)
+  :hook ((c-mode c++-mode) . +cc-fontify-constants-h)
   :config
-  (set-electric! '(c-mode c++-mode objc-mode java-mode) :chars '(?\n ?\} ?\{))
   (set-docsets! 'c-mode "C")
   (set-docsets! 'c++-mode "C++" "Boost")
-
+  (set-electric! '(c-mode c++-mode objc-mode java-mode) :chars '(?\n ?\} ?\{))
   (set-rotate-patterns! 'c++-mode
     :symbols '(("public" "protected" "private")
                ("class" "struct")))
-
-  (set-pretty-symbols! '(c-mode c++-mode)
+  (set-ligatures! '(c-mode c++-mode)
     ;; Functional
     ;; :def "void "
     ;; Types
@@ -76,9 +67,12 @@ This is ignored by ccls.")
     :return "return"
     :yield "#require")
 
-  ;;; Better fontification (also see `modern-cpp-font-lock')
-  (add-hook 'c-mode-common-hook #'rainbow-delimiters-mode)
-  (add-hook! '(c-mode-hook c++-mode-hook) #'+cc-fontify-constants-h)
+  ;; HACK Suppress 'Args out of range' error in when multiple modifications are
+  ;;      performed at once in a `c++-mode' buffer, e.g. with `iedit' or
+  ;;      multiple cursors.
+  (undefadvice! +cc--suppress-silly-errors-a (orig-fn &rest args)
+    :around #'c-after-change-mark-abnormal-strings
+    (ignore-errors (apply orig-fn args)))
 
   ;; Custom style, based off of linux
   (setq c-basic-offset tab-width
@@ -115,7 +109,10 @@ This is ignored by ccls.")
              (label . 0))))
 
   (when (listp c-default-style)
-    (setf (alist-get 'other c-default-style) "doom")))
+    (setf (alist-get 'other c-default-style) "doom"))
+
+  (after! ffap
+    (add-to-list 'ffap-alist '(c-mode . ffap-c-mode))))
 
 
 (use-package! modern-cpp-font-lock
@@ -124,46 +121,40 @@ This is ignored by ccls.")
 
 (use-package! irony
   :unless (featurep! +lsp)
-  :commands (irony-install-server irony-mode)
-  :preface
-  (setq irony-server-install-prefix (concat doom-etc-dir "irony-server/"))
-  :init
-  (add-hook! '(c-mode-local-vars-hook
-               c++-mode-local-vars-hook
-               objc-mode-local-vars-hook)
-    (defun +cc-init-irony-mode-h ()
-      (if (file-directory-p irony-server-install-prefix)
-          (irony-mode +1)
-        (message "Irony server isn't installed"))))
-  :config
-  (setq irony-cdb-search-directory-list '("." "build" "build-conda"))
-
+  :commands irony-install-server
   ;; Initialize compilation database, if present. Otherwise, fall back on
   ;; `+cc-default-compiler-options'.
-  (add-hook 'irony-mode-hook #'+cc-init-irony-compile-options-h)
+  :hook (irony-mode . +cc-init-irony-compile-options-h)
+  ;; Only initialize `irony-mode' if the server is available. Otherwise fail
+  ;; quietly and gracefully.
+  :hook ((c-mode-local-vars c++-mode-local-vars objc-mode-local-vars) . +cc-init-irony-mode-maybe-h)
+  :preface (setq irony-server-install-prefix (concat doom-etc-dir "irony-server/"))
+  :config
+  (defun +cc-init-irony-mode-maybe-h ()
+    (if (file-directory-p irony-server-install-prefix)
+        (irony-mode +1)
+      (message "Irony server isn't installed")))
+
+  (setq irony-cdb-search-directory-list '("." "build" "build-conda"))
 
   (use-package! irony-eldoc
     :hook (irony-mode . irony-eldoc))
 
   (use-package! flycheck-irony
-    :when (featurep! :tools flycheck)
+    :when (featurep! :checkers syntax)
     :config (flycheck-irony-setup))
 
   (use-package! company-irony
     :when (featurep! :completion company)
-    :init
-    (set-company-backend! 'irony-mode
-      '(:separate company-irony-c-headers company-irony))
-    :config
-    (require 'company-irony-c-headers)))
+    :init (set-company-backend! 'irony-mode '(:separate company-irony-c-headers company-irony))
+    :config (require 'company-irony-c-headers)))
 
 
 ;;
 ;; Major modes
 
-(use-package! cmake-mode
-  :defer t
-  :config (set-docsets! 'cmake-mode "CMake"))
+(after! cmake-mode
+  (set-docsets! 'cmake-mode "CMake"))
 
 (use-package! company-cmake  ; for `cmake-mode'
   :when (featurep! :completion company)
@@ -186,19 +177,17 @@ This is ignored by ccls.")
 
 (use-package! rtags
   :unless (featurep! +lsp)
-  :commands rtags-executable-find
-  :preface
-  (setq rtags-install-path (concat doom-etc-dir "rtags/"))
-  :init
-  (add-hook! '(c-mode-local-vars-hook
-               c++-mode-local-vars-hook
-               objc-mode-local-vars-hook)
-    (defun +cc-init-rtags-h ()
-      "Start an rtags server in c-mode and c++-mode buffers."
-      (when (and (require 'rtags nil t)
-                 (rtags-executable-find rtags-rdm-binary-name))
-        (rtags-start-process-unless-running))))
+  ;; Only initialize rtags-mode if rtags and rdm are available.
+  :hook ((c-mode-local-vars c++-mode-local-vars objc-mode-local-vars) . +cc-init-rtags-maybe-h)
+  :preface (setq rtags-install-path (concat doom-etc-dir "rtags/"))
   :config
+  (defun +cc-init-rtags-maybe-h ()
+    "Start an rtags server in c-mode and c++-mode buffers.
+If rtags or rdm aren't available, fail silently instead of throwing a breaking error."
+    (and (require 'rtags nil t)
+         (rtags-executable-find rtags-rdm-binary-name)
+         (rtags-start-process-unless-running)))
+
   (setq rtags-autostart-diagnostics t
         rtags-use-bookmarks nil
         rtags-completions-enabled nil
@@ -223,10 +212,12 @@ This is ignored by ccls.")
     :definition #'rtags-find-symbol-at-point
     :references #'rtags-find-references-at-point)
 
-  (add-hook! 'kill-emacs-hook (ignore-errors (rtags-cancel-process)))
-
   ;; Use rtags-imenu instead of imenu/counsel-imenu
   (define-key! (c-mode-map c++-mode-map) [remap imenu] #'+cc/imenu)
+
+  ;; Ensure rtags cleans up after itself properly when exiting Emacs, rather
+  ;; than display a jarring confirmation prompt for killing it.
+  (add-hook! 'kill-emacs-hook (ignore-errors (rtags-cancel-process)))
 
   (add-hook 'rtags-jump-hook #'better-jumper-set-jump)
   (add-hook 'rtags-after-find-file-hook #'recenter))
@@ -239,16 +230,30 @@ This is ignored by ccls.")
   (add-hook! '(c-mode-local-vars-hook
                c++-mode-local-vars-hook
                objc-mode-local-vars-hook)
-    (defun +cc-init-lsp-h ()
-      (setq-local company-transformers nil)
-      (setq-local company-lsp-async t)
-      (setq-local company-lsp-cache-candidates nil)
-      (lsp!))))
+    #'lsp!)
+
+  (when (featurep! :tools lsp +eglot)
+    ;; Map eglot specific helper
+    (map! :localleader
+          :after cc-mode
+          :map c++-mode-map
+          :n :desc "Show type inheritance hierarchy" "ct" #'+cc/eglot-ccls-inheritance-hierarchy)
+
+    ;; NOTE : This setting is untested yet
+    (after! eglot
+      ;; IS-MAC custom configuration
+      (when IS-MAC
+        (add-to-list 'eglot-workspace-configuration
+                     `((:ccls . ((:clang . ,(list :extraArgs ["-isystem/Library/Developer/CommandLineTools/usr/include/c++/v1"
+                                                              "-isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"
+                                                              "-isystem/usr/local/include"]
+                                                  :resourceDir (cdr (doom-call-process "clang" "-print-resource-dir"))))))))))))
 
 
 (use-package! ccls
   :when (featurep! +lsp)
-  :after lsp
+  :unless (featurep! :tools lsp +eglot)
+  :after lsp-mode
   :init
   (after! projectile
     (add-to-list 'projectile-globally-ignored-directories ".ccls-cache")
@@ -260,4 +265,4 @@ This is ignored by ccls.")
           `(:clang ,(list :extraArgs ["-isystem/Library/Developer/CommandLineTools/usr/include/c++/v1"
                                       "-isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"
                                       "-isystem/usr/local/include"]
-                          :resourceDir (string-trim (shell-command-to-string "clang -print-resource-dir")))))))
+                          :resourceDir (cdr (doom-call-process "clang" "-print-resource-dir")))))))
