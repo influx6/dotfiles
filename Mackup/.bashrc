@@ -171,3 +171,6 @@ if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc
 if [ -e $HOME/.profile.custom ]; then . $HOME/.profile.custom; fi # load .profile.custom
 
 source $Dotfiles/Mackup/config
+
+# add Pulumi to the PATH
+export PATH=$PATH:$HOME/.pulumi/bin
