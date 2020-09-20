@@ -1,3 +1,5 @@
+set -x
+
 # Path to your oh-my-bash installation.
 export OSH=$HOME/.oh-my-bash
 
@@ -170,7 +172,15 @@ export PATH=/home/darkvoid/apache-tomcat-7.0.104/bin:/home/darkside/apache-tomca
 if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 if [ -e $HOME/.profile.custom ]; then . $HOME/.profile.custom; fi # load .profile.custom
 
+test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+
 source $Dotfiles/Mackup/config
+
+# add linuxbrew to the PATH
+export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 
 # add Pulumi to the PATH
 export PATH=$PATH:$HOME/.pulumi/bin
+
+set +x
