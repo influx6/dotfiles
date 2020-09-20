@@ -1,4 +1,5 @@
-set -x
+## enable verbose mode to see what takes time
+##set -x
 
 # Path to your oh-my-bash installation.
 export OSH=$HOME/.oh-my-bash
@@ -183,4 +184,5 @@ export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 # add Pulumi to the PATH
 export PATH=$PATH:$HOME/.pulumi/bin
 
-set +x
+## restore quiet mode when set -x is on
+##set +x

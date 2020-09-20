@@ -9,7 +9,9 @@
 #umask 022
 
 # if running bash
-set -x
+
+## see whats causing slow execution
+##set -x
 
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -28,4 +30,5 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-set +x
+## restore quiet mode when set -x is on
+## set +x
