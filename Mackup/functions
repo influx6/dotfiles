@@ -8,3 +8,19 @@ reload() {
  source "~/.profile"
 }
 
+unset_aws() {
+ set +x
+ unset AWS_PROFILE
+ unset AWS_DEFAULT_PROFILE
+ unset AWS_SECRET_ACCESS_KEY
+ unset AWS_ACCESS_KEY_ID
+ set +x
+}
+
+run() {
+    number=$1
+    shift
+    for i in `seq $number`; do
+      $@
+    done
+}
