@@ -36,3 +36,4 @@ alias java8="/usr/lib/jvm/java-8-openjdk/bin/java"
 
 # prive desktop
 alias prive_desktop_ssh="ssh -vvv darkvoid@10.11.0.35"
+
