@@ -17,4 +17,4 @@ source $Dotfiles/Mackup/docker
 source $Dotfiles/Mackup/microk8s
 # source $Dotfiles/java_envs
 
-echo 'Done settup dotfiles'
+#@echo 'Done settup dotfiles'
