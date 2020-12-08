@@ -183,5 +183,8 @@
         "files.autoSave": "afterDelay",
         "editor.insertSpaces": false,
         "vim.autoindent": false,
-        "window.zoomLevel": 0
+        "window.zoomLevel": 0,
+        "[graphql]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        }
 }
