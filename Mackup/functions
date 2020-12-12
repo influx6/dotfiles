@@ -4,14 +4,6 @@ nodekill(){
  killall -9 node
 }
 
-priveDesktopTransferOut(){
-	scp $3 $1 darkvoid@10.11.0.35:/home/darkvoid/$2
-}
-
-priveDesktopTransferIn(){
-	scp $3 darkvoid@10.11.0.35:/home/darkvoid/$1 $2
-}
-
 reload() {
  source "~/.profile"
 }

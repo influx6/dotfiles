@@ -11,7 +11,9 @@ alias edit_bash="vim ~/.bashrc"
 alias dok="docker"
 
 # k8s, microk8s
-alias k="kubectl"
+alias mks="microk8s"
+alias k="microk8s kubectl"
+
 
 # dotfiles
 alias dotfiles_commit="cd $HOME/dotfiles && git commit -am 'UPT: Updated dotfiles'; cd -"

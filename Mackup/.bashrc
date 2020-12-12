@@ -137,3 +137,7 @@ export PATH=$PATH:$HOME/.pulumi/bin
 
 ## restore quiet mode when set -x is on
 ##set +x
+
+[ -s "$HOME/.profile.custom" ] && \. "$HOME/.profile.custom" 
+[ -s "$HOME/.profile.prive" ] && \. "$HOME/.profile.prive" 
+[ -s "$HOME/.profile.linode" ] && \. "$HOME/.profile.linode" 
