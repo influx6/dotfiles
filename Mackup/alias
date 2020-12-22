@@ -23,15 +23,15 @@ alias dotfiles_push="cd $HOME/dotfiles && git push origin master; cd -"
 
 alias pyoutube-audio='youtube-dl -ic -o "./audios/%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist --extract-audio --audio-format mp3 --audio-quality 0'
 alias pyoutube='youtube-dl -f best --ignore-errors -o "./%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist'
-alias pyoutube720='youtube-dl -f "bestvideo[height=720]+bestaudio" --ignore-errors -o "./%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist'
-alias pyoutube360='youtube-dl -f "bestvideo[height=360]+bestaudio" --ignore-errors -o "./%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist'
+alias pyoutube720='youtube-dl -f "bestvideo[height=720]+bestaudio/bestvideo+bestaudio" --ignore-errors -o "./%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist'
+alias pyoutube360='youtube-dl -f "bestvideo[height=360]+bestaudio/bestvideo+bestaudio" --ignore-errors -o "./%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist'
 
 # individual
 
 alias youtube-audio='youtube-dl -ic -o "./audios/%(title)s.%(ext)s" --extract-audio --audio-format mp3 --audio-quality 0'
 alias youtube='youtube-dl -f best --ignore-errors -o "./%(title)s.%(ext)s"'
-alias youtube720='youtube-dl -f "bestvideo[height=720]+bestaudio" --ignore-errors -o "./%(title)s.%(ext)s"'
-alias youtube360='youtube-dl -f "bestvideo[height=360]+bestaudio" --ignore-errors -o "./%(title)s.%(ext)s"'
+alias youtube720='youtube-dl -f "bestvideo[height=720]+bestaudio/bestvideo+bestaudio" --ignore-errors -o "./%(title)s.%(ext)s"'
+alias youtube360='youtube-dl -f "bestvideo[height=360]+bestaudio/bestvideo+bestaudio" --ignore-errors -o "./%(title)s.%(ext)s"'
 
 # java
 alias java8="/usr/lib/jvm/java-8-openjdk/bin/java"

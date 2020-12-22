@@ -2,7 +2,7 @@
 
 export GO111MODULE=on
 export GOPATH=$Devlabs
-export GOROOT_BUILD=/home/darkside/Devlabs/src/go.googlesource.com/goroot
+export GOROOT_BUILD=/home/darkside/Devlabs/src/go.googlesource.com/go
 
 # export GOROOT=$GOPATH/src/github.com/golang/go
 # export GOROOT_BOOTSTRAP=$Devlabs/bootstraps/go
