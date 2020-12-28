@@ -32,3 +32,4 @@ fi
 
 ## restore quiet mode when set -x is on
 ## set +x
+if [ -e /home/darkstar/.nix-profile/etc/profile.d/nix.sh ]; then . /home/darkstar/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

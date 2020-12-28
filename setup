@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# install ohmybash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
+
+# install homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# install pyenv
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+
+# install rbenv
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+cd ~/.rbenv && src/configure && make -C src && cd -
+~/.rbenv/bin/rbenv init
+
+# install sdkman
+curl -s "https://get.sdkman.io" | bash
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# install rustlang
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+
