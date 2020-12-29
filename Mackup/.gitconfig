@@ -6,9 +6,5 @@
 	name = "Alex Ewetumo"
 [gpg]
 	program = /usr/bin/gpg
-[url "git@gitlab.1password.io:"]
-	insteadOf = https://gitlab.1password.io/
-[url "git@gitlab.com:"]
-	insteadOf = [https://gitlab.com](https://gitlab.com)
 [pull]
 	rebase = true
