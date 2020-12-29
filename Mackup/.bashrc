@@ -141,3 +141,4 @@ export PATH=$PATH:$HOME/.pulumi/bin
 [ -s "$HOME/.profile.custom" ] && \. "$HOME/.profile.custom" 
 [ -s "$HOME/.profile.prive" ] && \. "$HOME/.profile.prive" 
 [ -s "$HOME/.profile.linode" ] && \. "$HOME/.profile.linode" 
+[ -s "$HOME/.profile.prive.ci" ] && \. "$HOME/.profile.prive.ci" 
