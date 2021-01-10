@@ -113,7 +113,7 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH=$HOME/apache-tomcat-7.0.104/bin:$PATH
 export PATH=/snap/bin:$HOME/.local/bin:$HOME/Devlabs/bin:$PATH
-export PATH=/home/darkvoid/apache-tomcat-7.0.104/bin:/home/darkside/apache-tomcat-7.0.105/bin:$PATH
+export PATH=$HOME/apache-tomcat-7.0.104/bin:$HOME/apache-tomcat-7.0.105/bin:$PATH
 
 [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
 

@@ -36,9 +36,13 @@ alias youtube='youtube-dl -f best --ignore-errors -o "./%(title)s.%(ext)s"'
 alias youtube720='youtube-dl -f "bestvideo[height=720]+bestaudio/bestvideo+bestaudio" --ignore-errors -o "./%(title)s.%(ext)s"'
 alias youtube360='youtube-dl -f "bestvideo[height=360]+bestaudio/bestvideo+bestaudio" --ignore-errors -o "./%(title)s.%(ext)s"'
 
+alias start-sentinel=" sudo /opt/sentinelone/bin/sentinelctl control start"
+alias stop-sentinel=" sudo /opt/sentinelone/bin/sentinelctl control stop"
+
 # java
 alias java8="/usr/lib/jvm/java-8-openjdk/bin/java"
 
 # prive desktop
 alias prive_desktop_ssh="ssh -vvv darkvoid@10.11.0.35"
 
+alias prive_dev_ssh="ssh alex@10.11.0.111"
