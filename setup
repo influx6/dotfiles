@@ -1,10 +1,13 @@
 #!/bin/sh
 
+# Install Mackup with PIP
+pip install --upgrade mackup
+
 # install ohmybash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" > /dev/null
 
 # install homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" 
 
 # install pyenv
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
