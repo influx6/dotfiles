@@ -42,7 +42,3 @@ alias stop-sentinel=" sudo /opt/sentinelone/bin/sentinelctl control stop"
 # java
 alias java8="/usr/lib/jvm/java-8-openjdk/bin/java"
 
-# prive desktop
-alias prive_desktop_ssh="ssh -vvv darkvoid@10.11.0.35"
-
-alias prive_dev_ssh="ssh alex@10.11.0.111"
