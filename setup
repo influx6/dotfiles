@@ -15,6 +15,9 @@ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 # install go
 brew install go
 
+# install deno
+curl -fsSL https://deno.land/x/install/install.sh | sh
+
 # install github sync
 git clone https://github.com/oxzi/github-orga-sync ~/.github-org-sync && cd ~/.github-org-sync && go install && cd -
 

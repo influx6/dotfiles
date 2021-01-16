@@ -1,190 +1,286 @@
 {
-    "peacock.favoriteColors": [
-        {
-            "name": "Angular Red",
-            "value": "#b52e31"
-        },
-        {
-            "name": "Auth0 Orange",
-            "value": "#eb5424"
-        },
-        {
-            "name": "Azure Blue",
-            "value": "#007fff"
-        },
-        {
-            "name": "C# Purple",
-            "value": "#68217A"
-        },
-        {
-            "name": "Gatsby Purple",
-            "value": "#639"
-        },
-        {
-            "name": "Go Cyan",
-            "value": "#5dc9e2"
-        },
-        {
-            "name": "Java Blue-Gray",
-            "value": "#557c9b"
-        },
-        {
-            "name": "JavaScript Yellow",
-            "value": "#f9e64f"
-        },
-        {
-            "name": "Mandalorian Blue",
-            "value": "#1857a4"
-        },
-        {
-            "name": "Node Green",
-            "value": "#215732"
-        },
-        {
-            "name": "React Blue",
-            "value": "#00b3e6"
-        },
-        {
-            "name": "Something Different",
-            "value": "#832561"
-        },
-        {
-            "name": "Vue Green",
-            "value": "#42b883"
-        }
-    ],
-    "editor.suggestSelection": "first",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "workbench.colorCustomizations": {
-        "activityBarBadge.background": "#616161",
-        "list.activeSelectionForeground": "#616161",
-        "list.inactiveSelectionForeground": "#616161",
-        "list.highlightForeground": "#616161",
-        "scrollbarSlider.activeBackground": "#61616150",
-        "editorSuggestWidget.highlightForeground": "#616161",
-        "textLink.foreground": "#616161",
-        "progressBar.background": "#616161",
-        "pickerGroup.foreground": "#616161",
-        "tab.activeBorder": "#616161",
-        "notificationLink.foreground": "#616161",
-        "editorWidget.resizeBorder": "#616161",
-        "editorWidget.border": "#616161",
-        "settings.modifiedItemIndicator": "#616161",
-        "settings.headerForeground": "#616161",
-        "panelTitle.activeBorder": "#616161",
-        "breadcrumb.activeSelectionForeground": "#616161",
-        "menu.selectionForeground": "#616161",
-        "menubar.selectionForeground": "#616161",
-        "editor.findMatchBorder": "#616161",
-        "selection.background": "#61616140",
-        "statusBar.background": "#5f00af",
-        "statusBar.noFolderBackground": "#5f00af",
-        "statusBar.debuggingBackground": "#5f00af"
-    },
-    "materialTheme.accent": "Graphite",
-    "vim.camelCaseMotion.enable": true,
-    "workbench.iconTheme": "eq-material-theme-icons",
-    "sync.gist": "f25c02387e496b515f0f728c17d84631",
-    "sync.autoUpload": false,
-    "sync.autoDownload": false,
-    "sync.quietSync": false,
-    "sync.forceUpload": false,
-    "vs-kubernetes": {
-        "vs-kubernetes.draft-path": "/Users/alexewetumo/.vs-kubernetes/tools/draft/darwin-amd64/draft",
-        "vs-kubernetes.helm-path": "/Users/alexewetumo/.vs-kubernetes/tools/helm/darwin-amd64/helm",
-        "vs-kubernetes.minikube-path": "/Users/alexewetumo/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
-        "vs-kubernetes.kubectl-path": "/Users/alexewetumo/.vs-kubernetes/tools/kubectl/kubectl"
-    },
-    "typescript.updateImportsOnFileMove.enabled": "always",
-    "prettier.requireConfig": true,
-    "prettier.semi": false,
-    "vim.easymotion": true,
-    "vim.highlightedyank.enable": true,
-    "vim.replaceWithRegister": true,
-    "vim.statusBarColorControl": true,
-    "cSpell.userWords": [
-        "Backoff",
-        "CPPFLAGS",
-        "Devlabs",
-        "EMSC",
-        "LDFLAGS",
-        "Passcode",
-        "Powerup",
-        "Powerups",
-        "Signup",
-        "carret",
-        "darkstar",
-        "emsdk",
-        "lokalise",
-        "ncurses",
-        "testflight",
-        "ziglang"
-    ],
-    "javascript.updateImportsOnFileMove.enabled": "always",
-    "files.associations": {
-        "*.js": "javascriptreact",
-        "*.go": "go"
-    },
-    "go.gocodeAutoBuild": true,
-    "go.useCodeSnippetsOnFunctionSuggest": true,
-    "python.languageServer": "Pylance",
-    "terminal.integrated.rendererType": "dom",
-    "[json]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "editor.tabCompletion": "on",
-    "terminal.integrated.shell.linux": "/bin/bash",
-    "python.formatting.provider": "black",
-    "workbench.colorTheme": "Dracula",
-    "go.useLanguageServer": true,
-    "[go]": {
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true,
-        },
-        // Optional: Disable snippets, as they conflict with completion ranking.
-        "editor.snippetSuggestions": "none",
-    },
-    "[go.mod]": {
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true,
-        },
-    },
-    "gopls": {
-        // Add parameter placeholders when completing a function.
-        "usePlaceholders": true,
+	"peacock.favoriteColors": [
+		{
+			"name": "Angular Red",
+			"value": "#b52e31"
+		},
+		{
+			"name": "Auth0 Orange",
+			"value": "#eb5424"
+		},
+		{
+			"name": "Azure Blue",
+			"value": "#007fff"
+		},
+		{
+			"name": "C# Purple",
+			"value": "#68217A"
+		},
+		{
+			"name": "Gatsby Purple",
+			"value": "#639"
+		},
+		{
+			"name": "Go Cyan",
+			"value": "#5dc9e2"
+		},
+		{
+			"name": "Java Blue-Gray",
+			"value": "#557c9b"
+		},
+		{
+			"name": "JavaScript Yellow",
+			"value": "#f9e64f"
+		},
+		{
+			"name": "Mandalorian Blue",
+			"value": "#1857a4"
+		},
+		{
+			"name": "Node Green",
+			"value": "#215732"
+		},
+		{
+			"name": "React Blue",
+			"value": "#00b3e6"
+		},
+		{
+			"name": "Something Different",
+			"value": "#832561"
+		},
+		{
+			"name": "Vue Green",
+			"value": "#42b883"
+		}
+	],
+	"editor.suggestSelection": "first",
+	"vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+	"workbench.colorCustomizations": {
+		"activityBarBadge.background": "#616161",
+		"list.activeSelectionForeground": "#616161",
+		"list.inactiveSelectionForeground": "#616161",
+		"list.highlightForeground": "#616161",
+		"scrollbarSlider.activeBackground": "#61616150",
+		"editorSuggestWidget.highlightForeground": "#616161",
+		"textLink.foreground": "#616161",
+		"progressBar.background": "#616161",
+		"pickerGroup.foreground": "#616161",
+		"tab.activeBorder": "#616161",
+		"notificationLink.foreground": "#616161",
+		"editorWidget.resizeBorder": "#616161",
+		"editorWidget.border": "#616161",
+		"settings.modifiedItemIndicator": "#616161",
+		"settings.headerForeground": "#616161",
+		"panelTitle.activeBorder": "#616161",
+		"breadcrumb.activeSelectionForeground": "#616161",
+		"menu.selectionForeground": "#616161",
+		"menubar.selectionForeground": "#616161",
+		"editor.findMatchBorder": "#616161",
+		"selection.background": "#61616140",
+		"statusBar.background": "#5f0000",
+		"statusBar.noFolderBackground": "#5f0000",
+		"statusBar.debuggingBackground": "#5f0000"
+	},
+	"materialTheme.accent": "Graphite",
+	"vim.camelCaseMotion.enable": true,
+	"workbench.iconTheme": "eq-material-theme-icons",
+	"sync.gist": "f25c02387e496b515f0f728c17d84631",
+	"sync.autoUpload": false,
+	"sync.autoDownload": false,
+	"sync.quietSync": false,
+	"sync.forceUpload": false,
+	"vs-kubernetes": {
+		"vs-kubernetes.draft-path": "/Users/alexewetumo/.vs-kubernetes/tools/draft/darwin-amd64/draft",
+		"vs-kubernetes.helm-path": "/Users/alexewetumo/.vs-kubernetes/tools/helm/darwin-amd64/helm",
+		"vs-kubernetes.minikube-path": "/Users/alexewetumo/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
+		"vs-kubernetes.kubectl-path": "/Users/alexewetumo/.vs-kubernetes/tools/kubectl/kubectl",
+		"vs-kubernetes.helm-path.linux": "/home/darkstar/.vs-kubernetes/tools/helm/linux-amd64/helm",
+		"vs-kubernetes.minikube-path.linux": "/home/darkstar/.vs-kubernetes/tools/minikube/linux-amd64/minikube",
+		"vs-kubernetes.kubectl-path.linux": "/home/darkstar/.vs-kubernetes/tools/kubectl/kubectl",
+		"vs-kubernetes.draft-path.linux": "/home/darkstar/.vs-kubernetes/tools/draft/linux-amd64/draft"
+	},
+	"typescript.updateImportsOnFileMove.enabled": "always",
+	"vim.easymotion": true,
+	"vim.highlightedyank.enable": true,
+	"vim.replaceWithRegister": true,
+	"vim.statusBarColorControl": true,
+	"cSpell.userWords": [
+		"Backoff",
+		"CPPFLAGS",
+		"Devlabs",
+		"EMSC",
+		"LDFLAGS",
+		"Passcode",
+		"Powerup",
+		"Powerups",
+		"Signup",
+		"carret",
+		"darkstar",
+		"emsdk",
+		"lokalise",
+		"ncurses",
+		"testflight",
+		"ziglang"
+	],
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	"files.associations": {
+		"*.js": "javascriptreact",
+		"*.go": "go"
+	},
+	"go.gocodeAutoBuild": true,
+	"go.useCodeSnippetsOnFunctionSuggest": true,
+	"python.languageServer": "Pylance",
+	"terminal.integrated.rendererType": "dom",
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"editor.tabCompletion": "on",
+	"terminal.integrated.shell.linux": "/bin/bash",
+	"python.formatting.provider": "black",
+	"workbench.colorTheme": "Cobalt Next",
+	"java.semanticHighlighting.enabled": true,
+	"go.gotoSymbol.includeGoroot": true,
+	"go.gotoSymbol.includeImports": true,
+	"go.languageServerExperimentalFeatures": {
+		"diagnostics": true,
+		"documentLink": true
+	},
+	"go.trace.server": "verbose",
+	"goModGrapher.engine": "dot",
+	"goOutliner.extendExplorerTab": true,
+	"html.format.indentHandlebars": true,
+	"html.format.indentInnerHtml": true,
+	"omnisharp.useEditorFormattingSettings": false,
+	"vim.enableNeovim": true,
+	"emmet.showSuggestionsAsSnippets": true,
+	"emmet.triggerExpansionOnTab": true,
+	"omnisharp.autoStart": false,
+	"editor.copyWithSyntaxHighlighting": false,
+	"diffEditor.ignoreTrimWhitespace": false,
+	"editor.emptySelectionClipboard": false,
+	"workbench.editor.enablePreview": false,
+	"window.newWindowDimensions": "inherit",
+	"editor.multiCursorModifier": "ctrlCmd",
+	"files.trimTrailingWhitespace": true,
+	"diffEditor.renderSideBySide": false,
+	"editor.snippetSuggestions": "top",
+	"editor.detectIndentation": false,
+	"window.nativeFullScreen": false,
+	"files.insertFinalNewline": true,
+	"files.trimFinalNewlines": true,
+	"[dockerfile]": {
+		"editor.defaultFormatter": "ms-azuretools.vscode-docker"
+	},
+	"prettier.vueIndentScriptAndStyle": true,
+	"files.autoSave": "afterDelay",
+	"editor.insertSpaces": false,
+	"vim.autoindent": false,
+	"window.zoomLevel": 0,
+	"[graphql]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"go.autocompleteUnimportedPackages": true,
+	/*positions are everything*/
+	"workbench.sideBar.location": "right",
+	"editor.formatOnSave": true,
+	"editor.fontFamily": "'MonoLisa','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+	/**
+	* Typography
+	**/
+	"editor.fontSize": 12,
+	"editor.lineHeight": 0,
+	"editor.suggestFontSize": 16,
+	"editor.suggestLineHeight": 28,
+	"terminal.integrated.fontSize": 15,
+	"terminal.integrated.lineHeight": 1.5,
+	/*
+	* prettines
+	*/
+	"breadcrumbs.enabled": false,
+	"scm.diffDecorations": "none",
+	"editor.hover.enabled": true,
+	"editor.matchBrackets": "always",
+	"workbench.tips.enabled": false,
+	"editor.colorDecorators": true,
+	"git.decorations.enabled": false,
+	"workbench.startupEditor": "none",
+	"editor.lightbulb.enabled": false,
+	"editor.selectionHighlight": true,
+	"editor.overviewRulerBorder": false,
+	"editor.renderLineHighlight": "none",
+	"editor.occurrencesHighlight": true,
+	"problems.decorations.enabled": false,
+	"editor.renderControlCharacters": false,
+	"editor.hideCursorInOverviewRuler": true,
+	"editor.gotoLocation.multipleReferences": "goto",
+	"editor.gotoLocation.multipleDefinitions": "goto",
+	"editor.gotoLocation.multipleDeclarations": "goto",
+	"workbench.editor.enablePreviewFromQuickOpen": true,
+	"editor.gotoLocation.multipleImplementations": "goto",
+	"editor.gotoLocation.multipleTypeDefinitions": "goto",
+	/*exclude*/
+	"search.useIgnoreFiles": false,
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/bower_components": true,
+		"**/*.code-search": true,
+		// Hide everything in /vendor, except the "laravel" and "livewire" folder.
+		"**/vendor/{[^l],?[^ai]}*": true,
+		// Hide everything in /public, except "index.php"
+		"**/public/{[^i],?[^n]}*": true,
+		"**/dist": true,
+		"**/_ide_helper.php": true,
+		"**/composer.lock": true,
+		"**/package-lock.json": true,
+		"storage": true,
+		".phpunit.result.cache": true
+	},
+	/*hide every thing*/
+	"workbench.activityBar.visible": false,
+	"workbench.editor.showTabs": false,
+	"workbench.statusBar.visible": false,
+	"editor.minimap.enabled": false,
+	"[jsonc]": {
+	},
+	/**
+	* Prettier
+	*/
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true,
+	},
+	"prettier.requireConfig": true,
+	"prettier.useEditorConfig": false,
+	"prettier.semi": false,
 
-        // If true, enable additional analyses with staticcheck.
-        // Warning: This will significantly increase memory usage.
-        "staticcheck": false,
-    },
-    "java.semanticHighlighting.enabled": true,
-    "go.gotoSymbol.includeGoroot": true,
-    "go.gotoSymbol.includeImports": true,
-    "go.languageServerExperimentalFeatures": {
-
-        "diagnostics": true,
-        "documentLink": true
-    },
-    "go.trace.server": "verbose",
-    "goModGrapher.engine": "dot",
-    "goOutliner.extendExplorerTab": true,
-    "html.format.indentHandlebars": true,
-    "html.format.indentInnerHtml": true,
-    "omnisharp.useEditorFormattingSettings": false,
-    "vim.enableNeovim": true,
-    "emmet.showSuggestionsAsSnippets": true,
-    "emmet.triggerExpansionOnTab": true,
-    "[dockerfile]": {
-        "editor.defaultFormatter": "ms-azuretools.vscode-docker"
-        },
-        "prettier.vueIndentScriptAndStyle": true,
-        "files.autoSave": "afterDelay",
-        "editor.insertSpaces": false,
-        "vim.autoindent": false,
-        "window.zoomLevel": 0,
-        "[graphql]": {
-            "editor.defaultFormatter": "esbenp.prettier-vscode"
-        }
+	/*
+	* Golang
+	*
+	*/
+	"go.useLanguageServer": true,
+	"go.lintTool":"golangci-lint",
+		"go.lintFlags": [
+		"--fast"
+	],
+	"[go]": {
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": true,
+		},
+		// Optional: Disable snippets, as they conflict with completion ranking.
+		"editor.snippetSuggestions": "none",
+	},
+	"[go.mod]": {
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": true,
+		},
+	},
+	"gopls": {
+		// Add parameter placeholders when completing a function.
+		"usePlaceholders": true,
+		// If true, enable additional analyses with staticcheck.
+		// Warning: This will significantly increase memory usage.
+		"staticcheck": false,
+	},
 }

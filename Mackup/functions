@@ -25,3 +25,22 @@ run() {
     done
 }
 
+renamefiles() {
+	n=$1
+	shift
+	for f in "$(pwd)"/*
+	do
+	  name=$(basename "$f")
+	  mv "$f" "$(pwd)/$((n++)) - $name"
+	done
+}
+
+renameset() {
+	n=$1
+	shift
+	for f in "$@"
+	do
+	  name=$(basename "$f")
+	  mv "$f" "$(pwd)/$((n++)) - $name"
+	done
+}
