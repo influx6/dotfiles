@@ -5,7 +5,7 @@ nodekill(){
 }
 
 reload() {
- source "~/.bashrc"
+ source "$HOME/.bashrc"
 }
 
 unset_aws() {
