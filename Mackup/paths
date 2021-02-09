@@ -11,9 +11,11 @@ export NPM=$HOME/.node_modules
 export EMSC=$SRC/github.com/juj/emsdk
 export LINUXBREW=/home/linuxbrew/.linuxbrew
 
+export code=$Devlabs/code
 export github=$SRC/github.com
 export influx6=$SRC/github.com/influx6
 export forkkit=$SRC/github.com/forkkit
+export work=$SRC/github.com/JSchillinger
 
 export NODE_OPTIONS="--max-old-space-size=4096"
 
