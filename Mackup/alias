@@ -8,6 +8,9 @@ alias edit_profile="vim ~/.profile"
 alias edit_bash="vim ~/.bashrc"
 alias mycode="$HOME/Devlabs/code"
 
+# wget
+alias pullsite="wget -r -erobots=off -p -k "
+
 # docker
 alias dok="docker"
 
