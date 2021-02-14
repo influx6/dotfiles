@@ -8,6 +8,10 @@ alias edit_profile="vim ~/.profile"
 alias edit_bash="vim ~/.bashrc"
 alias mycode="$HOME/Devlabs/code"
 
+# git
+alias gclone="git clone "
+alias gcl="git clone "
+
 # wget
 alias pullsite="wget -r -erobots=off -p -k "
 
