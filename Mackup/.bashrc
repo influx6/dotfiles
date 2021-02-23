@@ -130,7 +130,7 @@ test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew
 source $Dotfiles/Mackup/config
 
 # add linuxbrew to the PATH
-export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin:$HOME/Devlabs/appImages
+export PATH=$HOME/Devlabs/appImages
 
 # add Pulumi to the PATH
 export PATH=$PATH:$HOME/.pulumi/bin
