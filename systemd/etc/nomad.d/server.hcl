@@ -1,6 +1,6 @@
 server  {
 	enabled = true
-	boostrap_expect = 1
+	bootstrap_expect = 1
 }
 
 plugin "docker" {
