@@ -110,7 +110,7 @@ alias pbpaste='xclip -selection clipboard -o'
 
 export SDKMAN_DIR="$HOME/.sdkman"
 export NVM_DIR="$HOME/.nvm"
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$HOME/dotfiles/bin:$PATH"
 export PATH=$HOME/apache-tomcat-7.0.104/bin:$PATH
 export PATH=/snap/bin:$HOME/.local/bin:$HOME/Devlabs/bin:$PATH
 export PATH=$HOME/apache-tomcat-7.0.104/bin:$HOME/apache-tomcat-7.0.105/bin:$PATH
