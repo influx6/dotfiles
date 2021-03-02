@@ -381,4 +381,7 @@
 	"editor.suggest.localityBonus": true,
 	"rust-assist.formatOnSave": true,
 	"vim.neovimPath": "/home/darkstar/.local/bin/nvim",
+	"[properties]": {
+		"editor.defaultFormatter": "remimarsal.prettier-now"
+	},
 }
