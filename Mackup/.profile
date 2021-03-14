@@ -33,3 +33,5 @@ fi
 ## restore quiet mode when set -x is on
 ## set +x
 if [ -e /home/darkstar/.nix-profile/etc/profile.d/nix.sh ]; then . /home/darkstar/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+export PATH=$HOME/Devlabs/pkg/kafka_2.12-2.7.0/bin:$PATH
+_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true

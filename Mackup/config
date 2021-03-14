@@ -9,6 +9,7 @@ source $Dotfiles/Mackup/editor
 source $Dotfiles/Mackup/paths
 source $Dotfiles/Mackup/deno
 source $Dotfiles/Mackup/emsdk
+# source $Dotfiles/java_envs
 source $Dotfiles/Mackup/golang
 source $Dotfiles/Mackup/git
 source $Dotfiles/Mackup/android
@@ -16,6 +17,5 @@ source $Dotfiles/Mackup/functions
 source $Dotfiles/Mackup/docker
 source $Dotfiles/Mackup/microk8s
 source $Dotfiles/Mackup/python
-# source $Dotfiles/java_envs
+source $Dotfiles/Mackup/flutter
 
-#@echo 'Done settup dotfiles'

@@ -142,3 +142,5 @@ export PATH=$PATH:$HOME/.pulumi/bin
 [ -s "$HOME/.profile.prive" ] && \. "$HOME/.profile.prive" 
 [ -s "$HOME/.profile.linode" ] && \. "$HOME/.profile.linode" 
 [ -s "$HOME/.profile.prive.ci" ] && \. "$HOME/.profile.prive.ci" 
+
+export PATH=$PATH:$HOME/Devlabs/pkg/Flutter/flutter/bin

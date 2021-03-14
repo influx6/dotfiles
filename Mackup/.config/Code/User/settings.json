@@ -243,7 +243,6 @@
 	/*hide every thing*/
 	"workbench.activityBar.visible": false,
 	"workbench.editor.showTabs": false,
-	"workbench.statusBar.visible": false,
 	"editor.minimap.enabled": false,
 	"[jsonc]": {
 		"editor.defaultFormatter": "vscode.json-language-features"
@@ -384,4 +383,16 @@
 	"[properties]": {
 		"editor.defaultFormatter": "remimarsal.prettier-now"
 	},
+	"[sql]": {
+		"editor.defaultFormatter": "mtxr.sqltools"
+	},
+	"workbench.editorAssociations": [
+		{
+			"viewType": "jupyter.notebook.ipynb",
+			"filenamePattern": "*.ipynb"
+		}
+	],
+	"workbench.statusBar.visible": false,
+	"rust-client.engine": "rust-analyzer",
+	"rust.all_features": true,
 }
