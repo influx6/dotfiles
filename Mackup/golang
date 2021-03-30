@@ -1,12 +1,7 @@
 #!/bin/sh
 
 export GO111MODULE=on
-export GOPATH=$Devlabs
 export GOROOT_BUILD=/home/darkside/Devlabs/src/go.googlesource.com/go
-
-# export GOROOT=$GOPATH/src/github.com/golang/go
-# export GOROOT_BOOTSTRAP=$Devlabs/bootstraps/go
-
 
 export PATH=/home/darkstar/Devlabs/src/bin:$SRC/go.googlesource.com/go/bin:$Local/bin/go/bin:$PATH
 

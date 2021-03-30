@@ -1,0 +1,5 @@
+alias ports_in_use='netstat -lntp'
+alias ports_netstat='lsof -i -P -n | grep LISTEN'
+alias ports_lsof='lsof -i -P -n | grep LISTEN'
+alias port_lsof='lsof -i:'
+alias nmap_addr='nmap -sTU -O '

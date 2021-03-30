@@ -18,4 +18,5 @@ source $Dotfiles/Mackup/docker
 source $Dotfiles/Mackup/microk8s
 source $Dotfiles/Mackup/python
 source $Dotfiles/Mackup/flutter
+source $Dotfiles/Mackup/sdkman
 

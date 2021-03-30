@@ -2,7 +2,7 @@
 	filemode = false
 	autocrlf = input
 [user]
-	email = trinoxf@gmail.com
+	email = "trinoxf@gmail.com"
 	name = "Alex Ewetumo"
 [gpg]
 	program = /usr/bin/gpg
