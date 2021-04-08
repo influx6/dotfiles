@@ -36,8 +36,9 @@ export CPPFLAGS="-I/usr/local/opt/ncurses/include"
 export PATH="$HOME/.rbenv/bin:$PATH"
 
 export ANDROID_HOME=$HOME/Devlabs/android
+export NODE_MODULES=$HOME/node_modules
 export ANDROID_SDK_BIN=$ANDROID_HOME/sdk/cmdline-tools/latest/bin
 export ANDROID_TOOLS_BIN=$ANDROID_HOME/sdk/tools/bin
 
-export PATH=$LINUXBREW/bin:$Projects/bin:$HOME/local/bin:$HOME/local/go/bin:$HOME/.cargo/bin:$PATH
+export PATH=$NODE_MODULES/bin:$NODE_MODULES/.bin:$LINUXBREW/bin:$Projects/bin:$HOME/local/bin:$HOME/local/go/bin:$HOME/.cargo/bin:$PATH
 export PATH=$ANDROID_TOOLS_BIN:$HOME/Devlabs/bin:$ANDROID_SDK_BIN:$HOME/Devlabs/flutter/bin:$HOME/Devlabs/local/bin:$HOME/Devlabs/local/sbin/bin:$HOME/Devlabs/local/sbin/go/bin:$PATH
