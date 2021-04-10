@@ -12,6 +12,7 @@ source $Dotfiles/Mackup/emsdk
 # source $Dotfiles/java_envs
 source $Dotfiles/Mackup/golang
 source $Dotfiles/Mackup/git
+source $Dotfiles/Mackup/net
 source $Dotfiles/Mackup/android
 source $Dotfiles/Mackup/functions
 source $Dotfiles/Mackup/docker

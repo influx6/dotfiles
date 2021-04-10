@@ -123,6 +123,12 @@ export PATH=$HOME/apache-tomcat-7.0.104/bin:$HOME/apache-tomcat-7.0.105/bin:$PAT
 
 if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 if [ -e $HOME/.profile.custom ]; then . $HOME/.profile.custom; fi # load .profile.custom
+if [ -e $HOME/.profile.prive ]; then . $HOME/.profile.prive; fi # load .profile.custom
+if [ -e $HOME/.profile.prive.ci ]; then . $HOME/.profile.prive.ci; fi # load .profile.custom
+if [ -e $HOME/.profile.prive.aws ]; then . $HOME/.profile.prive.aws; fi # load .profile.custom
+if [ -e $HOME/.profile.firebase ]; then . $HOME/.profile.firebase; fi # load .profile.custom
+if [ -e $HOME/.profile.git ]; then . $HOME/.profile.git; fi # load .profile.custom
+if [ -e $HOME/.profile.linode ]; then . $HOME/.profile.linode; fi # load .profile.custom
 
 test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
 test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
@@ -138,9 +144,5 @@ export PATH=$PATH:$HOME/.pulumi/bin
 ## restore quiet mode when set -x is on
 ##set +x
 
-[ -s "$HOME/.profile.custom" ] && \. "$HOME/.profile.custom" 
-[ -s "$HOME/.profile.prive" ] && \. "$HOME/.profile.prive" 
-[ -s "$HOME/.profile.linode" ] && \. "$HOME/.profile.linode" 
-[ -s "$HOME/.profile.prive.ci" ] && \. "$HOME/.profile.prive.ci" 
 
 export PATH=$PATH:$HOME/Devlabs/pkg/Flutter/flutter/bin

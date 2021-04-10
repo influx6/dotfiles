@@ -182,7 +182,7 @@
 
 	/*positions are everything*/
 	"workbench.sideBar.location": "right",
-	"editor.formatOnSave": false,
+	"editor.formatOnSave": true,
 	"editor.fontFamily": "'MonoLisa','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
 
 	/**
@@ -308,8 +308,8 @@
 	},
 	"editor.wordBasedSuggestionsMode": "currentDocument",
 	"dart.enableCompletionCommitCharacters": true,
-	"editor.formatOnPaste": false,
-	"editor.formatOnType": false,
+	"editor.formatOnPaste": true,
+	"editor.formatOnType": true,
 	"terminal.integrated.cursorBlinking": true,
 	"terminal.integrated.copyOnSelection": true,
 	"python.terminal.activateEnvInCurrentTerminal": true,
@@ -392,7 +392,6 @@
 			"filenamePattern": "*.ipynb"
 		}
 	],
-	"workbench.statusBar.visible": false,
 	"rust-client.engine": "rust-analyzer",
 	"rust.all_features": true,
 	"explorer.confirmDragAndDrop": false,
