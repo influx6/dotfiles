@@ -8,6 +8,10 @@ alias edit_profile="vim ~/.profile"
 alias edit_bash="vim ~/.bashrc"
 alias mycode="$HOME/Devlabs/code"
 
+# search
+search_directory="grep -nr "
+search_directoryi="grep -nir "
+
 # git
 alias gclone="git clone "
 alias gcl="git clone "
