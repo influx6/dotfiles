@@ -381,7 +381,7 @@
 	"rust-assist.formatOnSave": true,
 	"vim.neovimPath": "/home/darkstar/.local/bin/nvim",
 	"[properties]": {
-		"editor.defaultFormatter": "remimarsal.prettier-now"
+		"editor.defaultFormatter": "foxundermoon.shell-format"
 	},
 	"[sql]": {
 		"editor.defaultFormatter": "mtxr.sqltools"
@@ -396,4 +396,5 @@
 	"rust.all_features": true,
 	"explorer.confirmDragAndDrop": false,
 	"go.toolsManagement.autoUpdate": true,
+	"dart.openDevTools": "flutter",
 }
