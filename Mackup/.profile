@@ -35,3 +35,8 @@ fi
 if [ -e /home/darkstar/.nix-profile/etc/profile.d/nix.sh ]; then . /home/darkstar/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 export PATH=$HOME/Devlabs/pkg/kafka_2.12-2.7.0/bin:$PATH
 _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+. "$HOME/.cargo/env"
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
