@@ -8,6 +8,8 @@ ARG USER_GID=${USER_UID}
 ARG GIT_EMAIL
 ARG GIT_USER_NAME
 
+ENV TERM=xterm-256color
+
 COPY .vscode/git.alias /home/${USERNAME}/.git.alias
 COPY .vscode/.gitconfig /home/${USERNAME}/.gitconfig
 
