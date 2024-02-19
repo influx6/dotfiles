@@ -24,8 +24,13 @@ RUN	echo 'source $HOME/.git.alias' >> /home/${USERNAME}/.bashrc \
     && chmod 0440 /etc/sudoers.d/${USERNAME} \
     && chown -R ${USER_UID}:${USER_GID} /home/${USERNAME} \
     && touch /home/${USERNAME}/.git/config \
+    && touch /home/${USERNAME}/.bashrc \
     && git config --global user.email ${GIT_EMAIL} -f /home/${USERNAME}/.git/config \
     && git config --global user.name ${GIT_USER_NAME} -f /home/${USERNAME}/.git/config \
+    && git clone https://github.com/pyenv/pyenv.git /home/${USERNAME}/.pyenv \
+    && echo 'export PYENV_ROOT="$HOME/.pyenv"' >> /home/${USERNAME}/.bashrc \
+    && echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> /home/${USERNAME}/.bashrc \
+    && echo 'eval "$(pyenv init -)"' >> /home/${USERNAME}/.bashrc \
     && echo PS1="'"'\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\ \033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '"'" >>  /home/${USERNAME}/.bashrc
 
 USER ${USERNAME}
