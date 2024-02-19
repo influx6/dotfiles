@@ -1,5 +1,5 @@
-ARG VARIANT=1-bullseye
-FROM mcr.microsoft.com/devcontainers/rust:${VARIANT}
+ARG VARIANT=3.10-bullseye
+FROM mcr.microsoft.com/devcontainers/python:${VARIANT}
 
 ARG USERNAME=ewestudio
 ARG USER_UID=1001

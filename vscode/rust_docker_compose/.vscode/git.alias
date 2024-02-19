@@ -1,0 +1,86 @@
+#!/bin/sh
+
+git config --global user.name "Alexander Ewetumo";
+git config --global user.email "trinoxf@gmail.com";
+
+alias gt="git"
+alias gtadd="git add"
+alias gtall="git add ."
+alias gtb="git branch"
+alias gtm="git merge"
+alias gtstash="git stash"
+alias gtwipe="git stash; git stash drop"
+alias gtrb="git rebase"
+alias gtsh="git show"
+alias gts="git status"
+alias gtdiff="git diff"
+alias gtfetch="git fetch"
+alias gtupdate="git fetch origin"
+alias gtrm="git rm"
+alias gtlog="git log"
+alias gtignore="git reset --hard"
+alias gtundo="git reset --soft"
+alias gtreset="git reset"
+alias gtrs="git reset"
+alias gtclone="git clone"
+alias gtcc="git commit"
+alias gtcnv="git commit --no-verify"
+alias gttag="git tag"
+alias gtc="git checkout"
+alias gtcf="git checkout -f"
+alias gtup="git push --tags origin"
+alias gtupf="git push --tags -f origin"
+alias gtpsh="git push --tags -u origin HEAD"
+alias gtpshf="git push --tags -f"
+alias gtpull="git pull"
+alias gtpullf="git pull -f"
+alias gtsync="git pull origin"
+alias gtsyncf="git pull -f origin"
+
+alias g="git"
+alias gco="git checkout"
+alias gc="git commit"
+alias gr="git reset"
+alias gl="git pull"
+alias gm="git merge"
+alias gp="git push"
+alias gb="git branch"
+alias grb="git rebase"
+alias gcp="git cherry-pick"
+alias gstash="git stash"
+
+gtbr() {
+	echo "Running git checkout "$@" "
+	git checkout -b "$@"
+	echo "Running git push --set-upstream origin "$@""
+	git push --set-upstream origin "$@"
+}
+
+bash_cla() {
+	IFS=' '
+	read -ra ADDR <<< "$@"
+	for i in "${ADDR[@]}"; do
+		git clone "$i"
+	done
+	IFS=' '
+}
+
+zsh_cla() {
+	links="$@"
+	ADDR=("${(@s/ /)links}")
+	for i in "${ADDR[@]}"; do
+		git clone "$i"
+	done
+}
+
+gcla() {
+ 	if [ "$BASH_VERSION" != "" ]; then
+		bash_cla $*
+	fi
+ 	if [ "$ZSH_VERSION" != "" ]; then
+		zsh_cla $*
+	fi
+}
+
+
+

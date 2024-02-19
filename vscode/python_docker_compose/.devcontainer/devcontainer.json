@@ -1,20 +1,39 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
-	"name": "Python 3",
+	"name": "code_dev",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"build": {
-		"dockerfile": "./Dockerfile",
-		"context": "..",
-		"args": {}
+	"dockerComposeFile": "./docker-compose.yml",
+	// the app in docker-compose to use
+	"service": "app",
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "ewestudio",
+	"containerUser": "ewestudio",
+	// The 'workspaceFolder' property is the path VS Code should open by default when
+	// connected. Corresponds to a volume mount in .devcontainer/docker-compose.yml
+	"workspaceFolder": "/workspace",
+	// Use this environment variable if you need to bind mount your local source code into a new container.
+	"remoteEnv": {
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
 	},
+	"mounts": [
+		"source=${localEnv:HOME}/code/,target=/workspaces/code,type=bind,consistency=cached"
+		// "source=${localWorkspaceFolder}/.vscode-server/extensions,target=/home/vscode/.vscode-server/extensions,type=bind,consistency=cached",
+		// "source=${localWorkspaceFolder}/.vscode-server/extensionsCache,target=/home/vscode/.vscode-server/extensionsCache,type=bind,consistency=cached"
+	],
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "",
+	// Customization for vscode settings, extensions
+	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
 			"extensions": [
 				// General extensions
-				// General extensions
 				"tal7aouy.theme",
-				"vscodevim.vim",
 				"codezombiech.gitignore",
 				"vadimcn.vscode-lldb",
 				"usernamehw.errorlens",
@@ -50,7 +69,7 @@
 				"tamasfe.even-better-toml",
 				"Chouzz.vscode-better-align",
 				"dbaeumer.vscode-eslint",
-				// Python specifics extensions
+				// Python specifics extensions	x
 				"ms-python.python",
 				"samuelcolvin.jinjahtml",
 				"matangover.mypy",
@@ -153,6 +172,7 @@
 					"fullScreen": false
 				},
 				"search.exclude": {
+					"**/target": true,
 					"**/node_modules": true,
 					"**/bower_components": true,
 					// Hide everything in /public, except "index.php"
@@ -265,6 +285,9 @@
 						}
 					}
 				},
+				"lldb": {
+					"verboseLogging": true
+				},
 				"workbench": {
 					"fontAliasing": "antialiased",
 					"iconTheme": "vscode-icons",
@@ -291,15 +314,5 @@
 				}
 			}
 		}
-	},
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "pip3 install --user -r requirements.txt",
-	// Configure tool-specific properties.
-	// "customizations": {},
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	"remoteUser": "vscode"
+	}
 }
