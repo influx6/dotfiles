@@ -221,7 +221,7 @@
     {
         "key": "shift+k",
         "command": "editor.action.showHover",
-        "when": "editorTextFocus && neovim.mode != 'insert'"
+        "when": "editorTextFocus && neovim.init &&  neovim.mode != 'insert'"
     },
     {
         "key": "ctrl+k ctrl+i",
@@ -235,7 +235,7 @@
         "args": {
             "text": "\t"
         },
-        "when": "neovim.active && neovim.mode == 'Insert'"
+        "when": "neovim.init && neovim.mode == 'insert'"
     },
     {
         "key": "cmd+k alt+cmd+right",
