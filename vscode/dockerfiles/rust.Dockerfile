@@ -25,9 +25,9 @@ RUN	echo 'source $HOME/.git.alias' >> /home/${USERNAME}/.bashrc \
     && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
     && chmod 0440 /etc/sudoers.d/${USERNAME} \
     && chown -R ${USER_UID}:${USER_GID} /home/${USERNAME} \
-    && touch /home/${USERNAME}/.git/config \
-    && git config --global user.email ${GIT_EMAIL} -f /home/${USERNAME}/.git/config \
-    && git config --global user.name ${GIT_USER_NAME} -f /home/${USERNAME}/.git/config \
+    && touch /home/${USERNAME}/.gitconfig \
+    && git config --global user.email "${GIT_EMAIL}"  \
+    && git config --global user.name "${GIT_USER_NAME}"  \
     && echo PS1="'"'\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\ \033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '"'" >>  /home/${USERNAME}/.bashrc
 
 USER ${USERNAME}
