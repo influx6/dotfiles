@@ -6,7 +6,7 @@
 	"dockerComposeFile": "./docker-compose.yml",
 	// the app in docker-compose to use
 	"service": "app",
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// comment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	"remoteUser": "ewestudio",
 	"containerUser": "ewestudio",
 	// The 'workspaceFolder' property is the path VS Code should open by default when
