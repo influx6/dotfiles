@@ -1334,5 +1334,9 @@
     ],
     "workbench.colorTheme": "Theme Darker",
     "lldb.library": "~/.vsocde/extensions/codelldb/",
-    "firedbg.showWelcome": false
+    "firedbg.showWelcome": false,
+    "extensions.experimental.affinity": {
+        "vscodevim.vim": 1,
+        "asvetliakov.vscode-neovim": 1
+    }
 }
