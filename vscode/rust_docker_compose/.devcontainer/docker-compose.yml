@@ -10,6 +10,8 @@ services:
         USERNAME: ewestudio
         USER_UID: 501
         USER_GID: 20
+        GIT_EMAIL: alex.ewetumo@gmail.com
+        GIT_USER_NAME: "Alexander Ewetumo"
     environment:
       - "PS1=$$(whoami):$$(pwd) $$ "
     networks:
