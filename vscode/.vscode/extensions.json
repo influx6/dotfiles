@@ -1,8 +1,8 @@
 {
     "recommendations": [
         // General extensions
-        "tal7aouy.theme",
-        "vscodevim.vim",
+        "asvetliakov.vscode-neovim",
+        "JulianIaquinandi.nvim-ui-modifier",
         "codezombiech.gitignore",
         "vadimcn.vscode-lldb",
         "usernamehw.errorlens",
@@ -16,10 +16,19 @@
         "ms-vscode.makefile-tools",
         "octref.vetur",
         "formulahendry.auto-close-tag",
+        // themes
+        "tal7aouy.theme",
+        "GitHub.github-vscode-theme",
+        "whizkydee.material-palenight-theme",
+        "BeardedBear.beardedtheme",
+        "dracula-theme.theme-dracula",
+        "enkia.tokyo-night",
         // flexible command runner in rust
         "skellock.just",
         "SeaQL.firedbg-rust",
         // Nice to have cause I will still edit such files
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "GoogleCloudTools.cloudcode",
         "tombonnike.vscode-status-bar-format-toggle",
         "bierner.markdown-preview-github-styles",
         "bierner.markdown-mermaid",
@@ -33,7 +42,6 @@
         "VSpaceCode.whichkey",
         "drcika.apc-extension",
         "amodio.toggle-excluded-files",
-        "asvetliakov.vscode-neovim",
         "mrmlnc.vscode-duplicate",
         "qufiwefefwoyn.inline-sql-syntax",
         "tamasfe.even-better-toml",

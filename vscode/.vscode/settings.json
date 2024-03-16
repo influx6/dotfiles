@@ -279,7 +279,8 @@
         "fontAliasing": "antialiased",
         "iconTheme": "vscode-icons",
         // "colorTheme": "Theme Mix",
-        "colorTheme": "Theme Darker",
+        // "colorTheme": "Theme Darker",
+        "colorTheme": "Tokyo Night Storm",
         "editor": {
             "showTabs": "none",
             "activityBar": {
