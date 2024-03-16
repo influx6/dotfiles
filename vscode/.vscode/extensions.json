@@ -15,6 +15,7 @@
         "CoenraadS.disableligatures",
         "ms-vscode.makefile-tools",
         "octref.vetur",
+        "eamodio.gitlens",
         "formulahendry.auto-close-tag",
         // themes
         "tal7aouy.theme",
@@ -47,10 +48,16 @@
         "tamasfe.even-better-toml",
         "Chouzz.vscode-better-align",
         "dbaeumer.vscode-eslint",
+        // extension packs
+        "fnando.linter",
         // Python specifics extensions
         "ms-python.python",
         "samuelcolvin.jinjahtml",
         "matangover.mypy",
-        "charliermarsh.ruff"
+        "charliermarsh.ruff",
+        "ms-python.flake8",
+        "ms-python.isort",
+        "ms-python.vscode-pylance",
+        "ms-python.pylint",
     ],
 }

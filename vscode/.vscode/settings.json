@@ -71,7 +71,6 @@
             "indentation": false
         },
         "multiCursorModifier": "ctrlCmd",
-        "formatOnSave": true,
         "codeActionsOnSave": {
             "source": {
                 "fixAll": true,
@@ -113,6 +112,7 @@
         "quickSuggestionsDelay": 0,
         // In sublime I got used to almost exclusively using "cmd+shift+v" (format on paste) - now it will do it by default!
         "formatOnPaste": true,
+        "formatOnSave": true,
     },
     "emmet": {
         "includeLanguages": {
@@ -248,6 +248,19 @@
             "--config=${workspaceFolder}/ruff.toml"
         ]
     },
+    "python.analysis.autoImportCompletions": true,
+    "isort.check": true,
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
+    "python.testing.pytestEnabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.formatting.provider": "black",
+    "black-formatter.path": [
+        "black"
+    ],
     "[python]": {
         "testing": {
             "pytestArgs": [
@@ -260,6 +273,7 @@
             "provider": "black",
         },
         "editor": {
+            "formatOnType": true,
             "formatOnSave": true,
             "defaultFormatter": "charliermarsh.ruff",
             // switch to black formatter if you prefer
