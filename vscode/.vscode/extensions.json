@@ -59,5 +59,18 @@
         "ms-python.isort",
         "ms-python.vscode-pylance",
         "ms-python.pylint",
+        // Rust specifics extensions
+        "charliermarsh.ruff",
+        "serayuzgur.crates",
+        "njpwerner.autodocstring",
+        "JScearcy.rust-doc-viewer",
+        "qufiwefefwoyn.inline-sql-syntax",
+        "vadimcn.vscode-lldb",
+        "rust-lang.rust-analyzer",
+        "hbenl.vscode-test-explorer",
+        "swellaby.vscode-rust-test-adapter",
+        "donjayamanne.githistory",
+        "DavidAnson.vscode-markdownlint",
+        "eamodio.gitlens"
     ],
 }
