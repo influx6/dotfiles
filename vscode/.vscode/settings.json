@@ -1343,4 +1343,10 @@
     "csv-preview.lineNumbers": "source",
     "editor.lineNumbers": "relative",
     "zenMode.hideLineNumbers": false,
+    "redhat.telemetry.enabled": true,
+    "workbench.activityBar.location": "hidden",
+    "terminal.integrated.scrollback": 1000000,
+    "[yaml]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
 }

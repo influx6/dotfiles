@@ -1,7 +1,7 @@
 # stop/start/restart yabai
-cmd + alt - s : yabai --start-service; brew services start skhdrc;
-cmd + alt - q : yabai --stop-service; brew services stop skhdrc;
-cmd + alt - r : yabai --restart-service; brew services restart skhdrc;
+cmd + alt - s : yabai --start-service; skhd --restart-service;
+cmd + alt - q : yabai --stop-service; skhd --stop-service;
+cmd + alt - r : yabai --restart-service; skhd --restart-service;
 
 # change focus between external displays (left and right)
 alt - a: yabai -m display --focus west

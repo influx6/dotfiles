@@ -353,6 +353,16 @@
         "when": "!accessibilityHelpIsShown && !accessibleViewIsShown"
     },
     {
+        "key": "tab down",
+        "command": "editor.action.insertCursorBelow",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "tab up",
+        "command": "editor.action.insertCursorAbove",
+        "when": "editorTextFocus"
+    },
+    {
         "key": "alt+tab",
         "command": "type",
         "args": {
@@ -361,12 +371,22 @@
         "when": "terminalFocus"
     },
     {
+        "key": "alt+tab",
+        "command": "workbench.action.showCommands",
+        "when": "neovim.init && neovim.mode == 'insert'"
+    },
+    {
         "key": "tab",
         "command": "type",
         "args": {
             "text": "\t"
         },
         "when": "neovim.init && neovim.mode == 'insert'"
-    }
+    },
+    {
+        "key": "n",
+        "command": "-vscode-neovim.send",
+        "when": "editorTextFocus && neovim.init && focusedView == 'workbench.panel.output' && neovim.mode != 'insert'"
+    },
     // -- Key Customization Overrides ----
 ]

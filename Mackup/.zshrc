@@ -125,3 +125,7 @@ export SDKMAN_DIR="/home/darkstar/.sdkman"
 export SOPS_AGE_KEY_FILE=$HOME/.sops/key.txt
 
 eval "$(atuin init zsh)"
+
+# proto
+export PROTO_HOME="$HOME/.proto"
+export PATH="$PROTO_HOME/shims:$PROTO_HOME/bin:$PATH"
