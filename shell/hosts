@@ -5,8 +5,22 @@
 # when the system is booting.  Do not change this entry.
 ##
 127.0.0.1	localhost
+
 255.255.255.255	broadcasthost
 ::1             localhost
+
+# Added by Docker Desktop
+# To allow the same kube context to work on the host and the container:
+127.0.0.1 kubernetes.docker.internal
+# End of section127.0.0.1 localhost
+127.0.1.1 darkvoid-ASUS-TUF-Gaming-A15-FA506IU-FA506IU
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
 
 192.168.128.148 dark-arm-slave-2
 192.168.128.148 dark-arm-2
@@ -33,7 +47,3 @@
 192.168.128.125 dark-tower
 192.168.128.125 dark-tower.local
 
-# Added by Docker Desktop
-# To allow the same kube context to work on the host and the container:
-127.0.0.1 kubernetes.docker.internal
-# End of section

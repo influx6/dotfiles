@@ -11,6 +11,7 @@ export Dotfiles="$HOME/Labs/ewestudios/dotfiles"
 echo "Sourcing shell files"
 
 source $Dotfiles/shell/sops
+source $Dotfiles/shell/omakub
 source $Dotfiles/shell/exits
 source $Dotfiles/shell/ca
 source $Dotfiles/shell/paths
