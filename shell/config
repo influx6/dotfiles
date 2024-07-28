@@ -1,10 +1,14 @@
 #!/bin/env bash
 
-# Add more using 'source $HOME/Devlabs/cmd/@PATH'
-
+alias docker-compose="docker compose"
+alias copy-buffer="xclip -selection clipboard"
+alias paste-buffer="xclip -selection clipboard -o"
 
 export LANG=en_US.UTF-8
+
 export Dotfiles="$HOME/Labs/ewestudios/dotfiles"
+
+echo "Sourcing shell files"
 
 source $Dotfiles/shell/sops
 source $Dotfiles/shell/exits

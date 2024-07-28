@@ -1,8 +1,8 @@
 #!/bin/env bash
 
 export GEM_HOME=$HOME/.gems
-export Devlabs=$HOME/Devlabs
-export DOTFILES=$HOME/dotfiles
+export Devlabs=$HOME/Labs
+
 export Local=$HOME/local
 export SRC=$Devlabs/src
 export GOBASE=$HOME/go
@@ -58,7 +58,6 @@ export PATH=$HOME/.local/go/bin:/usr/local/go/bin:$HOME/Lab/bin:$NODE_MODULES/bi
 export PATH=$ANDROID_TOOLS_BIN:$HOME/Devlabs/bin:$ANDROID_SDK_BIN:$HOME/Devlabs/flutter/bin:$HOME/Devlabs/local/bin:$HOME/Devlabs/local/sbin/bin:$HOME/Devlabs/local/sbin/go/bin:$PATH
 
 export PATH="$PATH:$HOME/.rvm/bin"
-export Dotfiles=$HOME/dotfiles
 
 export EDITOR='vim'
 alias pbcopy='xclip -selection clipboard'
