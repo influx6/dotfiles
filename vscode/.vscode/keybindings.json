@@ -364,16 +364,13 @@
     },
     {
         "key": "alt+tab",
-        "command": "type",
-        "args": {
-            "text": "\t"
-        },
-        "when": "terminalFocus"
-    },
-    {
-        "key": "alt+tab",
         "command": "workbench.action.showCommands",
         "when": "neovim.init && neovim.mode == 'insert'"
+    },
+    {
+        "key": "n",
+        "command": "-vscode-neovim.send",
+        "when": "editorTextFocus && neovim.init && focusedView == 'workbench.panel.output' && neovim.mode != 'insert'"
     },
     {
         "key": "tab",
@@ -384,9 +381,30 @@
         "when": "neovim.init && neovim.mode == 'insert'"
     },
     {
-        "key": "n",
+        "key": "alt+tab",
+        "command": "type",
+        "args": {
+            "text": "\t"
+        },
+        "when": "terminalFocus"
+    },
+    {
+        "key": "tab enter",
+        "command": "type",
+        "args": {
+            "text": "\t"
+        },
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+z",
         "command": "-vscode-neovim.send",
-        "when": "editorTextFocus && neovim.init && focusedView == 'workbench.panel.output' && neovim.mode != 'insert'"
+        "when": "editorTextFocus && neovim.ctrlKeysNormal.z && neovim.init && neovim.mode != 'insert' && editorLangId not in 'neovim.editorLangIdExclusions'"
+    },
+    {
+        "key": "ctrl+z",
+        "command": "-vscode-neovim.send",
+        "when": "editorTextFocus && neovim.ctrlKeysInsert.z && neovim.init && neovim.mode == 'insert' && editorLangId not in 'neovim.editorLangIdExclusions'"
     },
     // -- Key Customization Overrides ----
 ]

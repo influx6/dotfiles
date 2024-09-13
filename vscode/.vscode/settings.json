@@ -311,7 +311,7 @@
       "darwin": "$HOME/.config/nvim-vscode/init.vim"
     },
     "neovimExecutablePaths": {
-      "darwin": "/opt/homebrew/bin/nvim"
+      "darwin": "/home/linuxbrew/.linuxbrew/bin/nvim"
     }
   },
   // APC customizations
@@ -1351,4 +1351,10 @@
   },
   "window.customTitleBarVisibility": "show",
   "window.menuBarVisibility": "toggle",
+  "vs-kubernetes": {
+    "vscode-kubernetes.helm-path-linux": "/home/darkvoid/.local/state/vs-kubernetes/tools/helm/linux-amd64/helm",
+    "vscode-kubernetes.minikube-path-linux": "/home/darkvoid/.local/state/vs-kubernetes/tools/minikube/linux-amd64/minikube",
+    "vscode-kubernetes.kubectl-path-linux": "/home/darkvoid/.local/state/vs-kubernetes/tools/kubectl/kubectl"
+  },
+  "makefile.configureOnOpen": true,
 }

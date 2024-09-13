@@ -17,6 +17,7 @@ source $Dotfiles/shell/ca
 source $Dotfiles/shell/paths
 source $Dotfiles/shell/brew
 source $Dotfiles/shell/alias
+source $Dotfiles/shell/mise
 source $Dotfiles/shell/cargo
 source $Dotfiles/shell/pyenv
 source $Dotfiles/shell/deno

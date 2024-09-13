@@ -1,0 +1,3 @@
+#!/bin/bash
+
+source <(_YKMAN_COMPLETE=bash_source ykman | sudo tee /etc/bash_completion.d/ykman)

@@ -1,4 +1,4 @@
 ---
 - name: get controller ssh pub key
   set_fact:
-    host_ssh_pub: "{{ lookup('file', controller_ssh_file) }}"
+    host_ssh_pub: "{{ lookup('file', machine_ssh_file) }}"
