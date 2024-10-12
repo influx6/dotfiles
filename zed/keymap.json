@@ -13,10 +13,17 @@
     }
   },
   {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "shift-r": "editor::Rename"
+    }
+  },
+  {
     "context": "Editor",
     "bindings": {
       // "j k": ["workspace::SendKeystrokes", "escape"]
-      //"alt r": "editor::Rename"
+      "tab /": "editor::ToggleCodeActions",
+      "tab r": "editor::Rename",
       "escape": "editor::Cancel",
       "backspace": "editor::Backspace",
       "shift-backspace": "editor::Backspace",
@@ -36,20 +43,20 @@
       "ctrl-y": "editor::Redo",
       "ctrl-z": "editor::Undo",
       "ctrl-shift-z": "editor::Redo",
-      "up": "editor::MoveUp",
       "ctrl-up": "editor::LineUp",
       "ctrl-down": "editor::LineDown",
       "pageup": "editor::MovePageUp",
       "alt-pageup": "editor::PageUp",
       "shift-pageup": "editor::SelectPageUp",
       "home": "editor::MoveToBeginningOfLine",
-      "down": "editor::MoveDown",
       "pagedown": "editor::MovePageDown",
       "alt-pagedown": "editor::PageDown",
       "shift-pagedown": "editor::SelectPageDown",
       "end": "editor::MoveToEndOfLine",
-      "left": "editor::MoveLeft",
-      "right": "editor::MoveRight",
+      // "down": "editor::MoveDown",
+      // "up": "editor::MoveUp",
+      // "left": "editor::MoveLeft",
+      // "right": "editor::MoveRight",
       "ctrl-left": "editor::MoveToPreviousWordStart",
       "ctrl-right": "editor::MoveToNextWordEnd",
       "ctrl-home": "editor::MoveToBeginning",
@@ -112,7 +119,7 @@
   {
     "context": "Editor && mode == full",
     "bindings": {
-      "enter": "editor::Newline",
+      // "enter": "editor::Newline",
       "shift-enter": "editor::Newline",
       "ctrl-enter": "editor::NewlineAbove",
       "ctrl-shift-enter": "editor::NewlineBelow",

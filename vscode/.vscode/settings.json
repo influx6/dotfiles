@@ -1357,4 +1357,7 @@
     "vscode-kubernetes.kubectl-path-linux": "/home/darkvoid/.local/state/vs-kubernetes/tools/kubectl/kubectl"
   },
   "makefile.configureOnOpen": true,
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
 }
