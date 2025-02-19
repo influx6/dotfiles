@@ -1,0 +1,165 @@
+    OpenRGB v0.91
+    Commit: d5ef41bb80f443ab0872211b3109d037912d3c3a from 2024-10-09 02:34:08 +0000
+    Launched: 20241101_074152
+====================================================================================================
+
+55    |Info:    Initializing HID interfaces: Success
+55    |Info:    ------------------------------------------------------
+55    |Info:    |               Start device detection               |
+55    |Info:    ------------------------------------------------------
+62    |Info:    ------------------------------------------------------
+62    |Info:    |             Detecting I2C interfaces               |
+62    |Info:    ------------------------------------------------------
+62    |Info:    Registering I2C interface: /dev/i2c-3 Device 1002:164E Subsystem: 1849:364E
+62    |Info:    Registering I2C interface: /dev/i2c-10 Device 1022:790B Subsystem: 1849:790B
+62    |Info:    Registering I2C interface: /dev/i2c-1 Device 0000:0000 Subsystem: 0000:0000
+62    |Info:    Registering I2C interface: /dev/i2c-17 Device 10DE:2689 Subsystem: 1043:89B9
+62    |Warning: [i2c_smbus_linux] Failed to read i2c device PCI device ID
+62    |Info:    Registering I2C interface: /dev/i2c-8 Device 0000:0000 Subsystem: 0000:0000
+62    |Info:    Registering I2C interface: /dev/i2c-15 Device 10DE:2689 Subsystem: 1043:89B9
+62    |Warning: [i2c_smbus_linux] Failed to read i2c device PCI device ID
+62    |Info:    Registering I2C interface: /dev/i2c-6 Device 0000:0000 Subsystem: 0000:0000
+62    |Info:    Registering I2C interface: /dev/i2c-13 Device 10DE:2689 Subsystem: 1043:89B9
+62    |Info:    Registering I2C interface: /dev/i2c-4 Device 1002:164E Subsystem: 1849:364E
+62    |Info:    Registering I2C interface: /dev/i2c-11 Device 1022:790B Subsystem: 1849:790B
+62    |Info:    Registering I2C interface: /dev/i2c-2 Device 1002:164E Subsystem: 1849:364E
+63    |Info:    Registering I2C interface: /dev/i2c-0 Device 0000:0000 Subsystem: 0000:0000
+63    |Info:    Registering I2C interface: /dev/i2c-9 Device 1022:790B Subsystem: 1849:790B
+63    |Info:    Registering I2C interface: /dev/i2c-16 Device 10DE:2689 Subsystem: 1043:89B9
+63    |Warning: [i2c_smbus_linux] Failed to read i2c device PCI device ID
+63    |Info:    Registering I2C interface: /dev/i2c-7 Device 0000:0000 Subsystem: 0000:0000
+63    |Info:    Registering I2C interface: /dev/i2c-14 Device 10DE:2689 Subsystem: 1043:89B9
+63    |Info:    Registering I2C interface: /dev/i2c-5 Device 1002:164E Subsystem: 1849:364E
+63    |Warning: [i2c_smbus_linux] Failed to read i2c device PCI device ID
+63    |Info:    Registering I2C interface: /dev/i2c-MSFT8000:00 Device 0000:0000 Subsystem: 0000:0000
+63    |Info:    Registering I2C interface: /dev/i2c-12 Device 10DE:2689 Subsystem: 1043:89B9
+63    |Info:    ------------------------------------------------------
+63    |Info:    |               Detecting I2C devices                |
+63    |Info:    ------------------------------------------------------
+1147  |Info:    ------------------------------------------------------
+1147  |Info:    |               Detecting I2C PCI devices            |
+1147  |Info:    ------------------------------------------------------
+1148  |Info:    ------------------------------------------------------
+1148  |Info:    |               Detecting HID devices                |
+1148  |Info:    ------------------------------------------------------
+1149  |Info:    [Keychron Gaming Keyboard 1] Registering RGB controller
+1175  |Info:    [ASRock X870 Pro RS] Registering RGB controller
+1175  |Info:    ------------------------------------------------------
+1175  |Info:    |            Detecting libusb HID devices            |
+1175  |Info:    ------------------------------------------------------
+1175  |Info:    ------------------------------------------------------
+1175  |Info:    |              Detecting other devices               |
+1175  |Info:    ------------------------------------------------------
+1191  |Info:    [ResourceManager] Calling Post-detection callbacks
+1191  |Info:    ------------------------------------------------------
+1191  |Info:    |                Detection completed                 |
+1191  |Info:    ------------------------------------------------------
+1191  |Dialog:  <h2>Some internal devices may not be detected:</h2><p>One or more I2C or SMBus interfaces failed to initialize.</p><p><b>RGB DRAM modules, some motherboards' onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB</b> without I2C or SMBus.</p><h4>How to fix this:</h4><p>On Linux, this is usually because the i2c-dev module is not loaded.</p><p>You must load the i2c-dev module along with the correct i2c driver for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.</p><p>See <a href='https://help.openrgb.org/'>help.openrgb.org</a> for additional troubleshooting steps if you keep seeing this message.<br></p><h3>If you are not using internal RGB on a desktop this message is not important to you.</h3>
+184313|Info:    NetworkServer: Network connection thread started on port 6742
+196399|Info:    Initializing HID interfaces: Success
+196399|Info:    ------------------------------------------------------
+196399|Info:    |               Start device detection               |
+196399|Info:    ------------------------------------------------------
+196406|Info:    ------------------------------------------------------
+196406|Info:    |             Detecting I2C interfaces               |
+196406|Info:    ------------------------------------------------------
+196406|Info:    Registering I2C interface: /dev/i2c-3 Device 1002:164E Subsystem: 1849:364E
+196406|Info:    Registering I2C interface: /dev/i2c-10 Device 1022:790B Subsystem: 1849:790B
+196406|Info:    Registering I2C interface: /dev/i2c-1 Device 0000:0000 Subsystem: 0000:0000
+196406|Info:    Registering I2C interface: /dev/i2c-17 Device 10DE:2689 Subsystem: 1043:89B9
+196406|Warning: [i2c_smbus_linux] Failed to read i2c device PCI device ID
+196406|Info:    Registering I2C interface: /dev/i2c-8 Device 0000:0000 Subsystem: 0000:0000
+196406|Info:    Registering I2C interface: /dev/i2c-15 Device 10DE:2689 Subsystem: 1043:89B9
+196407|Warning: [i2c_smbus_linux] Failed to read i2c device PCI device ID
+196407|Info:    Registering I2C interface: /dev/i2c-6 Device 0000:0000 Subsystem: 0000:0000
+196407|Info:    Registering I2C interface: /dev/i2c-13 Device 10DE:2689 Subsystem: 1043:89B9
+196407|Info:    Registering I2C interface: /dev/i2c-4 Device 1002:164E Subsystem: 1849:364E
+196407|Info:    Registering I2C interface: /dev/i2c-11 Device 1022:790B Subsystem: 1849:790B
+196407|Info:    Registering I2C interface: /dev/i2c-2 Device 1002:164E Subsystem: 1849:364E
+196407|Info:    Registering I2C interface: /dev/i2c-0 Device 0000:0000 Subsystem: 0000:0000
+196407|Info:    Registering I2C interface: /dev/i2c-9 Device 1022:790B Subsystem: 1849:790B
+196407|Info:    Registering I2C interface: /dev/i2c-16 Device 10DE:2689 Subsystem: 1043:89B9
+196417|Warning: [i2c_smbus_linux] Failed to read i2c device PCI device ID
+196417|Info:    Registering I2C interface: /dev/i2c-7 Device 0000:0000 Subsystem: 0000:0000
+196418|Info:    Registering I2C interface: /dev/i2c-14 Device 10DE:2689 Subsystem: 1043:89B9
+196418|Info:    Registering I2C interface: /dev/i2c-5 Device 1002:164E Subsystem: 1849:364E
+196418|Warning: [i2c_smbus_linux] Failed to read i2c device PCI device ID
+196418|Info:    Registering I2C interface: /dev/i2c-MSFT8000:00 Device 0000:0000 Subsystem: 0000:0000
+196418|Info:    Registering I2C interface: /dev/i2c-12 Device 10DE:2689 Subsystem: 1043:89B9
+196418|Info:    ------------------------------------------------------
+196418|Info:    |               Detecting I2C devices                |
+196418|Info:    ------------------------------------------------------
+197497|Info:    ------------------------------------------------------
+197497|Info:    |               Detecting I2C PCI devices            |
+197497|Info:    ------------------------------------------------------
+197500|Info:    ------------------------------------------------------
+197500|Info:    |               Detecting HID devices                |
+197501|Info:    ------------------------------------------------------
+197501|Info:    [Keychron Gaming Keyboard 1] Registering RGB controller
+197526|Info:    [ASRock X870 Pro RS] Registering RGB controller
+197526|Info:    ------------------------------------------------------
+197526|Info:    |            Detecting libusb HID devices            |
+197526|Info:    ------------------------------------------------------
+197526|Info:    ------------------------------------------------------
+197526|Info:    |              Detecting other devices               |
+197526|Info:    ------------------------------------------------------
+197527|Info:    [ResourceManager] Calling Post-detection callbacks
+197527|Info:    ------------------------------------------------------
+197527|Info:    |                Detection completed                 |
+197527|Info:    ------------------------------------------------------
+197527|Dialog:  <h2>Some internal devices may not be detected:</h2><p>One or more I2C or SMBus interfaces failed to initialize.</p><p><b>RGB DRAM modules, some motherboards' onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB</b> without I2C or SMBus.</p><h4>How to fix this:</h4><p>On Linux, this is usually because the i2c-dev module is not loaded.</p><p>You must load the i2c-dev module along with the correct i2c driver for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.</p><p>See <a href='https://help.openrgb.org/'>help.openrgb.org</a> for additional troubleshooting steps if you keep seeing this message.<br></p><h3>If you are not using internal RGB on a desktop this message is not important to you.</h3>
+203203|Info:    NetworkServer: Network server started
+414874|Info:    Initializing HID interfaces: Success
+414874|Info:    ------------------------------------------------------
+414874|Info:    |               Start device detection               |
+414874|Info:    ------------------------------------------------------
+414881|Info:    ------------------------------------------------------
+414881|Info:    |             Detecting I2C interfaces               |
+414881|Info:    ------------------------------------------------------
+414881|Info:    Registering I2C interface: /dev/i2c-3 Device 1002:164E Subsystem: 1849:364E
+414881|Info:    Registering I2C interface: /dev/i2c-10 Device 1022:790B Subsystem: 1849:790B
+414881|Info:    Registering I2C interface: /dev/i2c-1 Device 0000:0000 Subsystem: 0000:0000
+414881|Info:    Registering I2C interface: /dev/i2c-17 Device 10DE:2689 Subsystem: 1043:89B9
+414881|Warning: [i2c_smbus_linux] Failed to read i2c device PCI device ID
+414881|Info:    Registering I2C interface: /dev/i2c-8 Device 0000:0000 Subsystem: 0000:0000
+414882|Info:    Registering I2C interface: /dev/i2c-15 Device 10DE:2689 Subsystem: 1043:89B9
+414882|Warning: [i2c_smbus_linux] Failed to read i2c device PCI device ID
+414882|Info:    Registering I2C interface: /dev/i2c-6 Device 0000:0000 Subsystem: 0000:0000
+414882|Info:    Registering I2C interface: /dev/i2c-13 Device 10DE:2689 Subsystem: 1043:89B9
+414882|Info:    Registering I2C interface: /dev/i2c-4 Device 1002:164E Subsystem: 1849:364E
+414882|Info:    Registering I2C interface: /dev/i2c-11 Device 1022:790B Subsystem: 1849:790B
+414882|Info:    Registering I2C interface: /dev/i2c-2 Device 1002:164E Subsystem: 1849:364E
+414882|Info:    Registering I2C interface: /dev/i2c-0 Device 0000:0000 Subsystem: 0000:0000
+414882|Info:    Registering I2C interface: /dev/i2c-9 Device 1022:790B Subsystem: 1849:790B
+414882|Info:    Registering I2C interface: /dev/i2c-16 Device 10DE:2689 Subsystem: 1043:89B9
+414882|Warning: [i2c_smbus_linux] Failed to read i2c device PCI device ID
+414882|Info:    Registering I2C interface: /dev/i2c-7 Device 0000:0000 Subsystem: 0000:0000
+414882|Info:    Registering I2C interface: /dev/i2c-14 Device 10DE:2689 Subsystem: 1043:89B9
+414882|Info:    Registering I2C interface: /dev/i2c-5 Device 1002:164E Subsystem: 1849:364E
+414882|Warning: [i2c_smbus_linux] Failed to read i2c device PCI device ID
+414882|Info:    Registering I2C interface: /dev/i2c-MSFT8000:00 Device 0000:0000 Subsystem: 0000:0000
+414882|Info:    Registering I2C interface: /dev/i2c-12 Device 10DE:2689 Subsystem: 1043:89B9
+414882|Info:    ------------------------------------------------------
+414882|Info:    |               Detecting I2C devices                |
+414882|Info:    ------------------------------------------------------
+415958|Info:    ------------------------------------------------------
+415958|Info:    |               Detecting I2C PCI devices            |
+415958|Info:    ------------------------------------------------------
+415960|Info:    ------------------------------------------------------
+415960|Info:    |               Detecting HID devices                |
+415960|Info:    ------------------------------------------------------
+415960|Info:    [Keychron Gaming Keyboard 1] Registering RGB controller
+416043|Info:    [ASRock X870 Pro RS] Registering RGB controller
+416043|Info:    ------------------------------------------------------
+416043|Info:    |            Detecting libusb HID devices            |
+416043|Info:    ------------------------------------------------------
+416043|Info:    ------------------------------------------------------
+416043|Info:    |              Detecting other devices               |
+416043|Info:    ------------------------------------------------------
+416044|Info:    [ResourceManager] Calling Post-detection callbacks
+416044|Info:    ------------------------------------------------------
+416044|Info:    |                Detection completed                 |
+416044|Info:    ------------------------------------------------------
+416044|Dialog:  <h2>Some internal devices may not be detected:</h2><p>One or more I2C or SMBus interfaces failed to initialize.</p><p><b>RGB DRAM modules, some motherboards' onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB</b> without I2C or SMBus.</p><h4>How to fix this:</h4><p>On Linux, this is usually because the i2c-dev module is not loaded.</p><p>You must load the i2c-dev module along with the correct i2c driver for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.</p><p>See <a href='https://help.openrgb.org/'>help.openrgb.org</a> for additional troubleshooting steps if you keep seeing this message.<br></p><h3>If you are not using internal RGB on a desktop this message is not important to you.</h3>
+473923|Info:    Found file: Low.orp attempting to validate header
+473923|Info:    Valid v4 profile found for Low

@@ -1,0 +1,7 @@
+[tools]
+ruby = "3.3"
+node = "lts"
+go = "latest"
+python = "latest"
+erlang = "latest"
+elixir = "latest"

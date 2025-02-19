@@ -7,19 +7,26 @@ alias paste-buffer="xclip -selection clipboard -o"
 export LANG=en_US.UTF-8
 
 export Dotfiles="$HOME/Labs/ewestudios/dotfiles"
+export DOTFILES=$Dotfiles
 
 echo "Sourcing shell files"
 
+# load functions first
+source $Dotfiles/shell/functions
+
+# then others
 source $Dotfiles/shell/sops
 source $Dotfiles/shell/omakub
+source $Dotfiles/shell/donet
 source $Dotfiles/shell/exits
 source $Dotfiles/shell/ca
 source $Dotfiles/shell/paths
+source $Dotfiles/shell/direnv
 source $Dotfiles/shell/brew
 source $Dotfiles/shell/alias
 source $Dotfiles/shell/mise
 source $Dotfiles/shell/cargo
-source $Dotfiles/shell/pyenv
+# source $Dotfiles/shell/pyenv
 source $Dotfiles/shell/deno
 source $Dotfiles/shell/ssh
 source $Dotfiles/shell/sha
@@ -28,7 +35,6 @@ source $Dotfiles/shell/git
 source $Dotfiles/shell/kubectl
 source $Dotfiles/shell/net
 source $Dotfiles/shell/android
-source $Dotfiles/shell/functions
 source $Dotfiles/shell/docker
 source $Dotfiles/shell/microk8s
 source $Dotfiles/shell/python
@@ -38,6 +44,7 @@ source $Dotfiles/shell/ssh-agent
 source $Dotfiles/shell/ansible
 source $Dotfiles/shell/nodejs
 source $Dotfiles/shell/rust
-source $Dotfiles/shell/rbenv
+# source $Dotfiles/shell/rbenv
 source $Dotfiles/shell/wasm
 source $Dotfiles/shell/youtube
+source $Dotfiles/shell/nvidia

@@ -1,0 +1,11 @@
+#!/bin/bash│
+
+ln -s ~/Labs/ewestudios/dotfiles/nvim ~/.config/nvim                                                     │
+│ln -s ~/Labs/ewestudios/dotfiles/helix ~/.config/helix                                                   │
+│ln -s ~/Labs/ewestudios/dotfiles/alacritty ~/.config/alacritty                                           │
+│ln -s ~/Labs/ewestudios/dotfiles/mise ~/.config/mise                                                     │
+│ln -s ~/Labs/ewestudios/dotfiles/OpenRGB/ ~/.config/OpenRGB                                              │
+│ln -s ~/Labs/ewestudios/dotfiles/Typora/ ~/.config/Typora                                                │
+│ln -s ~/Labs/ewestudios/dotfiles/ulauncher ~/.config/ulauncher                                           │
+│ln -s ~/Labs/ewestudios/dotfiles/zellij ~/.config/zellij                                                 │
+│ln -s ~/Labs/ewestudios/dotfiles/fastfetch ~/.config/fastfetch 

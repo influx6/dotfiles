@@ -1,8 +1,7 @@
 #!/bin/bash
 
-if  ! command -v 'argon2-cli' &> /dev/null
-then
-  if command -v 'npm' &> /dev/null; then
+if  no_command 'argon2-cli'; then
+  if no_command npm; then
      npm install -g argon2-cli
   fi
 fi

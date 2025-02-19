@@ -7,12 +7,6 @@
 // from the command palette.
 [
   {
-    "context": "Workspace",
-    "bindings": {
-      // "shift shift": "file_finder::Toggle"
-    }
-  },
-  {
     "context": "ProjectPanel && not_editing",
     "bindings": {
       "shift-r": "editor::Rename"
@@ -22,6 +16,17 @@
     "context": "Editor",
     "bindings": {
       // "j k": ["workspace::SendKeystrokes", "escape"]
+      // "ctrl-t": "editor::Transpose",
+      // "down": "editor::MoveDown",
+      // "up": "editor::MoveUp",
+      // "left": "editor::MoveLeft",
+      // "right": "editor::MoveRight",
+      // "ctrl-alt-b": "editor::MoveToPreviousSubwordStart",
+      // "alt-v": ["editor::MovePageUp", { "center_cursor": true }],
+      // "cmd-shift-left": ["editor::SelectToBeginningOfLine", {"stop_at_soft_wraps": true }],
+      // "ctrl-shift-a": ["editor::SelectToBeginningOfLine", { "stop_at_soft_wraps": true }],
+      // "cmd-shift-right": ["editor::SelectToEndOfLine", { "stop_at_soft_wraps": true }],
+      // "ctrl-shift-e": ["editor::SelectToEndOfLine", { "stop_at_soft_wraps": true }],
       "tab /": "editor::ToggleCodeActions",
       "tab r": "editor::Rename",
       "escape": "editor::Cancel",
@@ -31,7 +36,6 @@
       "tab": "editor::Tab",
       "shift-tab": "editor::TabPrev",
       "ctrl-k": "editor::CutToEndOfLine",
-      // "ctrl-t": "editor::Transpose",
       "ctrl-backspace": "editor::DeleteToPreviousWordStart",
       "ctrl-delete": "editor::DeleteToNextWordEnd",
       "shift-delete": "editor::Cut",
@@ -53,10 +57,6 @@
       "alt-pagedown": "editor::PageDown",
       "shift-pagedown": "editor::SelectPageDown",
       "end": "editor::MoveToEndOfLine",
-      // "down": "editor::MoveDown",
-      // "up": "editor::MoveUp",
-      // "left": "editor::MoveLeft",
-      // "right": "editor::MoveRight",
       "ctrl-left": "editor::MoveToPreviousWordStart",
       "ctrl-right": "editor::MoveToNextWordEnd",
       "ctrl-home": "editor::MoveToBeginning",
@@ -72,19 +72,8 @@
       "ctrl-a": "editor::SelectAll",
       "ctrl-l": "editor::SelectLine",
       "ctrl-shift-i": "editor::Format",
-      // "cmd-shift-left": ["editor::SelectToBeginningOfLine", {"stop_at_soft_wraps": true }],
-      "shift-home": [
-        "editor::SelectToBeginningOfLine",
-        { "stop_at_soft_wraps": true }
-      ],
-      // "ctrl-shift-a": ["editor::SelectToBeginningOfLine", { "stop_at_soft_wraps": true }],
-      // "cmd-shift-right": ["editor::SelectToEndOfLine", { "stop_at_soft_wraps": true }],
-      "shift-end": [
-        "editor::SelectToEndOfLine",
-        { "stop_at_soft_wraps": true }
-      ],
-      // "ctrl-shift-e": ["editor::SelectToEndOfLine", { "stop_at_soft_wraps": true }],
-      // "alt-v": ["editor::MovePageUp", { "center_cursor": true }],
+      "shift-home": ["editor::SelectToBeginningOfLine", { "stop_at_soft_wraps": true }],
+      "shift-end": ["editor::SelectToEndOfLine", { "stop_at_soft_wraps": true }],
       "ctrl-alt-space": "editor::ShowCharacterPalette",
       "ctrl-;": "editor::ToggleLineNumbers",
       "ctrl-k ctrl-r": "editor::RevertSelectedHunks",
@@ -96,6 +85,8 @@
       "tab shift-z": "editor::ToggleSoftWrap",
       "tab b": "buffer_search::Deploy",
       "tab shift-b": ["buffer_search::Deploy", { "replace_enabled": true }],
+      "tab shift-f": "pane::DeploySearch",
+      "tab shift-r": ["pane::DeploySearch", { "replace_enabled": true }],
       "tab a": "editor::SelectAll", // conflicts with readline
       "tab t": "terminal_panel::ToggleFocus",
       "tab q": "pane::CloseActiveItem",
@@ -107,7 +98,6 @@
       "ctrl-alt-delete": "editor::DeleteToNextSubwordEnd",
       "ctrl-alt-d": "editor::DeleteToNextSubwordEnd",
       "ctrl-alt-left": "editor::MoveToPreviousSubwordStart",
-      // "ctrl-alt-b": "editor::MoveToPreviousSubwordStart",
       "ctrl-alt-right": "editor::MoveToNextSubwordEnd",
       "ctrl-alt-f": "editor::MoveToNextSubwordEnd",
       "ctrl-alt-shift-left": "editor::SelectToPreviousSubwordStart",
@@ -120,13 +110,15 @@
     "context": "Editor && mode == full",
     "bindings": {
       // "enter": "editor::Newline",
+      // "cmd-e": ["buffer_search::Deploy", { "focus": false }],
       "shift-enter": "editor::Newline",
       "ctrl-enter": "editor::NewlineAbove",
       "ctrl-shift-enter": "editor::NewlineBelow",
-      "alt-z": "editor::ToggleSoftWrap",
-      "ctrl-f": "buffer_search::Deploy",
-      "ctrl-h": ["buffer_search::Deploy", { "replace_enabled": true }],
-      // "cmd-e": ["buffer_search::Deploy", { "focus": false }],
+      "tab shift-z": "editor::ToggleSoftWrap",
+      // "tab b": "buffer_search::Deploy",
+      // "tab shift-b": ["buffer_search::Deploy", { "replace_enabled": true }],
+      // "tab shift-f": "pane::DeploySearch",
+      // "tab shift-r": ["pane::DeploySearch", { "replace_enabled": true }],
       "ctrl->": "assistant::QuoteSelection",
       "ctrl-<": "assistant::InsertIntoEditor",
       "ctrl-alt-e": "editor::SelectEnclosingSymbol"
@@ -141,23 +133,46 @@
     }
   },
   {
+    "context": "Editor && showing_completions",
+    "use_key_equivalents": true,
+    "bindings": {
+      "enter": "editor::ConfirmCompletion",
+      "tab c": "editor::ComposeCompletion"
+    }
+  },
+  {
+    "context": "Editor && inline_completion && !showing_completions",
+    "use_key_equivalents": true,
+    "bindings": {
+      "enter": "editor::AcceptInlineCompletion"
+    }
+  },
+  {
+    "context": "Editor && showing_code_actions",
+    "bindings": {
+      "enter": "editor::ConfirmCodeAction"
+    }
+  },
+  {
     "context": "Workspace",
     "bindings": {
       // "shift shift": "file_finder::Toggle"
       "tab t": "project_symbols::Toggle",
       "tab f": "file_finder::Toggle",
       "tab a": "tab_switcher::Toggle",
-      "tab s": ["tab_switcher::Toggle", { "select_last": true }],
-      "tab shift-f": "pane::DeploySearch",
       "tab e": "project_panel::ToggleFocus",
-      "tab b": "outline_panel::ToggleFocus",
+      "tab o": "outline_panel::ToggleFocus",
+      "tab b": "buffer_search::Deploy",
+      "tab shift-b": ["buffer_search::Deploy", { "replace_enabled": true }],
+      "tab shift-f": "pane::DeploySearch",
+      "tab shift-r": ["pane::DeploySearch", { "replace_enabled": true }],
+      "tab s": ["tab_switcher::Toggle", { "select_last": true }],
       "tab x": "zed::Extensions",
       "alt-t": "task::Rerun",
       "alt-shift-t": "task::Spawn",
       "tab ?": "assistant::ToggleFocus",
       "ctrl-alt-s": "workspace::SaveAll",
       "tab m": "diagnostics::Deploy",
-      "tab shift-r": ["pane::DeploySearch", { "replace_enabled": true }],
       "tab tab": "command_palette::Toggle",
       "tab h": ["workspace::ActivatePaneInDirection", "Left"],
       "tab l": ["workspace::ActivatePaneInDirection", "Right"],
@@ -183,9 +198,11 @@
     "context": "Pane",
     "bindings": {
       // closers
+      // search whole project
+      // "tab alt-f": "project_search::ToggleFocus",
+      // "tab alt-g": ["project_search::ToggleFocus", { "replace_enabled": true }],
       "ctrl-w": "pane::CloseActiveItem",
       "tab q": "pane::CloseActiveItem",
-      // search whole project
       "ctrl-shift-f": "project_search::ToggleFocus",
       "ctrl-alt-g": "search::SelectNextMatch",
       "ctrl-alt-shift-g": "search::SelectPrevMatch",
@@ -231,6 +248,7 @@
   {
     "context": "Terminal",
     "bindings": {
+      // "tab-a": "editor::SelectAll", // conflicts with readline
       "tab t": "terminal_panel::ToggleFocus",
       "ctrl-alt-space": "terminal::ShowCharacterPalette",
       "ctrl-c": "terminal::Copy",
@@ -239,10 +257,9 @@
       "tab b": "buffer_search::Deploy",
       "ctrl-shift-l": "terminal::Clear",
       "ctrl-shift-w": "pane::CloseActiveItem",
-      // "tab-a": "editor::SelectAll", // conflicts with readline
       "shift-insert": "terminal::Paste",
       "ctrl-enter": "assistant::InlineAssist",
-      "alt-a": ["terminal::SendText", "\t"],
+      "alt-tab": ["terminal::SendText", "\t"],
       "ctrl-w": ["terminal::SendKeystroke", "ctrl-w"],
       "ctrl-e": ["terminal::SendKeystroke", "ctrl-e"],
       "up": ["terminal::SendKeystroke", "up"],

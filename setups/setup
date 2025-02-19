@@ -1,69 +1,91 @@
 #!/bin/sh
+#
+
+no_dir(){
+  if [ -d "$1" ]; then
+    exit -1
+  else
+    exit 0
+  fi
+}
+
+no_file(){
+  if [ -f "$1" ]; then
+    exit -1
+  else
+    exit 0
+  fi
+}
+
+no_command(){
+  if ! command -v "$1" 2>&1 > /dev/null; then
+    exit -1
+  else
+    exit 0
+  fi
+}
 
 # Install Mackup with PIP
-if which pip 2>&1 > /dev/null; then
+if no_command pip; then
 	pip install --upgrade mackup
 else
 	pip3 install --upgrade mackup
 fi
 
 # install ohmybash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" > /dev/null
+if no_dir $HOME/.oh-my-bash; then
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" > /dev/null
+fi
 
 # install homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-if [ -d $HOME/linuxbrew ]; then
-	eval "$($HOME/linuxbrew/.linuxbrew/bin/brew shellenv)"
+if no_command brew; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  if [ -d $HOME/linuxbrew ]; then
+    eval "$($HOME/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  fi
 fi
 
 # install earhly ci
-mkdir -p "$HOME/.local/bin"
-wget https://github.com/earthly/earthly/releases/latest/download/earthly-linux-amd64 -O $HOME/.local/bin/earthly && \
-chmod +x $HOME/.local/bin/earthly && \
-$HOME/.local/bin/earthly bootstrap --with-autocomplete;
+if no_command earthly 2>&1 > /dev/null; then
+  mkdir -p "$HOME/.local/bin"
+  wget https://github.com/earthly/earthly/releases/latest/download/earthly-linux-amd64 -O $HOME/.local/bin/earthly && \
+  chmod +x $HOME/.local/bin/earthly && \
+  $HOME/.local/bin/earthly bootstrap --with-autocomplete;
+fi
 
 
-# install go
-brew install go
+# install go (brew is required)
+if [ no_command go && ! no_command brew ]; then
+  brew install go
+fi
 
-# setup nvm
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
-nvm install 17.7.1
-nvm install 16.14.0
+# install mise
+if no_command mise; then
+   curl https://mise.run | sh
+fi
 
-# install pyenv
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-
-pyenv install 3.8.9
-pyenv install 3.9.0
+if [ ! no_command mise ]; then
+  mise install python@3.8.9
+  mise install python@3.9.0
+  mise install python@3.10.0
+fi
 
 # install deno
-curl -fsSL https://deno.land/x/install/install.sh | sh
+if no_command deno; then
+  curl -fsSL https://deno.land/x/install/install.sh | sh
+fi
 
 # install github sync
-git clone https://github.com/oxzi/github-orga-sync ~/.github-org-sync && cd ~/.github-org-sync && go install && cd -
-
-# install rbenv
-git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-cd ~/.rbenv && src/configure && make -C src && cd -
-~/.rbenv/bin/rbenv init
-
-
-# install sdkman
-curl -s "https://get.sdkman.io" | bash
-echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' > ~/.profile
-source "$HOME/.sdkman/bin/sdkman-init.sh"
+if no_dir $HOME/.github-org-sync; then
+  git clone https://github.com/oxzi/github-orga-sync ~/.github-org-sync && cd ~/.github-org-sync && go install && cd -
+fi
 
 # install rustlang
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+if no_command rustup; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fi
 
-# install solana
-sh -c "$(curl -sSfL https://release.solana.com/v1.9.2/install)"
-
-# setup yay
-git clone https://aur.archlinux.org/yay.git ~/bin/yay
-
-echo 'source $HOME/dotfiles/Mackup/config' >> $HOME/.profile
+if [ ! grep -q "shell/config" "$HOME/.bashrc"  ]; then
+  echo 'source $DOTFILE/Shell/config' >> $HOME/.profile
+fi
