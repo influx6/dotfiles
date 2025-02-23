@@ -1,5 +1,6 @@
 #!/bin/sh
 
+alias vim="nvim"
 alias edit_aliases="vim ~/.bash_aliases"
 alias edit_profile="vim ~/.profile"
 alias edit_bash="vim ~/.bashrc"

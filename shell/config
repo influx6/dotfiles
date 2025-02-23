@@ -17,7 +17,7 @@ source $Dotfiles/shell/functions
 # then others
 source $Dotfiles/shell/sops
 source $Dotfiles/shell/omakub
-source $Dotfiles/shell/donet
+source $Dotfiles/shell/dotnet
 source $Dotfiles/shell/exits
 source $Dotfiles/shell/ca
 source $Dotfiles/shell/paths
@@ -48,3 +48,4 @@ source $Dotfiles/shell/rust
 source $Dotfiles/shell/wasm
 source $Dotfiles/shell/youtube
 source $Dotfiles/shell/nvidia
+source $Dotfiles/shell/gnome-hotkeys
