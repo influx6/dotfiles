@@ -208,7 +208,7 @@ return {
       {
         "<leader>h",
         function()
-          require("neo-tree.command").execute({})
+          require("neo-tree.command").execute({ toggle = false })
         end,
         desc = "Go to NeoTree Buffer",
       },
