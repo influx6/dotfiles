@@ -1,8 +1,18 @@
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+      { "3rd/image.nvim", opts = {} },
+    },
     opts = {
       window = {
+        mappings = {
+          ["l"] = "open",
+          ["h"] = "close_node",
+        },
         ["P"] = {
           "toggle_preview",
           config = {
@@ -13,6 +23,12 @@ return {
         },
       },
       filesystem = {
+        window = {
+          mappings = {
+            ["."] = "toggle_hidden",
+            ["H"] = "set_root",
+          },
+        },
         filtered_items = {
           visible = true,
           show_hidden_count = true,
