@@ -13,19 +13,11 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +36 ~/Labs/ewestudios/dotfiles/nvim/lua/config/lazy.lua
-badd +58 nvim/lua/plugins/plugin-theme.lua
-badd +31 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua
 argglobal
 %argdel
-edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
-wincmd _ | wincmd |
-vsplit
-1wincmd h
-wincmd w
 let &splitbelow = s:save_splitbelow
 let &splitright = s:save_splitright
 wincmd t
@@ -35,46 +27,6 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-wincmd =
-argglobal
-balt ~/Labs/ewestudios/dotfiles/nvim/lua/config/lazy.lua
-setlocal fdm=expr
-setlocal fde=nvim_treesitter#foldexpr()
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=99
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-let s:l = 31 - ((24 * winheight(0) + 36) / 72)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 31
-normal! 027|
-wincmd w
-argglobal
-if bufexists(fnamemodify("nvim/lua/plugins/plugin-theme.lua", ":p")) | buffer nvim/lua/plugins/plugin-theme.lua | else | edit nvim/lua/plugins/plugin-theme.lua | endif
-if &buftype ==# 'terminal'
-  silent file nvim/lua/plugins/plugin-theme.lua
-endif
-balt ~/Labs/ewestudios/dotfiles/nvim/lua/config/lazy.lua
-setlocal fdm=expr
-setlocal fde=nvim_treesitter#foldexpr()
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=99
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-let s:l = 58 - ((57 * winheight(0) + 36) / 72)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 58
-normal! 0
-wincmd w
-wincmd =
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
