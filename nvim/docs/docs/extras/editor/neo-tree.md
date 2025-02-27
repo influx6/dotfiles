@@ -19,8 +19,7 @@ import TabItem from '@theme/TabItem';
 
 ## [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim)
 
- file explorer
-
+file explorer
 
 <Tabs>
 
@@ -75,7 +74,6 @@ opts = {
 ```
 
 </TabItem>
-
 
 <TabItem value="code" label="Full Spec">
 
