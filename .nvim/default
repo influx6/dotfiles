@@ -13,13 +13,19 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +1 ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
+badd +80 ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
+badd +60 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-which-key.lua
+badd +368 nvim/lua/plugins/plugin-neo-tree.lua
 argglobal
 %argdel
-edit ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
+edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-which-key.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
 let &splitbelow = s:save_splitbelow
 let &splitright = s:save_splitright
 wincmd t
@@ -29,7 +35,9 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
+wincmd =
 argglobal
+balt ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
 setlocal fdm=expr
 setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
@@ -38,12 +46,78 @@ setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 1 - ((0 * winheight(0) + 36) / 73)
+1
+normal! zo
+2
+normal! zo
+48
+normal! zo
+56
+normal! zo
+let s:l = 27 - ((26 * winheight(0) + 36) / 72)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 037|
+keepjumps 27
+normal! 012|
+wincmd w
+argglobal
+if bufexists(fnamemodify("nvim/lua/plugins/plugin-neo-tree.lua", ":p")) | buffer nvim/lua/plugins/plugin-neo-tree.lua | else | edit nvim/lua/plugins/plugin-neo-tree.lua | endif
+if &buftype ==# 'terminal'
+  silent file nvim/lua/plugins/plugin-neo-tree.lua
+endif
+balt ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
+setlocal fdm=expr
+setlocal fde=nvim_treesitter#foldexpr()
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=99
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+6
+normal! zo
+7
+normal! zo
+251
+normal! zo
+256
+normal! zo
+257
+normal! zo
+268
+normal! zo
+271
+normal! zo
+278
+normal! zo
+285
+normal! zo
+286
+normal! zo
+295
+normal! zo
+303
+normal! zo
+309
+normal! zo
+319
+normal! zo
+323
+normal! zo
+329
+normal! zo
+342
+normal! zo
+let s:l = 368 - ((22 * winheight(0) + 36) / 72)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 368
+normal! 06|
+wincmd w
+2wincmd w
+wincmd =
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

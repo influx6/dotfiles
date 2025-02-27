@@ -54,11 +54,12 @@ return {
         desc = "Buffer Keymaps (which-key)",
       },
       {
-        "<c-w><space>",
+        -- You can use Control+D and Control+U to navigate
+        "<leader>/",
         function()
-          require("which-key").show({ keys = "<c-w>", loop = true })
+          require("which-key").show({ global = false })
         end,
-        desc = "Window Hydra Mode (which-key)",
+        desc = "Buffer Keymaps (which-key)",
       },
     },
     config = function(_, opts)

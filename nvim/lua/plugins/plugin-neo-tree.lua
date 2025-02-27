@@ -243,6 +243,9 @@ return {
         desc = "Buffer Explorer",
       },
     },
+    deactivate = function()
+      vim.cmd([[Neotree close]])
+    end,
     opts = {
       sources = { "filesystem", "buffers", "git_status" },
       open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
@@ -264,7 +267,7 @@ return {
         mappings = {
           ["<space>"] = "none",
           ["?"] = print_me,
-          -- ["r", "r"] = "refresh",
+          ["\\"] = "refresh",
           ["i"] = "show_file_details",
           ["a"] = "add", -- adds a file in the location
           ["A"] = "add_directory",
