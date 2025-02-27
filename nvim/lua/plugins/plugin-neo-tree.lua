@@ -206,6 +206,13 @@ return {
     cmd = "Neotree",
     keys = {
       {
+        "<leader>h",
+        function()
+          require("neo-tree.command").execute({})
+        end,
+        desc = "Go to NeoTree Buffer",
+      },
+      {
         "<leader>fE",
         function()
           require("neo-tree.command").execute({ toggle = true, dir = LazyVim.root() })
@@ -280,7 +287,7 @@ return {
           ["P"] = {
             "toggle_preview",
             config = {
-              use_float = true,
+              use_float = false,
               -- use_image_nvim = true,
               -- title = 'Neo-tree Preview',
             },
