@@ -243,9 +243,6 @@ return {
         desc = "Buffer Explorer",
       },
     },
-    deactivate = function()
-      vim.cmd([[Neotree close]])
-    end,
     opts = {
       sources = { "filesystem", "buffers", "git_status" },
       open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
@@ -299,7 +296,7 @@ return {
       },
       filesystem = {
         bind_to_cwd = false,
-        follow_current_file = { enabled = true },
+        follow_current_file = { enabled = false },
         use_libuv_file_watcher = true,
         window = {
           mappings = {
