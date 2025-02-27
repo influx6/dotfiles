@@ -10,28 +10,59 @@ local diagnostics = vim.g.lazyvim_rust_diagnostics or "rust-analyzer"
 
 return {
   {
+    "danilamihailov/beacon.nvim",
+  },
+  {
+    "preservim/tagbar",
+  },
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+  },
+  {
+    "phaazon/hop.nvim",
+    opts = {},
+  },
+  {
+    "voldikss/vim-floaterm",
+  },
+  {
+    "puremourning/vimspector",
+  },
+  {
+    "folke/trouble.nvim",
+  },
+  {
+    "m-demare/hlargs.nvim",
+  },
+  {
+    "lukas-reineke/indent-blankline.nvim", -- to show and customize ident lines.
+  },
+  {
+    "windwp/nvim-autopairs", -- for smart pairing of brackets.
+  },
+  {
+    "tpope/vim-surround", -- to quickly add, remove or change brackets surrounding any text.
+  },
+  {
+    "RRethy/vim-illuminate", -- to highlight other uses of word under cursor.
+  },
+  {
+    "numToStr/Comment.nvim", -- to quickly comment / uncomment text.
+  },
+  {
     "williamboman/mason.nvim",
     optional = true,
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
 
       vim.list_extend(opts.ensure_installed, {
-        "python",
         "codelldb",
-        "danilamihailov/beacon.nvim",
-        "preservim/tagbar",
-        "folke/todo-comments.nvim",
-        "nvim-telescope/telescope.nvim",
-        "phaazon/hop.nvim",
-        "voldikss/vim-floaterm",
-        "puremourning/vimspector",
-        "folke/trouble.nvim",
-        "m-demare/hlargs.nvim",
-        "lukas-reineke/indent-blankline.nvim", -- to show and customize ident lines.
-        "windwp/nvim-autopairs", -- for smart pairing of brackets.
-        "tpope/vim-surround", -- to quickly add, remove or change brackets surrounding any text.
-        "RRethy/vim-illuminate", -- to highlight other uses of word under cursor.
-        "numToStr/Comment.nvim", -- to quickly comment / uncomment text.
       })
 
       if diagnostics == "bacon-ls" then
@@ -62,11 +93,6 @@ return {
   --   "rhysd/rust-doc.vim",
   --   opts = {},
   -- },
-
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = { ensure_installed = { "rust", "ron", "toml", "lua", "javascript" } },
-  },
 
   {
     "mrcjkb/rustaceanvim",

@@ -6,11 +6,6 @@ return {
   },
 
   {
-    "nvim-treesitter/nvim-treesitter",
-    opts = { ensure_installed = { "terraform", "hcl" } },
-  },
-
-  {
     "nvim-telescope/telescope.nvim",
     optional = true,
     specs = {

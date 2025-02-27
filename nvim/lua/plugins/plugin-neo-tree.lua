@@ -2,6 +2,16 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
+      window = {
+        ["P"] = {
+          "toggle_preview",
+          config = {
+            use_float = true,
+            -- use_image_nvim = true,
+            -- title = 'Neo-tree Preview',
+          },
+        },
+      },
       filesystem = {
         filtered_items = {
           visible = true,

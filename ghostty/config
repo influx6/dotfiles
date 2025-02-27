@@ -70,3 +70,15 @@ macos-window-shadow = false
 background-opacity = 0.95
 background-blur = 20
 
+# key bindings
+# keybind = all:ctrl+c=copy_to_clipboard
+keybind = global:cmd+home=toggle_quick_terminal
+keybind = performable:ctrl+c=copy_to_clipboard
+keybind = performable:ctrl+v=paste_from_clipboard
+keybind = shift+right=adjust_selection:right
+keybind = shift+left=adjust_selection:left
+keybind = shift+up=adjust_selection:up
+keybind = shift+down=adjust_selection:down
+keybind = ctrl+shift+c=text:\x03
+keybind = ctrl+l=clear_screen
+keybind = ctrl+r=reset

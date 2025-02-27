@@ -1,12 +1,8 @@
 return {
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = "all",
-    },
-  },
+
 
   {
+    -- cd ~/.local/share/nvim/mason/packages && ls | awk '{print "\""$0"\","}' | pbcopy
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
@@ -16,8 +12,8 @@ return {
         "asmfmt",
         "astro-language-server",
         "awk-language-server",
-        "bacon",
-        "bacon-ls",
+        -- "bacon",
+        -- "bacon-ls",
         "bash-debug-adapter",
         "bash-language-server",
         "bibtex-tidy",
@@ -91,7 +87,7 @@ return {
         "html-lsp",
         "htmlbeautifier",
         "htmlhint",
-        "htmx-lsp",
+        -- "htmx-lsp",
         "hydra-lsp",
         "isort",
         "java-debug-adapter",
@@ -159,7 +155,6 @@ return {
         "solhint",
         "solidity",
         "solidity-ls",
-        "sourcery",
         "sql-formatter",
         "sqlfluff",
         "sqlfmt",
@@ -171,7 +166,7 @@ return {
         "stylelint",
         "stylelint-lsp",
         "stylua",
-        "tailwindcss-language-server",
+        -- "tailwindcss-language-server",
         "taplo",
         "templ",
         "terraform-ls",

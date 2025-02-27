@@ -24,7 +24,7 @@ return {
         timeout = 3000,
       },
       picker = {
-        enabled = true,
+        -- enabled = true,
       },
       terminal = { enabled = true },
       quickfile = { enabled = true },
