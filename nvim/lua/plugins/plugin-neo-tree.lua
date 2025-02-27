@@ -296,7 +296,7 @@ return {
       },
       filesystem = {
         bind_to_cwd = false,
-        follow_current_file = { enabled = false },
+        follow_current_file = { enabled = true },
         use_libuv_file_watcher = true,
         window = {
           mappings = {
