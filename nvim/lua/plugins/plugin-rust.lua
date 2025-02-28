@@ -63,6 +63,8 @@ return {
 
       vim.list_extend(opts.ensure_installed, {
         "codelldb",
+        "bacon",
+        "bacon-ls",
       })
 
       if diagnostics == "bacon-ls" then
@@ -183,6 +185,11 @@ return {
     end,
   },
 
+  -- If you enable this rustaceanvim will not functionm
+  -- basically its as it outlines itself, it will disable
+  -- rustaceanvim for lspconfig else if enabled, ensure Mason, installs
+  -- bacon and bacon-ls
+  --
   -- Correctly setup lspconfig for rust
   {
     "neovim/nvim-lspconfig",
