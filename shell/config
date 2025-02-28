@@ -17,6 +17,7 @@ source $Dotfiles/shell/functions
 # then others
 source $Dotfiles/shell/sops
 source $Dotfiles/shell/omakub
+source $Dotfiles/shell/neovim
 source $Dotfiles/shell/dotnet
 source $Dotfiles/shell/exits
 source $Dotfiles/shell/ca
