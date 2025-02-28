@@ -1,6 +1,5 @@
 return {
 
-
   {
     -- cd ~/.local/share/nvim/mason/packages && ls | awk '{print "\""$0"\","}' | pbcopy
     "williamboman/mason.nvim",
@@ -57,7 +56,7 @@ return {
         "earthlyls",
         "editorconfig-checker",
         "elixir-ls",
-        "emmet-ls",
+        -- "emmet-ls",
         "erb-formatter",
         "erb-lint",
         "eslint-lsp",
@@ -107,7 +106,7 @@ return {
         "kotlin-language-server",
         "latexindent",
         "llm-ls",
-        "ltex-ls",
+        -- "ltex-ls",
         "lua-language-server",
         "luacheck",
         "luau-lsp",
@@ -162,11 +161,9 @@ return {
         "sqls",
         "standardjs",
         "staticcheck",
-        "stimulus-language-server",
         "stylelint",
         "stylelint-lsp",
         "stylua",
-        -- "tailwindcss-language-server",
         "taplo",
         "templ",
         "terraform-ls",
