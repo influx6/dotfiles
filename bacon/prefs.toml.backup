@@ -49,20 +49,6 @@
 # on_change_strategy = "kill_then_restart"
 # on_change_strategy = "wait_then_restart"
 
-[jobs.bacon-ls]
-command = [
-  "cargo",
-  "clippy",
-  "--workspace",
-  "--tests",
-  "--all-targets",
-  "--all-features",
-  "--message-format",
-  "json-diagnostic-rendered-ansi",
-]
-analyzer = "cargo_json"
-need_stdout = true
-
 # Exporting "locations" (by setting its 'auto' to true) lets you use
 # them in an external tool, for example as a list of jump locations
 # in an IDE or in a language server.
@@ -76,16 +62,11 @@ need_stdout = true
 #  - message: description of the item
 #  - context: unstyled lines of output, separated with escaped newlines (`\\n`)
 [exports.locations]
-auto = false
+auto = true
 exporter = "locations"
 path = ".bacon-locations"
 line_format = "{kind} {path}:{line}:{column} {message}"
 
-[exports.cargo-json-spans]
-auto = true
-exporter = "analyzer"
-line_format = "{diagnostic.level}|:|{span.file_name}|:|{span.line_start}|:|{span.line_end}|:|{span.column_start}|:|{span.column_end}|:|{diagnostic.message}|:|{diagnostic.rendered}|:|{span.suggested_replacement}"
-path = ".bacon-locations"
 
 # If you want some job to emit a beep on success or on failure,
 # you need to globally enable sound, and you may set up the max volume here

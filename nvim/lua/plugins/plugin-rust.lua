@@ -3,8 +3,13 @@ if lazyvim_docs then
   -- Set to "bacon-ls" to use bacon-ls instead of rust-analyzer.
   -- only for diagnostics. The rest of LSP support will still be
   -- provided by rust-analyzer.
+  -- vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
   vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
 end
+
+-- Switch to bacon-ls for rust
+--vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
+vim.g.lazyvim_rust_diagnostics = "bacon-ls"
 
 local diagnostics = vim.g.lazyvim_rust_diagnostics or "rust-analyzer"
 
@@ -194,11 +199,28 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
+      diagnostics = {
+        update_in_insert = true,
+      },
       servers = {
         bacon_ls = {
           enabled = diagnostics == "bacon-ls",
         },
-        rust_analyzer = { enabled = false },
+        rust_analyzer = { enabled = diagnostics == "rust-analyzer" },
+      },
+      setup = {
+        bacon_ls = function()
+          require("lspconfig").bacon_ls.setup({
+            auto_start = true,
+            init_options = {
+              updateOnSave = true,
+              updateOnSaveWaitMillis = 1000,
+              updateOnChange = true,
+              runBaconInBackground = true,
+            },
+          })
+          return true
+        end,
       },
     },
   },

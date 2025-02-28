@@ -6,15 +6,6 @@
 vim.opt.spell = true
 vim.opt.spelllang = { "en_us" }
 
--- LSP Server to use for Rust.
--- Set to "bacon-ls" to use bacon-ls instead of rust-analyzer.
--- only for diagnostics. The rest of LSP support will still be
--- provided by rust-analyzer.
-
--- Switch to bacon-ls for rust
---vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
-vim.g.lazyvim_rust_diagnostics = "bacon-ls"
-
 -- Treesitter folding
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
