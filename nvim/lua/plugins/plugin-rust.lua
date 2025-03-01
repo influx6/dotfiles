@@ -8,7 +8,7 @@ if lazyvim_docs then
 end
 
 -- Switch to bacon-ls for rust
---vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
+-- vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
 vim.g.lazyvim_rust_diagnostics = "bacon-ls"
 
 local diagnostics = vim.g.lazyvim_rust_diagnostics or "rust-analyzer"
@@ -68,43 +68,18 @@ return {
 
       vim.list_extend(opts.ensure_installed, {
         "codelldb",
-        "bacon",
-        "bacon-ls",
       })
 
       if diagnostics == "bacon-ls" then
-        vim.list_extend(opts.ensure_installed, { "bacon" })
+        vim.list_extend(opts.ensure_installed, { "bacon", "bacon-ls" })
       end
     end,
   },
 
   {
-    "Saecki/crates.nvim",
-    event = { "BufRead Cargo.toml" },
-    opts = {
-      completion = {
-        crates = {
-          enabled = true,
-        },
-      },
-      lsp = {
-        enabled = true,
-        actions = true,
-        completion = true,
-        hover = true,
-      },
-    },
-  },
-
-  -- {
-  --   "rhysd/rust-doc.vim",
-  --   opts = {},
-  -- },
-
-  {
     "mrcjkb/rustaceanvim",
+    lazy = false,
     version = vim.fn.has("nvim-0.10.0") == 0 and "^5" or false,
-    ft = { "rust" },
     root = { "Cargo.toml", "rust-project.json" },
     config = function(_, opts)
       if LazyVim.has("mason.nvim") then
@@ -190,6 +165,29 @@ return {
     end,
   },
 
+  {
+    "Saecki/crates.nvim",
+    event = { "BufRead Cargo.toml" },
+    opts = {
+      completion = {
+        crates = {
+          enabled = true,
+        },
+      },
+      lsp = {
+        enabled = true,
+        actions = true,
+        completion = true,
+        hover = true,
+      },
+    },
+  },
+
+  -- {
+  --   "rhysd/rust-doc.vim",
+  --   opts = {},
+  -- },
+
   -- If you enable this rustaceanvim will not functionm
   -- basically its as it outlines itself, it will disable
   -- rustaceanvim for lspconfig else if enabled, ensure Mason, installs
@@ -206,17 +204,30 @@ return {
         bacon_ls = {
           enabled = diagnostics == "bacon-ls",
         },
-        rust_analyzer = { enabled = diagnostics == "rust-analyzer" },
+        rust_analyzer = { enabled = false },
       },
       setup = {
         bacon_ls = function()
           require("lspconfig").bacon_ls.setup({
-            auto_start = true,
             init_options = {
+              -- Bacon export filename (default: .bacon-locations).
+              locationsFile = ".bacon-locations",
+              -- Try to update diagnostics every time the file is saved (default: true).
               updateOnSave = true,
-              updateOnSaveWaitMillis = 1000,
+              --  How many milliseconds to wait before updating diagnostics after a save (default: 1000).
+              updateOnSaveWaitMillis = 500,
+              -- Try to update diagnostics every time the file changes (default: true).
               updateOnChange = true,
-              runBaconInBackground = true,
+              -- Try to validate that bacon preferences are setup correctly to work with bacon-ls (default: true).
+              validateBaconPreferences = true,
+              -- f no bacon preferences file is found, create a new preferences file with the bacon-ls job definition (default: true).
+              createBaconPreferencesFile = false,
+              -- Run bacon in background for the bacon-ls job (default: true)
+              runBaconInBackground = false,
+              -- Command line arguments to pass to bacon running in background (default "--headless -j bacon-ls")
+              runBaconInBackgroundCommandArguments = "--headless -j bacon-ls",
+              -- How many milliseconds to wait between background diagnostics check to synchronize all open files (default: 2000).
+              synchronizeAllOpenFilesWaitMillis = 1000,
             },
           })
           return true

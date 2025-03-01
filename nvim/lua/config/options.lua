@@ -17,19 +17,19 @@ vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 -- noselect: Do not select, force to select one from the menu
 -- shortness: avoid showing extra messages when using completion
 -- updatetime: set updatetime for CursorHold
-vim.opt.completeopt = { "menuone", "noselect", "noinsert" }
+vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }
 vim.opt.shortmess = vim.opt.shortmess + { c = true }
-vim.api.nvim_set_option("updatetime", 300)
+-- vim.api.nvim_set_option("updatetime", 300)
 
 -- Fixed column for diagnostics to appear
 -- Show autodiagnostic popup on cursor hover_range
 -- Goto previous / next diagnostic warning / error
 -- Show inlay_hints more frequently
-vim.cmd([[
-set showcmd
-set signcolumn=yes
-autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
-]])
+-- vim.cmd([[
+-- set showcmd
+-- set signcolumn=yes
+-- -- autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
+-- ]])
 
 -- Allows you to resize the terminal so that it
 -- its more usable and accessble for us.
