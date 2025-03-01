@@ -215,7 +215,7 @@ return {
               -- Try to update diagnostics every time the file is saved (default: true).
               updateOnSave = true,
               --  How many milliseconds to wait before updating diagnostics after a save (default: 1000).
-              updateOnSaveWaitMillis = 500,
+              updateOnSaveWaitMillis = 700,
               -- Try to update diagnostics every time the file changes (default: true).
               updateOnChange = true,
               -- Try to validate that bacon preferences are setup correctly to work with bacon-ls (default: true).
@@ -227,7 +227,7 @@ return {
               -- Command line arguments to pass to bacon running in background (default "--headless -j bacon-ls")
               runBaconInBackgroundCommandArguments = "--headless -j bacon-ls",
               -- How many milliseconds to wait between background diagnostics check to synchronize all open files (default: 2000).
-              synchronizeAllOpenFilesWaitMillis = 1000,
+              synchronizeAllOpenFilesWaitMillis = 1500,
             },
           })
           return true

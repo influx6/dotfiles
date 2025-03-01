@@ -24,6 +24,23 @@ map("n", "<leader>ft", ":FloatermNew --name=myfloat --height=0.8 --width=0.7 --a
 map("n", "t", ":FloatermToggle myfloat<CR>")
 map("t", "<Esc>", "<C-\\><C-n>:q<CR>")
 
+-- increment/decrement numbers
+map("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
+map("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
+
+-- window management
+map("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
+map("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
+map("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
+map("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
+
+--- Tab creation
+map("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" }) -- open new tab
+map("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" }) -- close current tab
+map("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  go to next tab
+map("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
+map("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
+
 -- Use <TAB>v to replicate visual block column mode previouly <C-v>
 -- to edit before ensure to use SHIFT+I as "i" will not work then press ESCAPE to apply to block
 -- to edit after ensure to use SHIFT+A as "a" will not work then press ESCAPE to apply to block
@@ -194,7 +211,7 @@ end
 map("n", "<leader>gb", function() Snacks.picker.git_log_line() end, { desc = "Git Blame Line" })
 map({ "n", "x" }, "<leader>gB", function() Snacks.gitbrowse() end, { desc = "Git Browse (open)" })
 map({"n", "x" }, "<leader>gY", function()
-  Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false })
+  Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false, })
 end, { desc = "Git Browse (copy)" })
 
 -- quit
