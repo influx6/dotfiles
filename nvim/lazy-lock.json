@@ -62,6 +62,7 @@
   "plenary.nvim": { "branch": "master", "commit": "857c5ac632080dba10aae49dba902ce3abf91b35" },
   "refactoring.nvim": { "branch": "master", "commit": "bce639550c4e0f61c90f16e56e681405345e1e30" },
   "render-markdown.nvim": { "branch": "main", "commit": "81374ffd26f9a9d5f44274a9e7e60547b5fd106f" },
+  "rust-doc.vim": { "branch": "master", "commit": "fecc20ff24a34cbc6599fb89c0cb79e92e0c581b" },
   "rustaceanvim": { "branch": "master", "commit": "e1fc387743e78d5814bae58f203557e5ed9a8a4b" },
   "scratch.nvim": { "branch": "main", "commit": "3e3d2ad0d7f565bc794d9d3ad40e92509802ecad" },
   "snacks.nvim": { "branch": "main", "commit": "bc0630e43be5699bb94dadc302c0d21615421d93" },

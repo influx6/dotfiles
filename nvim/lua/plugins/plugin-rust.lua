@@ -235,11 +235,6 @@ return {
     },
   },
 
-  {
-    "rhysd/rust-doc.vim",
-    opts = {},
-  },
-
   -- If you enable this rustaceanvim will not functionm
   -- basically its as it outlines itself, it will disable
   -- rustaceanvim for lspconfig else if enabled, ensure Mason, installs
