@@ -8,8 +8,8 @@ if lazyvim_docs then
 end
 
 -- Switch to bacon-ls for rust
-vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
--- vim.g.lazyvim_rust_diagnostics = "bacon-ls"
+-- vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
+vim.g.lazyvim_rust_diagnostics = "bacon-ls"
 
 local diagnostics = vim.g.lazyvim_rust_diagnostics or "rust-analyzer"
 
@@ -235,10 +235,10 @@ return {
     },
   },
 
-  -- {
-  --   "rhysd/rust-doc.vim",
-  --   opts = {},
-  -- },
+  {
+    "rhysd/rust-doc.vim",
+    opts = {},
+  },
 
   -- If you enable this rustaceanvim will not functionm
   -- basically its as it outlines itself, it will disable
