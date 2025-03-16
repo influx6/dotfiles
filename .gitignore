@@ -26,6 +26,7 @@ master/configs
 .idea/sonar*
 .idea/sonarlint
 
+lazy-lock.json
 
 
 ### Mercury template

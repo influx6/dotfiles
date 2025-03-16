@@ -1,8 +1,28 @@
 #!/bin/bash
 
-# Wasmer
-export WASMER_DIR="/home/darkvoid/.wasmer"
-[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
+if [[ -d "$HOME/Labs/bin.toolings/wabt/" ]]; then
+  export PATH="$HOME/Labs/bin.toolings/wabt/bin/:$PATH"
+else
 
-export WASMTIME_HOME="$HOME/.wasmtime"
-export PATH="$HOME/.local/bin/wabt-1.0.29/bin:$WASMTIME_HOME/bin:$PATH"
+  current_dir=$(pwd)
+
+  # setup directory and project if not already there.
+  if [[ ! -d "$HOME/Labs/bin.toolings/wabt/" ]]; then
+    sudo apt install -y g++ gcc build-essential cmake
+    mkdir -p "$HOME/Labs/bin.toolings/"
+    cd "$HOME/Labs/bin.toolings"
+    git clone --recursive https://github.com/WebAssembly/wabt
+    cd wabt
+    git submodule update --init
+  fi
+
+  if [[ ! -d "$HOME/Labs/bin.toolings/wabt/bin" ]]; then
+    mkdir -p "$HOME/Labs/bin.toolings/wabt/bin"
+    cd "$HOME/Labs/bin.toolings/wabt/bin"
+    cmake ..
+    cmake --build .
+  fi
+
+  export PATH="$HOME/Labs/bin.toolings/wabt/bin/:$PATH"
+  cd "$current_dir"
+fi
