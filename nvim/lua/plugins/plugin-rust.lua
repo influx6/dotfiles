@@ -79,15 +79,11 @@ return {
     opts = {},
   },
   {
-    "voldikss/vim-floaterm",
-  },
-  {
     "TravonteD/luajob",
   },
   {
     "cenk1cenk2/scratch.nvim",
   },
-  { "akinsho/toggleterm.nvim", version = "*", config = true },
   {
     "puremourning/vimspector",
   },
