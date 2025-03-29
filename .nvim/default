@@ -17,9 +17,11 @@ badd +80 ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
 badd +27 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-which-key.lua
 badd +341 nvim/lua/plugins/plugin-neo-tree.lua
 badd +164 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-mason.lua
+badd +13 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-folds.lua
+badd +6 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-harpoon.lua
 argglobal
 %argdel
-edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-mason.lua
+edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-harpoon.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -38,7 +40,7 @@ set winminwidth=0
 set winwidth=1
 wincmd =
 argglobal
-balt ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-which-key.lua
+balt ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-folds.lua
 setlocal fdm=expr
 setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
@@ -47,12 +49,12 @@ setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 164 - ((38 * winheight(0) + 36) / 72)
+let s:l = 6 - ((5 * winheight(0) + 36) / 72)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 164
-normal! 020|
+keepjumps 6
+normal! 0
 wincmd w
 argglobal
 if bufexists(fnamemodify("nvim/lua/plugins/plugin-neo-tree.lua", ":p")) | buffer nvim/lua/plugins/plugin-neo-tree.lua | else | edit nvim/lua/plugins/plugin-neo-tree.lua | endif
