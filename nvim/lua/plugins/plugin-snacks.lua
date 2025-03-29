@@ -402,29 +402,29 @@ return {
         desc = "LSP Workspace Symbols",
       },
       -- Other
+      -- {
+      --   "<leader>z",
+      --   function()
+      --     Snacks.zen()
+      --   end,
+      --   desc = "Toggle Zen Mode",
+      -- },
       {
-        "<leader>z",
-        function()
-          Snacks.zen()
-        end,
-        desc = "Toggle Zen Mode",
-      },
-      {
-        "<leader>Z",
+        "<leader>uZ",
         function()
           Snacks.zen.zoom()
         end,
         desc = "Toggle Zoom",
       },
       {
-        "<leader>.",
+        "<leader>b.",
         function()
           Snacks.scratch()
         end,
         desc = "Toggle Scratch Buffer",
       },
       {
-        "<leader>S",
+        "<leader><",
         function()
           Snacks.scratch.select()
         end,

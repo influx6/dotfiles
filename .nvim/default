@@ -19,9 +19,12 @@ badd +341 nvim/lua/plugins/plugin-neo-tree.lua
 badd +164 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-mason.lua
 badd +13 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-folds.lua
 badd +6 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-harpoon.lua
+badd +5 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-scratch.lua
+badd +200 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-snack-picker.lua
+badd +11 nvim/lua/plugins/plugin-surround.lua
 argglobal
 %argdel
-edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-harpoon.lua
+edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-snack-picker.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -40,7 +43,7 @@ set winminwidth=0
 set winwidth=1
 wincmd =
 argglobal
-balt ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-folds.lua
+balt ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-scratch.lua
 setlocal fdm=expr
 setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
@@ -49,19 +52,19 @@ setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 6 - ((5 * winheight(0) + 36) / 72)
+let s:l = 97 - ((67 * winheight(0) + 36) / 72)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 6
+keepjumps 97
 normal! 0
 wincmd w
 argglobal
-if bufexists(fnamemodify("nvim/lua/plugins/plugin-neo-tree.lua", ":p")) | buffer nvim/lua/plugins/plugin-neo-tree.lua | else | edit nvim/lua/plugins/plugin-neo-tree.lua | endif
+if bufexists(fnamemodify("nvim/lua/plugins/plugin-surround.lua", ":p")) | buffer nvim/lua/plugins/plugin-surround.lua | else | edit nvim/lua/plugins/plugin-surround.lua | endif
 if &buftype ==# 'terminal'
-  silent file nvim/lua/plugins/plugin-neo-tree.lua
+  silent file nvim/lua/plugins/plugin-surround.lua
 endif
-balt ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
+balt nvim/lua/plugins/plugin-neo-tree.lua
 setlocal fdm=expr
 setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
@@ -70,39 +73,20 @@ setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-6
+1
 normal! zo
-7
+2
 normal! zo
-246
+11
 normal! zo
-249
-normal! zo
-256
-normal! zo
-263
-normal! zo
-264
-normal! zo
-273
-normal! zo
-281
-normal! zo
-297
-normal! zo
-301
-normal! zo
-307
-normal! zo
-320
-normal! zo
-let s:l = 341 - ((70 * winheight(0) + 36) / 72)
+let s:l = 11 - ((10 * winheight(0) + 36) / 72)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 341
-normal! 0
+keepjumps 11
+normal! 08|
 wincmd w
+2wincmd w
 wincmd =
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'

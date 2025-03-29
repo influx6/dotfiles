@@ -82,9 +82,6 @@ return {
     "TravonteD/luajob",
   },
   {
-    "cenk1cenk2/scratch.nvim",
-  },
-  {
     "puremourning/vimspector",
   },
   {
