@@ -25,6 +25,7 @@ source $Dotfiles/shell/direnv
 source $Dotfiles/shell/brew
 source $Dotfiles/shell/alias
 source $Dotfiles/shell/mise
+source $Dotfiles/shell/tmux
 source $Dotfiles/shell/cargo
 # source $Dotfiles/shell/pyenv
 source $Dotfiles/shell/deno
