@@ -122,9 +122,9 @@ return {
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
         default = {
-          "dictionary",
-          "spell",
           "lsp",
+          "spell",
+          "dictionary",
           "path",
           "git",
           "conventional_commits",
