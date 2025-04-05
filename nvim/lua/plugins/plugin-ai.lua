@@ -271,7 +271,7 @@ return {
             api_key = "TERM",
             name = "Ollama",
             end_point = "http://127.0.0.1:11434/v1/completions",
-            model = "deepseek-r1:70b",
+            model = "qwen2.5-coder:14b",
             optional = {
               max_tokens = 56,
               top_p = 0.9,
@@ -307,7 +307,9 @@ return {
       --
       provider = "ollama",
       ollama = {
-        model = "deepseek-r1:70b",
+        -- model = "deepseek-r1:70b",
+        -- model = "qwq:latest", -- to use latest qwuen reasoning model
+        model = "gemma3:12b", -- to use latest google open source model
       },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`

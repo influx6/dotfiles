@@ -6,7 +6,6 @@ end
 
 function get_github_token()
   local envs = vim.fn.environ()
-  vim.print("ENV: ", envs)
   if has_key(envs, "GH_TOKEN") then
     return envs["GH_TOKEN"]
   end
@@ -145,6 +144,7 @@ return {
                 -- triggers = { ':' },
                 --
               },
+
               git_centers = {
                 github = {
                   issue = { get_token = get_github_token },
@@ -168,6 +168,7 @@ return {
                   --         return default
                   --     end
                   -- }
+                  --
                 },
                 gitlab = {
                   -- Those below have the same fields with `commit`
