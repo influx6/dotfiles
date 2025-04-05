@@ -162,7 +162,6 @@ return {
       end
     end,
     opts = function()
-      vim.print("Using rust diagnosis server lsp: ", diagnostics)
       return {
         tools = {
           float_win_config = { auto_focus = true },
