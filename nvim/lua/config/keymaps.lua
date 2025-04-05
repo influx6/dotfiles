@@ -48,9 +48,38 @@ map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
 map("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
 
+-- new file
+map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
+
+-- commenting
+map("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
+map("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Above" })
+
+-- lazy
+map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
+
 -- bacon configuration
 map("n", "!", ":BaconLoad<CR>:w<CR>:BaconNext<CR>", { desc = "Navigate to next bacon location" })
 map("n", ",", ":BaconList<CR>", { desc = "Open bacon locations list" })
+
+-- location list
+map("n", "<leader>xl", function()
+  local success, err = pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)
+  if not success and err then
+    vim.notify(err, vim.log.levels.ERROR)
+  end
+end, { desc = "Location List" })
+
+-- quickfix list
+map("n", "<leader>xq", function()
+  local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
+  if not success and err then
+    vim.notify(err, vim.log.levels.ERROR)
+  end
+end, { desc = "Quickfix List" })
+
+map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
+map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- highlights under cursor
 map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
@@ -181,35 +210,6 @@ map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 -- better indenting
 map("v", "<", "<gv")
 map("v", ">", ">gv")
-
--- commenting
-map("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
-map("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Above" })
-
--- lazy
-map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
-
--- new file
-map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
-
--- location list
-map("n", "<leader>xl", function()
-  local success, err = pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)
-  if not success and err then
-    vim.notify(err, vim.log.levels.ERROR)
-  end
-end, { desc = "Location List" })
-
--- quickfix list
-map("n", "<leader>xq", function()
-  local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
-  if not success and err then
-    vim.notify(err, vim.log.levels.ERROR)
-  end
-end, { desc = "Quickfix List" })
-
-map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
-map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- formatting
 map({ "n", "v" }, "<leader>cf", function()

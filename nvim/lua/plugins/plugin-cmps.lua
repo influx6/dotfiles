@@ -122,11 +122,11 @@ return {
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
         default = {
-          "spell",
-          "dictionary",
           "lsp",
           "path",
           "env",
+          "spell",
+          "dictionary",
           "snippets",
           "buffer",
           "ripgrep",
@@ -145,6 +145,26 @@ return {
           sql = { "snippets", "dadbod", "buffer" },
         },
         providers = {
+          lsp = {
+            name = "LSP",
+            module = "blink.cmp.sources.lsp",
+            enabled = true, -- Whether or not to enable the provider
+            async = false, -- Whether we should show the completions before this provider returns, without waiting for it
+            timeout_ms = 2000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
+            score_offset = 0, -- Boost/penalize the score of the items
+            -- opts = {}, -- Passed to the source directly, varies by source
+            -- REMARK: All of these options may be functions to get dynamic behavior
+            --
+            -- See the type definitions for more information
+            -- transform_items = nil, -- Function to transform the items before they're returned
+            -- should_show_items = true, -- Whether or not to show the items
+            -- max_items = nil, -- Maximum number of items to display in the menu
+            -- min_keyword_length = 0, -- Minimum number of characters in the keyword to trigger the provider
+            -- If this provider returns 0 items, it will fallback to these providers.
+            -- If multiple providers fallback to the same provider, all of the providers must return 0 items for it to fallback
+            -- fallbacks = {},
+            -- override = nil, -- Override the source's functions
+          },
           digraphs = {
             -- IMPORTANT: use the same name as you would for nvim-cmp
             name = "digraphs",
