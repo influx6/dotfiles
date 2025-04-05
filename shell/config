@@ -12,7 +12,7 @@ echo "Sourcing shell files"
 source $Dotfiles/shell/functions
 
 # then others
-source $Dotfiles/shell/secrets
+source $Dotfiles/shell/secrets/github.secret
 source $Dotfiles/shell/sops
 source $Dotfiles/shell/gitcrypt
 source $Dotfiles/shell/omakub
