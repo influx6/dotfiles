@@ -126,6 +126,7 @@ return {
     lazy = false,
     version = vim.fn.has("nvim-0.10.0") == 0 and "^5" or false,
     root = { "Cargo.toml", "rust-project.json" },
+    ensure_installed = { "bacon-ls", "bacon" },
     config = function(_, opts)
       if LazyVim.has("mason.nvim") then
         local package_path = require("mason-registry").get_package("codelldb"):get_install_path()
@@ -150,6 +151,7 @@ return {
       end
     end,
     opts = function()
+      vim.print("Using rust diagnosis server lsp: ", diagnostics)
       return {
         tools = {
           float_win_config = { auto_focus = true },
@@ -213,6 +215,18 @@ return {
         },
       }
     end,
+  },
+
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        bacon_ls = {
+          enabled = diagnostics == "bacon-ls",
+        },
+        rust_analyzer = { enabled = false },
+      },
+    },
   },
 
   {
