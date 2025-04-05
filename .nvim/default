@@ -25,9 +25,10 @@ badd +52 nvim/lua/plugins/plugin-surround.lua
 badd +221 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-cmps.lua
 badd +245 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-ai.lua
 badd +57 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua
+badd +34 nvim/lua/plugins/plugin-theme.lua
 argglobal
 %argdel
-edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-cmps.lua
+edit nvim/lua/plugins/plugin-theme.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -46,81 +47,21 @@ set winminwidth=0
 set winwidth=1
 wincmd =
 argglobal
-balt nvim/lua/plugins/plugin-surround.lua
+balt ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-cmps.lua
 setlocal foldmethod=expr
-setlocal foldexpr=nvim_treesitter#foldexpr()
+setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
 setlocal foldignore=#
 setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-7
-normal! zo
-15
-normal! zo
-59
-normal! zo
-88
-normal! zo
-123
-normal! zo
-147
-normal! zo
-148
-normal! zo
-190
-normal! zo
-200
-normal! zo
-203
-normal! zo
-214
-normal! zo
-264
-normal! zo
-274
-normal! zo
-340
-normal! zo
-346
-normal! zo
-428
-normal! zo
-452
-normal! zo
-453
-normal! zo
-470
-normal! zo
-472
-normal! zo
-473
-normal! zo
-489
-normal! zo
-503
-normal! zo
-505
-normal! zo
-543
-normal! zo
-559
-normal! zo
-564
-normal! zo
-570
-normal! zo
-598
-normal! zo
-605
-normal! zo
-let s:l = 221 - ((25 * winheight(0) + 25) / 51)
+let s:l = 34 - ((33 * winheight(0) + 36) / 72)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 221
-normal! 049|
+keepjumps 34
+normal! 017|
 wincmd w
 argglobal
 if bufexists(fnamemodify("~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua", ":p")) | buffer ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua | else | edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua | endif
@@ -136,7 +77,7 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 45 - ((35 * winheight(0) + 25) / 51)
+let s:l = 45 - ((43 * winheight(0) + 36) / 72)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
