@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if ! no_command sops; then
+if no_command sops; then
   if has_command brew; then
     brew install sops
   fi

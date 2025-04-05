@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if no_command tmux; then
+  if has_command brew; then
+    brew install tmux
+  fi
+fi

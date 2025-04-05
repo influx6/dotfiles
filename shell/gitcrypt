@@ -1,7 +1,6 @@
 #!/bin/bash
 
-
-if ! no_command git-crypt; then 
+if no_command git-crypt; then
   if has_command brew; then
     brew install gpg git-crypt
   else
