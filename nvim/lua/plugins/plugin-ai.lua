@@ -271,7 +271,7 @@ return {
             api_key = "TERM",
             name = "Ollama",
             end_point = "http://127.0.0.1:11434/v1/completions",
-            model = "qwq",
+            model = "deepseek-r1:70b",
             optional = {
               max_tokens = 56,
               top_p = 0.9,
@@ -307,7 +307,7 @@ return {
       --
       provider = "ollama",
       ollama = {
-        model = "qwq:latest",
+        model = "deepseek-r1:70b",
       },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
