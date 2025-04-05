@@ -122,18 +122,18 @@ return {
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
         default = {
-          "lsp",
           "spell",
           "dictionary",
+          "lsp",
           "path",
-          "git",
-          "conventional_commits",
           "env",
           "snippets",
           "buffer",
           "ripgrep",
           "avante", -- only after I enable avante
           "minuet",
+          "git",
+          "conventional_commits",
           "omni",
           "emoji",
           "css_vars",
@@ -185,7 +185,7 @@ return {
           minuet = {
             name = "minuet",
             module = "minuet.blink",
-            score_offset = 40, -- Gives minuet higher priority among suggestions
+            score_offset = 200, -- Gives minuet higher priority among suggestions
           },
           conventional_commits = {
             name = "Conventional Commits",
@@ -200,6 +200,7 @@ return {
           git = {
             module = "blink-cmp-git",
             name = "Git",
+            score_offset = 50,
             opts = {
               -- options for the blink-cmp-git
               commit = {
@@ -315,6 +316,7 @@ return {
             opts = {
               -- EXAMPLE: Only enable source in `@spell` captures, and disable it
               -- in `@nospell` captures.
+              score_offset = 120,
               enable_in_context = function()
                 local curpos = vim.api.nvim_win_get_cursor(0)
                 local captures = vim.treesitter.get_captures_at_pos(0, curpos[1] - 1, curpos[2] - 1)
@@ -340,6 +342,7 @@ return {
           ripgrep = {
             module = "blink-ripgrep",
             name = "Ripgrep",
+            score_offset = 140,
             -- the options below are optional, some default values are shown
             ---@module "blink-ripgrep"
             ---@type blink-ripgrep.Options
