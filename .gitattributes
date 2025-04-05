@@ -1,4 +1,9 @@
 .gitattributes !filter !diff
+shell/secrets/** filter=git-crypt diff=git-crypt
+*.key filter=git-crypt diff=git-crypt
+*.secret filter=git-crypt diff=git-crypt
+shell/*.key filter=git-crypt diff=git-crypt
+shell/*.secret filter=git-crypt diff=git-crypt
 Mackup/books/hosts.yml filter=git-crypt diff=git-crypt
 Mackup/books/playbooks/tasks/k0s/services/* filter=git-crypt diff=git-crypt
 Mackup/books/playbooks/tasks/files/*-env filter=git-crypt diff=git-crypt
@@ -11,9 +16,5 @@ credentials/** filter=git-crypt diff=git-crypt
 credentials/certs/** filter=git-crypt diff=git-crypt
 docker/intellij/** filter=git-crypt diff=git-crypt
 docker/novnc/ssl/** filter=git-crypt diff=git-crypt
-*.key filter=git-crypt diff=git-crypt
-*.secret filter=git-crypt diff=git-crypt
-shell/*.key filter=git-crypt diff=git-crypt
-shell/*.secret filter=git-crypt diff=git-crypt
 
 
