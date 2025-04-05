@@ -2,6 +2,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
+      -- colorscheme = "kanagawa",
       -- colorscheme = "kanagawa-lotus",
       -- colorscheme = "kanagawa-dragon",
       -- colorscheme = "kanagawa-wave",
@@ -9,11 +10,12 @@ return {
       -- colorscheme = "tokyonight",
     },
   },
+
   {
     -- another cool colorscheme
     "rebelot/kanagawa.nvim",
     opts = {
-      compile = false, -- enable compiling the colorscheme
+      compile = true, -- enable compiling the colorscheme
       undercurl = true, -- enable undercurls
       commentStyle = { italic = true },
       functionStyle = {},
@@ -36,11 +38,14 @@ return {
         light = "lotus",
       },
     },
+    build = function()
+      vim.cmd("KanagawaCompile")
+    end,
   },
   {
     "catppuccin",
     opts = {
-      flavour = "macchiato", -- latte, frappe, macchiato, mocha
+      flavour = "mocha", -- latte, frappe, macchiato, mocha
       background = { -- :h background
         light = "latte",
         dark = "mocha",

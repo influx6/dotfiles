@@ -6,6 +6,22 @@
 vim.opt.spell = true
 vim.opt.spelllang = { "en_us" }
 
+vim.opt.number = true
+vim.opt.cursorline = true
+
+vim.opt.undofile = true
+
+vim.opt.expandtab = true -- Convert tabs to spaces
+vim.opt.shiftwidth = 4 -- Amount of indent with << and >>
+
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+vim.opt.breakindent = true
+vim.opt.smarttab = true
+vim.opt.smartindent = true
+vim.opt.autoindent = true
+
 -- Treesitter folding
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "nvim_treesitter#foldexpr()"

@@ -1,4 +1,5 @@
 return {
+  { "tpope/vim-sleuth" }, -- smart indentation guesser
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
