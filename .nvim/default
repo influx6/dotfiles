@@ -21,11 +21,12 @@ badd +13 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-folds.lua
 badd +6 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-harpoon.lua
 badd +5 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-scratch.lua
 badd +97 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-snack-picker.lua
-badd +10 nvim/lua/plugins/plugin-surround.lua
-badd +240 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-cmps.lua
+badd +52 nvim/lua/plugins/plugin-surround.lua
+badd +169 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-cmps.lua
+badd +153 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-ai.lua
 argglobal
 %argdel
-edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-cmps.lua
+edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-ai.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -44,7 +45,7 @@ set winminwidth=0
 set winwidth=1
 wincmd =
 argglobal
-balt ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-snack-picker.lua
+balt ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-cmps.lua
 setlocal fdm=expr
 setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
@@ -53,19 +54,21 @@ setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 240 - ((46 * winheight(0) + 36) / 72)
+3
+normal! zo
+let s:l = 245 - ((4 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 240
-normal! 0
+keepjumps 245
+normal! 058|
 wincmd w
 argglobal
-if bufexists(fnamemodify("nvim/lua/plugins/plugin-surround.lua", ":p")) | buffer nvim/lua/plugins/plugin-surround.lua | else | edit nvim/lua/plugins/plugin-surround.lua | endif
+if bufexists(fnamemodify("~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-cmps.lua", ":p")) | buffer ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-cmps.lua | else | edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-cmps.lua | endif
 if &buftype ==# 'terminal'
-  silent file nvim/lua/plugins/plugin-surround.lua
+  silent file ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-cmps.lua
 endif
-balt nvim/lua/plugins/plugin-neo-tree.lua
+balt nvim/lua/plugins/plugin-surround.lua
 setlocal fdm=expr
 setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
@@ -74,17 +77,270 @@ setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-1
+7
 normal! zo
-2
+9
 normal! zo
-let s:l = 10 - ((7 * winheight(0) + 36) / 72)
+9
+normal! zo
+92
+normal! zo
+111
+normal! zo
+112
+normal! zo
+124
+normal! zo
+134
+normal! zo
+137
+normal! zo
+147
+normal! zo
+196
+normal! zo
+206
+normal! zo
+216
+normal! zo
+231
+normal! zo
+236
+normal! zo
+245
+normal! zo
+248
+normal! zo
+251
+normal! zo
+255
+normal! zo
+273
+normal! zo
+279
+normal! zo
+361
+normal! zo
+385
+normal! zo
+386
+normal! zo
+412
+normal! zo
+412
+normal! zo
+412
+normal! zo
+412
+normal! zo
+421
+normal! zo
+421
+normal! zo
+421
+normal! zo
+429
+normal! zo
+430
+normal! zo
+446
+normal! zo
+451
+normal! zo
+457
+normal! zo
+458
+normal! zo
+486
+normal! zo
+493
+normal! zo
+494
+normal! zo
+532
+normal! zo
+545
+normal! zo
+546
+normal! zo
+555
+normal! zo
+557
+normal! zo
+558
+normal! zo
+570
+normal! zo
+571
+normal! zo
+581
+normal! zo
+583
+normal! zo
+585
+normal! zo
+609
+normal! zo
+617
+normal! zo
+637
+normal! zo
+638
+normal! zo
+640
+normal! zo
+651
+normal! zo
+652
+normal! zo
+662
+normal! zo
+665
+normal! zo
+422
+normal! zo
+435
+normal! zo
+437
+normal! zo
+440
+normal! zo
+452
+normal! zo
+475
+normal! zo
+476
+normal! zo
+492
+normal! zo
+497
+normal! zo
+503
+normal! zo
+504
+normal! zo
+532
+normal! zo
+539
+normal! zo
+540
+normal! zo
+578
+normal! zo
+591
+normal! zo
+592
+normal! zo
+601
+normal! zo
+603
+normal! zo
+604
+normal! zo
+616
+normal! zo
+617
+normal! zo
+627
+normal! zo
+629
+normal! zo
+631
+normal! zo
+655
+normal! zo
+663
+normal! zo
+683
+normal! zo
+684
+normal! zo
+686
+normal! zo
+697
+normal! zo
+698
+normal! zo
+708
+normal! zo
+711
+normal! zo
+422
+normal! zo
+435
+normal! zo
+437
+normal! zo
+440
+normal! zo
+452
+normal! zo
+475
+normal! zo
+476
+normal! zo
+492
+normal! zo
+497
+normal! zo
+503
+normal! zo
+504
+normal! zo
+532
+normal! zo
+539
+normal! zo
+540
+normal! zo
+578
+normal! zo
+591
+normal! zo
+592
+normal! zo
+601
+normal! zo
+603
+normal! zo
+604
+normal! zo
+616
+normal! zo
+617
+normal! zo
+627
+normal! zo
+629
+normal! zo
+631
+normal! zo
+655
+normal! zo
+663
+normal! zo
+683
+normal! zo
+684
+normal! zo
+686
+normal! zo
+697
+normal! zo
+698
+normal! zo
+708
+normal! zo
+711
+normal! zo
+let s:l = 169 - ((33 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 10
-normal! 08|
+keepjumps 169
+normal! 022|
 wincmd w
+2wincmd w
 wincmd =
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'

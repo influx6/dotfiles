@@ -1,5 +1,18 @@
 local diagnostics = vim.g.lazyvim_rust_diagnostics
 
+function has_key(table, key)
+  return table[key] ~= nil
+end
+
+function get_github_token()
+  local envs = vim.fn.environ()
+  vim.print("ENV: ", envs)
+  if has_key(envs, "GH_TOKEN") then
+    return envs["GH_TOKEN"]
+  end
+  vim.print("Unable to locate github GH_TOKEN environment var")
+end
+
 return {
 
   {
@@ -124,6 +137,61 @@ return {
             name = "Git",
             opts = {
               -- options for the blink-cmp-git
+              commit = {
+                -- You may want to customize when it should be enabled
+                -- The default will enable this when `git` is found and `cwd` is in a git repository
+                -- enable = function() end
+                -- You may want to change the triggers
+                -- triggers = { ':' },
+                --
+              },
+              git_centers = {
+                github = {
+                  issue = { get_token = get_github_token },
+                  pull_request = { get_token = get_github_token },
+                  mention = { get_token = get_github_token },
+                  -- Those below have the same fields with `commit`
+                  -- Those features will be enabled when `git` and `gh` (or `curl`) are found and
+                  -- remote contains `github.com`
+                  -- issue = {
+                  --     get_token = function() return '' end,
+                  -- },
+                  -- pull_request = {
+                  --     get_token = function() return '' end,
+                  -- },
+                  -- mention = {
+                  --     get_token = function() return '' end,
+                  --     get_documentation = function(item)
+                  --         local default = require('blink-cmp-git.default.github')
+                  --             .mention.get_documentation(item)
+                  --         default.get_token = function() return '' end
+                  --         return default
+                  --     end
+                  -- }
+                },
+                gitlab = {
+                  -- Those below have the same fields with `commit`
+                  -- Those features will be enabled when `git` and `glab` (or `curl`) are found and
+                  -- remote contains `gitlab.com`
+                  -- issue = {
+                  --     get_token = function() return '' end,
+                  -- },
+                  -- NOTE:
+                  -- Even for `gitlab`, you should use `pull_request` rather than`merge_request`
+                  -- pull_request = {
+                  --     get_token = function() return '' end,
+                  -- },
+                  -- mention = {
+                  --     get_token = function() return '' end,
+                  --     get_documentation = function(item)
+                  --         local default = require('blink-cmp-git.default.gitlab')
+                  --            .mention.get_documentation(item)
+                  --         default.get_token = function() return '' end
+                  --         return default
+                  --     end
+                  -- }
+                },
+              },
             },
           },
           dictionary = {

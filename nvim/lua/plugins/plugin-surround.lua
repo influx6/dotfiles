@@ -1,35 +1,3 @@
-return {
-  {
-    "kylechui/nvim-surround",
-    version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
-    event = "VeryLazy",
-    config = function()
-      require("nvim-surround").setup({
-        -- Configuration here, or leave empty to use defaults
-      })
-    end,
-    keys = {
-      -- {
-      --   "<leader>vs",
-      --   function()
-      --     -- require("nvim-surround").normal_surround({ line_mode = false })
-      --     vim.cmd("ysiw")
-      --   end,
-      --   mode = { "n" },
-      --   desc = "Surround words with a character <c>surrounded words<c> (normal mode)",
-      -- },
-      -- {
-      --   "<leader>vi",
-      --   function()
-      --     require("nvim-surround").insert_surround({ line_mode = false })
-      --   end,
-      --   mode = { "i" },
-      --   desc = "Surround words with a character <c>surrounded words<c> (insert mode)",
-      -- },
-    },
-  },
-}
-
 -- # nvim-surround
 --
 -- Surround selections, stylishly :sunglasses:
@@ -81,3 +49,35 @@ return {
 -- - [mini.surround](https://github.com/echasnovski/mini.surround)
 -- - [vim-sandwich](https://github.com/machakann/vim-sandwich)
 -- - Like this project? Give it a :star: to show your support!
+
+return {
+  {
+    "kylechui/nvim-surround",
+    version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end,
+    keys = {
+      -- {
+      --   "<leader>vs",
+      --   function()
+      --     -- require("nvim-surround").normal_surround({ line_mode = false })
+      --     vim.cmd("ysiw")
+      --   end,
+      --   mode = { "n" },
+      --   desc = "Surround words with a character <c>surrounded words<c> (normal mode)",
+      -- },
+      -- {
+      --   "<leader>vi",
+      --   function()
+      --     require("nvim-surround").insert_surround({ line_mode = false })
+      --   end,
+      --   mode = { "i" },
+      --   desc = "Surround words with a character <c>surrounded words<c> (insert mode)",
+      -- },
+    },
+  },
+}
