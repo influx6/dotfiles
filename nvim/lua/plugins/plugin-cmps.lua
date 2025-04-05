@@ -15,6 +15,24 @@ end
 return {
 
   {
+    "kristijanhusak/vim-dadbod-ui",
+    dependencies = {
+      { "tpope/vim-dadbod", lazy = true },
+      { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
+    },
+    cmd = {
+      "DBUI",
+      "DBUIToggle",
+      "DBUIAddConnection",
+      "DBUIFindBuffer",
+    },
+    init = function()
+      -- Your DBUI configuration
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
+  },
+
+  {
     "folke/lazydev.nvim",
     ft = "lua", -- only load on lua files
     opts = {
@@ -26,10 +44,23 @@ return {
     },
   },
 
+  { "jmbuhr/cmp-pandoc-references" },
+
+  {
+    "saghen/blink.compat",
+    -- use the latest release, via version = '*', if you also use the latest release for blink.cmp
+    version = "*",
+    -- lazy.nvim will automatically load the plugin when it's required by blink.cmp
+    lazy = true,
+    -- make sure to set opts so that lazy.nvim calls blink.compat's setup
+    opts = {},
+  },
+
   {
     "saghen/blink.cmp",
     -- optional: provides snippets for the snippet source
     dependencies = {
+      "dmitmel/cmp-digraphs",
       "nvim-lua/plenary.nvim",
       "milanglacier/minuet-ai.nvim",
       "moyiz/blink-emoji.nvim",
@@ -107,8 +138,43 @@ return {
           "emoji",
           "css_vars",
           "nerdfont",
+          "digraphs",
+          "references",
+        },
+        per_filetype = {
+          sql = { "snippets", "dadbod", "buffer" },
         },
         providers = {
+          digraphs = {
+            -- IMPORTANT: use the same name as you would for nvim-cmp
+            name = "digraphs",
+            module = "blink.compat.source",
+
+            -- all blink.cmp source config options work as normal:
+            score_offset = -3,
+
+            -- this table is passed directly to the proxied completion source
+            -- as the `option` field in nvim-cmp's source config
+            --
+            -- this is NOT the same as the opts in a plugin's lazy.nvim spec
+            opts = {
+              -- this is an option from cmp-digraphs
+              cache_digraphs_on_start = true,
+
+              -- If you'd like to use a `name` that does not exactly match nvim-cmp,
+              -- set `cmp_name` to the name you would use for nvim-cmp, for instance:
+              -- cmp_name = "digraphs"
+              -- then, you can set the source's `name` to whatever you like.
+            },
+          },
+          references = {
+            name = "pandoc_references",
+            module = "cmp-pandoc-references.blink",
+          },
+          dadbod = {
+            name = "Dadbod", -- provides sql and db command completion.
+            module = "vim_dadbod_completion.blink",
+          },
           avante = {
             module = "blink-cmp-avante",
             name = "Avante",
