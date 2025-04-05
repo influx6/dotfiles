@@ -274,7 +274,6 @@ return {
           env = {
             name = "Env",
             module = "blink-cmp-env",
-            --- @type blink-cmp-env.Options
             opts = {
               item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
               show_braces = false,
@@ -285,7 +284,7 @@ return {
             name = "css-vars",
             module = "css-vars.blink",
             opts = {
-              -- WARNING: The search is not optimized to look for variables in JS files.
+              -- NOTE: The search is not optimized to look for variables in JS files.
               -- If you change the search_extensions you might get false positives and weird completion results.
               search_extensions = { ".js", ".ts", ".jsx", ".tsx" },
             },
@@ -556,7 +555,6 @@ return {
           timeout_ms = nil,
         },
         -- LSP Server Settings
-        ---@type lspconfig.options
         servers = {
           bacon_ls = {
             enabled = diagnostics == "bacon-ls",
@@ -596,7 +594,6 @@ return {
         },
         -- you can do any additional lsp server setup here
         -- return true if you don't want this server to be setup with lspconfig
-        ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
         setup = {
           -- If you enable this rustaceanvim will not functionm
           -- basically its as it outlines itself, it will disable
@@ -769,6 +766,7 @@ return {
             ensure_installed,
             LazyVim.opts("mason-lspconfig.nvim").ensure_installed or {}
           ),
+          automatic_installation = true,
           handlers = { setup },
         })
       end
@@ -785,13 +783,4 @@ return {
       end
     end,
   },
-
-  -- ai completion
-  -- {
-  --   "tzachar/cmp-ai",
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --     "hrsh7th/nvim-cmp",
-  --   },
-  -- },
 }
