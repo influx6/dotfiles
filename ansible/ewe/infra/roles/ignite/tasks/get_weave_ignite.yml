@@ -1,0 +1,32 @@
+---
+- name: select weave ignite target architecture
+  set_fact:
+    ignite_arch: "{{ 'amd64' if (repo_arch == 'amd64') else 'arm64' }}"
+- debug:
+    msg: "ignite_arch arch: {{ ignite_arch }}"
+- name: download ignited binary for arch
+  get_url:
+    url: "https://github.com/weaveworks/ignite/releases/download/v{{ weave_ignite_version }}/ignited-{{ ignite_arch }}"
+    dest: /usr/local/bin/ignited
+    mode: 0755
+- name: download ignite binary for arch
+  get_url:
+    url: "https://github.com/weaveworks/ignite/releases/download/v{{ weave_ignite_version }}/ignite-{{ ignite_arch }}"
+    dest: /usr/local/bin/ignite
+    mode: 0755
+- name: set the binaries as executable
+  become_user: root
+  shell: "chmod +x /usr/local/bin/{{item}}"
+  loop:
+    - "ignite"
+    - "ignited"
+- name: create custom path from operating system
+  when: ansible_env.PATH is not search('/usr/local/bin/ignite')
+  copy:
+    dest: /etc/profile.d/ignite_path.sh
+    content: 'export PATH=/usr/local/bin/ignite:$PATH'
+- name: create custom path from operating system
+  when: ansible_env.PATH is not search('/usr/local/bin/ignited')
+  copy:
+    dest: /etc/profile.d/ignited_path.sh
+    content: 'export PATH=/usr/local/bin/ignited:$PATH'

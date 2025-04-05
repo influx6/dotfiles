@@ -1,0 +1,76 @@
+---
+- name: Check if docker.service is running
+  service:
+    name: docker
+    state: started
+  register: docker_service
+- name: Remove default docker install from ubuntu repo
+  when: docker_service.state != "started"
+  package:
+    purge: true
+    state: absent
+    pkg:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+- name: Install base packages
+  when: docker_service.state != "started"
+  package:
+    state: present
+    pkg:
+      - ca-certificates
+      - apache2-utils
+      - curl
+      - gnupg
+      - lsb-release
+- name: Install docker gnupkg key
+  when: docker_service.state != "started"
+  shell: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -"
+  register: docker_gpg
+- name: Check if we have pgp key for docker
+  register: docker_pgp_file
+  stat:
+    path: "/usr/share/keyrings/docker-archive-keyring.gpg"
+- name: Install docker gnupkg key via pgp
+  shell: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg  --yes --dearmor -o /etc/apt/keyrings/docker-keyring.gpg"
+  when: docker_service.state != "started" and (not docker_pgp_file.stat.exists)
+  register: docker_gpg2
+- name: Get lsb_release value for system
+  shell: lsb_release -cs
+  register: lsb_release
+- name: Add docker apt repository
+  when: docker_service.state != "started"
+  apt_repository:
+    repo: "deb [arch={{repo_arch}} signed-by=/etc/apt/keyrings/docker-keyring.gpg] https://download.docker.com/linux/ubuntu {{lsb_release.stdout}} stable"
+    update_cache: yes
+    state: present
+- name: Check if docker is already installed
+  command: "which docker"
+  ignore_errors: true
+  register: docker_check
+- name: Install docker
+  when: docker_check.rc == 1 and docker_service.state != "started"
+  apt:
+    update_cache: yes
+    state: present
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - aufs-tools
+      - cgroupfs-mount
+- name: Ensure group docker exists
+  when: docker_service.state != "started"
+  group:
+    name: docker
+    state: present
+- name: Add user "{{ user_account }}" to group docker
+  when: docker_service.state != "started"
+  user:
+    name: '{{ user_account }}'
+    groups:
+      - docker
+    append: yes
+

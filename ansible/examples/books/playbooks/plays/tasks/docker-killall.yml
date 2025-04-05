@@ -1,0 +1,3 @@
+- name: Killall docker containers
+  shell: "docker kill $(docker ps -q)"
+  ignore_errors: yes

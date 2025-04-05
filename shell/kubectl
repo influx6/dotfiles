@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+alias k="kubectl"
+alias kube="kubectl"
+alias k_resources="kubectl get all --all-namespaces"
+alias k_nodes="kubectl get nodes"

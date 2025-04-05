@@ -1,0 +1,222 @@
+---
+
+controllers:
+  vars:
+    group_name: "k8s-controllers"
+    appuser: "darkvoid"
+    git_user: "Alexander Ewetumo"
+    git_email: "trinoxf@gmail.com"
+    owner: "alexewetumo"
+    fs_root: "/home/darkvoid"
+    lab_root: "/home/darkvoid"
+    network_parent: "enp1s0f0"
+    file_browser_root: "/home/darkvoid"
+    config_root: "/home/darkvoid"
+    remove_docker_legacy: true
+  hosts:
+    dark-master:
+      ansible_host: 192.168.128.140
+      ansible_port: 5606
+      ansible_user: darkvoid
+
+code-servers:
+  vars:
+    group_name: "code-servers"
+    appuser: "darkvoid"
+    git_user: "Alexander Ewetumo"
+    git_email: "trinoxf@gmail.com"
+    owner: "alexewetumo"
+    fs_root: "/home/darkvoid"
+    file_browser_root: "/home/darkvoid"
+    lab_root: "/home/darkvoid"
+    home: "/home/darkvoid"
+    terminator_overwrite: false
+    config_root: "/mnt/tower/Config"
+    remove_docker_legacy: true
+  hosts:
+    dark-mini:
+      ansible_host: 192.168.128.147
+      ansible_port: 5606
+      ansible_user: darkvoid
+
+arm-server1:
+  vars:
+    group_name: "arm-servers"
+    git_user: "Alexander Ewetumo"
+    git_email: "trinoxf@gmail.com"
+    network_parent: "eth0"
+    appuser: "ubuntu"
+    owner: "alexewetumo"
+    fs_root: "/home/ubuntu"
+    tower_root: "/mnt/tower"
+    remove_docker_legacy: true
+    docker_network_subnet: "192.168.128.83/16"
+    pi_hole_ip: "192.168.128.83"
+    pi_hole_proxy: "pi1.hole"
+    pi_hole_vhost: "pi1.hole"
+    pi_hole_hostname: "pi1.hole"
+    pi_hole_password: "f1p!Ej^Y#ZYXfOzd8I8k*AM3crHJw@7A$JUQgSA7C^yd12V8s3AnidG#U^6h"
+  hosts:
+    dark-arm-1:
+      ansible_host: 192.168.128.149
+      ansible_port: 5606
+      ansible_user: ubuntu
+
+arm-server2:
+  vars:
+    group_name: "arm-servers"
+    git_user: "Alexander Ewetumo"
+    git_email: "trinoxf@gmail.com"
+    appuser: "ubuntu"
+    network_parent: "eth0"
+    owner: "alexewetumo"
+    fs_root: "/home/ubuntu"
+    tower_root: "/mnt/tower"
+    remove_docker_legacy: true
+    docker_network_subnet: "192.168.128.84/16"
+    pi_hole_ip: "192.168.128.84"
+    pi_hole_proxy: "pi2.hole"
+    pi_hole_hostname: "pi2.hole"
+    pi_hole_vhost: "pi2.hole"
+    pi_hole_password: "f1p!Ej^Y#ZYXfOzd8I8k*AM3crHJw@7A$JUQgSA7C^yd12V8s3AnidG#U^6h"
+  hosts:
+    dark-arm-2:
+      ansible_host: 192.168.128.148
+      ansible_port: 5606
+      ansible_user: ubuntu
+
+
+media-servers:
+  vars:
+    group_name: "media-servers"
+    git_user: "Alexander Ewetumo"
+    git_email: "trinoxf@gmail.com"
+    group_cdn: "media"
+    appuser: "root"
+    owner: "alexewetumo"
+    fs_root: "/mnt/user"
+    remove_docker_legacy: true
+  hosts:
+    dark-tower:
+      ansible_host: 192.168.128.125
+      ansible_port: 5606
+      ansible_user: root
+
+slave1:
+  vars:
+    group_name: "k8s-slaves"
+    git_user: "Alexander Ewetumo"
+    git_email: "trinoxf@gmail.com"
+    appuser: "darkvoid"
+    owner: "alexewetumo"
+    fs_root: "/home/darkvoid"
+    remove_docker_legacy: true
+  hosts:
+    dark-slave-1:
+      ansible_host: 192.168.128.90
+      ansible_port: 5606
+      ansible_user: darkvoid
+
+slave2:
+  vars:
+    group_name: "k8s-slaves"
+    git_user: "Alexander Ewetumo"
+    git_email: "trinoxf@gmail.com"
+    appuser: "darkvoid"
+    owner: "alexewetumo"
+    fs_root: "/home/darkvoid"
+    remove_docker_legacy: true
+  hosts:
+    dark-slave-2:
+      ansible_host: 192.168.128.100
+      ansible_user: darkvoid
+      ansible_port: 5606
+
+slave3:
+  vars:
+    group_name: "k8s-slaves"
+    git_user: "Alexander Ewetumo"
+    git_email: "trinoxf@gmail.com"
+    appuser: "darkvoid"
+    owner: "alexewetumo"
+    fs_root: "/home/darkvoid"
+    remove_docker_legacy: true
+  hosts:
+    dark-slave-3:
+      ansible_host: 192.168.128.159
+      ansible_user: darkvoid
+      ansible_port: 5606
+
+pihole-servers:
+  children:
+    arm-server1:
+    arm-server2:
+
+arm-servers:
+  children:
+    arm-server1:
+    arm-server2:
+
+slaves:
+  children:
+    slave1:
+#    slave2:
+    slave3:
+    arm-server1:
+    arm-server2:
+
+ubuntu:
+  children:
+    controllers:
+    code-servers:
+    slaves:
+    arm-servers:
+
+masters:
+  children:
+    controllers:
+    code-servers:
+
+master:
+  children:
+    controllers:
+    code-servers:
+
+k8s:
+  children:
+    slaves:
+    controllers:
+
+tower_clients:
+  children:
+    slaves:
+    code-servers:
+    arm-servers:
+    controllers:
+
+gitlab_clients:
+  children:
+    code-servers:
+
+portainer_clients:
+  children:
+    controllers:
+    arm-servers:
+    code-servers:
+
+rancher_clients:
+  children:
+    controllers:
+    code-servers:
+
+caddy_clients:
+  children:
+    controllers:
+
+all:
+  children:
+    slaves:
+    media-servers:
+    controllers:
+    arm-servers:
+    code-servers:

@@ -1,0 +1,4 @@
+---
+# tasks file for containerd
+- include_tasks: install.yml
+  when: containerd_installed.rc == 1

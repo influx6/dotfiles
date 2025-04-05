@@ -1,0 +1,26 @@
+---
+- name: create caddy directory
+  become_user: "{{user_account}}"
+  file:
+    path: "{{ewe_dir}}/{{item}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "caddy2/machine"
+    - "caddy2/machine/data"
+    - "caddy2/machine/sites"
+    - "caddy2/machine/config"
+- name: Copy files to machine
+  become_user: "{{user_account}}"
+  copy:
+    src: "{{role_path}}/files/{{item.src}}"
+    dest: "{{ewe_dir}}/caddy2/machine/{{item.dest}}"
+  with_items:
+    - { src: "Dockerfile", dest: "Dockerfile" }
+- name: Copy content as file to machine
+  become_user: "{{user_account}}"
+  copy:
+    content: "{{caddy}}"
+    dest: "{{ewe_dir}}/caddy2/machine/{{item.dest}}"
+  with_items:
+    - { content: "{{caddy}}", dest: "Caddy.json" }

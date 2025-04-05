@@ -1,0 +1,346 @@
+version: "3.5"
+
+networks:
+  default:
+    external:
+      name: app-networks
+  br0:
+    external:
+      name: br0
+
+volumes:
+  portainer-volume:
+    external: true
+  radar-volume-config:
+    external: true
+  plex-volume-config:
+    external: true
+  plex-volume-music:
+    external: true
+  plex-volume-movies:
+    external: true
+  plex-volume-downloads:
+    external: true
+  plex-volume-audio:
+    external: true
+  plex-volume-pictures:
+    external: true
+  plex-volume-tv:
+    external: true
+
+
+services:
+  cloudflare-ddns:
+    image: oznu/cloudflare-ddns
+    container_name: cloudflare-ddns
+    restart: unless-stopped
+    environment:
+      - HOST_OS=Unraid
+      - API_KEY=
+      - ZONE=ewe-studios.com
+      - SUBDOMAIN=dynamic
+      - PROXIED=false
+      - RRTYPE=A
+
+  guacamole:
+    image: jasonbean/guacamole
+    container_name: guacamole
+    privileged: true
+    networks:
+      br0:
+        ipv4_address: 192.168.128.80
+    environment:
+      - TZ=Asia/HongKong
+      - HOST_OS=Unraid
+      - TCP_PORT=8080
+      - OPT_MYSQL=Y
+      - OPT_MYSQL_EXTENSION=Y
+      - OPT_SQLSERVER=N
+      - OPT_LDAP=N
+      - OPT_DUO=N
+      - OPT_CAS=N
+      - OPT_TOTP=N
+      - OPT_QUICKCONNECT=N
+      - OPT_HEADER=N
+      - OPT_SAML=N
+      - PUID=99
+      - PGID=100  -v /mnt/user/appdata/ApacheGuacamole:/config:rw jasonbean/guacamole
+    volumes:
+      - /mnt/user/guacamole:/share:rw
+      - /mnt/user/appdata/ApacheGuacamole:/config:rw
+    ports:
+      - "7878:7878"
+    restart: unless-stopped
+
+  portainer_ce:
+    container_name: portainer_ce
+    image: "portainer/portainer-ce:2.11.1"
+    privileged: true
+    restart: unless-stopped
+    ports:
+      - "9080:8000"
+      - "9043:9443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "portainer-volume:/data"
+
+  portainer_agent:
+    container_name: portainer_agent
+    image: "portainer/agent:2.11.1"
+    restart: unless-stopped
+    privileged: yes
+    ports:
+      - "9001:9001"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/var/lib/docker/volumes:/var/lib/docker/volumes:rw"
+
+  duckdns:
+    image: lscr.io/linuxserver/duckdns
+    container_name: duckdns
+    environment:
+      - PUID=99
+      - PGID=100
+      - HOST_OS=Unraid
+      - TZ=Asia/HongKong
+      - SUBDOMAINS=ewe-studios.duckdns.org
+      - TOKEN=
+      - LOG_FILE=true
+      - UMASK=022
+    volumes:
+      - /mnt/user/appdata/duckdns:/config:rw
+
+  next_cloud_db:
+    image: lscr.io/linuxserver/mariadb
+    container_name: next_cloud_db
+    environment:
+      - PUID=99
+      - PGID=100
+      - HOST_OS=Unraid
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=darkvoid
+      - MYSQL_PASSWORD=
+      - REMOTE_SQL=http://URL1/your.sql,https://URL2/your.sql
+      - UMASK=022
+    ports:
+      - "13306:3306/tcp"
+    volumes:
+      - /mnt/user/appdata/mariadb:/config:rw
+
+  next_cloud:
+    image: 'nextcloud:latest'
+    container_name: next_cloud
+    depends_on:
+      - next_cloud_db
+    networks:
+      br0:
+        ipv4_address: 192.168.128.81
+    environment:
+      - PUID=99
+      - PGID=100
+      - HOST_OS=Unraid
+    volumes:
+      - '/mnt/user/appdata/nextcloud/nextcloud:/var/www/html:rw'
+      - '/mnt/user/appdata/nextcloud/apps:/var/www/html/custom_apps:rw'
+      - '/mnt/user/appdata/nextcloud/config:/var/www/html/config:rw'
+      - '/mnt/user/appdata/nextcloud/data:/var/www/html/data:rw'
+      - '/mnt/user/Share/:/mnt/Share:rw'
+
+  privoxyvpn:
+    image: binhex/arch-privoxyvpn
+    container_name: privoxyvpn
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    environment:
+      - HOST_OS=Unraid
+      - TZ=Asia/HongKong
+      - VPN_ENABLED=yes
+      - VPN_USER=p3982594
+      - VPN_PASS=
+      - VPN_PROV=pia
+      - VPN_CLIENT=openvpn
+      - VPN_OPTIONS=
+      - LAN_NETWORK=192.168.128.0/24
+      - NAME_SERVERS=84.200.69.80,37.235.1.174,1.1.1.1,37.235.1.177,84.200.70.40,1.0.0.1,192.168.128.1
+      - SOCKS_USER=darkvoid
+      - SOCKS_PASS=
+      - ENABLE_SOCKS=yes
+      - ENABLE_PRIVOXY=yes
+      - VPN_INPUT_PORTS=8081,6789,8989,9897,8112,58846,58946
+      - VPN_OUTPUT_PORTS=8081,6789,8989,9897,8112,58846,58946
+      - DEBUG=true
+      - UMASK=000
+      - PUID=99
+      - PGID=100
+    ports:
+      - "8118:8118/tcp"
+      - "9118:9118/tcp"
+      - "6789:6789/tcp"
+      - "8081:8081/tcp"
+      - "8989:8989/tcp"
+      - "9897:9897/tcp"
+      - "8112:8112/tcp"
+      - "58846:58846/tcp"
+      - "58946:58946/tcp"
+      - "58946:58946/udp"
+    volumes:
+      - /mnt/user/appdata/binhex-privoxyvpn:/config:rw
+
+
+  sonarr:
+    image: binhex/arch-sonarr
+    container_name: binhex-sonarr
+    network_mode: "service:privoxyvpn"
+    depends_on:
+      - privoxyvpn
+    environment:
+      - PUID=99
+      - PGID=100
+      - HOST_OS=Unraid
+      - TZ=Asia/HongKong
+      - UMASK=000
+    volumes:
+      - /mnt/user/appdata/data:/data:rw
+      - /mnt/user:/media:rw
+      - /mnt/user/appdata/binhex-sonarr:/config:rw
+
+  caddy:
+    image: caddy:alpine
+    container_name: CaddyV2
+    environment:
+      - HOST_OS=Unraid
+      - TZ=Asia/HongKong
+    ports:
+      - "2080:80/tcp"
+      - "2443:443/tcp"
+      - "2019:2019/tcp"
+    volumes:
+      - /mnt/user/Docker/conf/caddyv2/data:/data:rw
+      - /mnt/user/appdata/CaddyV2:/config:rw
+      - /mnt/user/Docker/conf/caddyv2/Caddyfile:/etc/caddy/Caddyfile:rw
+
+  heimdall:
+    image: lscr.io/linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=99
+      - PGID=100
+      - HOST_OS=Unraid
+      - TZ=Asia/HongKong
+      - UMASK=022
+    ports:
+      - "8082:80/tcp"
+      - "4433:443/tcp"
+    volumes:
+      - /mnt/user/appdata/heimdall:/config:rw
+
+
+  sickchill:
+    image: binhex/arch-sickchill
+    container_name: sickchill
+    network_mode: "service:privoxyvpn"
+    depends_on:
+      - privoxyvpn
+    environment:
+      - PUID=99
+      - PGID=100
+      - HOST_OS=Unraid
+      - TZ=Asia/HongKong
+      - UMASK=000
+    volumes:
+      - /mnt/user/appdata/data:/data:rw
+      - /mnt/user:/media:rw
+      - /mnt/user/appdata/binhex-sickchill:/config:rw
+
+  deluge:
+    image: binhex/arch-deluge
+    container_name: binhex-deluge
+    network_mode: "service:privoxyvpn"
+    depends_on:
+      - privoxyvpn
+    environment:
+      - PUID=99
+      - PGID=100
+      - HOST_OS=Unraid
+      - DELUGE_DAEMON_LOG_LEVEL=info
+      - DELUGE_WEB_LOG_LEVEL=info
+      - UMASK=000
+    volumes:
+      - /mnt/user/appdata/data:/data:rw
+      - /mnt/user/appdata/binhex-deluge:/config:rw
+
+  intellij:
+    image: binhex/arch-intellij
+    container_name: binhex-intellij
+    depends_on:
+      - privoxyvpn
+    environment:
+      - PUID=99
+      - PGID=100
+      - HOST_OS=Unraid
+      - WEBPAGE_TITLE=IntelliJ
+      - VNC_PASSWORD=
+      - UMASK=000
+    ports:
+      - "6080:6080/tcp"
+    volumes:
+      - /mnt/user/appdata/data:/data:rw
+      - /mnt/user/appdata/binhex-intellij:/config:rw
+
+
+  radarr:
+    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    depends_on:
+      - privoxyvpn
+    environment:
+      - PUID=1000
+      - HOST_OS=Unraid
+      - PGID=100
+      - TZ=Asia/HongKong
+    volumes:
+      - radar-volume-config:/config
+      - plex-volume-music:/music
+      - plex-volume-movies:/movies
+      - plex-volume-downloads:/downloads
+    ports:
+      - "7878:7878"
+    restart: unless-stopped
+
+
+  plex-server:
+    image: lscr.io/linuxserver/plex
+    container_name: plex-server
+    restart: unless-stopped
+    depends_on:
+      - privoxyvpn
+    #    devices:
+    #      - "/dev/dri:/dev/dri"
+    environment:
+      PUID: 1000
+      PGID: 100
+      VERSION: "docker"
+      PLEX_CLAIM: ""
+    ports:
+      - "1900:1900/udp"
+      - "32400:32400"
+      - "3005:3005"
+      - "5353:5353"
+      - "8324:8324"
+      - "32469:32469"
+      - "32410:32410/udp"
+      - "32412:32412/udp"
+      - "32413:32413/udp"
+      - "32414:32414/udp"
+    volumes:
+      - plex-volume-tv:/tv
+      - plex-volume-config:/config
+      - plex-volume-music:/music
+      - plex-volume-audio:/audios
+      - plex-volume-pictures:/pictures
+      - plex-volume-movies:/movies
+      - plex-volume-downloads:/downloads

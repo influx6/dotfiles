@@ -1,0 +1,23 @@
+---
+- name: Install kvm packages
+  package:
+    state: present
+    pkg:
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - build-essential
+      - bridge-utils
+      - cpu-checker
+      - libvirt-clients
+      - libvirt-daemon
+      - virt-manager
+      - qemu
+      - qemu-kvm
+- name: check that kvm is working fine
+  shell: kvm-ok
+  register: kvm_ready_state
+- name: enable kvm access for current user
+  when: kvm_ready_state.rc == 1
+  shell: "setfacl -m u:{{user.name}}:rw /dev/kvm"

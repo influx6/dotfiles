@@ -1,0 +1,6 @@
+---
+- hosts: all
+  vars:
+  tasks:
+    - name: Say Hello
+      command: echo "hello {{user}}"

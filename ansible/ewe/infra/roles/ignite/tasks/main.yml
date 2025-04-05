@@ -1,0 +1,12 @@
+---
+# tasks file for ignite
+- name: Check if weave ignite is installed already
+  ansible.builtin.shell: "which ignite"
+  ignore_errors: yes
+  register: is_ignite_command_present
+- name: Check if weave ignite is installed already
+  ansible.builtin.shell: "which ignited"
+  ignore_errors: yes
+  register: is_ignited_command_present
+- include_tasks: get_weave_ignite.yml
+  when: is_ignite_command_present.rc == 1 and is_ignited_command_present.rc == 1

@@ -1,0 +1,11 @@
+- name: Install software-common
+  apt:
+    pkg:
+      - software-properties-common
+      - apt-transport-https
+      - wget
+      - curl
+      - gnupg-agent
+      - ca-certificates
+      - debian-keyring
+      - debian-archive-keyring

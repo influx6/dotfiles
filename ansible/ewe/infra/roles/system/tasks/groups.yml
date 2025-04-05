@@ -1,0 +1,20 @@
+---
+- name: Add fundamental system groups
+  group:
+    state: present
+    name: "{{item}}"
+  loop:
+    - docker
+    - video
+    - audio
+    - wheel
+- name: Add current user to groups
+  user:
+    name: '{{ user_account }}'
+    groups:
+      - docker
+      - docker
+      - video
+      - audio
+      - sudo
+    append: yes

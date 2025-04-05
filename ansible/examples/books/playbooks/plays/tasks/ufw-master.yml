@@ -1,0 +1,62 @@
+- name: Check ufw was installed
+  package:
+    pkg:
+      - ufw
+    state: present
+- name: Add udp firewall rules
+  community.general.ufw:
+    rule: allow
+    proto: udp
+    port: "{{item}}"
+  with_items:
+    - 8472
+    - 4789
+- name: Add firewall rules 1
+  community.general.ufw:
+    rule: allow
+    port: "{{item}}"
+  with_items:
+    - 53
+- name: Add firewall rules 2
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    port: "{{item}}"
+  with_items:
+    - 80
+    - 2380
+    - 9443
+    - 5606
+    - 6443
+    - 10250
+    - 10251
+    - 10252
+    - 10255
+- name: Add firewall rules 3
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    from_port: 2379
+    to_port: 2380
+- name: Add firewall rules 4
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    from_port: 30000
+    to_port: 32767
+- name: Add firewall rules 5
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    from_port: 8132
+    to_port: 8133
+- name: Enable ufw rules
+  ufw:
+    state: enabled
+    logging: on
+
+
+
+
+
+

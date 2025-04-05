@@ -1,0 +1,16 @@
+- name: Install default packages
+  apt:
+    pkg:
+      - aria2
+      - axel
+      - backupninja
+      - ninja-build
+      - duplicity
+      - sendmail
+      - rdiff-backup
+      - cpu-checker
+      - neovim
+      - meld
+      - sendmail
+      - munin
+    state: present

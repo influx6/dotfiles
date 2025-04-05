@@ -1,0 +1,10 @@
+---
+roles:
+  - name: bertvv.samba
+  - name: geerlingguy.security
+  - name: geerlingguy.ntp
+  - name: chriswayg.msmtp-mailer
+  - name: stuvusit.smartd
+  - name: oefenweb.dns
+  - name: notthebee.ubuntu_autoinstall
+  - name: ironicbadger.ansible_role_snapraid

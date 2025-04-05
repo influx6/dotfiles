@@ -1,0 +1,23 @@
+[workspace]
+# usually this iset to 1
+resolver = "2"
+# set members of your workspace
+members = ["package"]
+
+[workspace.package]
+authors = ["EweStudios Consulting Limited"]
+edition = "2021"
+repository = "https://github.com/ewestudios/primal_web"
+license = "Apache-2.0"
+rust-version = "1.75"
+keywords = []
+
+[workspace.dependencies]
+anyhow = { "version" = "1.0.79" }
+serde = { "version" = "1.0.195" }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+pedantic = "warn"

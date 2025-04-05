@@ -1,0 +1,8 @@
+---
+- include_tasks: essential.yml
+- include_tasks: yeet_snaps.yml
+- include_tasks: user.yml
+- include_tasks: dotfiles.yml
+
+- include_tasks: netplan.yml
+  when: netplan_config is defined

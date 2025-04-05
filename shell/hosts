@@ -1,0 +1,49 @@
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+
+255.255.255.255	broadcasthost
+::1             localhost
+
+# Added by Docker Desktop
+# To allow the same kube context to work on the host and the container:
+127.0.0.1 kubernetes.docker.internal
+# End of section127.0.0.1 localhost
+127.0.1.1 darkvoid-ASUS-TUF-Gaming-A15-FA506IU-FA506IU
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+192.168.128.148 dark-arm-slave-2
+192.168.128.148 dark-arm-2
+
+192.168.128.149 dark-arm-slave-1
+192.168.128.149 dark-arm-1
+
+192.168.128.140 dark-master
+192.168.128.140 dark-master.local
+
+192.168.128.30 dark-coder
+192.168.128.30 dark-coder.local
+
+192.168.128.10 dark-slave-1
+192.168.128.10 dark-slave-1.local
+
+192.168.128.20 dark-slave-2
+192.168.128.20 dark-slave-2.local
+
+192.168.128.50 dark-mini
+192.168.128.50 darkvoid-mini
+192.168.128.50 darkvoid-mini.local
+
+192.168.128.125 dark-tower
+192.168.128.125 dark-tower.local
+

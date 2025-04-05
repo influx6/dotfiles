@@ -1,0 +1,20 @@
+home:
+  vars:
+    group_name: "k8s-controllers"
+    appuser: "darkvoid"
+    git_user: "Alexander Ewetumo"
+    git_email: "trinoxf@gmail.com"
+    owner: "alexewetumo"
+    fs_root: "/home/darkvoid"
+    lab_root: "/home/darkvoid"
+    network_parent: "enp1s0f0"
+    file_browser_root: "/home/darkvoid"
+    config_root: "/home/darkvoid"
+    remove_docker_legacy: true
+  hosts:
+    localhost:
+      ansible_host: localhost
+
+all:
+  children:
+    home:

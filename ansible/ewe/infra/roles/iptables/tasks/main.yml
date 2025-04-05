@@ -1,0 +1,160 @@
+---
+# tasks file for iptables
+- name: uninstall ufw if installed
+  package:
+    purge: true
+    state: absent
+    pkg:
+      - ufw
+- name: install iptables
+  package:
+    state: present
+    pkg:
+      - iptables
+      - iptables-persistent
+- name: Flush nat INPUT table rules
+  ansible.builtin.iptables:
+    table: "nat"
+    chain: "{{ item }}"
+    flush: true
+  with_items: ['INPUT', 'OUTPUT', 'PREROUTING', 'POSTROUTING']
+- name: Flush filter INPUT table rules
+  ansible.builtin.iptables:
+    table: "filter"
+    chain: "{{ item }}"
+    flush: true
+  with_items: ['INPUT', 'OUTPUT']
+- name: Accept connection from LIBVIRT_INP
+  ansible.builtin.iptables:
+    chain: INPUT
+    jump: LIBVIRT_INP
+    state: present
+- name: Accept connection from localhost
+  ansible.builtin.iptables:
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+    state: present
+- name: Accept connection from localhost
+  ansible.builtin.iptables:
+    chain: INPUT
+    source: 127.0.0.0/24
+    jump: ACCEPT
+    state: present
+- name: Accept connection out of localhost
+  ansible.builtin.iptables:
+    chain: OUTPUT
+    out_interface: lo
+    jump: ACCEPT
+    state: present
+- name: Accept connection from other interfaces
+  ansible.builtin.iptables:
+    chain: INPUT
+    in_interface: "{{item}}"
+    jump: ACCEPT
+    state: present
+  loop:
+    - "eno"
+    - "eth0"
+    - "enp3s0f0"
+    - "{{ infra.device.iface }}"
+- name: Accept connection from localhost
+  ansible.builtin.iptables:
+    chain: OUTPUT
+    out_interface: lo
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+    state: present
+- name: Accept connection from localhost
+  ansible.builtin.iptables:
+    chain: INPUT
+    in_interface: lo
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+    state: present
+- name: Accept connections for port udp/443
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: udp
+    destination_port: 443
+    jump: ACCEPT
+    state: present
+- name: Accept connections for port udp/80
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: udp
+    destination_port: 80
+    jump: ACCEPT
+    state: present
+- name: Accept connections for port tcp/443
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 443
+    jump: ACCEPT
+    state: present
+- name: Accept connections for port tcp/80
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 80
+    jump: ACCEPT
+    state: present
+- name: Accept established from all interfaces
+  ansible.builtin.iptables:
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+    state: present
+- name: Accept connections for port udp/5606
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: udp
+    destination_port: 5606
+    jump: ACCEPT
+    state: present
+- name: Accept connections for port tcp/5606
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 5606
+    jump: ACCEPT
+    state: present
+- name: Accept connections for port udp/5443
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: udp
+    destination_port: 5443
+    jump: ACCEPT
+    state: present
+- name: Accept connections for port tcp/5443
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 5443
+    jump: ACCEPT
+    state: present
+- name: Accept new connection from all router ip ranges
+  ansible.builtin.iptables:
+    chain: INPUT
+    ctstate: NEW
+    jump: ACCEPT
+    state: present
+    src_range: "{{ infra.device.router.ip_start }}-{{ infra.device.router.ip_end }}"
+- name: Accept established connection from all router ip ranges
+  ansible.builtin.iptables:
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+    state: present
+    src_range: "{{ infra.device.router.ip_start }}-{{ infra.device.router.ip_end }}"
+- name: Accept all outgoing connections
+  ansible.builtin.iptables:
+    chain: OUTPUT
+    jump: ACCEPT
+    state: present
+- name: REJECT all incoming connections
+  ansible.builtin.iptables:
+    chain: INPUT
+    jump: REJECT
+    state: present

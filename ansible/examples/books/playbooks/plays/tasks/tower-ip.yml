@@ -1,0 +1,7 @@
+- name: Get tower.remote ip
+  command: "curl ifconfig.me"
+  register: tower_internet_ip
+- set_fact:
+    dark_tower_remote_ip: "{{tower_internet_ip.stdout}}"
+    dark_tower_hostname: "{{ ansible_hostname }}"
+    dark_tower_local_ip: "{{ ansible_default_ipv4.address }}"

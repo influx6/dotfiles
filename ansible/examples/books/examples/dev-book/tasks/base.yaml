@@ -1,0 +1,57 @@
+- name: Update apt package list
+  apt:
+    update_cache: yes
+- name: Upgrade apt packages
+  apt:
+    upgrade: yes
+- name: Install software-common
+  apt:
+    pkg:
+      - software-properties-common
+      -  apt-transport-https
+      - wget
+      - curl
+      - gnupg-agent
+      - ca-certificates
+- name: Add ppa:x2go/stable repo
+  apt_repository:
+    repo: 'ppa:x2go/stable'
+    update_cache: yes
+- name: Install default packages
+  apt:
+    pkg:
+      - git
+      - python-pip
+      - build-essential
+      - snapd
+      - curl
+      - x2goserver
+      - x2goserver-xsession
+      - x2goclient
+      - ant
+      - mysql-workbench
+      - mysql-client
+      - vim
+      - neovim
+      - xrdp
+      - libreoffice
+      - chromium-browser
+      - shutter
+      - meld
+      - git
+      - htop
+      - pavucontrol
+      - sass
+      - openjdk-8-jdk
+    state: present
+- name: Apt handle unattended-upgrades
+  command: apt-get install -y unattended-upgrades
+- name: Add tomcat and docker group
+  group:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - tomcat
+    - docker
+- name: Add user into sudo group
+  command: "usermod -aG sudo {{user}}"

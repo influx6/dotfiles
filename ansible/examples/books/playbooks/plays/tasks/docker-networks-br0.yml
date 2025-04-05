@@ -1,0 +1,19 @@
+- name: Check br0 network if existing
+  shell: "docker network ls | grep br0"
+  ignore_errors: true
+  register: br0_network
+- name: Create br0 docker network
+  when: br0_network.rc != 0
+  docker_network:
+    name: br1
+    state: present
+    driver: macvlan
+    driver_options:
+      parent: "{{network_parent}}"
+    ipam_config:
+      - subnet: "192.168.128.0/24"
+        gateway: '192.168.128.1'
+        iprange: '192.168.128.0/24'
+        aux_addresses:
+          dark-tower: 192.168.128.125
+

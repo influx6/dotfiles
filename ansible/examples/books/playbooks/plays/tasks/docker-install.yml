@@ -1,0 +1,62 @@
+- name: Remove default docker install from ubuntu repo
+  when: remove_docker_legacy == True
+  package:
+    purge: true
+    state: absent
+    pkg:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+- name: Install docker gnupkg key
+  shell: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -"
+  register: docker_gpg
+- name: Check if we have pgp key for docker
+  register: docker_pgp_file
+  stat:
+    path: "/usr/share/keyrings/docker-archive-keyring.gpg"
+- name: Install docker gnupkg key via pgp
+  shell: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg  --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg"
+  when: not docker_pgp_file.stat.exists
+  register: docker_gpg2
+- name: Get lsb_release value for system
+  shell: lsb_release -cs
+  register: lsb_release
+- name: Add docker apt repository
+  apt_repository:
+    repo: "deb [arch={{repo_arch}}] https://download.docker.com/linux/ubuntu {{lsb_release.stdout}} stable"
+    update_cache: yes
+    state: present
+- name: Check if docker is already installed
+  command: "which docker"
+  ignore_errors: true
+  register: docker_check
+- name: Install docker
+  when: docker_check.rc == 1
+  apt:
+    update_cache: yes
+    state: present
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - aufs-tools
+      - cgroupfs-mount
+- name: Ensure group docker exists
+  group:
+    name: docker
+    state: present
+- name: Add user "{{ user.stdout }}" to group docker
+  user:
+    name: '{{ user.stdout }}'
+    groups:
+      - docker
+    append: yes
+- name: Install Docker Module for Python
+  pip:
+    name: "{{item}}"
+  loop:
+    - docker
+    - docker-compose
+

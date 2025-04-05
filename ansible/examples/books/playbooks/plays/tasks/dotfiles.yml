@@ -1,0 +1,17 @@
+- name: Ensure git is installed
+  apt:
+    state: present
+    name: git
+- name: check if dotfiles exists
+  stat:
+    path: "/home/{{user.stdout}}/dotfiles"
+  register: dotfiles
+- name: "Pull in dotfiles"
+  become_user: "{{user.stdout}}"
+  command: "git clone https://github.com/influx6/dotfiles.git /home/{{user.stdout}}/dotfiles"
+  when: dotfiles.stat.isdir is not defined
+- name: Add dotfiles config to .profile
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.profile"
+    line: "source $HOME/dotfiles/Mackup/config"
+    insertafter: EOF

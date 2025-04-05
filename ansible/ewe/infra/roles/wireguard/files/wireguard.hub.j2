@@ -1,0 +1,35 @@
+[Interface]
+PrivateKey={{ infra.wg.private_key }}
+Address={{  infra.wg.lidr }}
+ListenPort={{ infra.wg.port }}
+
+PostUp = iptables -A FORWARD -i {{ infra.wg.name }} -j ACCEPT
+PostUp = iptables -t nat -A POSTROUTING -o {{ infra.device.iface }} -j MASQUERADE
+PostDown = iptables -D FORWARD -i {{ infra.wg.name }} -j ACCEPT
+PostDown = iptables -t nat -D POSTROUTING -o {{ infra.device.iface }} -j MASQUERADE
+
+# Peer configuration for metal servers
+{% for peer in infra.peers.peers_hosts %}
+
+# Configuration for peer on target host: {{ peer }}
+[Peer]
+PublicKey = {{ secrets[peer].host.public_key }}
+Endpoint = {{ infra.peers.peers_hosts[peer].gateway }}:{{ infra.peers.peers_hosts[peer].wg.port }}
+# list of subnet routes which {{ peer }} can route within itself (i.e. subnets within peer {{ peer }})
+AllowedIPs = {{ infra.peers.peers_hosts[peer].wg.lidr }}
+# PersistentKeepalive = 25 <- add this if you want stateful connections due to firewall rules allowing only established connections
+{% endfor %}
+
+# Peer configuration for vms servers
+{% for vm in infra.vms %}
+
+# Configuration for vm on target host: {{ vm.vm_name }}
+{% if live_vms[vm.vm_name].exist %}
+[Peer]
+PublicKey = {{ vm.secrets.public_key }}
+Endpoint = {{ live_vms[vm.vm_name].ip[0] }}:{{ vm.network.wg.port }}
+# list of subnet routes which {{ vm.vm_name }} can route within itself (i.e. subnets within peer {{ vm.vm_name }})
+AllowedIPs  = {{ vm.network.wg.lidr }}
+# PersistentKeepalive = 25 <- add this if you want stateful connections due to firewall rules allowing only established connections
+{% endif %}
+{% endfor %}

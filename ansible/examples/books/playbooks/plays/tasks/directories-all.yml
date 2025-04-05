@@ -1,0 +1,8 @@
+- name: Create 'media' directory servers
+  file:
+    path: "/home/{{user.stdout}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "Library"

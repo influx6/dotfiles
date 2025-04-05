@@ -1,0 +1,22 @@
+---
+- name: create ignite-vps registry directory
+  become_user: "{{user_account}}"
+  file:
+    path: "{{ewe_dir}}/{{item}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "ignite-vps/vm"
+- name: copy ignite config to for containerd
+  become_user: "{{user_account}}"
+  copy:
+    force: yes
+    src: "{{role_path}}/files/registry.yml"
+    dest: "{{ewe_dir}}/ignite-vps/registry.yaml"
+- name: "Register base image localhost:5443/machine_image:{{ vps_image_version }} with ignite"
+  shell: "ignite image import --ignite-config={{ewe_dir}}/ignite-vps/registry.yaml localhost:5443/machine_image:{{ vps_image_version }}"
+  environment:
+    IGNITE_CONTAINERD_INSECURE_REGISTRIES: "localhost:5000,localhost:5443"
+- name: Register fact about ignite registry
+  set_fact:
+    ignite_registry: "{{ewe_dir}}/ignite-vps/registry.yaml"

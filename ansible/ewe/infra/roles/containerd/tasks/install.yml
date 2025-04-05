@@ -1,0 +1,59 @@
+---
+- name: select containerd target architecture
+  set_fact:
+    containerd_arch: "{{ 'amd64' if (repo_arch == 'amd64') else 'arm64' }}"
+- debug:
+    msg: "containerd arch: {{ containerd_arch }}"
+- name: download containerd binary for arch (amd)
+  get_url:
+    url: "https://github.com/containerd/containerd/releases/download/v{{ containerd_version }}/containerd-{{ containerd_version }}-linux-{{ containerd_arch }}.tar.gz"
+    checksum: "sha256:https://github.com/containerd/containerd/releases/download/v{{ containerd_version }}/containerd-{{ containerd_version }}-linux-{{ containerd_arch }}.tar.gz.sha256sum"
+    dest: /usr/local/bin/containerd.tgz
+    mode: 0755
+- name: create containerd binary directory
+  become_user: root
+  file:
+    path: "/usr/local/bin/containerd"
+    mode: "0755"
+    state: directory
+- name: decompress containerd.tgz archive
+  unarchive:
+    remote_src: true
+    src: /usr/local/bin/containerd.tgz
+    dest: /usr/local/bin/containerd
+    owner: "root"
+    group: "users"
+    extra_opts:
+      - --strip-components=1
+- name: remove containerd.tgz file
+  file:
+    path: /usr/local/bin/containerd.tgz
+    state: absent
+- name: set the binaries as executable
+  become_user: root
+  shell: "chmod +x /usr/local/bin/containerd/{{item}}"
+  loop:
+    - "ctr"
+    - "containerd"
+    - "containerd-stress"
+    - "containerd-shim"
+    - "containerd-shim-runc-v1"
+    - "containerd-shim-runc-v2"
+- name: create firecracker symbolic link
+  become_user: root
+  file:
+    src: "/usr/local/bin/containerd/{{item.split(',')[0]}}"
+    dest: "/usr/local/bin/{{item.split(',')[1]}}"
+    state: link
+  loop:
+    - "ctr,ctr"
+    - "containerd,containerdd"
+    - "containerd-stress,containerd-stress"
+    - "containerd-shim,containerd-shim"
+    - "containerd-shim-runc-v1,containerd-shim-runc-v1"
+    - "containerd-shim-runc-v2,containerd-shim-runc-v2"
+- name: create custom path from operating system
+  when: ansible_env.PATH is not search('/usr/local/bin/containerd')
+  copy:
+    dest: /etc/profile.d/containerd_path.sh
+    content: 'export PATH=/usr/local/bin/containerd:$PATH'

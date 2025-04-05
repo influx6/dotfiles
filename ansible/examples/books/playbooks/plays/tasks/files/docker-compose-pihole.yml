@@ -1,0 +1,52 @@
+version: "3.5"
+
+volumes:
+  pihole-volume-dnsmasq:
+    external: true
+  pihole-volume-etc:
+    external: true
+
+networks:
+  default:
+    external:
+      name: infra-networks
+  br1:
+    external:
+      name: br1
+
+
+services:
+  pihole:
+    image: pihole/pihole
+    container_name: pihole
+    hostname: $PIHOLE_HOSTNAME
+    environment:
+      - WEBPASSWORD=$PIHOLE_PASSWORD
+      - VIRTUAL_HOST=$PIHOLE_VHOST
+      - PROXY_LOCATION=$PIHOLE_PROXY
+      - TZ=Asia/HongKong
+      - DNSMASQ_LISTENING=all
+      - ServerIP=$PIHOLE_IP
+    networks:
+      br1:
+        ipv4_address: $PIHOLE_IP
+    dns:
+      - 1.1.1.1
+      - 4.4.4.4
+      - 8.8.8.8
+      - 203.185.0.37
+      - 203.185.0.36
+      - 127.0.0.1
+      - 192.168.128.1
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - pihole-volume-etc:/etc/pihole
+      - pihole-volume-dnsmasq:/etc/dnsmasq.d
+#    ports:
+#      - "53:53/tcp"
+#      - "53:53/udp"
+#      - "67:67/udp"
+#      - "80:80/tcp"
+    restart: unless-stopped
+

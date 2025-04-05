@@ -1,0 +1,11 @@
+- name: Ensure git is installed
+  package:
+    state: present
+    name: git
+- name: check .ohmybash directory
+  stat:
+    path: "/home/{{user.stdout}}/.ohmybash"
+  register: ohmybash
+- name: Pull in ohmybash
+  command: "git clone https://github.com/ohmybash/oh-my-bash.git /home/{{user.stdout}}/.ohmybash"
+  when: ohmybash.stat.exists == False

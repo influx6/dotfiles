@@ -1,0 +1,20 @@
+- name: Ensure git is installed
+  apt:
+    state: present
+    name: git
+- name: check if homebrew exists
+  stat:
+    path: "/home/{{user.stdout}}/homebrew"
+  register: homebrew
+- name: "Pull in dotfiles"
+  command: "git clone https://github.com/Homebrew/brew /home/{{user.stdout}}/homebrew"
+  when: homebrew.stat.isdir is not defined
+- name: Add brew config to .profile
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.profile"
+    line: 'eval "$(/home/{{user.stdout}}/homebrew/bin/brew shellenv)"'
+    insertafter: EOF
+- name: Update brew packaging
+  command: "/home/{{user.stdout}}/homebrew/bin/brew update --force --quiet"
+- name: Add brew share to /usr/share
+  command: 'chmod -R go-w $(/home/{{user.stdout}}/homebrew/bin/brew --prefix)/share/zsh'

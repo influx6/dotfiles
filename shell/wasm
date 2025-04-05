@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if [[ -d "$HOME/Labs/bin.toolings/wabt/" ]]; then
+  export PATH="$HOME/Labs/bin.toolings/wabt/bin/:$PATH"
+else
+
+  current_dir=$(pwd)
+
+  # setup directory and project if not already there.
+  if [[ ! -d "$HOME/Labs/bin.toolings/wabt/" ]]; then
+    sudo apt install -y g++ gcc build-essential cmake
+    mkdir -p "$HOME/Labs/bin.toolings/"
+    cd "$HOME/Labs/bin.toolings"
+    git clone --recursive https://github.com/WebAssembly/wabt
+    cd wabt
+    git submodule update --init
+  fi
+
+  if [[ ! -d "$HOME/Labs/bin.toolings/wabt/bin" ]]; then
+    mkdir -p "$HOME/Labs/bin.toolings/wabt/bin"
+    cd "$HOME/Labs/bin.toolings/wabt/bin"
+    cmake ..
+    cmake --build .
+  fi
+
+  export PATH="$HOME/Labs/bin.toolings/wabt/bin/:$PATH"
+  cd "$current_dir"
+fi

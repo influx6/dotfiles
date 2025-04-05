@@ -1,0 +1,79 @@
+- name: Install default packages
+  apt:
+    pkg:
+      - git
+      - python3-pip
+      - build-essential
+      - snapd
+      - curl
+      - tree
+      - gnupg
+      - lsb-release
+      - ca-certificates
+      - gcc
+      - llvm
+      - aria2
+      - ant
+      - rsync
+      - net-tools
+      - nfs-common
+      - mysql-client
+      - vim
+      - expect-dev
+      - cpu-checker
+      - dmsetup
+      - openssh-client
+      - openssh-server
+      - binutils
+      - ufw
+      - htop
+      - sysstat
+      - vnstat
+      - iotop
+      - iftop
+      - bwm-ng
+      - munin
+      - fail2ban
+      - cifs-utils
+      - openjdk-8-jdk-headless
+      - openjdk-11-jdk-headless
+      - golang
+      - python3
+      - python3-pip
+      - gettext
+      - libtool
+      - libtool-bin
+      - autoconf
+      - unbound
+      - automake
+      - cmake
+      - g++
+      - pkg-config
+      - unzip
+      - zip
+      - rsync
+      - cron
+      - ssh
+      - sqlite3
+      - libxslt-dev
+      - libxml2-dev
+      - libvirt-dev
+      - zlib1g-dev
+      - ruby-dev
+      - qemu
+      - qemu-kvm
+      - ebtables
+      - dnsmasq-base
+      - vagrant
+      - ruby-libvirt
+      - libvirt-daemon-system
+      - libvirt-clients
+      - virtinst
+      - bridge-utils
+    state: present
+- name: Install raspberry-pi pkg
+  when: repo_arch == "arm64"
+  apt:
+    pkg:
+      - linux-modules-extra-raspi
+    state: present

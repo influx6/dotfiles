@@ -1,0 +1,20 @@
+- name: Create 'infra' directory servers
+  file:
+    path: "/home/{{user.stdout}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "Portainer"
+    - "Rancher/logs"
+    - "Rancher/cni"
+    - "Rancher/kubelet"
+    - "Rancher/data"
+- name: Create 'services' directories servers
+  file:
+    path: "/home/{{user.stdout}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "services"

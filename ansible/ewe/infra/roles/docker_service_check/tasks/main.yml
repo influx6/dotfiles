@@ -1,0 +1,10 @@
+---
+# tasks file for docker_service_check
+- name: Check if docker.service is running
+  service:
+    name: docker
+    state: started
+  register: docker_service
+- name: Set facts in docker is started
+  set_fact:
+    is_docker_running: docker_service.state == "started"

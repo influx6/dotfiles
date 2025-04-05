@@ -1,0 +1,43 @@
+- name: Check 'directories' exist else create it
+  file:
+    path: "/home/{{user.stdout}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "gitlab/logs"
+    - "gitlab/data"
+    - "gitlab/config"
+
+- name: check if gitlab data volume exists
+  shell: "docker volume ls | grep 'gitlab_data'"
+  ignore_errors: true
+  register: volume_ready
+- name: Create volume for data
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/gitlab/data --opt o=bind gitlab_data"
+  when: volume_ready.rc == 1
+  
+- name: check if gitlab logs volume exists
+  shell: "docker volume ls | grep 'gitlab_logs'"
+  ignore_errors: true
+  register: volume_ready
+- name: Create volume for logs
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/gitlab/logs --opt o=bind gitlab_logs"
+  when: volume_ready.rc == 1
+
+- name: check if gitlab config volume exists
+  shell: "docker volume ls | grep 'gitlab_config'"
+  ignore_errors: true
+  register: volume_ready
+- name: Create volume for logs
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/gitlab/config --opt o=bind gitlab_config"
+  when: volume_ready.rc == 1
+
+- name: Copy docker-compose-infra to server
+  copy:
+    src : "./files/docker-compose-gitlab.yml"
+    dest: "/home/{{user.stdout}}/services/docker-compose-gitlab.yml"
+    force: yes
+
+- name: Start docker services
+  command: "docker-compose --project-name=gitlab -f /home/{{user.stdout}}/services/docker-compose-gitlab.yml up -d --remove-orphans"

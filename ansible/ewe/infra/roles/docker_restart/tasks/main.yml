@@ -1,0 +1,12 @@
+---
+- name: check if we have docker installed
+  register: docker_check
+  ignore_errors: yes
+  service:
+    name: docker
+    state: started
+- name: restart docker if installed
+  when: docker_check.state == "started"
+  service:
+    name: docker
+    state: restarted

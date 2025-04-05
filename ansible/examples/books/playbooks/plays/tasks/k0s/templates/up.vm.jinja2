@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "Creating new vm instance via multipass from config: {{ cloud_init_file }}"
+multipass launch \
+20.04 \
+--name {{ vm_name }} \
+--cloud-init {{ cloud_init_file }} \
+--cpus {{ cpu_count }} \
+--mem {{ ram_memory }} \
+--disk {{ disk_size }}

@@ -1,0 +1,7 @@
+- name: install pip packages
+  pip:
+    name:
+      - docker
+      - docker-compose
+      - setuptools
+      - pynvim

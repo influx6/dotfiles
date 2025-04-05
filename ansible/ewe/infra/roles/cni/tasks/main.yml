@@ -1,0 +1,25 @@
+---
+- name: Check if cni is available
+  ignore_errors: yes
+  register: cni_binaries
+  ansible.builtin.shell: "file /opt/cni/bin/{{item}}"
+  loop:
+    - "bandwidth"
+    - "dhcp"
+    - "host-device"
+    - "ipvlan"
+    - "loopback"
+    - "ptp"
+    - "static"
+    - "vlan"
+    - "bridge"
+    - "host-local"
+    - "loopback"
+    - "portmap"
+    - "sbr"
+    - "tuning"
+    - "vrf"
+- name: install cni
+  include_tasks: install.yml
+  with_items: "{{ cni_binaries.results }}"
+  when: item.rc == 1

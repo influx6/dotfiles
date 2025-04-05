@@ -1,0 +1,17 @@
+home:
+  vars:
+    name: "{{ vm_name }}"
+    appuser: "{{user}}"
+    git_user: "Alexander Ewetumo"
+    git_email: "trinoxf@gmail.com"
+    home: "/home/{{user}}"
+    my_ip: "{{ item.ipv4[0] }}"
+    host_ip: "{{ ansible_host }}"
+    host_hostname: "{{ ansible_hostname }}"
+  hosts:
+    localhost:
+      ansible_host: localhost
+
+all:
+  children:
+    home:

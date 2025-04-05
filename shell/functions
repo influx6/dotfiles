@@ -1,0 +1,88 @@
+#!/bin/env bash
+
+nodekill(){
+ killall -9 node
+}
+
+no_dir(){
+  if [ -d "$1" ]; then
+    return -1
+  else
+    return 0
+  fi
+}
+
+no_file(){
+  if [ -f "$1" ]; then
+    return -1
+  else
+    return 0
+  fi
+}
+
+has_command(){
+  if command -v "$1" 2>&1 > /dev/null; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+no_command(){
+  if ! command -v "$1" 2>&1 > /dev/null; then
+    return -1
+  else
+    return 0
+  fi
+}
+
+reload() {
+ source "$HOME/.bashrc"
+}
+
+reload_dotfiles() {
+ source "$DOTFILES/config"
+}
+
+
+ctrdir() {
+  mkdir "$(pwd)/$1";
+  cd "$(pwd)/$1";
+}
+
+unset_aws() {
+ set +x
+ unset AWS_PROFILE
+ unset AWS_DEFAULT_PROFILE
+ unset AWS_SECRET_ACCESS_KEY
+ unset AWS_ACCESS_KEY_ID
+ set +x
+}
+
+run() {
+    number=$1
+    shift
+    for i in `seq $number`; do
+      $@
+    done
+}
+
+renamefiles() {
+	n=$1
+	shift
+	for f in "$(pwd)"/*
+	do
+	  name=$(basename "$f")
+	  mv "$f" "$(pwd)/$((n++)) - $name"
+	done
+}
+
+renameset() {
+	n=$1
+	shift
+	for f in "$@"
+	do
+	  name=$(basename "$f")
+	  mv "$f" "$(pwd)/$((n++)) - $name"
+	done
+}

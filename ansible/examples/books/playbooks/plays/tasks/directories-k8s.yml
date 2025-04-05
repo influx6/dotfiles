@@ -1,0 +1,6 @@
+- name: Create '.kube' directory for microk8s
+  file:
+    path: "/home/{{user.stdout}}/.kube"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory

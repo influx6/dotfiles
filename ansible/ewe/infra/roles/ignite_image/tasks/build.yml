@@ -1,0 +1,34 @@
+---
+- name: create docker-services directory
+  become_user: "{{user_account}}"
+  file:
+    path: "{{ewe_dir}}"
+    mode: "0755"
+    state: directory
+- name: create docker-services registry directory
+  become_user: "{{user_account}}"
+  file:
+    path: "{{ewe_dir}}/vps"
+    mode: "0755"
+    state: directory
+- name: copy docker files to host yml
+  become_user: "{{user_account}}"
+  copy:
+    force: yes
+    src: "{{role_path}}/files/{{item.src}}"
+    dest: "{{ewe_dir}}/vps/{{item.dest}}"
+  loop:
+    - { src: "Dockerfile.vps", dest: "Dockerfile" }
+    - { src: "sshd_config", dest: "sshd_config" }
+    - { src: "fail2ban.conf", dest: "fail2ban.conf" }
+- name: confirm we have ssh keys
+  ansible.builtin.assert:
+    that:
+      - "'{{ machine_ssh_pub }}' != ''"
+      - "'{{ host_ssh_pub }}' != ''"
+- name: Build docker image using vps dockerfile
+  shell: "docker build --build-arg \"USER_SSH_PUB_KEY={{ machine_ssh_pub}}\" --build-arg \"USER_SSH_PUB_KEY2={{host_ssh_pub}}\" -t machine_image:{{ vps_image_version }} -f {{ewe_dir}}/vps/Dockerfile {{ewe_dir}}/vps"
+- name: Tag docker image using local docker registry
+  shell: "docker tag machine_image:{{ vps_image_version }} localhost:5443/machine_image:{{ vps_image_version }}"
+- name: Push docker image to local docker registry
+  shell: "docker push localhost:5443/machine_image:{{ vps_image_version }}"

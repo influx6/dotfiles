@@ -1,0 +1,6 @@
+---
+- name: Install net packages---
+  package:
+    state: present
+    pkg:
+      - inetutils-traceroute

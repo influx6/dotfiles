@@ -1,0 +1,42 @@
+- name: Check ufw was installed
+  package:
+    pkg:
+      - ufw
+    state: present
+- name: Add firewall rules
+  command: "{{item}}"
+  loop:
+    - "sudo ufw default deny incoming"
+    - "sudo ufw default allow outgoing"
+    - "sudo ufw allow ssh"
+    - "sudo ufw allow OpenSSH"
+    - "sudo ufw allow http"
+    - "sudo ufw allow https"
+- name: Add firewall rules
+  community.general.ufw:
+    rule: allow
+    port: '{{item}}'
+  with_items:
+    - 80
+    - 53
+    - 5606
+    - 8132
+    - 9443
+    - 5335
+    - 8443
+    - 9445
+    - 9001
+    - 2376
+    - 8000
+    - 8081
+    - 10250
+    - 4789
+    - 179
+    - 2380
+    - 6443
+    - 8472
+- name: Enable ufw rules
+  ufw:
+    state: enabled
+    logging: on
+

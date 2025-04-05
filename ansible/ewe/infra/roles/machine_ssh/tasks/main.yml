@@ -1,0 +1,7 @@
+---
+- name: get machine ssh pub key
+  shell: "cat {{ machine_ssh_file }}"
+  register: machine_ssh_pub_command
+- name: get machine ssh pub key content as variable
+  set_fact:
+    machine_ssh_pub: "{{ machine_ssh_pub_command.stdout }}"

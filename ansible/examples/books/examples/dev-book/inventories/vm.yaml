@@ -1,0 +1,10 @@
+---
+### YAML inventory file
+all:
+  hosts:
+    master.dev:
+      ansible_host: 10.235.108.229
+    slave1.dev:
+      ansible_host: 10.235.108.222
+    slave2.dev:
+      ansible_host: 10.235.108.129

@@ -1,0 +1,223 @@
+FROM alpine:edge
+MAINTAINER "Alexander Ewetumo <alex.ewetumo@gmail.com>"
+
+# additional files
+##################
+ARG PUID=1000
+ARG GUID=1000
+
+# Setup environment variables
+ENV GUID=$GUID \
+    PUID=$PUID \
+    SUPERVISOR_RETRIES=3 \
+    SUPERVISOR_RETRIES_DEP=5 \
+    # display 1
+    DISPLAY_1=:1 \
+    DISPLAY_SCREEN_1="0" \
+    ENABLE_SCREEN_1=1 \
+    ENABLE_SCREEN_1_NOVNC=1 \
+    VNC_SERVER_1=tigervnc \
+    TIGER_VNC_OPTS_1="" \
+    X11_VNC_OPTS_1="" \
+    DISPLAY_1_PORT=5901 \
+    DISPLAY_1_NOVNC_PORT=6800 \
+    # display 2
+    TIGER_VNC_OPTS_2="" \
+    VNC_SERVER_2=tigervnc \
+    DISPLAY_SCREEN_2="0" \
+    X11_VNC_OPTS_2="" \
+    DISPLAY_2_PORT=5902 \
+    DISPLAY_2=:2 \
+    DISPLAY_2_NOVNC_PORT=6802 \
+    ENABLE_SCREEN_2=0 \
+    ENABLE_SCREEN_2_NOVNC=0 \
+    # display 3
+    ENABLE_SCREEN_3=0 \
+    VNC_SERVER_3=tigervnc \
+    TIGER_VNC_OPTS_3="" \
+    DISPLAY_SCREEN_3="0" \
+    X11_VNC_OPTS_3="" \
+    DISPLAY_3_PORT=5903\
+    DISPLAY_3_NOVNC_PORT=6803 \
+    DISPLAY_3=:3 \
+    ENABLE_SCREEN_3_NOVNC=0 \
+    # display 4
+    ENABLE_SCREEN_4=0 \
+    VNC_SERVER_4=tigervnc \
+    DISPLAY_SCREEN_4="0" \
+    TIGER_VNC_OPTS_4="" \
+    X11_VNC_OPTS_4="" \
+    DISPLAY_4_PORT=5904\
+    DISPLAY_4_NOVNC_PORT=6804 \
+    DISPLAY_4=:4 \
+    ENABLE_SCREEN_4_NOVNC=0 \
+    # display 5
+    ENABLE_SCREEN_5=0 \
+    VNC_SERVER_5=tigervnc \
+    TIGER_VNC_OPTS_5="" \
+    DISPLAY_SCREEN_5="0" \
+    X11_VNC_OPTS_5="" \
+    DISPLAY_5_PORT=5905\
+    DISPLAY_5_NOVNC_PORT=6805 \
+    DISPLAY_5=:5 \
+    ENABLE_SCREEN_5_NOVNC=0 \
+    # other environment vars
+    HOME=/home/novnc \
+    TERM=xterm \
+    LANG=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    HOME=/home/novnc \
+    TZ=Asia/Hong_Kong \
+    CATALINA_HOME=/home/novnc/tomcat \
+    TOMCAT_DIR=/home/novnc/tomcat \
+    TOMCAT_WAR=/home/novnc/tomcat/webapps \
+    DEBIAN_FRONTEND=noninteractive \
+    SECURITY_TYPE=None \
+    VNC_IP=localhost \
+    NOVNC_HOSTNAME=0.0.0.0 \
+    VNC_FRAMERATE=60 \
+    WINDOW_MANAGER=i3wm \
+    DISPLAY_DEPTH=24 \
+    DISPLAY_PIXEL_FORMAT=RGB888 \
+    DISPLAY_WIDTH=1280 \
+    DISPLAY_HEIGHT=1024 \
+    DISPLAY_MAX=0 \
+    DISPLAY_WIDTH_MAX=1600 \
+    DISPLAY_HEIGHT_MAX=1200 \
+    LANG=en_GB.UTF-8 \
+    GUACAMOLE_SETUP=1 \
+    GUACAMOLE_HOME=/home/novnc/guacamole \
+    GUACA_PASSWORD=novnc \
+    GUACA_SSL=true \
+    VNC_PASSWORD=novnc \
+    XDG_RUNTIME=/home/novnc/.sway
+
+COPY config/nobody/ /home/novnc/
+
+# install app
+#############
+RUN \
+    echo "http://dl-3.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
+    echo "http://dl-3.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    apk --no-cache --update --upgrade add \
+      tzdata \
+      bash \
+      tree \
+      file \
+      grep \
+      make \
+      perl perl-utils \
+      vim nano musl eudev-libs \
+      rxvt-unicode thunar \
+      elogind polkit-elogind  xorg-server xf86-input-libinput setxkbmap \
+      seatd-launch xwayland foot dmenu swaylock swaybg swayidle sway sway-doc \
+      fluxbox i3wm i3wm-save_tree perl-anyevent-i3 i3status mesa-dri-gallium eudev ttf-dejavu \
+      git dunst hsetroot xf86-video-intel xf86-video-fbdev xf86-video-vesa terminus-font dbus \
+      mesa glu mesa-dev mesa-egl mesa-gl mesa-gles mesa-vulkan-intel \
+      mesa-dri-intel mesa-dri-ati mesa-dri-swrast mesa-osmesa \
+      mesa-xatracker mesa-demos libxv libva libva-glx libva-intel-driver libva-vdpau-driver \
+      ttf-dejavu font-noto ttf-dejavu ttf-liberation \
+      compton xrdp xclip xhost xauth vino openvino ffmpeg \
+      xterm faenza-icon-theme \
+      sudo gosu shadow nodejs npm \
+      tigervnc tigervnc-client tigervnc-lang openjdk11 \
+      openssh ca-certificates \
+      openssl-dev openssl \
+      supervisor openrc xrandr \
+      curl axel autocutsel apr-util apr-util-ldap apr-util-dev \
+      zip unzip feh \
+      tar xz copyq alacritty  \
+      guacamole-server guacamole-server-doc \
+      guacamole-server-dev dbus-x11 \
+      terminator yakuake pcmanfm tomcat-native tomcat-native-dev \
+      xvfb \
+      xvfb-run \
+      x11vnc
+
+# create directories
+RUN mkdir -p /home/novnc && \
+    mkdir -p /home/novnc/Lab && \
+    mkdir -p /home/novnc/.idea && \
+    mkdir -p /home/novnc/.java && \
+    mkdir -p /home/novnc/logs/supervisord && \
+    mkdir -p /home/.fluxbox/styles && \
+    mkdir -p /var/logs/supervisord/ && \
+    # Install required packages
+    chmod +x /home/novnc/*.sh && \
+    sh /home/novnc/user.sh
+
+COPY --chown=novnc:novnc config/apache-tomcat-9.0.64 /home/novnc/tomcat
+
+# create directories
+RUN mkdir -p /home/novnc && \
+    rc-update add sshd && \
+    sh /home/novnc/install.sh
+
+# copy configurations
+COPY  config/xdp/xrdp.ini /etc/xrdp/xrdp.ini
+
+# COPY --chown=novnc:novnc pre-configured config files for deluge
+COPY --chown=novnc:novnc config/ssh/sshd_config /etc/ssh/sshd_config
+COPY --chown=novnc:novnc config/terminator /home/.config/terminator
+COPY --chown=novnc:novnc config/terminator /etc/xdg/terminator
+COPY --chown=novnc:novnc styles/themes/pkgs /home/novnc/.themes
+COPY --chown=novnc:novnc styles/Cilia/GTK2/Cilia_original /home/novnc/.themes/Cilia_original
+COPY --chown=novnc:novnc styles/Cilia/compton/compton.conf /home/novnc/.config/compton/compton.conf
+COPY --chown=novnc:novnc styles/Cilia/compton/compton.conf /home/novnc/.compton.conf
+COPY --chown=novnc:novnc styles/Cilia/Bash/bashrc /home/novnc/.base_profile
+COPY --chown=novnc:novnc styles/Cilia/Bash/dircolors /home/novnc/.dircolors
+COPY --chown=novnc:novnc styles/Cilia/Bash/Xdefaults /home/novnc/.Xdefaults
+COPY --chown=novnc:novnc styles/Cilia/Bash/Xdefaults /home/novnc/Xdefaults
+COPY --chown=novnc:novnc styles/Cilia/Bash/ls++.conf /home/novnc/config/ls++/ls++.conf
+COPY --chown=novnc:novnc styles/Cilia/Bash/dircolors /home/novnc/dircolors
+COPY --chown=novnc:novnc styles/Cilia/icons /home/novnc/.icons
+COPY --chown=novnc:novnc styles/Cilia/Fluxbox-style/Cilia /home/novnc/.fluxbox/styles/Cilia
+COPY --chown=novnc:novnc styles/Cilia/Fluxbox-style/Tourmente /home/novnc/.fluxbox/styles/Tourmente
+COPY --chown=novnc:novnc styles/Cilia/Fluxbox-config/init /home/novnc/.fluxbox/init
+COPY --chown=novnc:novnc styles/Cilia/Fluxbox-config/keys /home/novnc/.fluxbox/keys
+COPY --chown=novnc:novnc styles/Cilia/Fluxbox-config/menu /home/novnc/.fluxbox/menu
+
+# COPY --chown=novnc:novnc ssl files
+COPY --chown=novnc:novnc ssl /home/novnc/ssl
+COPY ssl/rootCA.crt /usr/local/share/ca-certificates/rootA.crt
+
+# COPY --chown=novnc:novnc guacamole files
+COPY --chown=novnc:novnc config/supervisord /etc/supervisord
+COPY --chown=novnc:novnc config/supervisord.conf /etc/supervisord.conf
+COPY --chown=novnc:novnc config/guacamole/guacamole.properties /home/novnc/guacamole/guacamole.properties
+COPY --chown=novnc:novnc config/guacamole/user-mapping.xml /home/novnc/guacamole/user-mapping.xml
+COPY --chown=novnc:novnc config/guacamole/guacamole.war /home/novnc/tomcat/webapps/guacamole.war
+
+# COPY --chown=novnc:novnc entrypoint.sh
+COPY --chown=novnc:novnc entrypoint.sh /entrypoint.sh
+
+EXPOSE 5900
+EXPOSE 5905
+EXPOSE 6080
+
+WORKDIR /home/novnc
+RUN chown -R novnc:novnc /home/novnc/*.sh && \
+    echo "fs.inotify.max_user_watches = 524288" >> /etc/sysctl.conf && \
+    sysctl -p && \
+    update-ca-certificates && \
+    fluxbox-generate_menu && \
+    chown novnc:novnc -R /home/novnc/Lab && \
+    chown novnc:novnc -R /home/novnc/.cpan && \
+    chown novnc:novnc -R /home/novnc/.cpanm && \
+    chown novnc:novnc -R /home/novnc/.idea && \
+    chown novnc:novnc -R /home/novnc/.java && \
+    chown novnc:novnc -R /home/novnc/logs && \
+    chown novnc:novnc -R /home/novnc/.fluxbox && \
+    chown novnc:users -R /var/logs/supervisord && \
+    chmod +x /entrypoint.sh
+
+ENV JDK11=/usr/lib/jvm/java-11-openjdk \
+    JAVA_HOME=/usr/lib/jvm/java-11-openjdk \
+    JDK_HOME=/usr/lib/jvm/java-11-openjdk \
+    LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CATALINA_HOME/lib:/usr/lib/" \
+    JAVA_EXE=/usr/lib/jvm/java-11-openjdk/bin/java \
+    DISPLAY=:0
+
+# run script to set uid, gid and permissions
+CMD ["/entrypoint.sh"]

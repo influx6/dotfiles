@@ -1,0 +1,45 @@
+#!/bin/sh
+
+
+Devlabs=$HOME/Devlabs
+
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+export JDK_HOME=`/usr/libexec/java_home -v 11.0`
+export JDK_12=`/usr/libexec/java_home -v 12`
+export JDK_11=`/usr/libexec/java_home -v 11.0`
+export JDK_9=`/usr/libexec/java_home -v 9.0`
+export JDK_8=`/usr/libexec/java_home -v 1.8`
+
+# # set jdk 1.6 and 1.7 to version 6 and 7
+export JDK_17=$JDK_7
+export JDK_16=$JDK_6
+
+export JAVA_HOME=$JDK_11
+
+export PATH=$JDK_11/bin:$PATH
+
+
+switchJava(){
+ if [ $1 = "12" ]; then
+	export JAVA_HOME=$JDK_12
+	export PATH=$JDK_12/bin:$PATH
+ elif [ $1 = "11" ]; then
+	export JAVA_HOME=$JDK_11
+	export PATH=$JDK_11/bin:$PATH
+ elif [ $1 = "9" ]; then
+	export JAVA_HOME=$JDK_9
+	export PATH=$JDK_9/bin:$PATH
+ elif [ $1 = "8" ]; then
+	export JAVA_HOME=$JDK_8
+	export PATH=$JDK_8/bin:$PATH
+ elif [ $1 = "7" ]; then
+	JDK_7=`/usr/libexec/java_home -v 1.7`
+	export JAVA_HOME=$JDK_7
+	export PATH=$JDK_7/bin:$PATH
+ elif [ $1 = "6" ]; then
+	JDK_6=`/usr/libexec/java_home -v 1.6`
+	export JAVA_HOME=$JDK_6
+	export PATH=$JDK_6/bin:$PATH
+ fi
+}
+

@@ -1,0 +1,40 @@
+---
+- hosts: all
+  vars:
+    user: ubuntu
+  tasks:
+    - import_tasks: tasks/multipass_microk8s.yaml
+    - name: Get state of master vm in multipass
+      shell: "/snap/bin/multipass ls | grep master | wc -c"
+      register: has_master_vm
+    - name: Get state of slave1 vm in multipass
+      shell: "/snap/bin/multipass ls | grep slave1 | wc -c"
+      register: has_slave1_vm
+    - name: Get state of slave2 vm in multipass
+      shell: "/snap/bin/multipass ls | grep slave2 | wc -c"
+      register: has_slave2_vm
+    - name: Create master vm using multipass
+      command: /snap/bin/multipass launch --name master -m 4G -d 15G
+      when: has_master_vm == 0
+    - name: Create slave1 vm using multipass
+      command: /snap/bin/multipass launch --name slave1 -m 2G -d 15G
+      when: has_slave1_vm == 0
+    - name: Create slave2 vm using multipass
+      command: /snap/bin/multipass launch --name slave2 -m 2G -d 15G
+      when: has_slave2_vm == 0
+    - name: Get all instances information
+      command: /snap/bin/multipass info --all --format=json
+      register: multipass_instances
+    - set_fact:
+        minstances: "{{ multipass_instances.stdout|from_json }}"
+    - name: Generate data from multipass_instances
+      debug:
+        msg: "{{ item.key }}  --- {{item.value.image_hash}}"
+      loop: "{{ minstances.info|dict2items }}"
+    - set_fact:
+        vm_instances: " {{minstances.info|dict2items|to_json }}"
+    - name: Generate new inventory file for multipass_instances
+      template:
+        src: ./templates/inventory.jinja2
+        dest: multipass_vm_inventory.yaml
+        mode: '0644'

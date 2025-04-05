@@ -1,0 +1,26 @@
+- name: Check 'directories' exist else create it
+  file:
+    path: "/home/{{user.stdout}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "mariaDB"
+
+- name: check if mariadb_volume volume exists
+  shell: "docker volume ls | grep 'mariadb_volume'"
+  ignore_errors: true
+  register: volume_ready
+
+- name: Create volume for mariadb_volume
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/mariaDB --opt o=bind mariadb_volume"
+  when: volume_ready.rc == 1
+
+- name: Copy docker-compose-db to server
+  copy:
+    src : "./files/docker-compose-db.yml"
+    dest: "/home/{{user.stdout}}/services/docker-compose-db.yml"
+    force: yes
+
+- name: Start docker services
+  command: "docker-compose --project-name=db -f /home/{{user.stdout}}/services/docker-compose-db.yml up -d --remove-orphans"

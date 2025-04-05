@@ -1,0 +1,9 @@
+---
+- gather_facts: true
+  become: yes
+  become_user: "{{ login_user | default('darkvoid') }}"
+  hosts: "{{ docker_hosts | default('docker_hosts') }}"
+  tasks:
+    - import_tasks: ../tasks/hello_arch.yml
+    - import_tasks: ../tasks/hello_user.yml
+    - import_tasks: ../tasks/docker-install.yml

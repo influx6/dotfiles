@@ -1,0 +1,13 @@
+#!/bin/bash
+
+deploy_playbook_file(){
+	ansible-playbook -i $DOTFILES/books/hosts.yml $1;
+}
+
+deploy_playbook_name(){
+	ansible-playbook -i $DOTFILES/books/hosts.yml $DOTFILES/books/playbooks/$1;
+}
+
+deploy_playbooks(){
+	ansible-playbook -i $DOTFILES/books/hosts.yml $DOTFILES/books/playbooks;
+}

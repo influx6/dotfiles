@@ -1,0 +1,23 @@
+- name: Install default packages
+  apt:
+    pkg:
+      - debian-keyring
+      - debian-archive-keyring
+      - apt-transport-https
+    state: present
+- name: install xcaddy and caddy apt repos
+  shell: "{{item}}"
+  loop:
+    - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+    - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+    - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-xcaddy-archive-keyring.gpg
+    - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-xcaddy.list
+- name: update apt packages
+  apt:
+    update_cache: yes
+- name: Install default packages
+  apt:
+    pkg:
+      - caddy
+      - xcaddy
+    state: present

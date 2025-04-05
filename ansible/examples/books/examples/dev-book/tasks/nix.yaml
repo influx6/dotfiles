@@ -1,0 +1,13 @@
+- stat:
+    path:  /nix
+  register: nix_dir
+- name: Install nix for re-producable packages
+  become: yes
+  become_user: "{{user}}"
+  shell: "curl -L https://nixos.org/nix/install | sh"
+  when: nix_dir.stat.isdir is not defined
+- name: Source nix files to be loaded into env
+  become: yes
+  become_user: "{{user}}"
+  shell: ". ~/.nix-profile/etc/profile.d/nix.sh"
+  when: nix_dir.stat.isdir is not defined

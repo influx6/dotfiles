@@ -1,0 +1,5 @@
+---
+- import_playbook: "plays/system.yml"
+- import_playbook: "plays/docker-install.yml"
+- import_playbook: "plays/k8s.yml"
+- import_playbook: "plays/media.yml"

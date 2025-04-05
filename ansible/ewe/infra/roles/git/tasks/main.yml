@@ -1,0 +1,3 @@
+---
+# tasks file for git
+- include_tasks: git_config.yml

@@ -1,0 +1,12 @@
+[[snippets]]
+prefix="add_error_traits_2"
+scope = ["rust"]
+body = """
+impl std::error::Error for $0 {}
+
+impl core::fmt::Display for $0 {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{self:?}")
+    }
+}
+"""

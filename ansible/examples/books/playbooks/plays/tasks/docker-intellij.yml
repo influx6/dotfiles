@@ -1,0 +1,156 @@
+- name: check if codeserver codes volume exists
+  shell: "docker volume ls | grep 'intelliju-volume-data'"
+  ignore_errors: true
+  register: codeserver_codes_ready
+
+- name: Create volume for codeserver codes
+  shell: "docker volume create --driver local --opt type=none --opt device={{home}}/idea --opt o=bind intelliju-volume-data"
+  when: codeserver_codes_ready.rc == 1
+
+- name: Copy docker-compose-intellij-env to server
+  copy:
+    src : "./files/docker-compose-intellij-env"
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-env"
+    mode: "0777"
+    force: yes
+
+- name: Copy docker-compose-intellij-i3 to server
+  copy:
+    src : "./files/i3/"
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-i3"
+    mode: "0777"
+    force: yes
+
+- name: Copy docker-compose-intellij-i3 to server
+  copy:
+    src : "./files/i3/Xmodmap"
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-xmodmap"
+    mode: "0777"
+    force: yes
+
+- name: Copy docker-compose-intellij-fluxbox to server
+  copy:
+    src : "./files/fluxbox/"
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-fluxbox"
+    mode: "0777"
+    force: yes
+
+- name: Add SERVER_HOME path into docker-compose-codeserver-env
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-env"
+    line: "SERVER_HOME=/{{home}}"
+    insertafter: EOF
+    
+- name: Copy docker-compose-codeserver-hosts to server
+  copy:
+    src : "./files/docker-compose-codeserver-hosts"
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-hosts"
+    force: yes
+
+
+- name: Copy guacamole.user-mapping to server
+  copy:
+    src : "./files/guacamole/user-mapping.xml"
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-guacamole-user-mapping.xml"
+    force: yes
+
+- name: Copy guacamole.properties to server
+  copy:
+    src : "./files/guacamole/guacamole.properties"
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-guacamole-properties.properties"
+    force: yes
+
+- name: Copy docker-compose-intellij-profile to server
+  copy:
+    src : "./files/docker-compose-intellij-profile"
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-profile"
+    force: yes
+
+- name: Copy terminator-config to server
+  copy:
+    src : "./files/terminator-config"
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-terminator-config"
+    force: "{{ 'yes' if terminator_overwrite is true else 'no' }}"
+
+- name: Copy docker-compose-codeserver-terminal to server
+  copy:
+    src : "./files/docker-compose-codeserver-terminal"
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-terminal"
+    mode: "0777"
+    force: yes
+
+- name: Add GUACAMOLE_USER_MAPPINGS path into docker-compose-intellij-env
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-env"
+    line: "GUACAMOLE_USER_MAPPINGS=/home/{{user.stdout}}/services/docker-compose-intellij-guacamole-user-mapping.xml"
+    insertafter: EOF
+
+
+- name: Add fluxbox Config path into docker-compose-intellij-env
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-env"
+    line: "FLUXBOX_CONFIG=/home/{{user.stdout}}/services/docker-compose-intellij-fluxbox"
+    insertafter: EOF
+
+- name: Add I3 Config path into docker-compose-intellij-env
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-env"
+    line: "I3_CONFIG=/home/{{user.stdout}}/services/docker-compose-intellij-i3"
+    insertafter: EOF
+
+- name: Add .Xmodmap Config path into docker-compose-intellij-env
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-env"
+    line: "XMODMAP_CONFIG=/home/{{user.stdout}}/services/docker-compose-intellij-xmodmap"
+    insertafter: EOF
+
+- name: Add GUACAMOLE_PROPERTIES path into docker-compose-intellij-env
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-env"
+    line: "GUACAMOLE_PROPERTIES=/home/{{user.stdout}}/services/docker-compose-intellij-guacamole-properties.properties"
+    insertafter: EOF
+
+- name: Add TERMINATOR_CONFIG_FILE path into docker-compose-intellij-env
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-env"
+    line: "TERMINATOR_CONFIG_FILE=/home/{{user.stdout}}/services/docker-compose-intellij-terminator-config"
+    insertafter: EOF
+
+- name: Add PROFILE_FILE path into docker-compose-intellij-env
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-env"
+    line: "PROFILE_FILE=/home/{{user.stdout}}/services/docker-compose-intellij-profile"
+    insertafter: EOF
+
+- name: Add HOST_FILE path into docker-compose-intellij-env
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-env"
+    line: "TERMINAL_FILE=/home/{{user.stdout}}/services/docker-compose-intellij-terminal"
+    insertafter: EOF
+
+- name: Add HOST_FILE path into docker-compose-intellij-env
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-env"
+    line: "HOST_FILE=/home/{{user.stdout}}/services/docker-compose-intellij-hosts"
+    insertafter: EOF
+
+- name: Add SSH_FILE path into docker-compose-codeserver-env
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-env"
+    line: "SSH_FILE=/home/{{user.stdout}}/.ssh/code_server_ssh"
+    insertafter: EOF
+
+- name: Add SSH_PUB_FILE path into docker-compose-codeserver-env
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-env"
+    line: "SSH_PUB_FILE=/home/{{user.stdout}}/.ssh/code_server_ssh.pub"
+    insertafter: EOF
+
+- name: Copy docker-compose-intellij to server
+  copy:
+    src : "./files/docker-compose-intellij-u.yml"
+    dest: "/home/{{user.stdout}}/services/docker-compose-intellij-u.yml"
+    force: yes
+
+- name: Start docker services
+  command: "docker-compose --project-name=intellij --env-file /home/{{user.stdout}}/services/docker-compose-intellij-env -f /home/{{user.stdout}}/services/docker-compose-intellij-u.yml up -d"

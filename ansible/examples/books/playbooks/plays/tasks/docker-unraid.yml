@@ -1,0 +1,114 @@
+- name: check if radar config volume exists
+  shell: "docker volume ls | grep 'radar-volume-config'"
+  ignore_errors: true
+  register: radar_config_ready
+- name: Create volume for plex config
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/Config/radar --opt o=bind radar-volume-config"
+  when: radar_config_ready.rc == 1
+
+- name: check if plex config volume exists
+  shell: "docker volume ls | grep 'plex-volume-config'"
+  ignore_errors: true
+  register: plex_config_ready
+- name: Create volume for plex config
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/Config/plex --opt o=bind plex-volume-config"
+  when: plex_config_ready.rc == 1
+
+- name: check if plex pictures volume exists
+  shell: "docker volume ls | grep 'plex-volume-pictures'"
+  ignore_errors: true
+  register: plex_pictures_ready
+- name: Create volume for plex pictures
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/Pictures --opt o=bind plex-volume-pictures"
+  when: plex_pictures_ready.rc == 1
+
+- name: check if plex tv volume exists
+  shell: "docker volume ls | grep 'plex-volume-tv'"
+  ignore_errors: true
+  register: plex_tv_ready
+- name: Create volume for plex tv
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/TV --opt o=bind plex-volume-tv"
+  when: plex_tv_ready.rc == 1
+
+- name: check if plex movies volume exists
+  shell: "docker volume ls | grep 'plex-volume-movies'"
+  ignore_errors: true
+  register: plex_movies_ready
+- name: Create volume for plex movies
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/Movies --opt o=bind plex-volume-movies"
+  when: plex_movies_ready.rc == 1
+
+- name: check if plex audios volume exists
+  shell: "docker volume ls | grep 'plex-volume-audio'"
+  ignore_errors: true
+  register: plex_audio_ready
+- name: Create volume for plex music
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/Audios --opt o=bind plex-volume-audio"
+  when: plex_audio_ready.rc == 1
+
+- name: check if plex music volume exists
+  shell: "docker volume ls | grep 'plex-volume-music'"
+  ignore_errors: true
+  register: plex_music_ready
+- name: Create volume for plex music
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/Music --opt o=bind plex-volume-music"
+  when: plex_music_ready.rc == 1
+
+- name: check if plex downloads volume exists
+  shell: "docker volume ls | grep 'plex-volume-downloads'"
+  ignore_errors: true
+  register: plex_downloads_ready
+- name: Create volume for plex downloads
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/Downloads --opt o=bind plex-volume-downloads"
+  when: plex_downloads_ready.rc == 1
+
+- name: check if portainer volume exists
+  shell: "docker volume ls | grep 'portainer-volume'"
+  ignore_errors: true
+  register: portainer_volume_ready
+- name: Create volume for portainer config
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/portainer --opt o=bind portainer-volume"
+  when: portainer_volume_ready.rc == 1
+
+- name: check if privoxy-data volume exists
+  shell: "docker volume ls | grep 'privoxyvpn-volume-data'"
+  ignore_errors: true
+  register: privoxyvpn_volume_data
+- name: Create volume for guacamole
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/appdata/binhex-privoxyvpn --opt o=bind privoxyvpn-volume-data"
+  when: privoxyvpn_volume_data.rc == 1
+
+- name: check if guacamole-share volume exists
+  shell: "docker volume ls | grep 'guacamole-volume-share'"
+  ignore_errors: true
+  register: guacamole_volume_ready
+- name: Create volume for guacamole
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/guacamole --opt o=bind guacamole-volume-share"
+  when: guacamole_volume_ready.rc == 1
+
+- name: check if guacamole-data volume exists
+  shell: "docker volume ls | grep 'guacamole-volume-config'"
+  ignore_errors: true
+  register: guacamole_config_ready
+- name: Create volume for guacamole
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/appdata/ApacheGuacamole --opt o=bind guacamole-volume-config"
+  when: guacamole_config_ready.rc == 1
+
+- name: Copy docker-compose-media to server
+  copy:
+    src : "./files/docker-compose-unraid.yml"
+    dest: "/{{user.stdout}}/services/docker-compose-unraid.yml"
+    force: yes
+
+- name: Ensure shell checks python library directory
+  shell: "export PYTHONPATH='/mnt/user/appdata/local/:$PYTHONPATH'"
+
+- name: Ensure shell checks python library is in path
+  shell: "export PATH='/mnt/user/appdata/local/bin:$PATH'"
+
+- name: Kill all containers for a successfully rebuilding
+  command: "/mnt/user/appdata/local/bin/docker-compose -f /{{user.stdout}}/services/docker-compose-unraid.yml down --remove-orphans"
+  ignore_errors: yes
+
+- name: Start docker service for NAS (dark-tower) server
+  command: "/mnt/user/appdata/local/bin/docker-compose -f /{{user.stdout}}/services/docker-compose-unraid.yml up -d --remove-orphans"

@@ -1,0 +1,30 @@
+---
+
+- hosts: localhost
+  become: no
+  gather_facts: true
+  tasks:
+    - import_tasks: ../tasks/arch.yml
+    - import_tasks: ../tasks/user.yml
+    - import_tasks: ../tasks/hello.yml
+    - import_tasks: ../tasks/host_ssh_key.yml
+
+- hosts: slave1
+  become: yes
+  gather_facts: true
+  vars:
+    vm_name: k0s-controller-1
+    cpu_count: 2
+    eth_interface: eno1
+    ram_memory: 2048M
+    disk_size: 10G
+    route_address: 192.168.128.197
+    target_gateway: 192.168.128.1
+    user_commands:
+      - "echo alex"
+  tasks:
+    - import_tasks: ../tasks/user.yml
+    - import_tasks: ../tasks/arch.yml
+    - import_tasks: ../tasks/hello.yml
+    - import_tasks: ../tasks/k0s/tasks/multipass-vm.yml
+

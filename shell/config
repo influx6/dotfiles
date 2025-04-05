@@ -1,0 +1,54 @@
+#!/bin/env bash
+
+alias docker-compose="docker compose"
+alias copy-buffer="xclip -selection clipboard"
+alias paste-buffer="xclip -selection clipboard -o"
+
+export LANG=en_US.UTF-8
+
+echo "Sourcing shell files"
+
+# load functions first
+source $Dotfiles/shell/functions
+
+# then others
+source $Dotfiles/shell/secrets
+source $Dotfiles/shell/sops
+source $Dotfiles/shell/gitcrypt
+source $Dotfiles/shell/omakub
+source $Dotfiles/shell/neovim
+source $Dotfiles/shell/dotnet
+source $Dotfiles/shell/exits
+source $Dotfiles/shell/ca
+source $Dotfiles/shell/paths
+source $Dotfiles/shell/direnv
+source $Dotfiles/shell/brew
+source $Dotfiles/shell/alias
+source $Dotfiles/shell/mise
+source $Dotfiles/shell/cargo
+# source $Dotfiles/shell/pyenv
+source $Dotfiles/shell/deno
+source $Dotfiles/shell/ssh
+source $Dotfiles/shell/sha
+source $Dotfiles/shell/golang
+source $Dotfiles/shell/git
+source $Dotfiles/shell/kubectl
+source $Dotfiles/shell/net
+source $Dotfiles/shell/android
+source $Dotfiles/shell/docker
+source $Dotfiles/shell/microk8s
+source $Dotfiles/shell/python
+source $Dotfiles/shell/flutter
+source $Dotfiles/shell/sdkman
+source $Dotfiles/shell/ssh-agent
+source $Dotfiles/shell/ansible
+source $Dotfiles/shell/nodejs
+source $Dotfiles/shell/rust
+# source $Dotfiles/shell/rbenv
+source $Dotfiles/shell/wasm
+source $Dotfiles/shell/youtube
+source $Dotfiles/shell/nvidia
+source $Dotfiles/shell/gnome-hotkeys
+
+# bash completion
+source $Dotfiles/shell/bash_completions

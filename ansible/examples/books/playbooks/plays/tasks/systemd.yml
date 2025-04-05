@@ -1,0 +1,18 @@
+- name: Disable/Mask the following systemd services
+  systemd:
+    name: "{{item}}"
+    enabled: no
+    masked: yes
+  loop:
+    - sleep
+    - hybrid-sleep
+    - hibernate
+    - suspend
+- name: Enable/unmask the following systemd services
+  systemd:
+    name: "{{item}}"
+    state: started
+    enabled: yes
+    masked: no
+  loop:
+    - sysstat

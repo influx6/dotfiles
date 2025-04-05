@@ -1,0 +1,9 @@
+[Interface]
+Address={{  item.network.wg.lidr }}
+ListenPort={{ item.network.wg.port }}
+PrivateKey={{ item.secrets.private_key }}
+
+# Configuration for metal server host: {{ infra.name }}
+[Peer]
+PublicKey = {{ infra.wg.public_key }}
+AllowedIPs = {{ infra.wg.cidr }}

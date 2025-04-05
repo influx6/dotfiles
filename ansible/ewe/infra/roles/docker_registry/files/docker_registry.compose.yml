@@ -1,0 +1,21 @@
+version: "3.5"
+
+services:
+  registry:
+    image: registry:2
+    restart: always
+    ports:
+      - "5000:5000"
+      - "5443:443"
+    environment:
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
+      REGISTRY_HTTP_ADDR: 0.0.0.0:443
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/server.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/server.key
+    volumes:
+      - ./auth:/auth
+      - ./data:/data
+      - ./certs:/certs

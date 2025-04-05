@@ -1,0 +1,48 @@
+---
+- name: install docker-compose via pip
+  become_user: "{{user_account}}"
+  command: "pip install docker-compose"
+- name: Install needed packages
+  package:
+    state: present
+    pkg:
+      - ca-certificates
+      - apache2-utils
+      - curl
+- name: create docker-services registry directory
+  become_user: "{{user_account}}"
+  file:
+    path: "{{ewe_dir}}/{{item}}"
+    mode: "0755"
+    state: directory
+    force: yes
+  loop:
+    - "registry/auth"
+    - "registry/data"
+    - "registry/certs"
+- name: copy docker_registry.docker-compose.yml into host
+  become_user: "{{user_account}}"
+  copy:
+    src: "{{role_path}}/files/docker_registry.compose.yml"
+    dest: "{{ewe_dir}}/registry/docker_registry.compose.yml"
+- name: copy server.crt for https
+  become_user: "{{user_account}}"
+  copy:
+    src: "{{role_path}}/files/certs/server.crt"
+    dest: "{{ewe_dir}}/registry/certs/server.crt"
+- name: copy server.key for https
+  become_user: "{{user_account}}"
+  copy:
+    src: "{{role_path}}/files/certs/server.key"
+    dest: "{{ewe_dir}}/registry/certs/server.key"
+- name: create http password for docker registry
+  become_user: "{{user_account}}"
+  shell: "htpasswd -Bbn docker docker > {{ewe_dir}}/registry/auth/htpasswd"
+- name: "Start docker registry for service"
+  become_user: "{{user_account}}"
+  command: "docker-compose --project-directory={{ewe_dir}}/registry --project-name=registry -f {{ewe_dir}}/registry/docker_registry.compose.yml up -d --remove-orphans"
+- name: "Add docker registry to docker in host"
+  become_user: "{{user_account}}"
+  command: "docker login -u docker -p docker https://localhost:5443"
+- name: "Add docker registry to docker in host (root)"
+  command: "docker login -u docker -p docker https://localhost:5443"

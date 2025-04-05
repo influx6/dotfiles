@@ -1,0 +1,3 @@
+---
+- include_tasks: installer
+  when: is_docker_running is false

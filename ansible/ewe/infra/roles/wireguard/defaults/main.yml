@@ -1,0 +1,4 @@
+---
+# defaults file for wireguard
+wireguard_server_name: "srv0"
+wg:

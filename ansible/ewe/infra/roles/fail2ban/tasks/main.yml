@@ -1,0 +1,14 @@
+- name: Check fail2ban was installed
+  package:
+    pkg:
+      - fail2ban
+    state: present
+- name: Copy configuration for fail2ban
+  copy:
+    src: "{{role_path}}/files/fail2ban/fail2ban.conf"
+    dest: /etc/fail2ban/jail.conf
+- name: Copy configuration for fail2ban
+  copy:
+    src: "{{role_path}}/files/fail2ban/fail2ban.conf"
+    dest: /etc/fail2ban/jail.local
+    owner: "root"

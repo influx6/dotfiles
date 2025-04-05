@@ -1,0 +1,90 @@
+#!/bin/sh
+#
+
+no_dir() {
+  if [ -d "$1" ]; then
+    exit -1
+  else
+    exit 0
+  fi
+}
+
+no_file() {
+  if [ -f "$1" ]; then
+    exit -1
+  else
+    exit 0
+  fi
+}
+]
+
+has_command() {
+  if command -v "$1" 2>&1 >/dev/null; then
+    exit -1
+  else
+    exit 0
+  fi
+}
+
+# Install Mackup with PIP
+if no_command pip; then
+  pip install --upgrade mackup
+else
+  pip3 install --upgrade mackup
+fi
+
+# install ohmybash
+if no_dir $HOME/.oh-my-bash; then
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" >/dev/null
+fi
+
+# install homebrew
+if no_command brew; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  if [ -d $HOME/linuxbrew ]; then
+    eval "$($HOME/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  fi
+fi
+
+# install earhly ci
+if no_command earthly 2>&1 >/dev/null; then
+  mkdir -p "$HOME/.local/bin"
+  wget https://github.com/earthly/earthly/releases/latest/download/earthly-linux-amd64 -O $HOME/.local/bin/earthly &&
+    chmod +x $HOME/.local/bin/earthly &&
+    $HOME/.local/bin/earthly bootstrap --with-autocomplete
+fi
+
+# install go (brew is required)
+if [ no_command go && ! no_command brew ]; then
+  brew install go
+fi
+
+# install mise
+if no_command mise; then
+  curl https://mise.run | sh
+fi
+
+if [ ! no_command mise ]; then
+  mise install python@3.8.9
+  mise install python@3.9.0
+  mise install python@3.10.0
+fi
+
+# install deno
+if no_command deno; then
+  curl -fsSL https://deno.land/x/install/install.sh | sh
+fi
+
+# install github sync
+if no_dir $HOME/.github-org-sync; then
+  git clone https://github.com/oxzi/github-orga-sync ~/.github-org-sync && cd ~/.github-org-sync && go install && cd -
+fi
+
+# install rustlang
+if no_command rustup; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fi
+
+if [ ! grep -q "shell/config" "$HOME/.bashrc" ]; then
+  echo 'source $DOTFILE/Shell/config' >>$HOME/.profile
+fi

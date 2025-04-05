@@ -1,0 +1,54 @@
+.DS_Store
+*.output
+*.DS_Store
+*.DS_Store*
+*.DS_Store**
+**.DS_Store
+**.DS_store
+**.DS_store*
+*.DS_store*
+**.DS_Store**
+*.ds_store
+*.ds_store*
+*.ds_store**
+**.ds_store
+**.ds_store**
+.DS_STORE
+slave1/configs
+slave2/configs
+slave3/configs
+master/configs
+**/slave1/configs
+**/slave2/configs
+**/slave3/configs
+**/master/configs
+
+.idea/sonar*
+.idea/sonarlint
+
+lazy-lock.json
+
+
+### Mercury template
+Mercury/
+Mercury.modules
+*.mh
+*.err
+*.init
+*.beams
+*.c_date
+
+### LabVIEW template
+# Libraries
+*.lvlibp
+*.llb
+*.log 
+
+# Shared objects (inc. Windows DLLs)
+
+# Executables
+
+# Metadata
+*.aliases
+*.lvlps
+

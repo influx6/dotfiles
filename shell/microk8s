@@ -1,0 +1,14 @@
+#!/bin/sh
+
+
+alias m="microk8s"
+alias k8="microk8s.kubectl"
+alias knodes="microk8s.kubectl get nodes"
+alias ktoken="microk8s kubectl -n kube-system get secret | grep default-token | cut -d \" \" -f1"
+
+
+dashboardToken(){
+	token=$(microk8s kubectl -n kube-system get secret | grep default-token | cut -d " " -f1)
+	export K8S_DASHBOARD_TOKEN=$token
+	microk8s kubectl -n kube-system describe secret $token
+}

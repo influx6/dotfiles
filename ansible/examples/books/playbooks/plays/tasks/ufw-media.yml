@@ -1,0 +1,25 @@
+- name: Check ufw was installed
+  package:
+    pkg:
+      - ufw
+    state: present
+- name: Add firewall rules for media servers
+  command: "{{item}}"
+  loop:
+    - "sudo ufw allow 2380"
+    - "sudo ufw allow 6443"
+    - "sudo ufw allow 1900/udp"
+    - "sudo ufw allow 32400"
+    - "sudo ufw allow 3005"
+    - "sudo ufw allow 5353"
+    - "sudo ufw allow 8324"
+    - "sudo ufw allow 32469"
+    - "sudo ufw allow 32410/udp"
+    - "sudo ufw allow 32412/udp"
+    - "sudo ufw allow 32413/udp"
+    - "sudo ufw allow 32414/udp"
+- name: Enable ufw rules
+  ufw:
+    state: enabled
+    logging: on
+

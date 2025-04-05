@@ -1,0 +1,88 @@
+#!/bin/sh
+
+alias ls="ls -la"
+
+alias vim="nvim"
+alias edit_aliases="vim ~/.bash_aliases"
+alias edit_profile="vim ~/.profile"
+alias edit_bash="vim ~/.bashrc"
+
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+
+# multipass
+alias mpass="multipass"
+alias mp="multipass"
+
+# docker
+alias dok="docker"
+
+# k8s, microk8s
+alias k="kubectl"
+alias ms="microk8s"
+alias msk="microk8s.kubectl"
+
+# git
+alias g="git"
+alias gco="git checkout"
+alias gc="git commit"
+alias gr="git reset"
+alias gl="git pull"
+alias gm="git merge"
+alias gp="git push"
+alias gb="git branch"
+alias grb="git rebase"
+alias gcp="git cherry-pick"
+
+# dotfiles
+alias dotfiles_commit="cd $HOME/dotfiles && git commit -am 'UPT: Updated dotfiles'; cd -"
+alias dotfiles_push="cd $HOME/dotfiles && git push origin master; cd -"
+
+alias pbcopy='xclip -selection clipboard'
+alias ec="emacsclient -n -a emacs"
+alias ssh_up='eval $(ssh-agent)'
+alias pbpaste='xclip -selection clipboard -o'
+alias edit_aliases="vim ~/.bash_aliases"
+alias edit_profile="vim ~/.profile"
+alias edit_bash="vim ~/.bashrc"
+alias mycode="$HOME/Devlabs/code"
+alias cl="clear"
+
+darklab() {
+  ssh-add ~/.ssh/rml
+  sshfs darkvoid@darkvoid-mini:/home/darkvoid -p 5606 -o reconnect,local,allow_other,defer_permissions $1
+}
+
+# search
+search_directory="grep -nr "
+search_directoryi="grep -nir "
+
+# git
+alias gclone="git clone "
+alias gcl="git clone "
+
+# wget
+alias pullsite="wget -r -erobots=off -p -k "
+
+# docker
+alias dok="docker"
+
+# k8s, microk8s
+alias mks="microk8s"
+alias mk="microk8s kubectl"
+alias k="kubectl"
+
+# dotfiles
+alias dotfiles_commit="cd $HOME/dotfiles && git commit -am 'UPT: Updated dotfiles'; cd -"
+alias dotfiles_push="cd $HOME/dotfiles && git push origin master; cd -"
+
+# playlist
+export socket_timeout=2
+
+# individual
+
+alias prive-ssh='GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ecdsa_prive"'
+alias influx6-ssh='GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ecdsa"'
+
+# java
+alias java8="/usr/lib/jvm/java-8-openjdk/bin/java"

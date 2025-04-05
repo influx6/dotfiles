@@ -1,0 +1,3 @@
+- set_fact:
+    controller_instances: []
+    worker_instances: []

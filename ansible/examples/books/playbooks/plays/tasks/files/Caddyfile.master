@@ -1,0 +1,5 @@
+*.ewe-studios.com {
+    reverse_proxy 192.168.128.171/whoami
+}
+
+

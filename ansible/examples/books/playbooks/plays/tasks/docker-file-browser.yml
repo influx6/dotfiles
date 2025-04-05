@@ -1,0 +1,40 @@
+- name: Create 'directories' exist else create it
+  file:
+    path: "{{fs_root}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "file-browser"
+
+- name: Create 'files' exist else create it
+  file:
+    path: "{{fs_root}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0777"
+    state: touch
+  loop:
+    - "file-browser/filebrowser.db"
+
+- name: check if file-browser volume exists
+  shell: "docker volume ls | grep 'file-browser-volume-data'"
+  ignore_errors: true
+  register: volume_ready
+
+- name: Create volume for portainer_volume
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/file-browser --opt o=bind file-browser-volume-data"
+  when: volume_ready.rc == 1
+
+- name: Copy docker-compose-uptime-file-browser to server
+  copy:
+    src : "./files/docker-compose-file-browser.yml"
+    dest: "/home/{{user.stdout}}/services/docker-compose-file-browser.yml"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    force: yes
+
+- name: Start docker services
+  shell: "docker-compose --project-name=file-browser -f /home/{{user.stdout}}/services/docker-compose-file-browser.yml up -d --remove-orphans"
+  environment:
+    FILE_MOUNT_POINT: "{{file_browser_root}}"
+    DATABASE_MOUNT_FILE: "{{fs_root}}/file-browser/filebrowser.db"

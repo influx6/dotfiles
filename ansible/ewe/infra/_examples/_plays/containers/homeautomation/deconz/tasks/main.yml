@@ -1,0 +1,4 @@
+- include_tasks: raspbee.yml
+  when: ansible_facts['distribution'] == 'Debian'
+
+- include_tasks: docker.yml

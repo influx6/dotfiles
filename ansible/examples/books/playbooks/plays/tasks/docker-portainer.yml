@@ -1,0 +1,26 @@
+- name: Check 'directories' exist else create it
+  file:
+    path: "/home/{{user.stdout}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "Portainer"
+
+- name: check if portainer_volume volume exists
+  shell: "docker volume ls | grep 'portainer_volume'"
+  ignore_errors: true
+  register: volume_ready
+
+- name: Create volume for portainer_volume
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/Portainer --opt o=bind portainer_volume"
+  when: volume_ready.rc == 1
+
+- name: Copy docker-compose-infra to server
+  copy:
+    src : "./files/docker-compose-portainer.yml"
+    dest: "/home/{{user.stdout}}/services/docker-compose-portainer.yml"
+    force: yes
+
+- name: Start docker services
+  command: "docker-compose  --project-directory=/home/{{user.stdout}}/services/ PATH --project-name=portainer -f /home/{{user.stdout}}/services/docker-compose-portainer.yml up -d --remove-orphans"

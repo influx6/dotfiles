@@ -1,0 +1,30 @@
+- name: Remove default docker install from ubuntu repo
+  apt:
+    purge: true
+    state: absent
+    pkg:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+- name: Install docker gnupkg key
+  shell: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -"
+  register: docker_gpg
+- name: Get lsb_release value for system
+  shell: lsb_release -cs
+  register: lsb_release
+- name: Add docker apt repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{lsb_release.stdout}} stable"
+    update_cache: yes
+    state: present
+- name: Install docker and docker-compose
+  apt:
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+- name: Add user into sudo group
+  command: "usermod -aG docker {{user}}"
+

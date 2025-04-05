@@ -1,0 +1,4 @@
+[submodule "Mackup/oh-my-bash"]
+	path = Mackup/oh-my-bash
+	url = git@github.com:ohmybash/oh-my-bash.git
+

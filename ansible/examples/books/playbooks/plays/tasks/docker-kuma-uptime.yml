@@ -1,0 +1,28 @@
+- name: Check 'directories' exist else create it
+  file:
+    path: "{{fs_root}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "uptime-kuma"
+
+- name: check if kuma volume exists
+  shell: "docker volume ls | grep 'uptime-kuma-volume-data'"
+  ignore_errors: true
+  register: volume_ready
+
+- name: Create volume for portainer_volume
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/uptime-kuma --opt o=bind uptime-kuma-volume-data"
+  when: volume_ready.rc == 1
+
+- name: Copy docker-compose-uptime-kuma to server
+  copy:
+    src : "./files/docker-compose-uptime-kuma.yml"
+    dest: "/home/{{user.stdout}}/services/docker-compose-uptime-kuma.yml"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    force: yes
+
+- name: Start docker services
+  command: "docker-compose --project-name=kuma -f /home/{{user.stdout}}/services/docker-compose-uptime-kuma.yml up -d --remove-orphans"

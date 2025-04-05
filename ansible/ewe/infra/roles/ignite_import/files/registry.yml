@@ -1,0 +1,12 @@
+apiVersion: ignite.weave.works/v1alpha4
+kind: Configuration
+metadata:
+  name: vps-config
+spec:
+  runtime: containerd
+  networkPlugin: cni
+  registryConfigDir: /home/darkvoid/.docker
+  vmDefaults:
+    memory: 2GB
+    diskSize: 2GB
+    cpus: 2

@@ -1,0 +1,8 @@
+---
+- name: create docker-services wireguard directory
+  become_user: "{{user_account}}"
+  file:
+    path: "{{ewe_dir}}/{{infra.name}}"
+    owner: "{{user_account}}"
+    mode: "0755"
+    state: directory

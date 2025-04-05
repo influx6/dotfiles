@@ -1,0 +1,133 @@
+---
+recycle_vms: true
+vps_image_version: 0.0.4
+
+mesh_name: "darkmini"
+network_name: "darkmini0"
+mesh: [ "darkmini" ]
+peers: [ "slave1", "slave2" ]
+infra_dir: "/home/{{user_account}}/.ewe_infra"
+
+network_mesh:
+  vms: "{{ dict(mesh | zip(mesh | map('extract', networks) | map(attribute='vms'))) }}"
+  host: "{{ dict(mesh | zip(mesh | map('extract', networks) | map(attribute='host') | flatten )) }}"
+
+peers_mesh:
+  peers_vms: "{{ dict(peers | zip(peers | map('extract', networks) | map(attribute='vms'))) }}"
+  peers_hosts: "{{ dict(peers | zip(peers | map('extract', networks) | map(attribute='host') | flatten )) }}"
+
+host: "{{ network_mesh.host[mesh_name] }}"
+controller_name: "{{ network_mesh.vms[mesh_name][0].name }}"
+worker1: "{{ network_mesh.vms[mesh_name][1].name }}"
+worker2: "{{ network_mesh.vms[mesh_name][2].name }}"
+
+infra:
+  directory: "{{ infra_dir }}"
+  name: "{{ mesh_name }}"
+  mesh: "{{ network_mesh }}"
+  peers: "{{ peers_mesh }}"
+  host: "{{ host }}"
+  backbone: "hub"
+  device:
+    iface: "enp3s0f0"
+    router:
+      cidr: 192.168.128.0/24
+      ip_start: 192.168.128.1
+      ip_end: 192.168.128.255
+  caddy2:
+    serverIP: "{{ networks[mesh_name].host.ip }}"
+  wg:
+    name: "{{ network_name }}"
+    port: "{{ networks[mesh_name].host.wg.port }}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   "
+    cidr: "{{ networks[mesh_name].host.wg.cidr }}"
+    lidr: "{{ networks[mesh_name].host.wg.lidr }}"
+    private_key: "{{ secrets[mesh_name].host.private_key }}"
+    public_key: "{{ secrets[mesh_name].host.public_key }}"
+  vms:
+    - vm_name: "{{ controller_name }}"
+      vm_cpu: 2
+      vm_memory: 2G
+      vm_disk: 3GB
+      vm_image: "localhost:5443/machine_image:{{ vps_image_version }}"
+      owner_tag: "machine"
+      owner_name: "{{ ansible_hostname }}"
+      network: "{{ network_mesh.vms[mesh_name][0] }}"
+      port_mappings: "{{ network_mesh.vms[mesh_name][0].port_mappings }}"
+      vm_pub_ssh_key: true
+      kernel_boot:
+      kernel:
+      oci_sandbox:
+      copy_files:
+        - path: "{{infra_dir}}/{{controller_name}}"
+          vm_path: /wireguard
+      volumes:
+      volume_mounts:
+      secrets:
+        private_key: "{{ secrets[mesh_name][controller_name].private_key }}"
+        public_key: "{{ secrets[mesh_name][controller_name].public_key }}"
+      labels:
+        - name: "group"
+          value: "controller"
+        - name: "desc"
+          value: "controller vm for infrastructure in {{ network_name }}"
+      annotations:
+        - name: "group"
+          value: "controller"
+    - vm_name: "{{ worker1 }}"
+      vm_cpu: 2
+      vm_memory: 2G
+      vm_disk: 3GB
+      vm_image: "localhost:5443/machine_image:{{ vps_image_version }}"
+      owner_tag: "machine"
+      owner_name: "{{ ansible_hostname }}"
+      network: "{{ network_mesh.vms[mesh_name][1] }}"
+      port_mappings: "{{ network_mesh.vms[mesh_name][1].port_mappings }}"
+      secrets:
+        private_key: "{{ secrets[mesh_name][worker1].private_key }}"
+        public_key: "{{ secrets[mesh_name][worker1].public_key }}"
+      labels:
+        - name: "group"
+          value: "workers"
+        - name: "desc"
+          value: "worker vm for infrastructure in {{ network_name }}"
+      annotations:
+        - name: "group"
+          value: "workers"
+      vm_pub_ssh_key: true
+      copy_files:
+        - path: "{{infra_dir}}/{{worker1}}"
+          vm_path: /wireguard
+      volumes:
+      kernel:
+      oci_sandbox:
+      kernel_boot:
+      volume_mounts:
+    - vm_name: "{{ worker2 }}"
+      vm_cpu: 2
+      vm_memory: 2G
+      vm_disk: 3GB
+      vm_image: "localhost:5443/machine_image:{{ vps_image_version }}"
+      owner_tag: "machine"
+      owner_name: "{{ ansible_hostname }}"
+      network: "{{ network_mesh.vms[mesh_name][2] }}"
+      port_mappings: "{{ network_mesh.vms[mesh_name][2].port_mappings }}"
+      secrets:
+        private_key: "{{ secrets[mesh_name][worker2].private_key }}"
+        public_key: "{{ secrets[mesh_name][worker2].public_key }}"
+      labels:
+        - name: "group"
+          value: "workers"
+        - name: "desc"
+          value: "worker vm for infrastructure in {{ network_name }}"
+      annotations:
+        - name: "group"
+          value: "workers"
+      vm_pub_ssh_key: true
+      copy_files:
+        - path: "{{infra_dir}}/{{worker2}}"
+          vm_path: /wireguard
+      oci_sandbox:
+      volumes:
+      kernel:
+      kernel_boot:
+      volume_mounts:

@@ -1,0 +1,17 @@
+[core]
+	filemode = false
+	autocrlf = input
+[user]
+	email = alex.ewetumo@gmail.com
+	name = Alexander Ewetumo
+[gpg]
+	program = /usr/bin/gpg
+[pull]
+	rebase = true
+[init]
+	defaultBranch = master
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process

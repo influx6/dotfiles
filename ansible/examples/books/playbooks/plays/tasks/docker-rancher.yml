@@ -1,0 +1,56 @@
+- name: Check 'directories' exist else create it
+  file:
+    path: "/home/{{user.stdout}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "Rancher/data"
+    - "Rancher/kubelet"
+    - "Rancher/logs"
+    - "Rancher/cni"
+
+- name: check if rancher data volume exists
+  shell: "docker volume ls | grep 'rancher-volume-data'"
+  ignore_errors: true
+  register: rancher_volume_ready
+
+- name: Create volume for rancher data
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/Rancher/data --opt o=bind rancher-volume-data"
+  when: rancher_volume_ready.rc == 1
+
+- name: check if rancher kubelete volume exists
+  shell: "docker volume ls | grep 'rancher-kubelet-volume'"
+  ignore_errors: true
+  register: rancher_kubelet_volume
+
+- name: Create volume for rancher kubelet
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/Rancher/kubelet --opt o=bind rancher-kubelet-volume"
+  when: rancher_kubelet_volume.rc == 1
+  
+- name: check if rancher logs volume exists
+  shell: "docker volume ls | grep 'rancher-logs-volume'"
+  ignore_errors: true
+  register: rancher_logs_volume
+
+- name: Create volume for rancher logs
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/Rancher/logs --opt o=bind rancher-logs-volume"
+  when: rancher_logs_volume.rc == 1
+
+- name: check if rancher cni volume exists
+  shell: "docker volume ls | grep 'rancher-cni-volume'"
+  ignore_errors: true
+  register: rancher_cni_volume
+
+- name: Create volume for rancher cni
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/Rancher/cni --opt o=bind rancher-cni-volume"
+  when: rancher_cni_volume.rc == 1
+
+- name: Copy docker-compose-rancher to server
+  copy:
+    src : "./files/docker-compose-rancher.yml"
+    dest: "/home/{{user.stdout}}/services/docker-compose-rancher.yml"
+    force: yes
+
+- name: Start docker services
+  command: "docker-compose --project-name=rancher -f /home/{{user.stdout}}/services/docker-compose-rancher.yml up -d"

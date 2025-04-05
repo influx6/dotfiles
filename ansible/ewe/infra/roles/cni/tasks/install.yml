@@ -1,0 +1,30 @@
+---
+- name: select containerd_cni target architecture
+  set_fact:
+    containerd_cni_arch: "{{ 'amd64' if (repo_arch == 'amd64') else 'arm64' }}"
+- debug:
+    msg: "containerd_cni arch: {{ containerd_cni_arch }}"
+- name: create containerd_cni binary directory
+  become_user: root
+  file:
+    path: "/opt/cni/bin/"
+    mode: "0755"
+    state: directory
+- name: download containerd_cni binary for arch (amd)
+  get_url:
+    url: "https://github.com/containernetworking/plugins/releases/download/v{{containerd_cni_version}}/cni-plugins-linux-{{containerd_cni_arch}}-v{{containerd_cni_version}}.tgz"
+    dest: /opt/cni/bin/containerd_cni.tgz
+    mode: 0755
+- name: decompress containerd_cni.tgz archive
+  unarchive:
+    remote_src: true
+    src: /opt/cni/bin/containerd_cni.tgz
+    dest: /opt/cni/bin
+    owner: "root"
+    group: "users"
+    extra_opts:
+      - --strip-components=1
+- name: remove containerd_cni.tgz file
+  file:
+    path: /opt/cni/bin/containerd_cni.tgz
+    state: absent

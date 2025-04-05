@@ -1,0 +1,9 @@
+#!/bin/sh
+
+
+export DART_HOME=$HOME/Devlabs/pkg/Flutter/dart
+export FLUTTER_HOME=$HOME/Devlabs/pkg/Flutter/flutter
+export FLUTTER_BIN=$HOME/Devlabs/pkg/Flutter/flutter/bin
+export FLUTTER_DEV_TOOLS=$HOME/Devlabs/pkg/Flutter/depot_tools
+
+export PATH=$PATH:$FLUTTER_DEV_TOOLS

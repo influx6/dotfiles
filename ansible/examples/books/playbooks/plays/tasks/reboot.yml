@@ -1,0 +1,6 @@
+- name: say bybye
+  command: "echo 'Shutting down server {{user.stdout}}'"
+- name: reboot
+  reboot:
+    reboot_timeout: 120
+    connect_timeout: 60

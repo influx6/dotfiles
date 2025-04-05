@@ -1,0 +1,39 @@
+version: "3.5"
+
+networks:
+  portainer_network:
+  default:
+    external:
+      name: infra-networks
+
+volumes:
+  gitlab_data:
+    external: true
+  gitlab_logs:
+    external: true
+  gitlab_config:
+    external: true
+
+services:
+  gitlab:
+    image: "gitlab/gitlab-ee:latest"
+    container_name: gitlab
+    hostname: "gitlab.code.server"
+    restart: unless-stopped
+    shm_size: '256m'
+    environment:
+        SERVER_OS: "Ubuntu/Linux"
+        GITLAB_OMNIBUS_CONFIG: |
+            gitlab_rails['lfs_enabled'] = true;
+            # external_url 'https://gitlab.code.server:5080';
+            # Add any other gitlab.rb configuration here, each on its own line
+    ports:
+      - "5443:443"
+      - "5080:80"
+      - "5022:22"
+      - "5884:8443"
+    volumes:
+      - "gitlab_data:/var/opt/gitlab"
+      - "gitlab_logs:/var/log/gitlab"
+      - "gitlab_config:/etc/gitlab"
+

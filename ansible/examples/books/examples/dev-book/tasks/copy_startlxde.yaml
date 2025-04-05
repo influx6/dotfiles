@@ -1,0 +1,17 @@
+- name: "Copy startlxde to /usr/local/bin/startlxde"
+  copy:
+    src: ./scripts/startlxde
+    dest: /usr/local/bin/startlxde
+    owner: root
+    mode: '0644'
+- name: "Copy startlxde to /usr/local/bin/startlubuntu"
+  copy:
+    src: ./scripts/startlxde
+    dest: /usr/local/bin/startlubuntu
+    owner: root
+    mode: '0644'
+- name: Make startlxde and startubuntu executable
+  shell: "{{item}}"
+  loop:
+    - "chmod +x /usr/local/bin/startlxde"
+    - "chmod +x /usr/local/bin/startlubuntu"

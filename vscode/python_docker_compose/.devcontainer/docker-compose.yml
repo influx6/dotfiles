@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        VARIANT: bullseye
+        USERNAME: ewestudio
+        USER_UID: 501
+        USER_GID: 20
+        GIT_EMAIL: alex.ewetumo@gmail.com
+        GIT_USER_NAME: "Alexander Ewetumo"
+    environment:
+      - "PS1=$$(whoami):$$(pwd) $$ "
+    networks:
+      - app_network
+    volumes:
+      - ..:/workspace:cached # where vscode expects to find project
+      # Uncomment the next line to use Docker from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker-compose for details.
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Added these so that we cache your extensions so they do not re-install on every restart
+      - "../.vscode-server:/home/ewestudio/.vscode-server:rw"
+      # Overrides default command so things don't shut down after the process ends.
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    # Runs app on the same network as the service container, allows "forwardPorts" in devcontainer.json function.
+    # network_mode: service:another-service
+
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+    # Uncomment the next line to use a non-root user for all processes - See https://aka.ms/vscode-remote/containers/non-root for details.
+    user: ewestudio
+
+    # Uncomment the next four lines if you will use a ptrace-based debugger like C++, Go, and Rust.
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+  # You can include other services not opened by VS Code as well
+  # another-service:
+  #   image: mongo:latest
+  #   restart: unless-stopped
+networks:
+  app_network:
+    name: app_network

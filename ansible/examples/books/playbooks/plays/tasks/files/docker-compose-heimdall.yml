@@ -1,0 +1,27 @@
+version: "3.5"
+
+networks:
+  default:
+    external:
+      name: app-networks
+
+volumes:
+  heimdall_volume:
+    external: true
+
+
+services:
+  heimdall:
+    image: lscr.io/linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - HOST_OS=Unraid
+      - TZ=Asia/HongKong
+      - UMASK=022
+    ports:
+      - "7082:80/tcp"
+      - "7433:443/tcp"
+    volumes:
+      - heimdall_volume:/config:rw

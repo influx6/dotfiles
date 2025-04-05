@@ -1,0 +1,50 @@
+<user-mapping>
+    <authorize
+            username="novnc"
+            password="{{GUACA_PASSWORD}}"
+            encoding="md5">
+        <connection name="SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">0.0.0.0</param>
+            <param name="port">22</param>
+            <param name="username">novnc</param>
+            <param name="password">novnc</param>
+            <param name="private-key">/home/novnc/.ssh/id_rsa</param>
+        </connection>
+        <connection name="Screen 1">
+            <protocol>vnc</protocol>
+            <param name="hostname">0.0.0.0</param>
+            <param name="port">5901</param>
+            <param name="password">{{VNC_PASSWORD}}</param>
+            <param name="ignore-cert">true</param>
+        </connection>
+        <connection name="Screen 2">
+            <protocol>vnc</protocol>
+            <param name="hostname">0.0.0.0</param>
+            <param name="port">5902</param>
+            <param name="password">{{VNC_PASSWORD}}</param>
+            <param name="ignore-cert">true</param>
+        </connection>
+        <connection name="Screen 3">
+            <protocol>vnc</protocol>
+            <param name="hostname">0.0.0.0</param>
+            <param name="port">5903</param>
+            <param name="password">{{VNC_PASSWORD}}</param>
+            <param name="ignore-cert">true</param>
+        </connection>
+        <connection name="Screen 4">
+            <protocol>vnc</protocol>
+            <param name="hostname">0.0.0.0</param>
+            <param name="port">5904</param>
+            <param name="password">{{VNC_PASSWORD}}</param>
+            <param name="ignore-cert">true</param>
+        </connection>
+        <connection name="Screen 5">
+            <protocol>vnc</protocol>
+            <param name="hostname">0.0.0.0</param>
+            <param name="port">5905</param>
+            <param name="password">{{VNC_PASSWORD}}</param>
+            <param name="ignore-cert">true</param>
+        </connection>
+    </authorize>
+</user-mapping>

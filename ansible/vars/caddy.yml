@@ -1,0 +1,11 @@
+caddy:
+  apps:
+    http:
+      servers:
+        hello:
+          listen:
+            - ":80"
+          routes:
+            - handle:
+                - handler: static_response
+                  body: "Hello from Caddy on Server!"

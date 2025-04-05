@@ -1,0 +1,8 @@
+---
+# tasks file for firecracker
+- name: check if firecracker is installed
+  ansible.builtin.command: which firecrackerd
+  ignore_errors: yes
+  register: is_firecracker_installed
+- include_tasks: get_firecracker.yml
+  when: is_firecracker_installed.rc == 1

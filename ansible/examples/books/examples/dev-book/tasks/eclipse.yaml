@@ -1,0 +1,17 @@
+- name: Install necessary packages
+  apt:
+    pkg:
+      - snapd
+    state: present
+- name: Download latest eclipse from Eclipse servrs
+  snap:
+    state: present
+    classic: yes
+    name: eclipse
+- name: Create directory for user config
+  command: "mkdir -p /home/{{user}}/ThingsYouNeed/"
+- name: Generate new inventory file for multipass_instances
+  template:
+    src: ./templates/eclipse.jinja2
+    dest: "/home/{{user}}/ThingsYouNeed/eclipse.ini"
+    mode: '0644'

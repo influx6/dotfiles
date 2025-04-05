@@ -1,0 +1,117 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+      - 192.168.128.170 - 192.168.128.190
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-secret-token
+type: Opaque
+stringData:
+  api-token: ieaNOQy41ubw_F9AfTzBuNtZC_ehPkGz-nGDAOTP
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: local-ca-issuer
+  namespace: default
+spec:
+  ca:
+    secretName: kube-ca-pair
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+
+    # Email address used for ACME registration
+    email: alex.ewetumo@gmail.com
+
+    # Name of a secret used to store the ACME account private key when generated
+    privateKeySecretRef:
+      name: letsencrypt-staging
+
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - selector:
+          # this is how you can localize the selector to a specific CN or hostname
+          dnsNames:
+            - ewe-studios.com
+        dns01:
+          cloudflare:
+            email: trinoxf@gmail.com
+            apiTokenSecretRef:
+              name: cloudflare-secret-token
+              key: api-token
+
+      - selector: { }
+        dns01:
+          cloudflare:
+            email: trinoxf@gmail.com
+            apiTokenSecretRef:
+              name: cloudflare-secret-token
+              key: api-token
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ewe-studios-com-staging-cert
+spec:
+  secretName: ewe-studios-com-staging-cert-tls
+  issuerRef:
+    name: letsencrypt-staging
+  dnsNames:
+    - '*.ewe-studios.com'
+    - ewe-studios.com
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+
+    # Email address used for ACME registration
+    email: alex.ewetumo@gmail.com
+
+    # Name of a secret used to store the ACME account private key when generated
+    privateKeySecretRef:
+      name: letsencrypt-prod
+
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - selector: { }
+        dns01:
+          cloudflare:
+            email: trinoxf@gmail.com
+            apiTokenSecretRef:
+              name: cloudflare-secret-token
+              key: api-token
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ewe-studios-com-prod-cert
+spec:
+  secretName: ewe-studios-com-prod-cert-tls
+  issuerRef:
+    name: letsencrypt-prod
+  dnsNames:
+    - '*.ewe-studios.com'
+    - ewe-studios.com

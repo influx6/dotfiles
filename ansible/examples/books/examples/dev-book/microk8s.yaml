@@ -1,0 +1,56 @@
+---
+- hosts: all
+  vars:
+  become: yes
+  tasks:
+    - import_tasks: tasks/multipass_microk8s.yaml
+    - name: Add user into microk8s group
+      command: "usermod -aG microk8s {{user}}"
+    - name: Create '.kube' directory for microk8s
+      file:
+        path: "/home/{{user}}/.kube"
+        owner: "{{user}}"
+        mode: "0744"
+        state: directory
+    - name: Request new node-join token from master for slave1
+      command: /snap/bin/microk8s add-node
+      register: master_node
+      when: ansible_hostname == 'master'
+      # or when: inventory_hostname in groups['master']
+      # or:
+      #   delegate_to: master
+      #   delegate_facts: true
+    - set_fact:
+        master_join_slave1_response: "{{ master_node.stdout_lines[0] | replace('Join node with: ','') }}"
+      when: ansible_hostname == 'master'
+    - debug:
+        msg: 'Slave1 join token: {{ hostvars["master"]["master_join_slave1_response"] }}'
+    - name: Setup slave vms to join microk8s as slave nodes
+      shell: '{{ hostvars["master"]["master_join_slave1_response"] }}'
+      when: ansible_hostname != 'master' and ansible_hostname == 'slave1'
+    - name: Request new node-join token from master for slave2
+      command: /snap/bin/microk8s add-node
+      register: master_node
+      when: ansible_hostname == 'master'
+    - set_fact:
+        master_join_slave2_response: "{{ master_node.stdout_lines[0] | replace('Join node with: ','') }}"
+      when: ansible_hostname == 'master'
+    - debug:
+        msg: 'Slave2 join token: {{ hostvars["master"]["master_join_slave1_response"] }}'
+    - name: Setup slave vms to join microk8s as slave nodes
+      shell: '{{ hostvars["master"]["master_join_slave2_response"] }}'
+      when: ansible_hostname != 'master' and ansible_hostname == 'slave2'
+    - name: Request nodes information from master so we can confirm
+      command: "microk8s.kubectl get nodes"
+      register: master_nodes
+    - debug:
+        msg: "{{master_nodes}}"
+      when: ansible_hostname == 'master'
+    - name: Request kubeconfig information from master
+      shell: "microk8s.config > ./kubeconfig"
+      when: ansible_hostname == 'master'
+    - name: Copy kubeconfig file into localhost for devs
+      fetch:
+        src: "./kubeconfig"
+        dest: "./artifacts"
+      when: ansible_hostname == 'master'

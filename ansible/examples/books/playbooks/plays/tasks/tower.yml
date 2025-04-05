@@ -1,0 +1,47 @@
+- debug:
+    msg: "All host vars: {{ hostvars }}"
+- debug:
+    msg: "Other host vars: {{ hostvars['dark-tower'] }}"
+- set_fact:
+    dark_tower_host_name: '{{ hostvars["dark-tower"]["dark_tower_hostname"] }}'
+    dark_tower_local_ip: '{{ hostvars["dark-tower"]["dark_tower_local_ip"] }}'
+    dark_tower_remote_ip: '{{ hostvars["dark-tower"]["dark_tower_remote_ip"] }}'
+- name: Create 'mnt/tower' directory
+  file:
+    path: "/mnt/tower"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+- name: Add tower into host file
+  lineinfile:
+    dest: "/etc/hosts"
+    line: "{{dark_tower_local_ip}} dark-tower"
+- name: Add tower into host file
+  lineinfile:
+    dest: "/etc/hosts"
+    line: "{{dark_tower_local_ip}} dark-tower.local"
+- name: Create 'root/.smb' directory
+  file:
+    path: "/root/.smb"
+    owner: "root"
+    mode: "0600"
+    state: directory
+- name: Copy cif mount installation to fstab
+  template:
+    src: ./files/smbcredentials.jinja2
+    dest: /root/.smb/smbcredentials
+    mode: '0600'
+    force: yes
+- name: Add smb fs line into fstab configuration
+  lineinfile:
+    dest: "/etc/fstab"
+    line: "//dark-tower.local/rootshare/user/ /mnt/tower cifs credentials=/root/.smb/smbcredentials,vers=3.1.1,posix,rw,users,uid=1001,gid=100,soft,rsize=8192,wsize=8192,mfsymlinks,file_mode=0666,dir_mode=0777,iocharset=utf8 0 0"
+- name: Create '/mnt/tower' directory
+  file:
+    path: "/mnt/tower"
+    mode: "0777"
+    owner: "{{user.stdout}}"
+    group: "{{user.stdout}}"
+    state: directory
+- name: mount ftstab
+  command: "sudo mount -a"

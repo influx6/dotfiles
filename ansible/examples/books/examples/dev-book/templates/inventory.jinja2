@@ -1,0 +1,22 @@
+---
+### YAML inventory file for vms
+all:
+  hosts:
+  children:
+    master:
+      hosts:
+{% for vm in vm_instances|from_json %}
+{% if vm.key == 'master' %}
+        {{ vm.key }}:
+          ansible_host: {{ vm.value.ipv4[0] }}
+{% endif %}
+{% endfor %}
+    slaves:
+       hosts:
+{% for vm in vm_instances|from_json %}
+{% if vm.key != 'master' %}
+        {{ vm.key }}:
+          ansible_host: {{ vm.value.ipv4[0] }}
+{% endif %}
+{% endfor %}
+

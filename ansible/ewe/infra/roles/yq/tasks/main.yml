@@ -1,0 +1,19 @@
+---
+- name: select weave ignite target architecture
+  set_fact:
+    yq_arch: "{{ 'linux_amd64' if (repo_arch == 'amd64') else 'linux_arm64' }}"
+- debug:
+    msg: "yq_arch arch: {{ yq_arch }}"
+- name: check if yq is installed
+  ansible.builtin.shell: "which yq"
+  ignore_errors: yes
+  register: yq_check
+- name: download ignited binary for arch
+  when: yq_check.rc == 1
+  get_url:
+    url: "https://github.com/mikefarah/yq/releases/download/v{{ yq_version }}/yq_{{ yq_arch }}"
+    dest: /usr/local/bin/yq
+    mode: 0755
+- name: make binary executable
+  ansible.builtin.shell: "chmod +x /usr/local/bin/yq"
+  when: yq_check.rc == 1

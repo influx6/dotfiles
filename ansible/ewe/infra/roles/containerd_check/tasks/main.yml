@@ -1,0 +1,5 @@
+---
+# tasks file for containerd_check
+- name: Check if containerd is available
+  ansible.builtin.command: which containerd
+  register: containerd_installed

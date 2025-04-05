@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if has_command "direnv"; then
+  eval "$(direnv hook bash)"
+fi

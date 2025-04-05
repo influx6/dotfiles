@@ -1,0 +1,27 @@
+# Provided tasks will figure out the correct architecture
+# of target host setting correct architecture variable to
+# repo_arch and repo_arch_standard.
+---
+- debug:
+    msg: "Running on: {{ansible_architecture}}"
+
+- name: Set amd64 arch
+  set_fact:
+    repo_arch: amd64
+    repo_arch_standard: amd64
+  when: ansible_architecture == "x86_64"
+
+- name: Set arm64 arch
+  set_fact:
+    repo_arch: "{{ ansible_architecture }}"
+    repo_arch_standard: "{{ ansible_architecture }}"
+  when: ansible_architecture == "arm64"
+
+- name: Set arm64 arch for aarch64
+  set_fact:
+    repo_arch: "arm64"
+    repo_arch_standard: "aarch64"
+  when: ansible_architecture == "aarch64"
+
+- debug:
+    msg: "Current architecture: {{repo_arch}} from {{ansible_architecture}}"

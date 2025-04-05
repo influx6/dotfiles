@@ -1,0 +1,2 @@
+- include_tasks: arch.yml
+- include_tasks: crowdsec.yml

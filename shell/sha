@@ -1,0 +1,10 @@
+#!/bin/env bash
+
+
+sha256files() {
+  find "$1" -type f -print0 -not -path '*/.git/*' -not -path "$1/.git/*" | xargs -0 sha256sum -b
+}
+
+sha256dir() {
+  find "$1" -type f -exec sha256sum {} \; | sed "s~$1~~g" | LC_ALL=C sort -d | sha256sum
+}

@@ -1,0 +1,9 @@
+- name: update apt packages
+  apt:
+    update_cache: yes
+- name: Install raspberry-pi pkg
+  when: repo_arch == "arm64
+  apt:
+    pkg:
+      - linux-modules-extra-raspi
+    state: present

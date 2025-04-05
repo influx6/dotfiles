@@ -1,0 +1,29 @@
+version: "3.5"
+
+networks:
+  default:
+    external:
+      name: app-networks
+
+volumes:
+  file-browser-volume-data:
+    external: true
+
+
+services:
+  uptime:
+    image: "filebrowser/filebrowser"
+    restart: unless-stopped
+    container_name: file-browser
+    user: 1000:1000
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - "$FILE_MOUNT_POINT:/srv"
+      - "$DATABASE_MOUNT_FILE:/database.db:rw"
+    ports:
+      - "4081:80"
+    environment:
+      - APP=KUMA
+      - PUID=1000
+      - PGID=1000

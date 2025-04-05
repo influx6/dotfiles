@@ -1,0 +1,3 @@
+---
+# tasks file for ignite_import
+- include_tasks: ignite_image_import.yml

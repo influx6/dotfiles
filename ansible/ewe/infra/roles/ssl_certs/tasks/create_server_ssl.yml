@@ -1,0 +1,23 @@
+---
+- set_fact:
+    subject_name: "{{ domain }}"
+- name: Create 'vps' directory servers
+  file:
+    path: "/home/{{user_name}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "vps/ssl"
+- name: create ssl server.conf file
+  template:
+    src: "{{role_path}}/files/jinja/ssl/server_csr_config.j2"
+    dest: "/home/{{user_name}}/vps/ssl/server.config"
+    mode: '0770'
+    force: yes
+- name: create ssl server.ext file
+  template:
+    src: "{{role_path}}/files/_jinja/ssl/server_csr_extension.j2"
+    dest: "/home/{{user_name}}/vps/ssl/server.ext"
+    mode: '0770'
+    force: yes

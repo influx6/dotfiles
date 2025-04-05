@@ -1,0 +1,31 @@
+version: "3.5"
+
+networks:
+  default:
+    external:
+      name: infra-networks
+
+volumes:
+  rancher-volume-data:
+    external: true
+  rancher-cni-volume:
+    external: true
+  rancher-logs-volume:
+    external: true
+  rancher-kubelet-volume:
+    external: true
+
+
+services:
+  rancher:
+    image: rancher/rancher:v2.5.12
+    privileged: true
+    ports:
+      - "3080:80"
+      - "3443:443"
+    restart: unless-stopped
+    volumes:
+      - rancher-volume-data:/var/lib/rancher
+      - rancher-cni-volume:/var/lib/cni
+      - rancher-logs-volume:/var/log
+      - rancher-kubelet-volume:/var/lib/kubelet

@@ -1,0 +1,8 @@
+---
+### YAML inventory file
+all:
+  hosts:
+    localhost:
+      remote_ip: 127.0.0.1
+      connection: local
+      ansible_connection: local

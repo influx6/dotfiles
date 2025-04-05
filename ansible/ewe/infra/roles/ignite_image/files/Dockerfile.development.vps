@@ -1,0 +1,45 @@
+FROM ubuntu:22.10
+MAINTAINER Alexander Ewetumo <alex.ewetumo@gmail.com>
+
+ARG USER_SSH_PUB_KEY
+ARG USER_SSH_PUB_KEY2
+
+ARG K0S_CTL_VERSION='v0.14.0'
+ARG K0S_VERSION='v1.24.4+k0s.0'
+ARG K0S_ARCH='amd64'
+
+RUN apt-get update \
+    && apt-get install -y curl dbus bridge-utils kmod iproute2 iputils-ping tar zip unzip net-tools \
+    openssh-server rng-tools sudo systemd supervisord udev vim-tiny neovim wget \
+    apt-transport-https containerd curl gnupg2 jq openjdk-11-jdk golang rustc \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && echo "" > /etc/machine-id \
+    && echo "" > /var/lib/dbus/machine-id \
+    && echo "net.ipv4.ip_forward=1" > /etc/sysctl.conf  \
+    && sed -i -e 's/^AcceptEnv LANG LC_\*$/#AcceptEnv LANG LC_*/' /etc/ssh/sshd_config \
+    && echo "root:root" | chpasswd
+
+# copy provided user ssh key into fs
+#      && echo "    IdentityFile /etc/ssh/ssh_user_config/user_id_rsa.pub" >> /etc/ssh/ssh_config
+RUN mkdir -p /etc/ssh/ssh_user_config/ \
+      && mkdir -p /root/.ssh/ \
+      && echo "${USER_SSH_PUB_KEY}" > /etc/ssh/ssh_user_config/user_id_rsa.pub \
+      && echo "${USER_SSH_PUB_KEY}" > /root/.ssh/user_id_rsa.pub \
+      && echo "${USER_SSH_PUB_KEY}" > /etc/ssh/authorized_keys \
+      && echo "${USER_SSH_PUB_KEY}" > /root/.ssh/authorized_keys \
+      && echo "${USER_SSH_PUB_KEY2}" > /etc/ssh/ssh_user_config/user_id_rsa2.pub \
+      && echo "${USER_SSH_PUB_KEY2}" > /root/.ssh/user_id_rsa2.pub \
+      && echo "${USER_SSH_PUB_KEY2}" >> /etc/ssh/authorized_keys \
+      && echo "${USER_SSH_PUB_KEY2}" >> /root/.ssh/authorized_keys
+
+RUN wget -O /usr/bin/k0s https://github.com/k0sproject/k0s/releases/download/${K0S_VERSION}/k0s-${K0S_VERSION}-${K0S_ARCH} \
+    && wget -O /usr/bin/k0sctl https://github.com/k0sproject/k0sctl/releases/download/${K0S_CTL_VERSION}/k0sctl-linux-x64 \
+    && wget -O /usr/bin/flanneld https://github.com/flannel-io/flannel/releases/download/v0.20.2/flanneld-amd64 \
+    && wget -O /usr/bin/etcd.tar.gz https://github.com/etcd-io/etcd/releases/download/v3.4.23/etcd-v3.4.23-linux-amd64.tar.gz \
+    && tar -xvf /usr/bin/etcd.tar.gz --strip-components=1 -C /usr/bin/  \
+    && rm -rf /usr/bin/etcd.tar.gz /usr/bin/Documentation *.md \
+    && chmod +x /usr/bin/k0s /usr/bin/k0sctl /usr/bin/flanneld /usr/bin/etcd /usr/bin/etcdctl
+
+
+CMD ["bash"]

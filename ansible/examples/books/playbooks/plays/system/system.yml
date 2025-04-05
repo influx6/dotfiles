@@ -1,0 +1,22 @@
+---
+- hosts: ubuntu
+  become: yes
+  gather_facts: true
+  tasks:
+    - import_tasks: ../tasks/arch.yml
+    - import_tasks: ../tasks/user.yml
+    - import_tasks: ../tasks/directories.yml
+    - import_tasks: ../tasks/pkgs-sync.yml
+    - import_tasks: ../tasks/pkgs-add-common.yml
+    - import_tasks: ../tasks/pkgs-add-base.yml
+    - import_tasks: ../tasks/pkgs-add-extras.yml
+    - import_tasks: ../tasks/pkgs-add-caddy-and-xcaddy.yml
+    - import_tasks: ../tasks/pkgs-remove.yml
+    - import_tasks: ../tasks/git_config.yml
+    - import_tasks: ../tasks/python.yml
+    - import_tasks: ../tasks/snapd-apps.yml
+    - import_tasks: ../tasks/groups.yml
+    - import_tasks: ../tasks/pip.yml
+    - import_tasks: ../tasks/ufw.yml
+    - import_tasks: ../tasks/fail2ban.yml
+    - import_tasks: ../tasks/sysstat.yml

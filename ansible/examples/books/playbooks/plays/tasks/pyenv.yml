@@ -1,0 +1,37 @@
+- name: Ensure git is installed
+  apt:
+    state: present
+    name: git
+- name: check if pyenv exists
+  stat:
+    path: "/home/{{user.stdout}}/pyenv"
+  register: pyenv
+- name: "Pull in pyenv"
+  become_user: "{{user.stdout}}"
+  command: "git clone https://github.com/pyenv/pyenv.git /home/{{user.stdout}}/.pyenv"
+  when: pyenv.stat.isdir is not defined
+- name: Add pyenv path to .profile
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.profile"
+    line: 'export PYENV_ROOT="$HOME/.pyenv"'
+    insertafter: EOF
+- name: Add pyenv to path in .profile
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.profile"
+    line: 'export PATH="$PYENV_ROOT/bin:$PATH""'
+    insertafter: EOF
+- name: Add pyenv init to .profile
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.profile"
+    line: 'eval "$(pyenv init --path)"'
+    insertafter: EOF
+- name: Add pyenv init to .profile
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.profile"
+    line: 'eval "$(pyenv init -)"'
+    insertafter: EOF
+- name: Add pyenv init to .bashrc
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.bashrc"
+    line: 'eval "$(pyenv init -)"'
+    insertafter: EOF

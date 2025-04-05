@@ -1,0 +1,15 @@
+- name: Disable/Mask the following systemd services
+  systemd:
+    name: "{{item}}"
+    enabled: no
+    masked: yes
+  loop:
+    - sleep
+    - hybrid-sleep
+    - hibernate
+    - suspend
+- name: Add git global configuration
+  command: "{{item}}"
+  loop:
+    - "git config --global user.name '{{git_user}}'"
+    - "git config --global user.email '{{git_email}}'"

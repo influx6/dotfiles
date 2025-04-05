@@ -1,0 +1,18 @@
+---
+- name: Check if giving docker registry is present
+  ansible.builtin.shell: "docker ps | grep registry_registry_1"
+  ignore_errors: yes
+  register: registry_exists
+- name: Check if giving docker registry is running
+  ignore_errors: yes
+  ansible.builtin.shell: "docker inspect registry_registry_1 -f \"{{ '{{' }}.Id {{ '}}' }}\""
+  when: registry_exists.rc == 0
+  register: registry_id
+- name: Kill existing container
+  when: registry_exists.rc == 0
+  ansible.builtin.shell: "docker kill {{ registry_id.stdout }}"
+- name: Remove existing container
+  when: registry_exists.rc == 0
+  ansible.builtin.shell: "docker rm {{ registry_id.stdout }}"
+- name: Install registry again
+  include_tasks: docker_registry.yml

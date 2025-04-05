@@ -1,0 +1,72 @@
+version: "3.5"
+
+networks:
+  default:
+    external:
+      name: app-networks
+
+volumes:
+  intelliju-volume-data:
+    external: true
+
+
+services:
+  code-server-intellij:
+    image: "influx6/intellij-u:0.0.5"
+    restart: unless-stopped
+    container_name: code-server-intelliju
+    devices:
+      - "/dev/dri:/dev/dri"
+      - "/dev/snd:/dev/snd"
+    security_opt:
+      - apparmor=unconfined
+      - seccomp=unconfined
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - "WINDOW_MANAGER=$WINDOW_MANAGER"
+      - "APP=INTELLIJ_UL"
+      - "VNC_SERVER=$VNC_SERVER"
+      - "GUACAMOLE_SETUP=$GUACAMOLE_SETUP"
+      - "VNC_PASSWORD=$VNC_PASSWORD"
+      - "GUACA_PASSWORD=$GUACA_PASSWORD"
+      - "SECURITY_TYPE=$SECURITY_TYPE"
+      - "GUACA_SSL=$GUACA_SSL"
+      - "DISPLAY_MAX=$DISPLAY_MAX"
+      - "DISPLAY_1_PORT=$DISPLAY_1_PORT"
+      - "DISPLAY_1_NOVNC_PORT=$DISPLAY_1_NOVNC_PORT"
+      - "X11_VNC_OPTS_1=$X11_VNC_OPTS_1"
+      - "X11_VNC_OPTS_2=$X11_VNC_OPTS_2"
+      - "TIGER_VNC_OPTS_1=$TIGER_VNC_OPTS_1"
+      - "TIGER_VNC_OPTS_2=$TIGER_VNC_OPTS_2"
+      - "ENABLE_SCREEN_2=$ENABLE_SCREEN_2"
+      - "ENABLE_SCREEN_2_NOVNC=$ENABLE_SCREEN_2_NOVNC"
+    volumes:
+      - intelliju-volume-data:/home/novnc/.idea
+      - "/run/user/1000/pulse:/run/pulse:ro"
+      - "$SERVER_HOME/Lab:/home/novnc/Lab:rw"
+      - "$FLUXBOX_CONFIG:/home/novnc/.config/fluxbox:rw"
+      - "$I3_CONFIG:/home/novnc/.config/i3:rw"
+      - "$PROFILE_FILE:/home/novnc/.user_profile:ro"
+      - "$TERMINATOR_CONFIG_FILE:/etc/xdg/terminator/config:rw"
+      - "$HOST_FILE:/etc/hosts:rw"
+      - "$TERMINAL_FILE:/etc/.terminal:ro"
+      - "$SSH_FILE:/etc/ssh/id_rsa:ro"
+      - "$SSH_PUB_FILE:/etc/ssh/id_rsa.pub:ro"
+      - "$SSH_FILE:/home/novnc/.ssh/id_rsa:ro"
+      - "$SSH_PUB_FILE:/home/novnc/.ssh/id_rsa.pub:ro"
+      - "$GUACAMOLE_PROPERTIES:/home/novnc/guacamole/guacamole.properties:ro"
+      - "$GUACAMOLE_USER_MAPPINGS:/home/novnc/guacamole/user-mapping.xml:ro"
+    ports:
+      - "6801:6801"
+      - "6802:6802"
+      - "6803:6803"
+      - "6804:6804"
+      - "6805:6805"
+      - "7080:8080"
+      - "7443:8443"
+      - "5901:5901"
+      - "5902:5902"
+      - "5903:5903"
+      - "5904:5904"
+      - "5905:5905"

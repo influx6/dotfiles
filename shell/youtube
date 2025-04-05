@@ -1,0 +1,25 @@
+#!/bin/bash
+
+alias pyoutube-audio='yt-dlp --socket-timeout $socket_timeout --retries infinite -ic -o "./audios/%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist --extract-audio --audio-format mp3 --audio-quality 0'
+alias pyoutube='yt-dlp --socket-timeout $socket_timeout --retries infinite --ignore-errors -o "./%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist'
+alias pyoutube-best='yt-dlp --socket-timeout $socket_timeout -f best --retries infinite --ignore-errors -o "./%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist'
+alias pyoutube720='yt-dlp --socket-timeout $socket_timeout --retries infinite -f "bestvideo[height=720]+bestaudio/bestvideo+bestaudio" --ignore-errors -o "./%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist'
+alias pyoutube360='yt-dlp --socket-timeout $socket_timeout --retries infinite -f "bestvideo[height=360]+bestaudio/bestvideo+bestaudio" --ignore-errors -o "./%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist'
+
+
+alias youtube-audio='yt-dlp --socket-timeout $socket_timeout --retries infinite -ic -o "./%(title)s.%(ext)s" --extract-audio --audio-format mp3 --audio-quality 0'
+alias youtube='yt-dlp --retries infinite --ignore-errors -o "./%(title)s.%(ext)s"'
+alias youtube720='yt-dlp --retries infinite -f "bestvideo[height=720]+bestaudio/bestvideo+bestaudio" --ignore-errors -o "./%(title)s.%(ext)s"'
+alias youtube360='yt-dlp --retries infinite -f "bestvideo[height=360]+bestaudio/bestvideo+bestaudio" --ignore-errors -o "./%(title)s.%(ext)s"'
+
+yt(){
+ yt-dlp --retries infinite --ignore-errors -o "$2.mp4" "$1"
+}
+
+yt_silent(){
+ file_name="$1"
+ shift
+ yt-dlp --retries infinite --ignore-errors -o "${file_name}.mp4" "$@" > /dev/null &
+}
+
+alias yts=yt_silent

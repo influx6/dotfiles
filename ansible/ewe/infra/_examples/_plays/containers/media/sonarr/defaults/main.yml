@@ -1,0 +1,8 @@
+---
+container_name: sonarr
+
+url: "sonarr.{{ host_local }}"
+
+homer_category: media
+
+ip_address: "{{ swag_base }}.16"

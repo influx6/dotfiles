@@ -1,0 +1,12 @@
+- name: update apt packages
+  apt:
+    update_cache: yes
+- name: Autoremove unneeded packages
+  apt:
+    autoremove: yes
+- name: Upgrade apt packages
+  apt:
+    upgrade: yes
+- name: remove old apt packages
+  apt:
+    autoremove: yes

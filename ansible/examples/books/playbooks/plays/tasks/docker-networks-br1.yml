@@ -1,0 +1,49 @@
+- name: Check br1 network if existing
+  command: "docker network ls | grep br1"
+  ignore_errors: true
+  register: br1_network
+- name: Create br1 docker network
+  when: br1_network.rc != 0
+  docker_network:
+    name: br1
+    state: present
+    driver: macvlan
+    driver_options:
+      parent: "{{network_parent}}"
+    ipam_config:
+      - subnet: "{{docker_network_subnet}}"
+        gateway: '192.168.128.1'
+        iprange: '192.168.128.0/24'
+        aux_addresses:
+          nas_guacamole: 192.168.128.80
+          next_cloud: 192.168.128.81
+          dark_tower: 192.168.128.125
+          code_servers: 192.168.128.147
+          arm_server_1: 192.168.128.149
+          arm_server_2: 192.168.128.148
+          dark_master: 192.168.128.140
+          slave2: 192.168.128.100
+          slave1: 192.168.128.90
+          slave3: 192.168.128.159
+          metallb1: 192.168.128.170
+          metallb2: 192.168.128.171
+          metallb3: 192.168.128.172
+          metallb4: 192.168.128.173
+          metallb5: 192.168.128.174
+          metallb6: 192.168.128.175
+          metallb7: 192.168.128.176
+          metallb8: 192.168.128.177
+          metallb9: 192.168.128.178
+          metallb10: 192.168.128.179
+          metallb11: 192.168.128.180
+          metallb12: 192.168.128.181
+          metallb13: 192.168.128.182
+          metallb14: 192.168.128.183
+          metallb15: 192.168.128.184
+          metallb16: 192.168.128.185
+          metallb17: 192.168.128.186
+          metallb18: 192.168.128.187
+          metallb19: 192.168.128.188
+          metallb20: 192.168.128.189
+          metallb21: 192.168.128.190
+

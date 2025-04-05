@@ -1,0 +1,6 @@
+- name: get username being deployed to
+  become: false
+  changed_when: false
+  # local_action: "command whoami"
+  command: whoami
+  register: "user"

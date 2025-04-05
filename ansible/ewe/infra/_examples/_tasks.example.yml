@@ -1,0 +1,600 @@
+# contains samples of different examples for ansible
+
+
+## Facts
+
+- set_fact:
+    kube_dir: "{{lab_root}}/kubeca"
+    kubeca_key: "{{lab_root}}/kubeca/k0s.key"
+    kubeca_cert: "{{lab_root}}/kubeca/k0s.cert"
+  when: inventory_hostname in groups['controllers']
+
+
+
+## Package installation
+
+- name: Install default packages
+  apt:
+    pkg:
+      - debian-keyring
+      - debian-archive-keyring
+      - apt-transport-https
+    state: present
+- name: install xcaddy and caddy apt repos
+  shell: "{{item}}"
+  loop:
+    - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+    - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+    - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-xcaddy-archive-keyring.gpg
+    - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-xcaddy.list
+
+- name: remove old apt packages
+  apt:
+    autoremove: yes
+
+- name: update apt packages
+  apt:
+    update_cache: yes
+- name: Install default packages
+  apt:
+    pkg:
+      - caddy
+      - xcaddy
+    state: present
+
+### Download resource
+
+- name: Download k3s binary arm64
+  get_url:
+    url: https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/k3s-arm64
+    checksum: sha256:https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/sha256sum-arm64.txt
+    dest: /usr/local/bin/k3s
+    owner: root
+    group: root
+    mode: 0755
+  when:
+    - ( ansible_facts.architecture is search("arm") and
+      ansible_facts.userspace_bits == "64" ) or
+      ansible_facts.architecture is search("aarch64")
+
+
+### Using jinja2 templates
+
+- name: Copy docker-compose-pihole-env to server
+  template:
+    src: ./files/docker-compose-pihole-env.jinja2
+    dest: "/home/{{user.stdout}}/services/docker-compose-pihole-env"
+    mode: '0600'
+    force: yes
+
+### creating directories on host groups
+
+- name: Create certs directory
+  file:
+    path: "{{kube_dir}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  when: inventory_hostname in groups['controllers']
+
+
+- name: Check 'directories' exist else create it
+  file:
+    path: "/home/{{user.stdout}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "gitlab/logs"
+    - "gitlab/data"
+    - "gitlab/config"
+
+## OS restart, stopping & shutdown
+
+- name: say bybye
+  command: "echo 'Shutting down server {{user.stdout}}'"
+- name: reboot
+  reboot:
+    reboot_timeout: 120
+    connect_timeout: 60
+
+- name: say bybye
+  command: "echo 'Shutting down server {{user.stdout}}'"
+- name: shutdown
+  community.general.shutdown:
+    delay: 60
+
+- name: Reboot and wait for node to come back up
+  reboot:
+    reboot_timeout: 3600
+
+### git
+
+- name: Clone the latest dotfiles repo
+  become_user: "{{ username }}"
+  git:
+    repo: "{{ dotfiles_repo }}"
+    dest: "/home/{{ username }}/dotfiles"
+    recursive: no
+    force: yes
+  notify:
+    - install and update nvim plugins
+
+- name: Stow the dotfiles
+  become_user: "{{ username }}"
+  shell:
+    cmd: stow -v */
+    chdir: "/home/{{ username }}/dotfiles"
+  register: stow_result
+  notify:
+    - install and update nvim plugins
+  changed_when: stow_result.stdout != ""
+
+- name: List the current configs
+  find:
+    paths: /etc/netplan
+    file_type: file
+    excludes:
+      - 00-ansible-managed.yaml
+  register: previous_config
+
+## Others
+
+- name: Try default credentials (for Raspberry Pi)
+  wait_for_connection:
+    timeout: 5
+  ignore_errors: true
+  register: _ssh_port_default_cred_result
+  when:
+    - _ssh_port_result is failed
+    - _ssh_port_default_result is failed
+
+- name: SSH Port Juggle | Try root
+  set_fact:
+    ansible_ssh_port: "22"
+    ansible_ssh_user: "root"
+  when:
+    - _ssh_port_result is failed
+    - _ssh_port_default_result is failed
+    - _ssh_port_default_cred_result is failed
+
+
+- name: Try root
+  wait_for_connection:
+    timeout: 5
+  ignore_errors: true
+  register: _ssh_port_default_cred_result
+  when:
+    - _ssh_port_result is failed
+    - _ssh_port_default_result is failed
+    - _ssh_port_default_cred_result is failed
+
+- name: SSH Port Juggle | Fail
+  fail: msg="Neither the configured ansible_port {{ ansible_port }} nor the fallback port 22 were reachable"
+  when:
+    - _ssh_port_result is failed
+    - _ssh_port_default_result is defined
+    - _ssh_port_default_result is failed
+    - _ssh_port_default_cred_result is defined
+    - _ssh_port_default_cred_result is failed
+    - _ssh_port_root_result is defined
+    - _ssh_port_root_result is failed
+
+#### Os based ops
+
+- name: Create worker join token
+  register: worker_join_token
+  command: k0s token create --role worker  --config {{ k0s_config_dir }}/k0s.yaml
+  changed_when: worker_join_token | length > 0
+
+- name: Enable and check k0s service
+  become: true
+  systemd:
+    name: k0sworker
+    daemon_reload: yes
+    state: restarted
+    enabled: yes
+
+- name: Set detected_distribution to Raspbian
+  set_fact:
+    detected_distribution: Raspbian
+  when: >
+    raspberry_pi|default(false) and
+    ( ansible_facts.lsb.id|default("") == "Raspbian" or
+      ansible_facts.lsb.description|default("") is match("[Rr]aspbian.*") )
+
+- name: Set detected_distribution to Raspbian (ARM64 on Debian Buster)
+  set_fact:
+    detected_distribution: Raspbian
+  when:
+    - ansible_facts.architecture is search("aarch64")
+    - raspberry_pi|default(false)
+    - ansible_facts.lsb.description|default("") is match("Debian.*buster")
+
+- name: Set detected_distribution_major_version
+  set_fact:
+    detected_distribution_major_version: "{{ ansible_facts.lsb.major_release }}"
+  when:
+    - detected_distribution | default("") == "Raspbian"
+
+- name: Set detected_distribution to Raspbian (ARM64 on Debian Bullseye)
+  set_fact:
+    detected_distribution: Raspbian
+  when:
+    - ansible_facts.architecture is search("aarch64")
+    - raspberry_pi|default(false)
+    - ansible_facts.lsb.description|default("") is match("Debian.*bullseye")
+
+- name: execute OS related tasks on the Raspberry Pi
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - "prereq/{{ detected_distribution }}-{{ detected_distribution_major_version }}.yml"
+    - "prereq/{{ detected_distribution }}.yml"
+    - "prereq/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "prereq/{{ ansible_distribution }}.yml"
+    - "prereq/default.yml"
+  when:
+    - raspberry_pi|default(false)
+
+### File system mounting/unmounting
+
+- name: Get the list of mounted filesystems
+  shell: set -o pipefail && cat /proc/mounts | awk '{ print $2}' | grep -E "^{{ mounted_fs }}"
+  register: get_mounted_filesystems
+  args:
+    executable: /bin/bash
+  failed_when: false
+  changed_when: get_mounted_filesystems.stdout | length > 0
+  check_mode: false
+
+- name: Umount filesystem
+  mount:
+    path: "{{ item }}"
+    state: unmounted
+  with_items:
+    "{{ get_mounted_filesystems.stdout_lines | reverse | list }}"
+
+- name: Test for raspberry pi /proc/cpuinfo
+  command: grep -E "Raspberry Pi|BCM2708|BCM2709|BCM2835|BCM2836" /proc/cpuinfo
+  register: grep_cpuinfo_raspberrypi
+  failed_when: false
+  changed_when: false
+
+- name: Test for raspberry pi /proc/device-tree/model
+  command: grep -E "Raspberry Pi" /proc/device-tree/model
+  register: grep_device_tree_model_raspberrypi
+  failed_when: false
+  changed_when: false
+
+### Systemd services
+
+- name: daemon_reload
+  systemd:
+    daemon_reload: yes
+
+- name: Disable services
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  failed_when: false
+  with_items:
+    - k3s
+    - k3s-node
+    - k3s-init
+
+- name: pkill -9 -f "k3s/data/[^/]+/bin/containerd-shim-runc"
+  register: pkill_containerd_shim_runc
+  command: pkill -9 -f "k3s/data/[^/]+/bin/containerd-shim-runc"
+  changed_when: "pkill_containerd_shim_runc.rc == 0"
+  failed_when: false
+
+- name: Umount k3s filesystems
+  include_tasks: umount_with_children.yml
+  with_items:
+    - /run/k3s
+    - /var/lib/kubelet
+    - /run/netns
+    - /var/lib/rancher/k3s
+    - /var/lib/kubelet/pods
+    - /var/lib/kubelet/plugins
+    - /run/netns/cni-
+  loop_control:
+    loop_var: mounted_fs
+
+- name: Disable/Mask the following systemd services
+  systemd:
+    name: "{{item}}"
+    enabled: no
+    masked: yes
+  loop:
+    - sleep
+    - hybrid-sleep
+    - hibernate
+    - suspend
+- name: Enable/unmask the following systemd services
+  systemd:
+    name: "{{item}}"
+    state: started
+    enabled: yes
+    masked: no
+  loop:
+    - sysstat
+
+- name: check key file exists
+  stat:
+    path: "{{kubeca_key}}"
+  register: key_file
+  when: inventory_hostname in groups['controllers']
+
+
+## Symlinking
+
+- name: Switch to pip3
+  alternatives:
+    name: pip
+    link: /usr/bin/pip
+    path: /usr/bin/pip3
+
+- name: Switch to python3
+  alternatives:
+    name: python
+    link: /usr/bin/python
+    path: /usr/bin/python3
+
+- name: Add nvm init to .profile2
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.profile"
+    line: >
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    insertafter: EOF
+
+
+### capture packages on interface
+sudo tcpdump -envi wg0 host 8.8.8.8
+
+## Conditionals with host groups
+
+- name: "Write kubeconfig for user"
+  copy:
+    content: '{{kube_config.stdout}}'
+    dest: "/home/{{user.stdout}}/.kube/config"
+    force: yes
+  when: inventory_hostname in groups['controllers']
+
+- name: check cert file exists
+  stat:
+    path: "{{kubeca_cert}}"
+  register: cert_file
+  when: inventory_hostname in groups['controllers']
+
+- name: Create cert key
+  command: "openssl genrsa -out {{kubeca_key}}"
+  when: inventory_hostname in groups['controllers'] and key_file.stat.exists == False
+
+- name: Create ca cert
+  command: "openssl req -x509 -new -nodes -key {{kubeca_key}} -out {{kubeca_cert}} -subj '/CN=dark.master' -days 3650 -reqexts v3_req -extensions v3_ca"
+  when: inventory_hostname in groups['controllers'] and cert_file.stat.exists == False
+
+- name: check kubectl
+  command: "which kubectl"
+  register: kubectl_check
+
+- debug:
+    msg: "{{kubectl_check}}"
+
+- name: Check if cert secret is existing
+  become: yes
+  shell: "sudo k0s kubectl get secret -n cert-manager | grep 'kube-ca-pair'"
+  ignore_errors: yes
+  when: inventory_hostname in groups['controllers']
+  register: cert_secret
+
+- name: Register cert and key to k8s
+  shell: "sudo k0s kubectl create secret tls kube-ca-pair --cert={{kubeca_cert}} --key={{kubeca_key}} --namespace=cert-manager"
+  when: inventory_hostname in groups['controllers'] and cert_secret.rc == 1
+
+- name: Get tower.remote ip
+  command: "curl ifconfig.me"
+  register: tower_internet_ip
+- set_fact:
+    dark_tower_remote_ip: "{{tower_internet_ip.stdout}}"
+    dark_tower_hostname: "{{ ansible_hostname }}"
+    dark_tower_local_ip: "{{ ansible_default_ipv4.address }}"
+
+## etc and fstab
+
+- name: Copy cif mount installation to fstab
+  template:
+    src: ./files/smbcredentials.jinja2
+    dest: /root/.smb/smbcredentials
+    mode: '0600'
+    force: yes
+- name: Add smb fs line into fstab configuration
+  lineinfile:
+    dest: "/etc/fstab"
+    line: "//dark-tower.local/rootshare/user/ /mnt/tower cifs credentials=/root/.smb/smbcredentials,vers=3.1.1,posix,rw,users,uid=1001,gid=100,soft,rsize=8192,wsize=8192,mfsymlinks,file_mode=0666,dir_mode=0777,iocharset=utf8 0 0"
+
+- name: Create '/mnt/tower' directory
+  file:
+    path: "/mnt/tower"
+    mode: "0777"
+    owner: "{{user.stdout}}"
+    group: "{{user.stdout}}"
+    state: directory
+- name: mount ftstab
+  command: "sudo mount -a"
+
+
+## Firewall configs
+
+- name: Check ufw was installed
+  package:
+    pkg:
+      - ufw
+    state: present
+- name: Add firewall rules
+  command: "{{item}}"
+  loop:
+    - "sudo ufw default deny incoming"
+    - "sudo ufw default allow outgoing"
+    - "sudo ufw allow ssh"
+    - "sudo ufw allow OpenSSH"
+    - "sudo ufw allow http"
+    - "sudo ufw allow https"
+- name: Add firewall rules
+  community.general.ufw:
+    rule: allow
+    port: '{{item}}'
+  with_items:
+    - 80
+    - 53
+    - 5606
+    - 8132
+    - 9443
+    - 5335
+    - 8443
+    - 9445
+    - 9001
+    - 2376
+    - 8000
+    - 8081
+    - 10250
+    - 4789
+    - 179
+    - 2380
+    - 6443
+    - 8472
+- name: Enable ufw rules
+  ufw:
+    state: enabled
+    logging: on
+
+- name: Add firewall rules 3
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    from_port: 2379
+    to_port: 2380
+- name: Add firewall rules 4
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    from_port: 30000
+    to_port: 32767
+- name: Add firewall rules 5
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    from_port: 8132
+    to_port: 8133
+
+- name: Enable ufw rules
+  ufw:
+    state: enabled
+    logging: on
+
+- name: get username being deployed to
+  become: false
+  changed_when: false
+  # local_action: "command whoami"
+  command: whoami
+  register: "user"
+
+# docker samples
+
+- name: check if rancher kubelete volume exists
+  shell: "docker volume ls | grep 'rancher-kubelet-volume'"
+  ignore_errors: true
+  register: rancher_kubelet_volume
+
+- name: Create volume for rancher kubelet
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/Rancher/kubelet --opt o=bind rancher-kubelet-volume"
+  when: rancher_kubelet_volume.rc == 1
+
+- name: Copy docker-compose-rancher to server
+  copy:
+    src : "./files/docker-compose-rancher.yml"
+    dest: "/home/{{user.stdout}}/services/docker-compose-rancher.yml"
+    force: yes
+
+- name: Start docker services
+  command: "docker-compose --project-name=rancher -f /home/{{user.stdout}}/services/docker-compose-rancher.yml up -d"
+
+
+- name: Start docker services
+  command: "docker-compose --project-name=codeserver --env-file /home/{{user.stdout}}/services/docker-compose-codeserver-env -f /home/{{user.stdout}}/services/docker-compose-codeserver.yml up -d"
+
+### define a vars file in a playbook
+
+vars_file:
+  - vars/main.yml
+
+## run ansible playbook and ask for password for ansible-vault files
+
+ansible-playbook main.yml --ask-vault-pass
+
+# we can use a password file in your $HOME/.ansible or any directory desired
+# and call like so:
+
+ansible-playbook main.yml --vault-password-file {path to file}
+
+## Difference between import_tasks and include_tasks
+- import_tasks copies the task as is but you may loose things like dynamically defined variables
+- include_tasks copies and maintains those dynamically defined varaibles (registers, ..etc)
+
+# Roles
+# These are at minimum a set of ansible tasks placed under a `roles` directory where
+# each directory under specify some reusable roles we can call elsewhere.
+#
+# To use roles, simply type the name of the role under `roles` key in your ansible playbook
+#
+#   roles:
+#     - nodejs
+# you can also include roles under the `tasks` section using `include_role: [role_name]` which is
+# useful to control order, else roles will get executed after the pre-task block and before the playbooks tasks block.
+#
+# See related tasks/_examples folders
+#
+#- roles/
+#-   nodejs/
+#-     meta/main.yaml - describes dependencies (say other roles and related variables, var_files) required by role
+#-     handlers/main.yaml - contains handler tasks we wish to use when import_tasks/include_tasks for handlers
+#-     tasks/main.yaml - contains the actual tasks to be called when role is executed
+
+## run somethings before tasks (pre-tasks)
+
+pre_tasks:
+  - name: say hello
+    command: "echo 'hello'"
+
+
+  ### file lookup
+
+#  It is used for fetching a base64- encoded blob containing the data in a remote file.
+- name: Slurp hosts file
+  slurp:
+    src: /etc/hosts
+  register: slurpfile
+
+- debug: msg="{{ slurpfile['content'] | b64decode }}"
+
+- shell: cat "{{remote_file}}"
+  register: data
+
+- name: get contents of file
+  command: cat /path/to/file
+  register: filename
+  become: true # use case specific option
+
+- name: viewing the contents
+  debug:
+    msg: "{{filename.stdout}}"
+
+# It is used for fetching files from remote machines and storing
+# them locally in a file tree, organized by hostname.
+fetch:
+  src: ".ssh/{{item.value.file}}"
+  dest: "/tmp/ssh_keys/{{item.value.file}}"
+  flat: yes
+with_dict: "{{sshConfiguration}}"

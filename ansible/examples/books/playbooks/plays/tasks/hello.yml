@@ -1,0 +1,2 @@
+- name: say hello
+  command: "echo 'Hello {{user.stdout}}'"

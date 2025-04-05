@@ -1,0 +1,10 @@
+- name: Check sysstat was installed
+  package:
+    pkg:
+      - sysstat
+    state: present
+- name: Copy configuration for sysstat
+  copy:
+    src: ./files/sysstat
+    dest: /etc/default/sysstat
+#    owner: "root"

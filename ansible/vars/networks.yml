@@ -1,0 +1,139 @@
+---
+# These are the different physical hosts in our network
+networks:
+  darkmini:
+    host:
+      ip: 192.168.128.50
+      lidr: 192.168.128.50/32
+      gateway: 192.168.128.50 # can be public ip from your ISP (you can use value from machine_remote_ip)
+      public_gateway: machine.ewe-studios.com
+      cidr: 192.168.128.0/24
+      wg:
+        port: 58190
+        ip: 10.0.10.10
+        lidr: 10.0.10.10/32
+        cidr: 10.0.10.0/24
+    vms:
+      - name: controller
+        port_mappings:
+        wg:
+          port: 58191
+          ip: 10.0.20.11
+          lidr: 10.0.20.11/32
+          cidr: 10.0.20.0/24
+      - name: worker1
+        port_mappings:
+        wg:
+          port: 58191
+          ip: 10.0.20.12
+          lidr: 10.0.20.12/32
+          cidr: 10.0.20.0/24
+      - name: worker2
+        port_mappings:
+        wg:
+          port: 58191
+          ip: 10.0.20.13
+          lidr: 10.0.20.13/32
+          cidr: 10.0.20.0/24
+  slave1:
+    host:
+      ip: 192.168.128.10
+      lidr: 192.168.128.10/32
+      gateway: 192.168.128.10 # can be public ip from your ISP (you can use value from machine_remote_ip)
+      public_gateway: machine.ewe-studios.com
+      cidr: 192.168.128.0/24
+      wg:
+        port: 58190
+        ip: 10.0.10.20
+        lidr: 10.0.10.20/32
+        cidr: 10.0.10.0/24
+    vms:
+      - name: controller
+        port_mappings:
+        wg:
+          port: 58191
+          ip: 10.0.20.21
+          lidr: 10.0.20.21/32
+          cidr: 10.0.20.0/24
+      - name: worker1
+        port_mappings:
+        wg:
+          port: 58191
+          ip: 10.0.20.22
+          lidr: 10.0.20.22/32
+          cidr: 10.0.20.0/24
+      - name: worker2
+        port_mappings:
+        wg:
+          port: 58191
+          ip: 10.0.20.23
+          lidr: 10.0.20.23/32
+          cidr: 10.0.20.0/24
+  slave2:
+    host:
+      ip: 192.168.128.20
+      lidr: 192.168.128.20/32
+      public_gateway: machine.ewe-studios.com
+      gateway: 192.168.128.20 # can be public ip from your ISP (you can use value from machine_remote_ip)
+      cidr: 192.168.128.0/24
+      wg:
+        port: 58190
+        ip: 10.0.10.30
+        lidr: 10.0.10.30/32
+        cidr: 10.0.10.0/24
+    vms:
+      - name: controller
+        port_mappings:
+        wg:
+          port: 58191
+          ip: 10.0.20.31
+          lidr: 10.0.20.31/32
+          cidr: 10.0.20.0/24
+      - name: worker1
+        port_mappings:
+        wg:
+          port: 58191
+          ip: 10.0.20.32
+          lidr: 10.0.20.32/32
+          cidr: 10.0.20.0/24
+      - name: worker2
+        port_mappings:
+        wg:
+          port: 58191
+          ip: 10.0.20.33
+          lidr: 10.0.20.33/32
+          cidr: 10.0.20.0/24
+  darkcoder:
+    host:
+      ip: 192.168.138.159
+      lidr: 192.168.138.159/32
+      gateway: 192.168.138.159 # can be public ip from your ISP (you can use value from machine_remote_ip)
+      public_gateway: 192.168.138.159
+      cidr: 192.168.138.0/24
+      wg:
+        port: 58190
+        ip: 10.0.10.40
+        lidr: 10.0.10.40/32
+        cidr: 10.0.10.0/24
+    vms:
+      - name: controller
+        port_mappings:
+        wg:
+          port: 58190
+          ip: 10.0.20.41
+          lidr: 10.0.20.41/32
+          cidr: 10.0.20.0/24
+      - name: worker1
+        port_mappings:
+        wg:
+          port: 58190
+          ip: 10.0.20.42
+          lidr: 10.0.20.42/32
+          cidr: 10.0.20.0/24
+      - name: worker2
+        port_mappings:
+        wg:
+          port: 58190
+          ip: 10.0.20.43
+          lidr: 10.0.20.43/32
+          cidr: 10.0.20.0/24

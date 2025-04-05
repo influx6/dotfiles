@@ -1,0 +1,6 @@
+- name: Create 'docker/volumes' directory
+  file:
+    path: "/var/lib/docker/volumes"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory

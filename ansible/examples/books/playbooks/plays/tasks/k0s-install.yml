@@ -1,0 +1,20 @@
+- name: Install K0s
+  get_url:
+    url: "https://github.com/k0sproject/k0s/releases/download/v1.23.3%2Bk0s.1/k0s-v1.23.3+k0s.1-amd64"
+    checksum: "md5:e905e5133931ff301e97512c24bf8a34"
+    dest: /usr/local/bin/k0s
+    owner: root
+    mode: 0644
+  when: repo_arch == "amd64"
+- name: Install K0s
+  get_url:
+    url: "https://github.com/k0sproject/k0s/releases/download/v1.23.3%2Bk0s.1/k0s-v1.23.3+k0s.1-arm64"
+    checksum: "md5:8ce919a6036a5d5b6592f37b12d77a88"
+    dest: /usr/local/bin/k0s
+    owner: root
+    mode: 0644
+  when: repo_arch == "arm64"
+- name: Enable execution on item
+  command: "{{item}}"
+  loop:
+    - "sudo chmod +x /usr/local/bin/k0s"

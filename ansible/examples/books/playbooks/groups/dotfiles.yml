@@ -1,0 +1,3 @@
+---
+- import_playbook: "plays/system.yml"
+- import_playbook: "plays/hello.yml"

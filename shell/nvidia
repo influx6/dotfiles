@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# export PATH=/usr/local/cuda/bin:$PATH
+
+NVIDIA_VERSION="560.35.03"
+CUDA_LIB=/usr/lib/cuda
+NVIDIA_XORG=/usr/lib/x86_64-linux-gnu/nvidia
+NVIDIA_SHARE=/usr/share/nvidia
+NVIDIA_SRC=/usr/src/nvidia-$NVIDIA_VERSION
+NVIDIA_FIRMWARE=/lib/firmware/nvidia/560.35.03
+NVIDIA_LIB=/usr/lib/x86_64-linux-gnu/nvidia
+XORG_LIBS=/usr/lib/x86_64-linux-gnu
+NVIDIA_WINE=$NVIDIA_LIB/wine
+NVIDIA_XORG=$NVIDIA_LIB/xorg
+
+export PATH=$CUDA_LIB/bin:$PATH
+export LD_LIBRARY_PATH=$CUDA_LIB:$NVIDIA_LIB:$LD_LIBRARY_PATH
+

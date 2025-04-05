@@ -1,0 +1,122 @@
+- name: Ensure K0s is installed
+  command: "which k0s"
+  register: k0s_status
+  failed_when: k0s_status.rc != 0
+
+- name: Check if k0s service is installed
+  stat:
+    path: "/etc/systemd/system/k0scontroller.service"
+  register: k0s_service_installed
+
+- name: Copy configuration for k0s controller
+  copy:
+    src: ./files/k0s.yml
+    dest: /etc/k0s/
+    force: true
+  when: inventory_hostname in groups['controllers']
+
+- name: delete users if exists
+  user:
+      name: "{{item}}"
+      state: absent
+  loop:
+    - etcd
+    - k0s
+    - kube-apiserver
+    - kube-scheduler
+    - konnectivity-server
+  when: inventory_hostname in groups['controllers'] and k0s_service_installed.stat.exists == False
+
+- name: "Create k0s controller"
+  command: "sudo k0s install controller --debug -c /etc/k0s/k0s.yml"
+  when: inventory_hostname in groups['controllers'] and k0s_service_installed.stat.exists == False
+
+- name: Ensure k0s controller is started
+  service:
+    name: k0scontroller
+    state: started
+  register: kube_controller_state
+  when: inventory_hostname in groups['controllers'] and k0s_service_installed.stat.exists == True
+
+- name: "Create k0s join token"
+  command: "sudo k0s token create --role=worker --expiry=2h"
+  when: inventory_hostname in groups['controllers'] and k0s_service_installed.stat.exists == True
+  register: k0s_master_token
+
+- set_fact:
+    slave_join_token: "{{ k0s_master_token.stdout_lines[0] | replace('Join node with: ', '') }}"
+  when: inventory_hostname in groups['controllers'] and k0s_service_installed.stat.exists == True
+
+- debug:
+    msg: "Master controller publishes join token {{ hostvars['dark-master']['slave_join_token']}}"
+
+- name: Check if k0s worker is installed
+  stat:
+    path: "/etc/systemd/system/k0sworker.service"
+  register: k0s_worker_installed
+  when: inventory_hostname in groups['slaves']
+
+- name: "Write ansible token to file"
+  copy:
+    content: '{{hostvars["dark-master"]["slave_join_token"]}}'
+    dest: "/root/k0s.token"
+    force: yes
+  when: inventory_hostname in groups['slaves'] and k0s_worker_installed.stat.exists == False
+
+- name: "Install k0s workers in workers group"
+  command: "{{item}}"
+  loop:
+    - "sudo k0s install worker --token-file=/root/k0s.token"
+    - "sleep 2s"
+    - "sudo k0s start"
+  when: inventory_hostname in groups['slaves'] and k0s_worker_installed.stat.exists == False
+
+- name: Ensure k0s worker service is started
+  service:
+    name: k0sworker
+    state: started
+  when: inventory_hostname in groups['slaves'] and k0s_worker_installed.stat.exists == True
+
+- name: "Ensure user has kubeconfig in controller"
+  command: "sudo k0s kubeconfig create  --groups 'system:masters' {{user.stdout}}"
+  register: kube_config
+  when: inventory_hostname in groups['controllers']
+
+- name: "Write kubeconfig for user"
+  copy:
+    content: '{{kube_config.stdout}}'
+    dest: "/home/{{user.stdout}}/.kube/config"
+    force: yes
+  when: inventory_hostname in groups['controllers']
+
+- name: Check if role binding is existing
+  become: yes
+  shell: "sudo k0s kubectl get clusterrolebinding | grep '{{user.stdout}}-admin-binding'"
+  when: inventory_hostname in groups['controllers']
+  register: cluster_role_binding
+
+- name: "Ensure user has cluster role binding in controller"
+  command: "sudo k0s kubectl create clusterrolebinding --kubeconfig /home/{{user.stdout}}/.kube/config {{user.stdout}}-admin-binding --clusterrole=admin --user={{user.stdout}}"
+  when: inventory_hostname in groups['controllers'] and cluster_role_binding.rc == 1
+
+- name: "Write kubeconfig to fact"
+  set_fact:
+    kube_config_content: "{{kube_config.stdout}}"
+  when: inventory_hostname in groups['controllers']
+
+- name: "Create kube configuration dir"
+  delegate_to: localhost
+  become: no
+  command: "mkdir -p $HOME/.kube"
+  when: inventory_hostname in groups['controllers']
+
+- name: "Write kubeconfig to host path"
+  delegate_to: localhost
+  become: no
+  copy:
+    content: "{{ kube_config_content }}"
+    dest: "$HOME/.kube/config"
+    mode: "0700"
+    owner: "{{user.stdout}}"
+    force: yes
+  when: inventory_hostname in groups['controllers']

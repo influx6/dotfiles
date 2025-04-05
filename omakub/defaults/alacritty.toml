@@ -1,0 +1,21 @@
+[env]
+TERM = "xterm-256color"
+
+[shell]
+program = "zellij"
+
+[window]
+padding.x = 16
+padding.y = 14
+decorations = "None"
+opacity = 0.98
+
+[keyboard]
+bindings = [
+   { key = "F11", action = "ToggleFullscreen" },
+   { key = "V", mods = "Control", action = "Paste" },
+   { key = "C", mods = "Control", action = "Copy" },
+   # toml sucks with hex value
+   # { key = "C", mods = "Control|Shift", chars = "\x03" },
+   { key = "C", mods = "Control|Shift", chars = "\u0003" },
+]

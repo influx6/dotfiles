@@ -1,0 +1,32 @@
+version: "3.5"
+
+networks:
+  default:
+    external:
+      name: app-networks
+
+volumes:
+  mariadb_volume:
+    external: true
+
+
+services:
+  mariadb:
+    image: lscr.io/linuxserver/mariadb
+    container_name: mariadb
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/HongKong
+      - HOST_OS=Unraid
+      - MYSQL_ROOT_PASSWORD=*craft
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=darkvoid
+      - MYSQL_PASSWORD=*craft
+#      - REMOTE_SQL=http://URL1/your.sql,https://URL2/your.sql
+      - UMASK=022
+    ports:
+      - "3306:3306/tcp"
+    volumes:
+      - mariadb_volume:/config:rw
+

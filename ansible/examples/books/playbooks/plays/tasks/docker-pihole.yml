@@ -1,0 +1,76 @@
+- name: Create directories servers
+  file:
+    path: "/home/{{user.stdout}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0777"
+    state: directory
+  loop:
+    - "services"
+    - "pihole/etc"
+    - "pihole/dnsmasq"
+
+- name: Create /etc directories
+  file:
+    path: "/etc/{{item}}"
+    state: directory
+  loop:
+    - "dnsmasq.d"
+    - "unbound"
+
+- name: check if pihole etc volume exists
+  shell: "docker volume ls | grep 'pihole-volume-etc'"
+  ignore_errors: true
+  register: pihole_codes_ready
+
+- name: Create volume for pihole-etc
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/pihole/etc --opt o=bind pihole-volume-etc"
+  when: pihole_codes_ready.rc == 1
+
+- name: check if dnsmasq volume exists
+  shell: "docker volume ls | grep 'pihole-volume-dnsmasq'"
+  ignore_errors: true
+  register: pihole_dnsmasq_ready
+
+- name: Create volume for dnsmasq config
+  shell: "docker volume create --driver local --opt type=none --opt device={{fs_root}}/pihole/dnsmasq --opt o=bind pihole-volume-dnsmasq"
+  when: pihole_dnsmasq_ready.rc == 1
+
+- name: Copy docker-compose-pihole-env to server
+  template:
+    src: ./files/docker-compose-pihole-env.jinja2
+    dest: "/home/{{user.stdout}}/services/docker-compose-pihole-env"
+    mode: '0600'
+    force: yes
+
+- name: Copy docker-compose-pihole-edns config to server
+  copy:
+    src : "./files/docker-compose-pihole-edns"
+    dest: "/etc/dnsmasq.d/99-edns.conf"
+    force: yes
+
+
+- name: Copy docker-compose-pihole-unbound config to server
+  copy:
+    src : "./files/docker-compose-pihole-unbound"
+    dest: "/etc/unbound/unbound.conf.d/pi-hole.conf"
+    force: yes
+
+- name: Copy docker-pihole to server
+  copy:
+    src : "./files/docker-compose-pihole.yml"
+    dest: "/home/{{user.stdout}}/services/docker-compose-pihole.yml"
+    force: yes
+
+- name: Start docker services
+  command: "docker-compose --project-name pihole --env-file /home/{{user.stdout}}/services/docker-compose-pihole-env -f /home/{{user.stdout}}/services/docker-compose-pihole.yml up -d"
+
+- name: Restart unbound service
+  command: "sudo service unbound restart"
+
+#- name: Disable/Mask the following systemd services
+#  systemd:
+#    name: "{{item}}"
+#    enabled: no
+#    masked: yes
+#  loop:
+#    - unbound-resolvconf.service

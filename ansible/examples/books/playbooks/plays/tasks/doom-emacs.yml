@@ -1,0 +1,16 @@
+- name: Install emacs from snap
+  snap:
+    state: present
+    classic: yes
+    name: emacs
+- name: Check if emacs.d service is installed
+  stat:
+    path: "/home/{{user.stdout}}/.emacs.d"
+  register: emacs_dir
+- name: Pull in doom emacs
+  command: "git clone --depth 1 https://github.com/hlissner/doom-emacs /home/{{user.stdout}}/.emacs.d"
+  become_user: "{{user.stdout}}"
+  when: emacs_dir.stat.exists == False
+#- name: Install doom-emacs
+#  shell: "/home/{{user.stdout}}/.emacs.d/bin/doom install"
+#  when: emacs_dir.stat.exists == True

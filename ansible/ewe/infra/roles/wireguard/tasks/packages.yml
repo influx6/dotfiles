@@ -1,0 +1,9 @@
+---
+- name: install wireguard into system
+  package:
+    state: present
+    pkg:
+      - wireguard
+      - wireguard-tools
+      - openssl
+      - openssh-server

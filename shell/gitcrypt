@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+if ! no_command git-crypt; then 
+  if has_command brew; then
+    brew install gpg git-crypt
+  else
+    echo "Unable to install git-crypt, brew is missing"
+  fi
+fi

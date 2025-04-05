@@ -1,0 +1,23 @@
+- stat:
+    path: "/home/{{user}}/apache-tomcat-{{tomcat_version}}"
+  register: tomcat_dir
+- name: Download latest tomcat version
+  get_url:
+    url: "https://apache.website-solution.net/tomcat/tomcat-7/v{{tomcat_version}}/bin/apache-tomcat-{{tomcat_version}}.tar.gz"
+    dest: "./apache-tomcat-{{tomcat_version}}.tar.gz"
+  when: tomcat_dir.stat.isdir is not defined
+- name: Extract tomcat into directory
+  unarchive:
+    src: "./apache-tomcat-{{tomcat_version}}.tar.gz"
+    dest: "/home/{{user}}/"
+    remote_src: yes
+    owner: "{{user}}"
+  when: tomcat_dir.stat.isdir is not defined
+- name: Add source lines into bashrc
+  lineinfile:
+    dest: "/home/{{user}}/.bashrc"
+    line: "PATH=/home/{{user}}/apache-tomcat-{{tomcat_version}}/bin:$PATH"
+- name: Add source lines into profile
+  lineinfile:
+    dest: "/home/{{user}}/.profile"
+    line: "PATH=/home/{{user}}/apache-tomcat-{{tomcat_version}}/bin:$PATH"

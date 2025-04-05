@@ -1,0 +1,3 @@
+---
+# defaults file for calico
+calico_version: 3.24.5

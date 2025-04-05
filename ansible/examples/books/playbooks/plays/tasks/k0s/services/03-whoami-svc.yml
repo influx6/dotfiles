@@ -1,0 +1,67 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: testing-services
+  labels:
+    name: whoami
+    app: whoami
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami-deployment
+  namespace: testing-services
+  labels:
+    app: whoami
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: whoami
+  template:
+    metadata:
+      labels:
+        app: whoami
+    spec:
+      containers:
+        - name: whoami-container
+          image: containous/whoami
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whoami-service
+  namespace: testing-services
+  labels:
+    app: whoami
+spec:
+  ports:
+    - name: http
+      targetPort: 80
+      port: 80
+  selector:
+    app: whoami
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whoami-ingress
+  namespace: testing-services
+  labels:
+    app: whoami
+spec:
+  tls:
+    - hosts:
+        - whoami.ewe-studios.com
+      secretName: ewe-studios-com-staging-cert-tls
+  rules:
+    - http:
+        paths:
+          - path: /whoami
+            pathType: Exact
+            backend:
+              service:
+                name: whoami-service
+                port:
+                  number: 80

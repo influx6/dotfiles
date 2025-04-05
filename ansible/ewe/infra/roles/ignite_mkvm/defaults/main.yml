@@ -1,0 +1,3 @@
+---
+# defaults file for ignite_mkvm
+recycle_vms: false

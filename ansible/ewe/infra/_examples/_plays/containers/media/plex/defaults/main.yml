@@ -1,0 +1,10 @@
+---
+container_name: plex
+
+url: "plex.{{ host_local }}"
+
+homer_category: media
+
+ip_address: "{{ swag_base }}.11"
+
+dashboard_name: Plex

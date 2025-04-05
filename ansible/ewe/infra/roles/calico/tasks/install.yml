@@ -1,0 +1,12 @@
+---
+- name: select calico target architecture
+  set_fact:
+    calico_arch: "{{ 'amd64' if (repo_arch == 'amd64') else 'arm64' }}"
+- debug:
+    msg: "calico arch: {{ calico_arch }}"
+- name: download calico binary for arch (amd)
+  get_url:
+    checksum: "sha256:https://github.com/projectcalico/calico/releases/download/v{{calico_version}}/SHA256SUMS"
+    url: "https://github.com/projectcalico/calico/releases/download/v{{calico_version}}/calicoctl-linux-{{calico_arch}}"
+    dest: /usr/local/bin/calicoctl
+    mode: 0755

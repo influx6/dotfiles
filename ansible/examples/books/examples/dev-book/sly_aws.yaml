@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    user: ubuntu
+    tomcat_version: 7.0.104
+  tasks:
+    - import_tasks: tasks/base.yaml
+    - import_tasks: tasks/copy_startlxde.yaml
+    - import_tasks: tasks/docker.yaml
+    - import_tasks: tasks/nix.yaml
+    - import_tasks: tasks/tomcat.yaml
+    - import_tasks: tasks/eclipse.yaml

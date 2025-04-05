@@ -1,0 +1,20 @@
+- name: update apt packages
+  apt:
+    update_cache: yes
+- name: remove old apt packages
+  apt:
+    autoremove: yes
+- name: Autoremove gnome packages
+  apt:
+    autoremove: yes
+    state: absent
+    pkg:
+      - gnome-shell
+      - gnome-session
+      - policykit-1-gnome
+      - xrdp
+#      - x11-common
+#      - openjdk-8-jdk
+#      - openjdk-11-jdk
+- name: Apt handle unattended-upgrades
+  command: apt-get install -y unattended-upgrades

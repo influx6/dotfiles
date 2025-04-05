@@ -1,0 +1,6 @@
+---
+# tasks file for ignite_mkvm
+- name: set vms directory path
+  no_log: yes
+  set_fact:
+    vm_dir: "{{ewe_dir}}/vms"

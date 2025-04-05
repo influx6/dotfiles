@@ -1,0 +1,5 @@
+---
+- include_tasks: ./hello_user.yml
+- include_tasks: ./hello_arch.yml
+- include_tasks: ./hello_ip.yml
+- include_tasks: ./hello_infra.yml

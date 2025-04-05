@@ -1,0 +1,134 @@
+---
+
+localhost:
+  vars:
+    group: "local"
+    user_account: "alexewetumo"
+  hosts:
+    local_controller:
+      ansible_host: localhost
+
+test_server:
+  vars:
+    group: "tests"
+    user_account: "ubuntu"
+  hosts:
+    vagrant_machine:
+      ansible_host: 192.168.128.122
+      ansible_port: 22
+      ansible_user: ubuntu
+
+# These are dns host servers where were pihole is installed
+# delete this if not part of your infra
+metal_dns:
+  vars:
+    user_account: "ubuntu"
+    group: "dns-servers"
+  hosts:
+    pi_hole_1:
+      ansible_host: 192.168.128.149
+      ansible_port: 5606
+      ansible_user: ubuntu
+    pi_hole_2:
+      ansible_host: 192.168.128.148
+      ansible_port: 5606
+      ansible_user: ubuntu
+
+# These are physical servers where we will be running local coding
+# applications  and vms specifically for running and doing local development.
+# where you will most likely host your code lab and git lab server
+metal_coder:
+  vars:
+    machine_ssh_file: "/home/darkstar/.ssh/id_rsa.pub"
+    vm_var_file: default.vms.yml
+    user_account: "darkstar"
+    group: "code-servers"
+    role: "client"
+  hosts:
+    dark_mini_1:
+      ansible_host: 192.168.128.20
+      ansible_port: 5606
+      ansible_user: darkstar
+
+# This should be a single server where you will install your load balancer into
+# can be one of your controllers, generally should be one
+metal_master:
+  vars:
+    user_account: darkvoid
+    group: "controllers"
+    machine_ssh_file: "/home/darkvoid/.ssh/id_rsa.pub"
+    vm_var_file: default.vms.yml
+  hosts:
+    dark-mini:
+      ansible_host: 192.168.128.147
+      ansible_port: 5606
+      ansible_user: darkvoid
+      vm_var_file: dark_mini.vms.yml
+      vm_var_secrets_file: dark_mini.secrets.yml
+
+# These are slaves metal machines which
+# delete this if not part of your infra
+metal_slaves:
+  vars:
+    group: "infra-servers"
+    user_account: "darkvoid"
+    vm_var_file: default.vms.yml
+    machine_ssh_file: "/home/darkvoid/.ssh/id_rsa.pub"
+  hosts:
+    slave_1:
+      ansible_host: 192.168.128.90
+      ansible_port: 5606
+      ansible_user: darkvoid
+      user_account: "darkvoid"
+      vm_var_file: slave1.vms.yml
+      vm_var_secrets_file: slave1.secrets.yml
+    slave_2:
+      ansible_host: 192.168.128.100
+      ansible_port: 5606
+      ansible_user: darkvoid
+      user_account: "darkvoid"
+      vm_var_file: slave2.vms.yml
+      vm_var_secrets_file: slave2.secrets.yml
+    slave_3:
+      ansible_host: 192.168.128.159
+      ansible_port: 5606
+      ansible_user: darkvoid
+      user_account: "darkvoid"
+      vm_var_file: slave3.vms.yml
+      vm_var_secrets_file: slave3.secrets.yml
+
+# update this to reflect your infra servers you wish to use for
+# firecracker vm deployments
+metal_servers:
+  children:
+    metal_master:
+    metal_slaves:
+
+
+# update these to reflect all your servers
+all_hosts:
+  children:
+    metal_master:
+    metal_slaves:
+    metal_dns:
+
+#ewe_cluster_local:
+#  vars:
+#    domain: local.ewe-studio.com
+#    machine_ssh_file: "/home/darkvoid/.ssh/id_rsa.pub"
+#    ip_addresses:
+#      from: 192.168.128.180
+#      to: 192.168.128.200
+#    dns_addresses:
+#      - local.ewe-studio.com
+#      - www.local.ewe-studio.com
+#  children:
+#    dark-master:
+#
+#ewe_cluster_linode:
+#  vars:
+#    domain: linode.ewe-studio.com
+#    dns_addresses:
+#      - linode.ewe-studio.com
+#      - www.linode.ewe-studio.com
+#  children:

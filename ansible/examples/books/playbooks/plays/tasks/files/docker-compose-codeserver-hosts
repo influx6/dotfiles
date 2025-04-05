@@ -1,0 +1,18 @@
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+172.19.0.2	13f14662c0ec
+
+192.168.128.140 dark-master
+192.168.128.140 dark-master.local
+
+192.168.128.147 dark-mini
+192.168.128.147 darkvoid-mini
+192.168.128.147 dark-mini.local
+
+192.168.128.125 dark-tower
+192.168.128.125 dark-tower.local
+

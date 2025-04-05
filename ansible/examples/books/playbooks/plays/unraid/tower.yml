@@ -1,0 +1,23 @@
+---
+- hosts: media-servers
+  become: yes
+  gather_facts: true
+  tasks:
+    - import_tasks: ../tasks/arch.yml
+    - import_tasks: ../tasks/user.yml
+    - import_tasks: ../tasks/hello.yml
+    - import_tasks: ../tasks/tower-ip.yml
+
+- hosts: tower_clients
+  become: yes
+  gather_facts: true
+  vars_prompt:
+    - name: smb_username
+      prompt: What is the smb username
+      private: no
+    - name: smb_password
+      prompt: What is the smb password
+  tasks:
+    - import_tasks: ../tasks/arch.yml
+    - import_tasks: ../tasks/user.yml
+    - import_tasks: ../tasks/tower.yml

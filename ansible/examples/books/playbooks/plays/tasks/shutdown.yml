@@ -1,0 +1,5 @@
+- name: say bybye
+  command: "echo 'Shutting down server {{user.stdout}}'"
+- name: shutdown
+  community.general.shutdown:
+    delay: 60

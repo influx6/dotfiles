@@ -1,0 +1,60 @@
+---
+- name: select firecracker target architecture
+  set_fact:
+    firecracker_arch: "{{ 'x86_64' if (repo_arch =='amd64') else 'aarch64' }}"
+- debug:
+    msg: "firecracker arch: {{ firecracker_arch }}"
+- name: download firecracker binary sha256 for arch (amd)
+  uri:
+    url: "https://github.com/firecracker-microvm/firecracker/releases/download/v{{firecracker_version}}/firecracker-v{{ firecracker_version }}-{{ firecracker_arch }}.tgz.sha256.txt"
+    return_content: true
+  register: firecracker_checksum_body
+- name: download firecracker binary for arch (amd)
+  get_url:
+    url: "https://github.com/firecracker-microvm/firecracker/releases/download/v{{firecracker_version}}/firecracker-v{{firecracker_version}}-{{ firecracker_arch }}.tgz"
+    checksum: "sha256:{{ firecracker_checksum_body.content.split('  ')[0] }}"
+    dest: /usr/local/bin/firecracker.tgz
+    mode: 0755
+- name: create target binary directory
+  become_user: root
+  file:
+    path: "/usr/local/bin/firecracker"
+    mode: "0755"
+    state: directory
+- name: decompress firecracker.tgz archive
+  unarchive:
+    remote_src: true
+    src: /usr/local/bin/firecracker.tgz
+    dest: /usr/local/bin/firecracker
+    owner: root
+    group: "users"
+    extra_opts:
+      - --strip-components=1
+- name: remove firecracker.tgz file
+  file:
+    path: /usr/local/bin/firecracker.tgz
+    state: absent
+- name: set the binaries as executable
+  become_user: root
+  shell: "chmod +x /usr/local/bin/firecracker/{{item}}"
+  loop:
+    - "firecracker-v{{firecracker_version}}-{{ firecracker_arch }}"
+    - "jailer-v{{firecracker_version}}-{{ firecracker_arch }}"
+    - "rebase-snap-v{{firecracker_version}}-{{ firecracker_arch }}"
+    - "seccompiler-bin-v{{firecracker_version}}-{{ firecracker_arch }}"
+- name: create firecracker symbolic link
+  become_user: root
+  file:
+    src: "/usr/local/bin/firecracker/{{item.split(',')[0]}}"
+    dest: "/usr/local/bin/{{item.split(',')[1]}}"
+    state: link
+  loop:
+    - "firecracker-v{{firecracker_version}}-{{ firecracker_arch }},firecrackerd"
+    - "jailer-v{{firecracker_version}}-{{ firecracker_arch }},jailer"
+    - "rebase-snap-v{{firecracker_version}}-{{ firecracker_arch }},rebase-snap"
+    - "seccompiler-bin-v{{firecracker_version}}-{{ firecracker_arch }},secompiler-bin"
+- name: create custom path from operating system
+  when: ansible_env.PATH is not search('/usr/local/bin/firecracker')
+  copy:
+    dest: /etc/profile.d/firecracker_path.sh
+    content: 'export PATH=/usr/local/bin/firecracker:$PATH'

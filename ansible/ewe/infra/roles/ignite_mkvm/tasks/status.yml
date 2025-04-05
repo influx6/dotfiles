@@ -1,0 +1,39 @@
+---
+- name: Create vm stat dict
+  set_fact:
+    live_vms: {}
+- name: Check if we have all vms exists
+  no_log: no
+  register: vm_existence
+  ignore_errors: yes
+  ansible.builtin.shell: "ignite inspect VM {{ item.vm_name }}"
+  with_items: "{{ infra.vms }}"
+- name: Get all vms running status
+  register: vm_runs
+  ignore_errors: yes
+  ansible.builtin.shell: "ignite inspect VM {{ item.vm_name }} -t {% raw %} '{{ .Status.Running }}' {% endraw %}"
+  with_items: "{{ infra.vms }}"
+- name: Get all vms ip addresses
+  no_log: no
+  register: vm_networks
+  ignore_errors: yes
+  ansible.builtin.shell: "ignite inspect VM {{ item.vm_name }} -t {% raw %} \"{{range .Status.Network.IPAddresses}}{{.}},{{end}}\" {% endraw %} "
+  with_items: "{{ infra.vms }}"
+- name: Process ip list into clear text
+  no_log: no
+  loop: "{{ vm_networks.results }}"
+  loop_control:
+    index_var: index
+  when: item.rc == 0
+  set_fact:
+    live_vms: "{{ live_vms | combine({ infra.vms[index].vm_name: { 'ip': item.stdout | split(',') | select() } }, recursive=true) }}"
+- name: Setup basic information about each vms
+  no_log: no
+  set_fact:
+    live_vms: "{{ live_vms | combine({ item.vm_name: { 'exist': vm_existence.results[index]['rc'] == 0, 'running': vm_runs.results[index].stdout == 'true', } }, recursive=true) }}"
+  loop: "{{ infra.vms }}"
+  loop_control:
+    index_var: index
+- name: Show me vms
+  debug:
+    msg: "VMS: {{ live_vms }}"

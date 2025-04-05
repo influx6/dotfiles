@@ -1,0 +1,30 @@
+- name: Create 'media' directory servers
+  file:
+    path: "/mnt/user/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "Library"
+    - "Movies"
+    - "TV"
+    - "Audios"
+    - "Music"
+    - "Lab"
+    - "portainer"
+    - "Pictures"
+    - "Downloads"
+    - "Config/plex"
+    - "Config/radar"
+    - "Rancher/logs"
+    - "Rancher/cni"
+    - "Rancher/kubelet"
+    - "Rancher/data"
+- name: Create 'services' directories servers
+  file:
+    path: "/{{user.stdout}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "services"

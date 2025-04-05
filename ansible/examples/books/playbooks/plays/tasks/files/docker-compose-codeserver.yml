@@ -1,0 +1,39 @@
+version: "3.5"
+
+networks:
+  default:
+    external:
+      name: app-networks
+
+volumes:
+  codeserver-volume-codes:
+    external: true
+  codeserver-volume-config:
+    external: true
+
+
+services:
+  code_server:
+    image: influx6/code-server:0.2
+    container_name: code-server
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=Asia/HongKong
+      - DEFAULT_WORKSPACE=DEFAULT_WORKSPACE
+      - PASSWORD=$CODE_SERVER_PASSWORD
+      - HASHED_PASSWORD=$CODE_SERVER_PASSWORD_HASH
+#      - SUDO_PASSWORD_HASH=$CODE_SERVER_SUDO_PASSWORD
+#      - SUDO_PASSWORD=$CODE_SERVER_SUDO_PASSWORD
+      - PROXY_DOMAIN=$PROXY_DOMAIN
+    volumes:
+      - codeserver-volume-config:/config
+      - codeserver-volume-codes:/config/workspace #optional
+      - "$HOST_FILE:/etc/hosts:rw"
+      - "$SSH_FILE:/etc/ssh/id_rsa:ro"
+      - "$TERMINAL_FILE:/etc/.terminal:ro"
+      - "$SSH_PUB_FILE:/etc/ssh/id_rsa.pub:ro"
+    ports:
+      - "8443:8443"
+    restart: unless-stopped
+

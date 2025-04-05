@@ -1,0 +1,23 @@
+#!/bin/bash
+
+alias vim="tvim"
+
+if [[ -d "$HOME/.config/nvim" ]]; then
+  # already present
+  echo "nvim is already linked"
+else
+  # link directory correctly.
+  ln -s "$Dotfiles/shell/nvim" "$HOME/.config/nvim"
+fi
+
+tvim() {
+  current_dir=$(pwd) || "./"
+  echo "Current dir: ${current_dir}"
+  nvim_session_file="${current_dir}/.nvim/default"
+  echo "Possible session file: ${nvim_session_file}"
+  if [[ -f "$nvim_session_file" ]]; then
+    nvim -S "$nvim_session_file"
+  else
+    nvim
+  fi
+}

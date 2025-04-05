@@ -1,0 +1,29 @@
+- name: Ensure K0s is installed
+  command: "which k0s"
+  register: k0s_status
+  failed_when: k0s_status.rc != 0
+
+- name: Check if k0s service is installed
+  stat:
+    path: "/etc/systemd/system/k0scontroller.service"
+  register: k0s_service_installed
+
+- name: Ensure k0s controller is started
+  service:
+    name: k0scontroller
+    state: started
+  register: kube_controller_state
+  when: inventory_hostname in groups['controllers'] and k0s_service_installed.stat.exists == True
+
+- name: Copy k0s.services config directory
+  copy:
+    src: "./files/k0s.services"
+    dest: "/home/{{user.stdout}}/.kube/"
+    mode: 0775
+    owner: "{{user.stdout}}"
+    force: true
+  when: inventory_hostname in groups['controllers'] and kube_controller_state.state == "started"
+
+- name: Install services in k0s.services configuration
+  command: "sudo k0s kubectl apply -f /home/{{user.stdout}}/.kube/k0s.services --recursive"
+  when: inventory_hostname in groups['controllers'] and kube_controller_state.state == "started"

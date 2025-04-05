@@ -1,0 +1,11 @@
+# login passwords
+CODE_SERVER_PASSWORD_HASH="$argon2i$v=19$m=4096,t=3,p=1$/rl7h8eAGo7N4M+wFHByIQ$Gt+5EdRdynAOfSHIVDzyqyVS/h054dMx/DyUsmUcmdY"
+CODE_SERVER_PASSWORD=
+
+# sudo passwords
+CODE_SERVER_SUDO_PASSWORD=darkvoid
+CODE_SERVER_SUDO_PASSWORD_HASH=
+
+# others
+DEFAULT_WORKSPACE=/workspace
+PROXY_DOMAIN=

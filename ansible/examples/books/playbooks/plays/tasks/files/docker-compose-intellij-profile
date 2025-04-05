@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+ssh_to_host(){
+	ssh -i /config/.ssh/id_rsa -p $1 -v $2@$3
+}
+
+dark-tower-ssh(){
+	ssh_to_host 5606 root dark-tower
+}
+
+dark-mini-ssh() {
+  ssh-add $HOME/.ssh/id_rsa;
+	ssh_to_host 5606 darkvoid dark-mini
+}

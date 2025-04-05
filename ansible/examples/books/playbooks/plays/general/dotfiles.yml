@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: true
+  tasks:
+    - import_tasks: ../tasks/arch.yml
+    - import_tasks: ../tasks/user.yml
+    - import_tasks: ../tasks/hello.yml
+    - import_tasks: ../tasks/ohmybash.yml
+    - import_tasks: ../tasks/dotfiles.yml

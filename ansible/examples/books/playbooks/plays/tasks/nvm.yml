@@ -1,0 +1,46 @@
+- name: Ensure git is installed
+  apt:
+    state: present
+    name: git
+- name: nvm
+  become_user: "{{user.stdout}}"
+  shell: >
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+  args:
+    creates: "/home/{{user.stdout}}/.nvm/nvm.sh"
+- name: Add nvm init to .profile1
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.profile"
+    line: >
+      export NVM_DIR="$HOME/.nvm"; export PATH="$NVM_DIR/bin:$HOME/.nvm:$PATH"
+    insertafter: EOF
+- name: Add nvm init to .profile2
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.profile"
+    line: >
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    insertafter: EOF
+- name: Add nvm init to .profile3
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.profile"
+    line: >
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion";
+    insertafter: EOF
+- name: Add nvm init to .bashrc1
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.bashrc"
+    line: >
+      export NVM_DIR="$HOME/.nvm"; export PATH="$NVM_DIR/bin:$HOME/.nvm:$PATH"
+    insertafter: EOF
+- name: Add nvm init to .bashrc2
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.bashrc"
+    line: >
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    insertafter: EOF
+- name: Add nvm init to .bashrc3
+  lineinfile:
+    dest: "/home/{{user.stdout}}/.bashrc"
+    line: >
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion";
+    insertafter: EOF

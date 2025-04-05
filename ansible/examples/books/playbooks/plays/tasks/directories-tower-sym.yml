@@ -1,0 +1,9 @@
+- name: Create 'Tower' symlink
+  file:
+    src: "/mnt/tower"
+    dest: "/home/{{user.stdout}}/Tower"
+    owner: "{{user.stdout}}"
+    group: "{{user.stdout}}"
+    state: link
+  loop:
+    - "services"

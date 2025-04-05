@@ -1,0 +1,13 @@
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+ubjectAltName = @alt_names
+
+[alt_names]
+{% for address in dns_addresses %}
+DNS.{{ loop.index }} = {{ address }}
+{% endfor %}
+{% for address in server_addresses %}
+IP.{{ loop.index }} = {{ address }}
+{% endfor %}
+

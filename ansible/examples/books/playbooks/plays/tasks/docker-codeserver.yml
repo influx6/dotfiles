@@ -1,0 +1,80 @@
+- name: check if codeserver codes volume exists
+  shell: "docker volume ls | grep 'codeserver-volume-codes'"
+  ignore_errors: true
+  register: codeserver_codes_ready
+
+- name: Create volume for codeserver codes
+  shell: "docker volume create --driver local --opt type=none --opt device={{lab_root}}/Lab/codes --opt o=bind codeserver-volume-codes"
+  when: codeserver_codes_ready.rc == 1
+
+- name: check if codeserver config volume exists
+  shell: "docker volume ls | grep 'codeserver-volume-config'"
+  ignore_errors: true
+  register: codeserver_config_ready
+
+- name: Create volume for codeserver config
+  shell: "docker volume create --driver local --opt type=none --opt device={{lab_root}}/Lab/config --opt o=bind codeserver-volume-config"
+  when: codeserver_config_ready.rc == 1
+
+- name: Copy docker-compose-codeserver-env to server
+  copy:
+    src : "./files/docker-compose-codeserver-env"
+    dest: "/home/{{user.stdout}}/services/docker-compose-codeserver-env"
+    force: yes
+
+- name: Copy docker-compose-codeserver-hosts to server
+  copy:
+    src : "./files/docker-compose-codeserver-hosts"
+    dest: "/home/{{user.stdout}}/services/docker-compose-codeserver-hosts"
+    force: yes
+
+- name: Copy docker-compose-codeserver-terminal to server
+  copy:
+    src : "./files/docker-compose-codeserver-terminal"
+    dest: "/home/{{user.stdout}}/services/docker-compose-codeserver-terminal"
+    force: yes
+
+- name: Add HOST_FILE path into docker-compose-codeserver-hosts
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-codeserver-env"
+    line: "TERMINAL_FILE=/home/{{user.stdout}}/services/docker-compose-codeserver-terminal"
+    insertafter: EOF
+
+- name: Add HOST_FILE path into docker-compose-codeserver-hosts
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-codeserver-env"
+    line: "HOST_FILE=/home/{{user.stdout}}/services/docker-compose-codeserver-hosts"
+    insertafter: EOF
+
+- name: Copy docker-compose-codeserver-sudoers to server
+  copy:
+    src : "./files/docker-compose-codeserver-sudoers"
+    dest: "/home/{{user.stdout}}/services/docker-compose-codeserver-sudoers"
+    force: yes
+
+- name: Add SUDO_FILE path into docker-compose-codeserver-env
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-codeserver-env"
+    line: "SUDO_FILE=/home/{{user.stdout}}/services/docker-compose-codeserver-sudoers"
+    insertafter: EOF
+
+- name: Add SSH_FILE path into docker-compose-codeserver-hosts
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-codeserver-env"
+    line: "SSH_FILE=/home/{{user.stdout}}/.ssh/code_server_ssh"
+    insertafter: EOF
+
+- name: Add SSH_PUB_FILE path into docker-compose-codeserver-hosts
+  lineinfile:
+    dest: "/home/{{user.stdout}}/services/docker-compose-codeserver-env"
+    line: "SSH_PUB_FILE=/home/{{user.stdout}}/.ssh/code_server_ssh.pub"
+    insertafter: EOF
+
+- name: Copy docker-compose-codeserver to server
+  copy:
+    src : "./files/docker-compose-codeserver.yml"
+    dest: "/home/{{user.stdout}}/services/docker-compose-codeserver.yml"
+    force: yes
+
+- name: Start docker services
+  command: "docker-compose --project-name=codeserver --env-file /home/{{user.stdout}}/services/docker-compose-codeserver-env -f /home/{{user.stdout}}/services/docker-compose-codeserver.yml up -d"

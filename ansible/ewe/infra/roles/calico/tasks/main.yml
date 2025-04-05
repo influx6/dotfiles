@@ -1,0 +1,8 @@
+---
+- name: Check if cni is available
+  ignore_errors: yes
+  register: calico_binaries
+  ansible.builtin.command: "which calicoctl"
+- name: install cni
+  include_tasks: install.yml
+  when: calico_binaries.rc == 1

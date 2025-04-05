@@ -1,0 +1,91 @@
+- name: Ensure K0s is installed
+  command: "which k0s"
+  register: k0s_status
+  failed_when: k0s_status.rc != 0
+
+- name: Check if k0s service is installed
+  stat:
+    path: "/etc/systemd/system/k0scontroller.service"
+  register: k0s_service_installed
+
+- name: Copy configuration for k0s controller
+  copy:
+    src: ./files/k0s.yml
+    dest: /etc/k0s/
+    force: true
+  when: inventory_hostname in groups['controllers']
+
+- name: Stop k0s controller
+  command: "sudo k0s stop"
+  ignore_errors: yes
+  when: inventory_hostname in groups['controllers'] and k0s_service_installed.stat.exists == True
+
+- name: Start k0s controller
+  command: "sudo k0s start"
+  when: inventory_hostname in groups['controllers'] and k0s_service_installed.stat.exists == True
+
+- name: Ensure k0s controller is started
+  service:
+    name: k0scontroller
+    state: started
+  register: kube_controller_state
+  when: inventory_hostname in groups['controllers'] and k0s_service_installed.stat.exists == True
+
+- name: Sleep for 5 seconds and continue with play
+  wait_for:
+    timeout: 5
+
+- name: "Ensure user has kubeconfig in controller"
+  command: "sudo k0s kubeconfig create  --groups 'system:masters' {{user.stdout}}"
+  register: kube_config
+  when: inventory_hostname in groups['controllers']
+
+- name: "Write kubeconfig for user"
+  copy:
+    content: '{{kube_config.stdout}}'
+    dest: "/home/{{user.stdout}}/.kube/config"
+    force: yes
+  when: inventory_hostname in groups['controllers']
+
+- name: "Write kubeconfig to fact"
+  set_fact:
+    kube_config_content: "{{kube_config.stdout}}"
+  when: inventory_hostname in groups['controllers']
+
+- name: "Create kube configuration dir"
+  delegate_to: localhost
+  become: no
+  command: "mkdir -p $HOME/.kube"
+  when: inventory_hostname in groups['controllers']
+
+- name: "Write kubeconfig to host path"
+  delegate_to: localhost
+  become: no
+  copy:
+    content: "{{ kube_config_content }}"
+    dest: "$HOME/.kube/config"
+    mode: "0700"
+    force: yes
+  when: inventory_hostname in groups['controllers']
+
+- name: Ensure k0s controller is started
+  service:
+    name: k0scontroller
+    state: started
+  register: kube_controller_state
+  when: inventory_hostname in groups['controllers'] and k0s_service_installed.stat.exists == True
+
+- name: Sleep for 5 seconds and continue with play
+  wait_for:
+    timeout: 5
+
+- name: Check if role binding is existing
+  become: yes
+  shell: "sudo k0s kubectl get clusterrolebinding | grep '{{user.stdout}}-admin-binding'"
+  when: inventory_hostname in groups['controllers']
+  register: cluster_role_binding
+
+- name: "Ensure user has cluster role binding in controller"
+  command: "sudo k0s kubectl create clusterrolebinding --kubeconfig /home/{{user.stdout}}/.kube/config {{user.stdout}}-admin-binding --clusterrole=admin --user={{user.stdout}}"
+  when: inventory_hostname in groups['controllers'] and cluster_role_binding.rc == 1
+

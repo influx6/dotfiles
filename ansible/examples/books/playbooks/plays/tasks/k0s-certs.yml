@@ -1,0 +1,52 @@
+- set_fact:
+    kube_dir: "{{lab_root}}/kubeca"
+    kubeca_key: "{{lab_root}}/kubeca/k0s.key"
+    kubeca_cert: "{{lab_root}}/kubeca/k0s.cert"
+  when: inventory_hostname in groups['controllers']
+
+- name: Create certs directory
+  file:
+    path: "{{kube_dir}}"
+    owner: "{{user.stdout}}"
+    mode: "0755"
+    state: directory
+  when: inventory_hostname in groups['controllers']
+
+- name: check key file exists
+  stat:
+    path: "{{kubeca_key}}"
+  register: key_file
+  when: inventory_hostname in groups['controllers']
+
+- name: check cert file exists
+  stat:
+    path: "{{kubeca_cert}}"
+  register: cert_file
+  when: inventory_hostname in groups['controllers']
+
+- name: Create cert key
+  command: "openssl genrsa -out {{kubeca_key}}"
+  when: inventory_hostname in groups['controllers'] and key_file.stat.exists == False
+
+- name: Create ca cert
+  command: "openssl req -x509 -new -nodes -key {{kubeca_key}} -out {{kubeca_cert}} -subj '/CN=dark.master' -days 3650 -reqexts v3_req -extensions v3_ca"
+  when: inventory_hostname in groups['controllers'] and cert_file.stat.exists == False
+
+- name: check kubectl
+  command: "which kubectl"
+  register: kubectl_check
+
+- debug:
+    msg: "{{kubectl_check}}"
+
+- name: Check if cert secret is existing
+  become: yes
+  shell: "sudo k0s kubectl get secret -n cert-manager | grep 'kube-ca-pair'"
+  ignore_errors: yes
+  when: inventory_hostname in groups['controllers']
+  register: cert_secret
+
+- name: Register cert and key to k8s
+  shell: "sudo k0s kubectl create secret tls kube-ca-pair --cert={{kubeca_cert}} --key={{kubeca_key}} --namespace=cert-manager"
+  when: inventory_hostname in groups['controllers'] and cert_secret.rc == 1
+

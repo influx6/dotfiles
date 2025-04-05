@@ -1,0 +1,137 @@
+#!/bin/env bash
+
+export SSH_VERBOSE=''
+
+function warp_ssh_helper() {
+command ssh -o ControlMaster=yes -o ControlPath=~/.ssh/%C -o PermitLocalCommand=yes \
+                -o LocalCommand="printf '$DCS_START{\"hook\": \"SSH\", \"value\": {\"socket_path\": \"~/.ssh/%C\", \"user\": \"%r\", \"machine\": \"%h\"}}$DCS_END'" \
+                -t ${*:1} "case "'${SHELL##*/}'" in
+  bash) exec -a bash bash --rcfile <(echo 'WARP_FEATURE_FLAG_HONOR_PS1=\"$WARP_FEATURE_FLAG_HONOR_PS1\"; set -o vi; set +o vi; HISTCONTROL=ignorespace; printf '\''$DCS_START{\"hook\": \"InitShell\", \"value\": {\"shell\": \"bash\"}}$DCS_END'\''')
+      ;;
+  zsh) WARP_TMP_DIR="'$(mktemp -d warptmp.XXXXXX)'"
+if [[ "'$?'" == 0 ]]; then
+echo $'"$( cat << 'EOF' | xxd -ps
+unset RCS; unset GLOBAL_RCS; unset PS1; unset PS2; unset PROMPT; printf '\x1b\x50\x24\x64{"hook": "InitShell", "value": {"shell": "zsh"}}\x9c'
+EOF
+)"' | xxd -ps -r > "'$WARP_TMP_DIR'"/.zshenv
+else
+echo \"Failed to bootstrap warp. Continuing with a non-bootstrapped shell.\"
+fi
+WARP_SSH_RCFILES="'${ZDOTDIR:-$HOME}'" ZDOTDIR="'$WARP_TMP_DIR'" WARP_FEATURE_FLAG_HONOR_PS1=\"$WARP_FEATURE_FLAG_HONOR_PS1\" exec -a zsh zsh -g
+      ;;
+esac"
+}
+
+ssh_to_host(){
+	ssh $SSH_VERBOSE -p $1 $2@$3
+}
+
+ssh_fs() {
+	username = "$1"
+	hostname = "$2"
+	localdir = "$3"
+	if [[ -n $localdir ]]; then
+		ssh-add ~/.ssh/id_rsa;
+		sshfs $username:$hostname -p 5606 -o reconnect,local,allow_other,defer_permissions $localdir;
+		export DARK_LAB_MOUNT=$localdir;
+	else
+		echo "You must provide a mount directory e.g ~/LinuxLabs"
+	fi
+}
+
+unmount_ssh_fs() {
+	if [[ -n $1 ]]; then
+		umount $1;
+	else
+		echo "You must provide a mounted directory e.g ~/Labs else set the DARK_LAB_MOUNT environment variable"
+	fi
+}
+
+openssh_generate_private_key() {
+  directory="$1";
+  output_name="$2";
+  source_key_bit="$3";
+
+  target_name=${output_namet:-"${source_key}.plain"};
+  target_bit=${source_key_bit:-2048};
+
+  openssl genrsa -out "${directory}/${target_name}" $target_bit;
+  ssh-keygen -y -f "${directory}/${target_name}"  > "${directory}/${target_name}.pub";
+}
+
+convert_private_key_to_pem() {
+  target_file="$1";
+  target_file_name="$(basename "${target_file}")"
+  output_name="$2";
+
+  target_name=${output_name:-"${target_file_name}.plain"};
+  target_file_dir="$(dirname "${target_file}")";
+
+  output_target_file="${target_file_dir}/${target_name}";
+  output_target_file_public_key="${target_file_dir}/${target_name}.pub";
+
+  cp "${target_file}" "${output_target_file}";
+  exit_on_error
+  echo "Copied ${target_file} to ${output_target_file}";
+
+  echo "Will attempt conversion of ${output_target_file} to pem format (update passphrase or leave empty as desired)";
+  ssh-keygen -e -p -f "${output_target_file}" -m pem;
+  exit_on_error
+  echo "Converted ${output_target_file} to pem format";
+
+  ssh-keygen -e -f "${output_target_file}" -m pem > "${output_target_file_public_key}";
+  exit_on_error
+  echo "Generated public rsa key in pem format for ${output_target_file} as ${output_target_file_public_key}";
+
+}
+
+
+dark-tower-ssh(){
+	ssh_to_host 5606 root dark-tower
+}
+
+dark-arm-1-ssh(){
+	ssh_to_host 5606 ubuntu dark-arm-1
+}
+
+dark-arm-2-ssh(){
+	ssh_to_host 5606 ubuntu dark-arm-2
+}
+
+dark-coder-ssh(){
+	ssh_to_host 5606 darkstar dark-coder
+}
+
+dark-mini-ssh(){
+	ssh_to_host 5606 darkvoid darkvoid-mini
+}
+
+dark-master-ssh(){
+	ssh_to_host 5606 darkvoid dark-master
+}
+
+dark-slave-1-ssh(){
+	ssh_to_host 5606 darkvoid dark-slave-1
+}
+
+dark-slave-2-ssh(){
+	ssh_to_host 5606 darkvoid dark-slave-2
+}
+
+dark-slave-3-ssh(){
+	ssh_to_host 5606 darkvoid dark-slave-3
+}
+
+dark-mini-fs() {
+	ssh_fs darkvoid darkvoid-mini $1
+}
+
+dark-mini-ufs() {
+	DARK_LAB_MOUNT=${DARK_LAB_MOUNT:-~/Labs}
+
+	if [[ -n $DARK_LAB_MOUNT ]]; then
+		umount $1;
+	else
+		unmount_ssh_fs $DARK_LAB_MOUNT
+	fi
+}

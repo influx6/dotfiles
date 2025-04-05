@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="GENERAL_MODULE" version="4">
+  <component name="Go" enabled="true" />
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../books" />
+    <content url="file://$MODULE_DIR$/../docker-apps">
+      <sourceFolder url="file://$MODULE_DIR$/../docker-apps/novnc/config/apache-tomcat-9.0.64/webapps/docs/appdev/sample/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../docker-apps/novnc/config/apache-tomcat-9.0.64/webapps/examples/WEB-INF/classes" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/venv" />
+    </content>
+    <content url="file://$MODULE_DIR$/../src.formulas">
+      <excludeFolder url="file://$MODULE_DIR$/../src.formulas/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/../src.formulas/src.rive/rive-flutter/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/../src.formulas/src.rive/rive-flutter/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../src.formulas/src.rive/rive-flutter/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/../src.formulas/src.rive/rive-cpp/dev/core_generator/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/../src.formulas/src.rive/rive-cpp/dev/core_generator/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/../src.formulas/src.rive/rive-cpp/dev/core_generator/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../src.formulas/src.rive/rive-flutter/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/../src.formulas/src.rive/rive-flutter/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../src.formulas/src.rive/rive-flutter/.pub" />
+    </content>
+    <content url="file://$USER_HOME$/dotfiles" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

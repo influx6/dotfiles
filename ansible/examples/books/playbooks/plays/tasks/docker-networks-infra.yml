@@ -1,0 +1,13 @@
+- name: Create infra docker network
+  docker_network:
+    name: infra-networks
+    state: present
+#    driver_options:
+#      com.docker.network.bridge.name: net2
+#    ipam_options:
+#      subnet: '192.168.128.0/16'
+#      gateway: '192.168.128.1'
+#      iprange: '192.168.128.0/24'
+#      aux_addresses:
+#        - 192.168.128.130
+

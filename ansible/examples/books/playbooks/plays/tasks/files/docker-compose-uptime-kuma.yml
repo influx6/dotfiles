@@ -1,0 +1,25 @@
+version: "3.5"
+
+networks:
+  default:
+    external:
+      name: app-networks
+
+volumes:
+  uptime-kuma-volume-data:
+    external: true
+
+
+services:
+  uptime:
+    image: "louislam/uptime-kuma:1"
+    restart: unless-stopped
+    container_name: uptime-kuma
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - uptime-kuma-volume-data:/app/data
+    ports:
+      - "3001:3001"
+    environment:
+      - APP=KUMA

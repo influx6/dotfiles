@@ -1,0 +1,109 @@
+- set_fact:
+    ssh_keys: '{{ hostvars["localhost"]["ssh_keys"] }}'
+    host_name: '{{ hostvars["localhost"]["host_hostname"] }}'
+    host_ip: '{{ hostvars["localhost"]["host_local_ip"] }}'
+
+- name: Create vm data directory
+  register: vm_directory
+  file:
+    path: "/home/{{user.stdout}}/vm/{{vm_name}}/"
+    owner: "{{user.stdout}}"
+    mode: "0775"
+    state: directory
+
+- name: Create vm directories
+  file:
+    path: "/home/{{user.stdout}}/vm/{{vm_name}}/{{item}}"
+    owner: "{{user.stdout}}"
+    mode: "0775"
+    state: directory
+  loop:
+    - config
+    - data
+
+- set_fact:
+    data_directory: "/home/{{user.stdout}}/vm/{{vm_name}}/data"
+    config_directory: "/home/{{user.stdout}}/vm/{{vm_name}}/config"
+    services_directory: "/home/{{user.stdout}}/vm/{{vm_name}}/services"
+    k0s_directory: "/home/{{user.stdout}}/vm/{{vm_name}}/k0s"
+    up_file: "/home/{{user.stdout}}/vm/{{vm_name}}/up.sh"
+    cloud_init_file: "/home/{{user.stdout}}/vm/{{vm_name}}/config/cloud-init.yml"
+    k0s_file: "/home/{{user.stdout}}/vm/{{vm_name}}/k0s.yml"
+    controller_file: "/home/{{user.stdout}}/vm/{{vm_name}}/k0s-controller.sh"
+    inventory_file: "/home/{{user.stdout}}/vm/{{vm_name}}/inventory.yml.sh"
+
+- name: Create vm configuration for server
+  template:
+    src: ../templates/multipass.vm.jinja2
+    dest: "{{cloud_init_file}}"
+    mode: '0775'
+    force: yes
+
+- name: Create vm configuration creator script for server
+  template:
+    src: ../templates/up.vm.jinja2
+    dest: "{{ up_file }}"
+    mode: '0775'
+    force: yes
+
+- name: Check if vm is ready
+  register: vm_check
+  ignore_errors: true
+  shell: "multipass list | grep {{ vm_name }}"
+
+- name: Create vm with configuration up.sh
+  shell: "sh {{ up_file }}"
+  when: vm_check.rc != 0
+
+- name: get all running vm instance data
+  register: multipass_vm_data
+  shell: "multipass list --format json"
+
+- set_fact:
+    multipass_data: "{{ multipass_vm_data.stdout | from_json }}"
+
+- name: Update controller instance
+  set_fact:
+    controller_instances: "{{ multipass_data.list }}"
+
+- name: Update controller instance metallb
+  loop: "{{ controller_instances }}"
+  set_fact:
+    # controller_instances_metal_lib: "{{ controller_instances_metal_lib|default([]) + [{ 'ip_address': item.ipv4[0], 'metal_lb': ([ipv4[0].split('.').0, ipv4[0].split('.').1, ipv4[0].split('.').2, 0]) | join('.') }] }}"
+    controller_instances_metal: "{{ controller_instances_metal| default([]) + [{ 'ip_address': item.ipv4.0, 'meta_lb_start': ([item.ipv4.0.split('.').0, item.ipv4.0.split('.').1, item.ipv4.0.split('.').2, 255-(item.ipv4.0.split('.').3 | int)] | join('.')), 'meta_lb_end': ([item.ipv4.0.split('.').0, item.ipv4.0.split('.').1, item.ipv4.0.split('.').2, (item.ipv4.0.split('.').3 | int)+1] | join('.')), 'meta_lb': ([item.ipv4.0.split('.').0, item.ipv4.0.split('.').1, item.ipv4.0.split('.').2, 0] | join('.')) }] }}"
+
+- debug:
+    msg: "metallb: {{controller_instances_metal}}"
+
+- name: Create inventory file for controller
+  loop: "{{ controller_instances }}"
+  template:
+    src: ../templates/localhost.yml.jinja2
+    dest: "/home/{{user.stdout}}/vm/{{item.name}}/inventory.yml.sh"
+    mode: '0775'
+    force: yes
+
+- name: Create k0s controller setup script
+  loop: "{{ controller_instances }}"
+  template:
+    src: ../templates/k0s-controller.sh.jinja2
+    dest: "/home/{{user.stdout}}/vm/{{item.name}}/k0s-controller.sh"
+    mode: '0775'
+    force: yes
+
+- name: Create k0s-controller configuration file
+  loop: "{{ controller_instances }}"
+  template:
+    src: ../templates/k0s_config.jinja2
+    dest: "/home/{{user.stdout}}/vm/{{item.name}}/k0s.yml"
+    mode: '0775'
+    force: yes
+
+- name: Copy sh file into container
+  shell: "multipass transfer -vvvv {{controller_file}} {{item.name}}:k0s_controller.sh"
+  loop: "{{ controller_instances }}"
+
+- name: Execute startup script for worker
+  shell: "multipass exec {{item.name}} -- sh /home/ubuntu/k0s_controller.sh"
+  loop: "{{ controller_instances }}"
+

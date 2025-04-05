@@ -1,0 +1,11 @@
+---
+- name: Generate IP address set for youtube
+  register: ip_generated_addresses
+  delegate_to: localhost
+  become: no
+  ansible.builtin.script:
+    cmd: "{{role_path}}/files/scripts/generate_ipv4.py {{ ip_addresses.from }} {{ ip_addresses.to }}"
+- set_fact:
+    server_addresses: "{{ (ip_generated_addresses.stdout | regex_replace('\\r\n','') ).split(',') }}"
+- debug:
+    msg: "Generated server_address set: {{ server_addresses }}"

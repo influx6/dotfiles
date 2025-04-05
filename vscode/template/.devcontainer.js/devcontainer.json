@@ -1,0 +1,292 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+	"name": "Python 3",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"build": {
+		"dockerfile": "./Dockerfile",
+		"context": "..",
+		"args": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				// General extensions
+				"tal7aouy.theme",
+				"vscodevim.vim",
+				"codezombiech.gitignore",
+				"vadimcn.vscode-lldb",
+				"usernamehw.errorlens",
+				"ms-azuretools.vscode-docker",
+				"formulahendry.code-runner",
+				"ms-python.black-formatter",
+				"ms-vscode-remote.remote-containers",
+				"bradgashler.htmltagwrap",
+				"vscode-icons-team.vscode-icons",
+				"CoenraadS.disableligatures",
+				"octref.vetur",
+				"formulahendry.auto-close-tag",
+				// flexible command runner in rust
+				"skellock.just",
+				"SeaQL.firedbg-rust",
+				// Nice to have cause I will still edit such files
+				"tombonnike.vscode-status-bar-format-toggle",
+				"bierner.markdown-preview-github-styles",
+				"bierner.markdown-mermaid",
+				"yzhang.markdown-all-in-one",
+				"bradlc.vscode-tailwindcss",
+				"XadillaX.viml",
+				"Equinusocio.moxer-icons",
+				"rebornix.toggle",
+				"GitHub.vscode-pull-request-github",
+				"johnpapa.vscode-peacock",
+				"VSpaceCode.whichkey",
+				"drcika.apc-extension",
+				"amodio.toggle-excluded-files",
+				"asvetliakov.vscode-neovim",
+				"mrmlnc.vscode-duplicate",
+				"qufiwefefwoyn.inline-sql-syntax",
+				"tamasfe.even-better-toml",
+				"Chouzz.vscode-better-align",
+				"dbaeumer.vscode-eslint",
+				// Python specifics extensions
+				"ms-python.python",
+				"samuelcolvin.jinjahtml",
+				"matangover.mypy",
+				"charliermarsh.ruff"
+			],
+			"settings": {
+				"diffEditor": {
+					// Show me whitespace in diffs, just in case some slips through, shows up in the GitHub PR, and I look like a dummy.
+					"ignoreTrimWhitespace": false
+				},
+				"explorer": {
+					"openEditors": {
+						"visible": 1
+					}
+				},
+				"vscode_custom_css.imports": [
+					"${workspaceFolder}/.vscode/custom_theme.css"
+				],
+				"terminal": {
+					"integrated": {
+						"fontSize": 13,
+						"lineHeight": 1.5,
+						"cursorBlinking": false,
+						"cursorStyle": "line"
+					}
+				},
+				"errorLens": {
+					"messageEnabled": true,
+					"enabledDiagnosticLevels": [
+						// enable hint to show more details but might annoy you
+						// "hint",
+						"error",
+						"warning",
+						"info"
+					],
+					"enabled": true,
+					"enableOnDiffView": true
+				},
+				"editor": {
+					"guides": {
+						"indentation": false
+					},
+					"multiCursorModifier": "ctrlCmd",
+					"formatOnSave": true,
+					"codeActionsOnSave": {
+						"source": {
+							"fixAll": true,
+							"organizeImports": true
+						}
+					},
+					"window": {
+						"title": "${activeEditorMedium}${separator}${rootName} ${dirty}"
+					},
+					"minimap.enabled": false,
+					"codeLens": false,
+					"renderControlCharacters": false,
+					"renderIndentGuides": false,
+					"renderLineHighlight": "on",
+					"matchBrackets": "always",
+					// "lineNumbers": "on",
+					"lineNumbers": "relative",
+					"renderWhitespace": "off",
+					"fontSize": 14,
+					"lineHeight": 22,
+					"letterSpacing": 0,
+					"fontFamily": "Fira Code",
+					"suggestFontSize": 16,
+					"suggestLineHeight": 28,
+					"fontLigatures": true,
+					"disableLigatures.mode": "Cursor",
+					// When I accidentally hit copy without selecting anything and it overrides my clipboard - ugh.
+					"emptySelectionClipboard": false,
+					// I removed the hyphen "-" from this list for better multi-cursor navigation.
+					// @freekmurze suggested I remove "$" too for php variables - brilliant!
+					"wordSeparators": "`~!@#%^&*()=+[{]}\\|;:'\",.<>/?",
+					// Give it to me as fast as you have it.
+					"quickSuggestionsDelay": 0,
+					// In sublime I got used to almost exclusively using "cmd+shift+v" (format on paste) - now it will do it by default!
+					"formatOnPaste": true
+				},
+				"emmet": {
+					"includeLanguages": {
+						"blade.php": "html",
+						"vue": "html"
+					}
+				},
+				"zenMode": {
+					"fullScreen": false
+				},
+				"search.exclude": {
+					"**/node_modules": true,
+					"**/bower_components": true,
+					// Hide everything in /public, except "index.php"
+					"**/public/[abcdefghjklmnopqrstuvwxyz]*": true,
+					"**/public/i[abcdefghijklmopqrstuvwxyz]*": true,
+					// Hide everything in /vendor, except "laravel" folder.
+					"**/vendor/[abcdefghijkmnopqrstuvwxyz]*": true,
+					"**/vendor/l[bcdefghijklmnopqrstuvwxyz]*": true,
+					"storage/framework/views": true
+				},
+				"files": {
+					"trimTrailingWhitespace": true,
+					"trimFinalNewlines": true,
+					"associations": {
+						// ".php_cs": "php",
+						// ".php_cs.dist": "php",
+						// "*.php": "php",
+						"*.python": "python"
+					}
+				},
+				"extensions": {
+					"experimental": {
+						"affinity": {
+							// To improve performance
+							"vscodevim.vim": 1
+						}
+					}
+				},
+				"vim": {
+					"easymotion": true,
+					"incsearch": true,
+					"useSystemClipboard": true,
+					"useCtrlKeys": true,
+					"hlsearch": true,
+					"insertModeKeyBindings": [
+						{
+							"before": [
+								"j",
+								"j"
+							],
+							"after": [
+								"<Esc>"
+							]
+						}
+					],
+					"normalModeKeyBindingsNonRecursive": [
+						{
+							"before": [
+								"<leader>",
+								"d"
+							],
+							"after": [
+								"d",
+								"d"
+							]
+						},
+						{
+							"before": [
+								"<C-n>"
+							],
+							"commands": [
+								":nohl"
+							]
+						},
+						{
+							"before": [
+								"K"
+							],
+							"commands": [
+								"lineBreakInsert"
+							],
+							"silent": true
+						}
+					],
+					"leader": "<space>",
+					"handleKeys": {
+						"<C-a>": false,
+						"<C-f>": false
+					}
+				},
+				"[ruff]": {
+					"ruff.lint.args": [
+						"--config=${workspaceFolder}/ruff.toml"
+					],
+					"ruff.format.args": [
+						"--config=${workspaceFolder}/ruff.toml"
+					]
+				},
+				"[python]": {
+					"testing": {
+						"pytestArgs": [
+							"."
+						],
+						"unittestEnabled": false,
+						"pytestEnabled": true
+					},
+					"formatting": {
+						"provider": "black"
+					},
+					"editor": {
+						"formatOnSave": true,
+						"defaultFormatter": "charliermarsh.ruff",
+						// switch to black formatter if you prefer
+						// "editor.defaultFormatter": "ms-python.black-formatter", -- switch to black if you want
+						"codeActionsOnSave": {
+							"source": {
+								"fixAll": true,
+								"organizeImports": true
+							}
+						}
+					}
+				},
+				"workbench": {
+					"fontAliasing": "antialiased",
+					"iconTheme": "vscode-icons",
+					"colorTheme": "Theme Mix",
+					"editor": {
+						"showTabs": "none",
+						"activityBar": {
+							"visible": false
+						}
+					},
+					"startupEditor": "none",
+					"sideBar": {
+						"location": "right"
+					},
+					"settings": {
+						"applyToAllProfiles": [
+							"workbench.sideBar.location",
+							"workbench.editor.showTabs",
+							"errorLens.enableOnDiffView",
+							"problems.visibility",
+							"editor.lineNumbers"
+						]
+					}
+				}
+			}
+		}
+	},
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "pip3 install --user -r requirements.txt",
+	// Configure tool-specific properties.
+	// "customizations": {},
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "vscode"
+}

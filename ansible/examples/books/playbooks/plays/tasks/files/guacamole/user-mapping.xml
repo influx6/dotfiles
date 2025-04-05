@@ -1,0 +1,51 @@
+<user-mapping>
+    <authorize
+            username="novnc"
+            password="32774830117b77ed39caa90cbd6ea5de"
+            encoding="md5">
+        <connection name="SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">0.0.0.0</param>
+            <param name="port">22</param>
+            <param name="username">novnc</param>
+            <param name="password">novnc</param>
+<!--            <param name="private-key">/home/novnc/.ssh/id_rsa</param>-->
+<!--            <param name="passphrase"></param>-->
+        </connection>
+        <connection name="Screen 1">
+            <protocol>vnc</protocol>
+            <param name="hostname">0.0.0.0</param>
+            <param name="port">5901</param>
+            <param name="password">X9!hC%1zAd019%02VzPKLX4!@</param>
+            <param name="ignore-cert">true</param>
+        </connection>
+        <connection name="Screen 2">
+            <protocol>vnc</protocol>
+            <param name="hostname">0.0.0.0</param>
+            <param name="port">5902</param>
+            <param name="password">X9!hC%1zAd019%02VzPKLX4!@</param>
+            <param name="ignore-cert">true</param>
+        </connection>
+        <connection name="Screen 3">
+            <protocol>vnc</protocol>
+            <param name="hostname">0.0.0.0</param>
+            <param name="port">5903</param>
+            <param name="password">X9!hC%1zAd019%02VzPKLX4!@</param>
+            <param name="ignore-cert">true</param>
+        </connection>
+        <connection name="Screen 4">
+            <protocol>vnc</protocol>
+            <param name="hostname">0.0.0.0</param>
+            <param name="port">5904</param>
+            <param name="password">X9!hC%1zAd019%02VzPKLX4!@</param>
+            <param name="ignore-cert">true</param>
+        </connection>
+        <connection name="Screen 5">
+            <protocol>vnc</protocol>
+            <param name="hostname">0.0.0.0</param>
+            <param name="port">5905</param>
+            <param name="password">X9!hC%1zAd019%02VzPKLX4!@</param>
+            <param name="ignore-cert">true</param>
+        </connection>
+    </authorize>
+</user-mapping>

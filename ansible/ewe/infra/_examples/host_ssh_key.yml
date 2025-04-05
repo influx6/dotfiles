@@ -1,0 +1,20 @@
+---
+
+- name: Get host ssh public keys
+  register: host_ssh_key_files_dict
+  find:
+    paths: ""
+    patterns: "*.pub"
+
+- set_fact:
+    host_ssh_key_files: "{{ host_ssh_key_files_dict.files }}"
+
+- name: Get host ssh public keys meta-data
+  register: host_ssh_key_set
+  shell: "cat {{item.path}} | head -1"
+  loop: "{{ host_ssh_key_files }}"
+
+- set_fact:
+    ssh_keys: "{{ host_ssh_key_set.results }}"
+    host_hostname: "{{ ansible_hostname }}"
+    host_local_ip: "{{ ansible_default_ipv4.address }}"

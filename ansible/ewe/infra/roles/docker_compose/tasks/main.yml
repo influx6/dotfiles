@@ -1,0 +1,11 @@
+---
+# tasks file for docker_compose
+- name: Check if docker-compose is available
+  ansible.builtin.command: which docker-compose
+  register: docker_compose_available
+- name: Install Docker Module for Python
+  when: docker_compose_available.rc == 1
+  pip:
+    name: "{{item}}"
+  loop:
+    - docker-compose

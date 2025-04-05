@@ -1,0 +1,5 @@
+---
+- hosts: all
+  vars:
+  tasks:
+    - import_tasks: tasks/kubectl.yaml

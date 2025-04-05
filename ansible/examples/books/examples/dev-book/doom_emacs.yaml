@@ -1,0 +1,6 @@
+---
+- hosts: all
+  vars:
+    tomcat_version: 7.0.104
+  tasks:
+    - import_tasks: tasks/emacs.yaml

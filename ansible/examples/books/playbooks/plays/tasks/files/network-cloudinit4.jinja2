@@ -1,0 +1,22 @@
+# This is the network config written by 'subiquity'
+network:
+    ethernets:
+        {{ network_name }}:
+            dhcp4: false
+            dhcp6: false
+            addresses:
+        {%- for address in addresses %}
+            - {{ address -}} # formerly 192.168.128.90/24
+        {%  endfor %}
+            gateway4: {{ target_gateway }} # formerly 192.168.128.1
+            nameservers:
+            addresses:
+            # - 192.168.128.83
+            # - 192.168.128.84
+            # - 192.168.128.1
+        {%- for name_server in nameservers %}
+            - {{ name_server -}}
+        {%  endfor %}
+            search:
+            - {{ server_host_name }}
+            version: 2

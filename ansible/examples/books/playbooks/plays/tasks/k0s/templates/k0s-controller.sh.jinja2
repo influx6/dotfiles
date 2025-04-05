@@ -1,0 +1,19 @@
+#!/bin/bash
+
+sudo apt update
+sudo apt install -y git curl wget \
+        make python3-pip iptables golang rustup find du nice \
+        zip unzip tar debian-keyring debian-archive-keyring apt-transport-https
+
+export PATH="$HOME/.local/bin:/usr/local/bin:$PATH"
+
+python3 -m pip install --user ansible argcomplete
+activate-global-python-argcomplete
+
+curl -sSLf https://get.k0s.sh | sudo sh
+
+VM_IP={{ item.ipv4[0] }}
+
+if [ ! -f /etc/systemd/system/k0scontroller.service ]; then
+  k0s
+i

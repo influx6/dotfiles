@@ -1,0 +1,31 @@
+- name: Uninstall docker from snap
+  snap:
+    state: absent
+    classic: no
+    name: docker
+- name:  Install aps from snapd
+  package:
+    pkg:
+      - snapd
+    state: present
+- name: Download snapd apps (classic)
+  snap:
+    state: present
+    classic: yes
+    name:
+      - kubectl
+      - helm
+- name: Install lxd from snap
+  snap:
+    state: present
+    name: lxd
+- name: Initialize lxd
+  shell: "lxd init -auto"
+- name: Install multipass from snap
+  when: ansible_architecture == "x86_64"
+  snap:
+    state: present
+    classic: yes
+    name: multipass
+- name: Grant multipass lxd access
+  shell: "snap channel multipass:lxd lxd"
