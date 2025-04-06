@@ -61,6 +61,9 @@ map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 -- Oil
 vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
 
+-- Rename a symbol
+map("n", "<leader>rr", vim.lsp.buf.rename, { desc = "Rename a symbol via the lsp" })
+
 -- bacon configuration
 map("n", "!", ":BaconLoad<CR>:w<CR>:BaconNext<CR>", { desc = "Navigate to next bacon location" })
 map("n", ",", ":BaconList<CR>", { desc = "Open bacon locations list" })
