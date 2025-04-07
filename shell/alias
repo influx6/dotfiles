@@ -29,6 +29,7 @@ alias gl="git pull"
 alias gm="git merge"
 alias gp="git push"
 alias gb="git branch"
+alias gunstage="git reset -- ."
 alias grb="git rebase"
 alias gcp="git cherry-pick"
 

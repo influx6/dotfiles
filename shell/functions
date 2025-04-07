@@ -12,6 +12,15 @@ no_dir() {
   fi
 }
 
+is_mac() {
+  return uname | grep -i "Darwin"
+}
+
+
+is_ubuntu() {
+  return uname | grep -i "ubuntu"
+}
+
 no_file() {
   if [ -f "$1" ]; then
     return -1
