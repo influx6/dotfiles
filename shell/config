@@ -13,8 +13,14 @@ source $Dotfiles/shell/functions
 
 # then others
 
-if is_ubuntu && whoami == 'darkvoid'; then
-  source $Dotfiles/shell/secrets/"${whoami}"/github.secret
+username=`whoami`
+secret_dir="$Dotfiles/shell/secrets/${username}"
+if [ -d "$secret_dir" ]; then
+	for dir_file in $secret_dir/*    
+	do
+	    echo "sourcing $dir_file" 
+	    source  "${dir_file}"   
+	done
 fi
 
 source $Dotfiles/shell/sops

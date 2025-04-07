@@ -6,14 +6,14 @@
 # enable shims by adding the following
 # to ~/.profile and ~/.zprofile:
 
+
+# export PYENV_ROOT="$HOME/.pyenv"
+# eval "$(pyenv init --path)"
+# eval "$(pyenv virtualenv-init -)"
+# eval "$(~/.local/bin/mise activate bash)"
+
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
+eval "$(pyenv virtualenv-init -)"
 
-# Load pyenv into the shell by adding
-# the following to ~/.zshrc:
-
-eval "$(pyenv init -)"
-
-# Make sure to restart your entire logon session
-# for changes to profile files to take effect.

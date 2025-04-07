@@ -9,3 +9,10 @@ fi
 hash_argon2() {
   echo -n "$1"| argon2-cli -e
 }
+
+
+export NVM_DIR="$HOME/.nvm"
+export USE_NVM=1
+NVM_PREFIX=$(brew --prefix nvm)
+[ -s "$NVM_PREFIX/nvm.sh" ] && \. "$NVM_PREFIX/nvm.sh" # This loads nvm
+[ -s "$NVM_PREFIX/etc/bash_completion.d/nvm" ] && \. "$NVM_PREFIX/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
