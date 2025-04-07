@@ -17,6 +17,28 @@ map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 -- custom redo
 map("n", "U", "<cmd>redo<cr>", { desc = "Redo" })
 
+-- floating terminal
+map("n", "<leader>fT", function()
+  Snacks.terminal()
+end, { desc = "Terminal (cwd)" })
+map("n", "<leader>ft", function()
+  Snacks.terminal(nil, { cwd = LazyVim.root() })
+end, { desc = "Terminal (Root Dir)" })
+map("n", "<c-/>", function()
+  Snacks.terminal(nil, { cwd = LazyVim.root() })
+end, { desc = "Terminal (Root Dir)" })
+map("n", "<c-_>", function()
+  Snacks.terminal(nil, { cwd = LazyVim.root() })
+end, { desc = "which_key_ignore" })
+
+-- Terminal Mappings
+map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
+
+-- FloaTerm configuration
+map("n", "<leader>ft", ":FloatermNew --name=myfloat --height=0.8 --width=0.7 --autoclose=2 fish <CR> ")
+map("n", "t", ":FloatermToggle myfloat<CR>")
+map("t", "<Esc>", "<C-\\><C-n>:q<CR>")
 -- command line
 -- map("n", "<TAB><TAB>", "<g-G>", { desc = "Show command line", remap = true }) -- not working
 
@@ -99,28 +121,6 @@ map("n", "<leader>L", function()
   LazyVim.news.changelog()
 end, { desc = "LazyVim Changelog" })
 
--- floating terminal
-map("n", "<leader>fT", function()
-  Snacks.terminal()
-end, { desc = "Terminal (cwd)" })
-map("n", "<leader>ft", function()
-  Snacks.terminal(nil, { cwd = LazyVim.root() })
-end, { desc = "Terminal (Root Dir)" })
-map("n", "<c-/>", function()
-  Snacks.terminal(nil, { cwd = LazyVim.root() })
-end, { desc = "Terminal (Root Dir)" })
-map("n", "<c-_>", function()
-  Snacks.terminal(nil, { cwd = LazyVim.root() })
-end, { desc = "which_key_ignore" })
-
--- Terminal Mappings
-map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
-map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
-
--- FloaTerm configuration
-map("n", "<leader>ft", ":FloatermNew --name=myfloat --height=0.8 --width=0.7 --autoclose=2 fish <CR> ")
-map("n", "t", ":FloatermToggle myfloat<CR>")
-map("t", "<Esc>", "<C-\\><C-n>:q<CR>")
 
 Snacks.toggle.zoom():map("<leader>wm"):map("<leader>uZ")
 Snacks.toggle.zen():map("<leader>uz")
