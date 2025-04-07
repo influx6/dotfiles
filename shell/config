@@ -14,7 +14,7 @@ source $Dotfiles/shell/functions
 # then others
 
 if is_ubuntu && whoami == 'darkvoid'; then
-  source $Dotfiles/shell/secrets/github.secret
+  source $Dotfiles/shell/secrets/"${whoami}"/github.secret
 fi
 
 source $Dotfiles/shell/sops
