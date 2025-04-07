@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# ensure tmux is installed
 if no_command tmux; then
    if has_command brew; then
      brew install tmux
