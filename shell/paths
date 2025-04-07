@@ -55,7 +55,7 @@ export ANDROID_SDK_BIN=$ANDROID_HOME/sdk/cmdline-tools/latest/bin
 export ANDROID_TOOLS_BIN=$ANDROID_HOME/sdk/tools/bin
 
 export PATH=$HOME/.local/go/bin:/usr/local/go/bin:$HOME/Lab/bin:$NODE_MODULES/bin:$NODE_MODULES/.bin:$LINUXBREW/bin:$Projects/bin:$HOME/local/bin:$HOME/local/go/bin:$HOME/.cargo/bin:$PATH
-export PATH=$ANDROID_TOOLS_BIN:$HOME/Devlabs/bin:$ANDROID_SDK_BIN:$HOME/Devlabs/flutter/bin:$HOME/Devlabs/local/bin:$HOME/Devlabs/local/sbin/bin:$HOME/Devlabs/local/sbin/go/bin:$PATH
+export PATH=$ANDROID_TOOLS_BIN:$ANDROID_SDK_BIN:$HOME/Devlabs/flutter/bin:$HOME/Devlabs/local/bin:$HOME/Devlabs/local/sbin/bin:$HOME/Devlabs/local/sbin/go/bin:$PATH
 
 export PATH="$PATH:$HOME/.rvm/bin"
 
@@ -65,10 +65,8 @@ alias pbpaste='xclip -selection clipboard -o'
 
 
 export SDKMAN_DIR="$HOME/.sdkman"
-export NVM_DIR="$HOME/.nvm"
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/dotfiles/bin:$PATH"
 export PATH=$HOME/apache-tomcat-7.0.104/bin:$PATH
-export PATH=/snap/bin:$HOME/.local/bin:$HOME/Devlabs/bin:$PATH
 export PATH=$HOME/apache-tomcat-7.0.104/bin:$HOME/apache-tomcat-7.0.105/bin:$PATH
 
 [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
@@ -76,15 +74,7 @@ export PATH=$HOME/apache-tomcat-7.0.104/bin:$HOME/apache-tomcat-7.0.105/bin:$PAT
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 if [ -e $HOME/.profile.custom ]; then . $HOME/.profile.custom; fi # load .profile.custom
-if [ -e $HOME/.profile.prive ]; then . $HOME/.profile.prive; fi # load .profile.custom
-if [ -e $HOME/.profile.prive.ci ]; then . $HOME/.profile.prive.ci; fi # load .profile.custom
-if [ -e $HOME/.profile.prive.aws ]; then . $HOME/.profile.prive.aws; fi # load .profile.custom
 if [ -e $HOME/.profile.firebase ]; then . $HOME/.profile.firebase; fi # load .profile.custom
 if [ -e $HOME/.profile.git ]; then . $HOME/.profile.git; fi # load .profile.custom
 if [ -e $HOME/.profile.linode ]; then . $HOME/.profile.linode; fi # load .profile.custom
@@ -92,18 +82,6 @@ if [ -e $HOME/.profile.linode ]; then . $HOME/.profile.linode; fi # load .profil
 test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
 test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
-
-# add linuxbrew to the PATH
-export PATH=$PATH:$HOME/Devlabs/pkg/go/bin:$HOME/go/bin:$HOME/Devlabs/appImages
-
 # add Pulumi to the PATH
 export PATH=$PATH:$HOME/.pulumi/bin:/opt/homebrew/opt/
 
-## restore quiet mode when set -x is on
-##set +x
-
-export PATH="$PATH:$HOME/Devlabs/pkg/Flutter/flutter/bin"
-export PATH="/home/darkvoid/.local/share/solana/install/active_release/bin:$PATH"
-
-set +o noclobber
-. "$HOME/.cargo/env"
