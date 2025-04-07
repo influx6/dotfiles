@@ -12,7 +12,11 @@ echo "Sourcing shell files"
 source $Dotfiles/shell/functions
 
 # then others
-source $Dotfiles/shell/secrets/github.secret
+
+if is_ubuntu && whoami == 'darkvoid'; then
+  source $Dotfiles/shell/secrets/github.secret
+fi
+
 source $Dotfiles/shell/sops
 source $Dotfiles/shell/gitcrypt
 source $Dotfiles/shell/omakub
@@ -52,4 +56,4 @@ source $Dotfiles/shell/nvidia
 source $Dotfiles/shell/gnome-hotkeys
 
 # bash completion
-source $Dotfiles/shell/bash_completions
+# source $Dotfiles/shell/bash_completions
