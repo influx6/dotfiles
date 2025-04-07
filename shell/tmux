@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if no_command tmux; then
+   if has_command brew; then
+     brew install tmux
+   fi
+fi
+
 if [[ ! -d "$HOME/.tmux" ]]; then 
   ln -s "$Dotfiles/tmux" "$HOME/.tmux"
 fi
