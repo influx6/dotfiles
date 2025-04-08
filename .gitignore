@@ -23,6 +23,8 @@ master/configs
 **/slave3/configs
 **/master/configs
 
+tmux/sessions/resurrection/**
+
 .idea/sonar*
 .idea/sonarlint
 
