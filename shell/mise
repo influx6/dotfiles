@@ -1,14 +1,13 @@
 #!/bin/bash
 
-is_bash=`echo $0 | grep -i "bash"`
-is_zsh=$(echo $0 | grep -i "zsh")
 
-
-if [ -n is_bash ]; then
+if is_bash; then
+    echo "Mise activating bash"
     eval "$(mise activate bash)"
 fi
 
 
-if [ -n is_zsh ]; then
+if is_zsh; then
+    echo "Mise activating zsh"
     eval "$(mise activate zsh)"
 fi

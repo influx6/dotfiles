@@ -12,13 +12,40 @@ no_dir() {
   fi
 }
 
+is_shell() {
+  shell_check=$(echo "$0" | grep -i "$1")
+  if [ -n "$shell_check" ]; then 
+    return 0
+  else
+    return -1
+  fi
+}
+
+is_bash(){
+  is_shell "bash"
+}
+
+is_zsh(){
+  is_shell "zsh"
+}
+
+is_shell() {
+  system_name=`uname`
+  system_name_check=$(echo $system_name | grep -i "$1")
+  if [ -n "$system_name_check" ]; then 
+    return 0
+  else
+    return -1
+  fi
+}
+
 is_mac() {
-  return uname | grep -i "Darwin"
+  is_shell "Darwin"
 }
 
 
 is_ubuntu() {
-  return uname | grep -i "ubuntu"
+  is_shell "ubuntu"
 }
 
 no_file() {
