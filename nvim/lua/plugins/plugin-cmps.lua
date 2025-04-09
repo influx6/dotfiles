@@ -512,7 +512,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = "LazyFile",
-    ensure_installed = { "bacon-ls", "bacon" },
+    ensure_installed = { "bacon-ls", "bacon", "pyright" },
     dependencies = {
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
