@@ -15,13 +15,14 @@ else
 endif
 badd +50 nvim/lua/plugins/plugin-surround.lua
 badd +6 Makefile
-badd +31 nvim/lua/config/keymaps.lua
+badd +29 nvim/lua/config/keymaps.lua
 badd +63 shell/alias
 badd +288 nvim/lua/plugins/plugin-ai.lua
 badd +29 shell/git
+badd +131 ~/code/dotfiles/tmux/tmux.conf
 argglobal
 %argdel
-edit nvim/lua/config/keymaps.lua
+edit ~/code/dotfiles/tmux/tmux.conf
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -40,21 +41,21 @@ set winminwidth=0
 set winwidth=1
 wincmd =
 argglobal
-balt shell/git
+balt nvim/lua/config/keymaps.lua
 setlocal foldmethod=expr
-setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
+setlocal foldexpr=nvim_treesitter#foldexpr()
 setlocal foldmarker={{{,}}}
 setlocal foldignore=#
 setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 31 - ((30 * winheight(0) + 35) / 71)
+let s:l = 131 - ((39 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 31
-normal! 021|
+keepjumps 131
+normal! 0
 wincmd w
 argglobal
 if bufexists(fnamemodify("Makefile", ":p")) | buffer Makefile | else | edit Makefile | endif
@@ -70,7 +71,7 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 6 - ((5 * winheight(0) + 35) / 71)
+let s:l = 6 - ((5 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
