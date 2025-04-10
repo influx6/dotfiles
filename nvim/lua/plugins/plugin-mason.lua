@@ -145,7 +145,6 @@ return {
         "ruby-lsp",
         "rubyfmt",
         "ruff",
-        "ruff-lsp",
         "rufo",
         -- "rustywind",
         "shfmt",
