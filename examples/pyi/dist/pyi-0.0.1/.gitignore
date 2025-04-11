@@ -30,7 +30,6 @@ tmux/sessions/resurrection/**
 
 lazy-lock.json
 
-*.pyc
 
 ### Mercury template
 Mercury/

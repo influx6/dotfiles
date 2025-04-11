@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+requires-python = ">=3.11.8"
+name="pyi"
+version = "0.0.1"
+dependencies = [
+    "httpx",
+    "reqwest",
+]
+
+# e.g., pip install your-project-name[gui] to install your project with GUI support,
+[project.optional-dependencies]
+cli = ["click"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["env/**"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyim"]
+sources = ["src"]

@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: pyi
+Version: 0.0.1
+Requires-Python: >=3.11.8
+Requires-Dist: httpx
+Requires-Dist: reqwest
+Provides-Extra: cli
+Requires-Dist: click; extra == 'cli'
