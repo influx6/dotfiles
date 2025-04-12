@@ -1,0 +1,84 @@
+# This is the configuration file for Ghostty.
+#
+# This template file has been automatically created at the following
+# path since Ghostty couldnt find any existing config files on your system:
+#
+#   /home/darkvoid/.config/ghostty/config
+#
+# The template does not set any default options, since Ghostty ships
+# with sensible defaults for all options. Users should only need to set
+# options that they want to change from the default.
+#
+# Run `ghostty +show-config --default --docs` to view a list of
+# all available config options and their default values.
+#
+# Additionally, each config option is also explained in detail
+# on Ghosttys website, at https://ghostty.org/docs/config.
+
+# Config syntax crash course
+# ==========================
+# # The config file consists of simple key-value pairs,
+# # separated by equals signs.
+# font-family = Iosevka
+# window-padding-x = 2
+#
+# # Spacing around the equals sign does not matter.
+# # All of these are identical:
+# key=value
+# key= value
+# key =value
+# key = value
+#
+# # Any line beginning with a # is a comment. Its not possible to put
+# # a comment after a config option, since it would be interpreted as a
+# # part of the value. For example, this will have a value of "#123abc":
+# background = #123abc
+#
+# # Empty values are used to reset config keys to default.
+# key =
+#
+# # Some config options have unique syntaxes for their value,
+# # which is explained in the docs for that config option.
+# # Just for example:
+# resize-overlay-duration = 4s 200ms
+
+font-family = "CaskaydiaMono Nerd Font"
+
+background = #1a1b26
+foreground = #a9b1d6
+
+# palette = 0=#32344a
+# palette = 9=#f7768e
+# palette = 2=#9ece6a
+# palette = 11=#e0af68
+# palette = 12=#7aa2f7
+# palette = 201=#ad8ee6
+# palette = 51=#449dab
+# palette = 15=#787c99
+# selection-background = #7aa2f7
+
+# theme = ayu mirage
+# See more themse via ghosty +list-themes
+# theme = Whimsy
+theme = catppuccin-mocha
+
+
+# window-decoration = none
+window-padding-x = 5
+window-padding-y = 5
+macos-window-shadow = false
+background-opacity = 0.95
+background-blur = 20
+
+# key bindings
+# keybind = all:ctrl+c=copy_to_clipboard
+keybind = global:cmd+home=toggle_quick_terminal
+keybind = performable:ctrl+c=copy_to_clipboard
+keybind = performable:ctrl+v=paste_from_clipboard
+keybind = shift+right=adjust_selection:right
+keybind = shift+left=adjust_selection:left
+keybind = shift+up=adjust_selection:up
+keybind = shift+down=adjust_selection:down
+keybind = ctrl+shift+c=text:\x03
+keybind = ctrl+l=clear_screen
+keybind = ctrl+r=reset

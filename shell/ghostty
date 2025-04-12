@@ -1,0 +1,17 @@
+#!/bin/bash
+
+target_ghostty_directory="${HOME}/.config/ghostty"
+
+username=`whoami`
+user_ghostty_directory="$Dotfiles/ghostty/${username}"
+base_ghostty_directory="$Dotfiles/ghostty"
+
+if [[ ! -d "$target_ghostty_directory" ]]; then 
+        if [[ -d "$user_ghostty_directory" ]]; then 
+            ln -s $user_ghostty_directory $target_ghostty_directory 
+        else
+            ln -s $base_ghostty_directory $target_ghostty_directory 
+        fi
+    else
+        echo "Ghostty configuration already linked"
+fi

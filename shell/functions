@@ -57,16 +57,17 @@ no_file() {
 }
 
 has_command() {
-  if command -v "$1" 2>&1 >/dev/null; then
+  if command -v "$1" 2>&1 > /dev/null; then
     return 0
   else
-    return -1
+    echo "Command $1 not found"
+    return 1
   fi
 }
 
 no_command() {
   if command -v "$1" 2>&1 >/dev/null; then
-    return -1
+    return 1
   else
     return 0
   fi

@@ -23,6 +23,12 @@ if [ -d "$secret_dir" ]; then
 	done
 fi
 
+# must always be the first which means you 
+# don't use the path within the shell/functions 
+# as they need to be first to prepare 
+# custom functions we want to use.
+source $Dotfiles/shell/paths
+
 source $Dotfiles/shell/sops
 source $Dotfiles/shell/gitcrypt
 source $Dotfiles/shell/omakub
@@ -30,14 +36,12 @@ source $Dotfiles/shell/neovim
 source $Dotfiles/shell/dotnet
 source $Dotfiles/shell/exits
 source $Dotfiles/shell/ca
-source $Dotfiles/shell/paths
 source $Dotfiles/shell/direnv
 source $Dotfiles/shell/brew
 source $Dotfiles/shell/alias
 source $Dotfiles/shell/mise
 source $Dotfiles/shell/tmux
 source $Dotfiles/shell/cargo
-# source $Dotfiles/shell/pyenv
 source $Dotfiles/shell/deno
 source $Dotfiles/shell/ssh
 source $Dotfiles/shell/sha
@@ -55,7 +59,6 @@ source $Dotfiles/shell/ssh-agent
 source $Dotfiles/shell/ansible
 source $Dotfiles/shell/nodejs
 source $Dotfiles/shell/rust
-# source $Dotfiles/shell/rbenv
 source $Dotfiles/shell/wasm
 source $Dotfiles/shell/youtube
 source $Dotfiles/shell/nvidia
