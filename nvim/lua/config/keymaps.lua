@@ -17,7 +17,9 @@ map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 -- custom redo
 map("n", "U", "<cmd>redo<cr>", { desc = "Redo" })
 
-
+-- custom redo
+map("n", "<leader>[", "<cmd>foldclose<cr>", { desc = "call foldclose command on location" })
+map("n", "<leader>]", "<cmd>foldopen<cr>", { desc = "call foldopen command on location" })
 
 map("n", "<c-/>", function()
   Snacks.terminal(nil)
@@ -117,7 +119,6 @@ end, { desc = "Inspect Tree" })
 map("n", "<leader>L", function()
   LazyVim.news.changelog()
 end, { desc = "LazyVim Changelog" })
-
 
 Snacks.toggle.zoom():map("<leader>wm"):map("<leader>uZ")
 Snacks.toggle.zen():map("<leader>uz")
