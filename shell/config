@@ -13,33 +13,32 @@ source $Dotfiles/shell/functions
 
 # then others
 
-username=`whoami`
+username=$(whoami)
 secret_dir="$Dotfiles/shell/secrets/${username}"
 if [ -d "$secret_dir" ]; then
-	for dir_file in $secret_dir/*    
-	do
-	    echo "sourcing $dir_file" 
-	    source  "${dir_file}"   
-	done
+  for dir_file in $secret_dir/*; do
+    echo "sourcing $dir_file"
+    source "${dir_file}"
+  done
 fi
 
-# must always be the first which means you 
-# don't use the path within the shell/functions 
-# as they need to be first to prepare 
+# must always be the first which means you
+# don't use the path within the shell/functions
+# as they need to be first to prepare
 # custom functions we want to use.
 source $Dotfiles/shell/paths
 
-source $Dotfiles/shell/sops
 source $Dotfiles/shell/gitcrypt
-source $Dotfiles/shell/omakub
-source $Dotfiles/shell/neovim
-source $Dotfiles/shell/dotnet
-source $Dotfiles/shell/exits
-source $Dotfiles/shell/ca
 source $Dotfiles/shell/direnv
 source $Dotfiles/shell/brew
 source $Dotfiles/shell/alias
 source $Dotfiles/shell/mise
+source $Dotfiles/shell/omakub
+source $Dotfiles/shell/neovim
+source $Dotfiles/shell/dotnet
+source $Dotfiles/shell/sops
+source $Dotfiles/shell/exits
+source $Dotfiles/shell/ca
 source $Dotfiles/shell/tmux
 source $Dotfiles/shell/cargo
 source $Dotfiles/shell/deno
