@@ -28,11 +28,11 @@ fi
 # custom functions we want to use.
 source $Dotfiles/shell/paths
 
+source $Dotfiles/shell/brew
+source $Dotfiles/shell/mise
 source $Dotfiles/shell/gitcrypt
 source $Dotfiles/shell/direnv
-source $Dotfiles/shell/brew
 source $Dotfiles/shell/alias
-source $Dotfiles/shell/mise
 source $Dotfiles/shell/omakub
 source $Dotfiles/shell/neovim
 source $Dotfiles/shell/dotnet
