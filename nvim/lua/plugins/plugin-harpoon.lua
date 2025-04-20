@@ -29,14 +29,14 @@ return {
 
       vim.keymap.set("n", "<leader>a", function()
         toggle_telescope(harpoon:list())
-      end, { desc = "Open harpoon window" })
+      end, { desc = "Harpoon: Open harpoon window" })
 
       vim.keymap.set("n", "<leader>aa", function()
         harpoon:list():add()
-      end, { desc = "Mark file and add into Harpoon list" })
+      end, { desc = "Harpoon: Mark file and add into Harpoon list" })
       vim.keymap.set("n", "<leader>az", function()
         harpoon.ui:toggle_quick_menu(harpoon:list())
-      end, { desc = "toggle harpoon menu" })
+      end, { desc = "Harpoon: toggle harpoon menu" })
 
       vim.keymap.set("n", "<leader>a1", function()
         harpoon:list():select(1)
