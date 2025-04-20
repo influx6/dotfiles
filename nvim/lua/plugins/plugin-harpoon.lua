@@ -31,7 +31,7 @@ return {
         toggle_telescope(harpoon:list())
       end, { desc = "Harpoon: Open harpoon window" })
 
-      vim.keymap.set("n", "<leader>aa", function()
+      vim.keymap.set("n", "<leader>a.", function()
         harpoon:list():add()
       end, { desc = "Harpoon: Mark file and add into Harpoon list" })
       vim.keymap.set("n", "<leader>az", function()
