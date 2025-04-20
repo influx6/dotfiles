@@ -7,7 +7,8 @@ if [[ -d "$HOME/.config/nvim" ]]; then
   echo "nvim is already linked"
 else
   # link directory correctly.
-  ln -s "$Dotfiles/shell/nvim" "$HOME/.config/nvim"
+  echo "Linking nvim"
+  ln -s "$Dotfiles/nvim" "$HOME/.config/nvim"
 fi
 
 tvim() {
