@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if no_command "direnv"; then
+  if has_command "direnv"; then
+    brew install direnv
+  fi
+fi
+
 if has_command "direnv"; then
   eval "$(direnv hook bash)"
 fi
