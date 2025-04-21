@@ -18,8 +18,12 @@ map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 map("n", "U", "<cmd>redo<cr>", { desc = "Redo" })
 
 -- custom redo
-map("n", "<leader>[", "<cmd>foldclose<cr>", { desc = "call foldclose command on location" })
-map("n", "<leader>]", "<cmd>foldopen<cr>", { desc = "call foldopen command on location" })
+map("n", "<leader>[", "<cmd>foldclose<cr>", { desc = "Close fold" })
+map("n", "<leader>]", "<cmd>foldopen<cr>", { desc = "Open fold" })
+
+-- Go back to previous
+map("n", "<leader>9", "<C-O>", { desc = "Jumplist: go back", remap = true })
+map("n", "<leader>0", "<C-I>", { desc = "Jumplist: go back", remap = true })
 
 map("n", "<c-/>", function()
   Snacks.terminal(nil)
