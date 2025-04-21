@@ -228,8 +228,7 @@ return {
                 -- The default will enable this when `git` is found and `cwd` is in a git repository
                 -- enable = function() end
                 -- You may want to change the triggers
-                -- triggers = { ':' },
-                --
+                triggers = { "%" },
               },
 
               git_centers = {
