@@ -25,6 +25,7 @@ map("n", "<leader>]", "<cmd>foldopen<cr>", { desc = "Open fold" })
 map("n", "<leader>9", "<C-O>", { desc = "Jumplist: go back", remap = true })
 map("n", "<leader>0", "<C-I>", { desc = "Jumplist: go back", remap = true })
 
+-- Termainals
 map("n", "<c-/>", function()
   Snacks.terminal(nil)
 end, { desc = "Terminal (Root Dir)" })
