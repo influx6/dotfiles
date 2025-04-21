@@ -132,7 +132,6 @@ return {
           "ripgrep",
           "avante", -- only after I enable avante
           "minuet",
-          "git",
           "conventional_commits",
           "omni",
           "emoji",
@@ -140,6 +139,7 @@ return {
           "nerdfont",
           "digraphs",
           "references",
+          "git",
         },
         per_filetype = {
           sql = { "snippets", "dadbod", "buffer" },
