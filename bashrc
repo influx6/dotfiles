@@ -164,3 +164,8 @@ export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 
 source $DOTFILES/shell/config
+
+. "$HOME/.atuin/bin/env"
+
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"

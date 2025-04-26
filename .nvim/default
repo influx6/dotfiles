@@ -15,12 +15,13 @@ else
 endif
 badd +50 nvim/lua/plugins/plugin-surround.lua
 badd +6 Makefile
-badd +29 nvim/lua/config/keymaps.lua
+badd +186 nvim/lua/config/keymaps.lua
 badd +63 shell/alias
 badd +288 nvim/lua/plugins/plugin-ai.lua
 badd +29 shell/git
 badd +1 ~/code/dotfiles/tmux/tmux.conf
 badd +16 ~/Labs/ewestudios/dotfiles/examples/pyi/pyproject.toml
+badd +413 nvim/lua/plugins/plugin-snacks.lua
 argglobal
 %argdel
 edit nvim/lua/config/keymaps.lua
@@ -51,33 +52,43 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 29 - ((28 * winheight(0) + 35) / 71)
+let s:l = 186 - ((53 * winheight(0) + 34) / 69)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 29
+keepjumps 186
 normal! 0
 wincmd w
 argglobal
-if bufexists(fnamemodify("Makefile", ":p")) | buffer Makefile | else | edit Makefile | endif
+if bufexists(fnamemodify("nvim/lua/plugins/plugin-snacks.lua", ":p")) | buffer nvim/lua/plugins/plugin-snacks.lua | else | edit nvim/lua/plugins/plugin-snacks.lua | endif
 if &buftype ==# 'terminal'
-  silent file Makefile
+  silent file nvim/lua/plugins/plugin-snacks.lua
 endif
-balt nvim/lua/plugins/plugin-surround.lua
+balt Makefile
 setlocal foldmethod=expr
-setlocal foldexpr=nvim_treesitter#foldexpr()
+setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
 setlocal foldignore=#
 setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 6 - ((5 * winheight(0) + 35) / 71)
+9
+normal! zo
+11
+normal! zo
+13
+normal! zo
+405
+normal! zo
+412
+normal! zo
+let s:l = 413 - ((32 * winheight(0) + 34) / 69)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 6
-normal! 0
+keepjumps 413
+normal! 018|
 wincmd w
 wincmd =
 tabnext 1
