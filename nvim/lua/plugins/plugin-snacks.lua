@@ -17,6 +17,23 @@ return {
       LazyVim.format.snacks_toggle():map("<leader>uf")
       LazyVim.format.snacks_toggle(true):map("<leader>uF")
 
+      -- Terminals
+      map("n", "<c-/>", function()
+        Snacks.terminal(nil)
+      end, { desc = "Terminal (Root Dir)" })
+
+      map("n", "<leader>ft", function()
+        Snacks.terminal(nil, { cwd = LazyVim.root() })
+      end, { desc = "Terminal (Root Dir)" })
+
+      map("n", "<leader>fT", function()
+        Snacks.terminal(nil)
+      end, { desc = "Terminal (Root Dir)" })
+
+      map("n", "<c-_>", function()
+        Snacks.terminal(nil, { cwd = LazyVim.root() })
+      end, { desc = "which_key_ignore" })
+
       Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
       Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
       Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")

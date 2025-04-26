@@ -31,23 +31,6 @@ map("n", "<leader>]", "<cmd>foldopen<cr>", { desc = "Open fold" })
 map("n", "<leader>9", "<C-O>", { desc = "Jumplist: go back", remap = true })
 map("n", "<leader>0", "<C-I>", { desc = "Jumplist: go back", remap = true })
 
--- Termainals
-map("n", "<c-/>", function()
-  Snacks.terminal(nil)
-end, { desc = "Terminal (Root Dir)" })
-
-map("n", "<leader>ft", function()
-  Snacks.terminal(nil, { cwd = LazyVim.root() })
-end, { desc = "Terminal (Root Dir)" })
-
-map("n", "<leader>fT", function()
-  Snacks.terminal(nil)
-end, { desc = "Terminal (Root Dir)" })
-
-map("n", "<c-_>", function()
-  Snacks.terminal(nil, { cwd = LazyVim.root() })
-end, { desc = "which_key_ignore" })
-
 -- Terminal Mappings
 map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
@@ -117,7 +100,7 @@ map("n", "<TAB>l", "<C-w>l", { desc = "Go to Right Window", remap = true })
 map("n", "<C-h>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
 map("n", "<C-j>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
 map("n", "<C-h>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
-map("n", "<C-l>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
+map("n", "<C-l>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width", remap = true })
 
 -- commenting
 map("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
