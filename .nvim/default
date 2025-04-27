@@ -13,27 +13,20 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +50 nvim/lua/plugins/plugin-surround.lua
-badd +6 Makefile
-badd +63 nvim/lua/config/keymaps.lua
-badd +63 shell/alias
-badd +288 nvim/lua/plugins/plugin-ai.lua
-badd +29 shell/git
-badd +1 ~/code/dotfiles/tmux/tmux.conf
-badd +16 ~/Labs/ewestudios/dotfiles/examples/pyi/pyproject.toml
-badd +563 nvim/lua/plugins/plugin-snacks.lua
-badd +45 ~/Labs/ewestudios/dotfiles/nvim/lua/config/autocmds.lua
-badd +25 nvim/lua/config/options.lua
-badd +2 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-scratch.lua
+badd +1 ~/Labs/ewestudios/dotfiles/nvim/lua/config/autocmds.lua
+badd +36 ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
 argglobal
 %argdel
-edit nvim/lua/config/keymaps.lua
+edit ~/Labs/ewestudios/dotfiles/nvim/lua/config/autocmds.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
-1wincmd h
+wincmd _ | wincmd |
+vsplit
+2wincmd h
+wincmd w
 wincmd w
 let &splitbelow = s:save_splitbelow
 let &splitright = s:save_splitright
@@ -44,56 +37,73 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-wincmd =
+exe 'vert 1resize ' . ((&columns * 92 + 139) / 279)
+exe 'vert 2resize ' . ((&columns * 92 + 139) / 279)
+exe 'vert 3resize ' . ((&columns * 93 + 139) / 279)
 argglobal
+setlocal foldmethod=expr
+setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
+setlocal foldmarker={{{,}}}
+setlocal foldignore=#
+setlocal foldlevel=99
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldenable
+51
+normal! zo
+let s:l = 56 - ((55 * winheight(0) + 34) / 68)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 56
+normal! 06|
+wincmd w
+argglobal
+if bufexists(fnamemodify("~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua", ":p")) | buffer ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua | else | edit ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua | endif
+if &buftype ==# 'terminal'
+  silent file ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
+endif
 balt ~/Labs/ewestudios/dotfiles/nvim/lua/config/autocmds.lua
 setlocal foldmethod=expr
-setlocal foldexpr=nvim_treesitter#foldexpr()
+setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
 setlocal foldignore=#
 setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 63 - ((29 * winheight(0) + 34) / 68)
+let s:l = 36 - ((27 * winheight(0) + 34) / 68)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 63
-normal! 0
+keepjumps 36
+normal! 06|
 wincmd w
 argglobal
-if bufexists(fnamemodify("nvim/lua/plugins/plugin-snacks.lua", ":p")) | buffer nvim/lua/plugins/plugin-snacks.lua | else | edit nvim/lua/plugins/plugin-snacks.lua | endif
+if bufexists(fnamemodify("~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua", ":p")) | buffer ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua | else | edit ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua | endif
 if &buftype ==# 'terminal'
-  silent file nvim/lua/plugins/plugin-snacks.lua
+  silent file ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
 endif
-balt nvim/lua/config/options.lua
+balt ~/Labs/ewestudios/dotfiles/nvim/lua/config/autocmds.lua
 setlocal foldmethod=expr
-setlocal foldexpr=nvim_treesitter#foldexpr()
+setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
 setlocal foldignore=#
 setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-9
-normal! zo
-11
-normal! zo
-97
-normal! zo
-99
-normal! zo
-560
-normal! zo
-let s:l = 563 - ((33 * winheight(0) + 34) / 68)
+let s:l = 36 - ((27 * winheight(0) + 34) / 68)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 563
-normal! 018|
+keepjumps 36
+normal! 06|
 wincmd w
-wincmd =
+3wincmd w
+exe 'vert 1resize ' . ((&columns * 92 + 139) / 279)
+exe 'vert 2resize ' . ((&columns * 92 + 139) / 279)
+exe 'vert 3resize ' . ((&columns * 93 + 139) / 279)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

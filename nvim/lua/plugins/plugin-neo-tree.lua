@@ -197,6 +197,7 @@ return {
     -- ot = ...type:        Sort by type.
     --
     "nvim-neo-tree/neo-tree.nvim",
+    enabled = vim.g.file_manager == "neotree", -- use oil.nvim going forward
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",

@@ -47,3 +47,11 @@ autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
 --     au TermOpen * if &buftype ==# 'terminal' | resize 20 | vert resize 50 | endif
 -- augroup end
 -- ]])
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = vim.api.nvim_create_augroup("custom-term-open", { clear = true }),
+  callback = function()
+    vim.opt.number = true
+    vim.opt.relativenumber = true
+  end,
+})

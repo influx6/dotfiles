@@ -28,6 +28,9 @@ vim.opt.autoindent = true
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 
+-- Swap to neotree if you want to use neotree instead.
+vim.g.file_manager = "oil.nvim"
+
 --Set completeopt to have a better completion experience
 -- :help completeopt
 -- menuone: popup even when there's only one match

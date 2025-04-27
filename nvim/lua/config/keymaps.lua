@@ -31,9 +31,26 @@ map("n", "<leader>]", "<cmd>foldopen<cr>", { desc = "Open fold" })
 map("n", "<leader>9", "<C-O>", { desc = "Jumplist: go back", remap = true })
 map("n", "<leader>0", "<C-I>", { desc = "Jumplist: go back", remap = true })
 
+-- Custom saving using .nvim/default
+map(
+  "n",
+  "<TAB>s",
+  "<cmd>mksession! .nvim/default<cr>",
+  { desc = "Save your current session to .nvim/default", remap = true }
+)
+
 -- Terminal Mappings
-map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+map("n", "<TAB>t", "<cmd>terminal<cr>", { desc = "Terminal within current buffer", remap = true })
+map("t", "<esc>", "<C-\\><C-N>", { desc = "Remap <ESC> key to enter normal mode in terminal", remap = true })
+map("t", "<C-/>", "<cmd>close<cr>", { desc = "Toggle Bottom Floating Terminal" })
 map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
+
+map("n", "<leader><TAB>t", function()
+  vim.cmd.vnew()
+  vim.cmd.term()
+  vim.cmd.wincmd("J")
+  vim.api.nvim_win_set_height(0, 15)
+end, { desc = "Small terminal at the bottom" })
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
@@ -60,7 +77,6 @@ map("n", "<TAB>v", "<C-v>", { desc = "Visual block mode with TAB+v", remap = tru
 map("n", "<TAB>bd", "<cmd>bdelete<cr>", { desc = "Delete the current buffer with a ask", remap = true })
 
 -- buffers
-map("n", "<TAB>t", "<cmd>terminal<cr>", { desc = "Create terminal in buffer", remap = true })
 map("n", "<Tab>Left", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "<Tab>Right", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
