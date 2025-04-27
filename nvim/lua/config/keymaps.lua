@@ -42,7 +42,7 @@ map(
 -- Terminal Mappings
 map("n", "<TAB>t", "<cmd>terminal<cr>", { desc = "Terminal within current buffer", remap = true })
 map("t", "<esc>", "<C-\\><C-N>", { desc = "Remap <ESC> key to enter normal mode in terminal", remap = true })
-map("t", "<C-/>", "<cmd>close<cr>", { desc = "Toggle Bottom Floating Terminal" })
+map("t", "<C-/>", "<cmd>close<cr>", { desc = "Close Bottom Floating Terminal" })
 map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
 map("n", "<leader><TAB>t", function()
