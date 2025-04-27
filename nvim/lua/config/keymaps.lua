@@ -45,12 +45,6 @@ map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = tru
 -- map("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
 -- map("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
 
--- Use <TAB>v to replicate visual block column mode previouly <C-v>
--- to edit before ensure to use SHIFT+I as "i" will not work then press ESCAPE to apply to block
--- to edit after ensure to use SHIFT+A as "a" will not work then press ESCAPE to apply to block
-map("n", "<TAB>v", "<C-v>", { desc = "Visual block mode with TAB+v", remap = true })
-map("n", "<TAB>bd", "<cmd>bdelete<cr>", { desc = "Delete the current buffer with a ask", remap = true })
-
 -- Move Lines
 map("n", "<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
 map("n", "<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move Up" })
@@ -59,7 +53,14 @@ map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
 map("v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move Down" })
 map("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Up" })
 
+-- Use <TAB>v to replicate visual block column mode previouly <C-v>
+-- to edit before ensure to use SHIFT+I as "i" will not work then press ESCAPE to apply to block
+-- to edit after ensure to use SHIFT+A as "a" will not work then press ESCAPE to apply to block
+map("n", "<TAB>v", "<C-v>", { desc = "Visual block mode with TAB+v", remap = true })
+map("n", "<TAB>bd", "<cmd>bdelete<cr>", { desc = "Delete the current buffer with a ask", remap = true })
+
 -- buffers
+map("n", "<TAB>t", "<cmd>terminal<cr>", { desc = "Create terminal in buffer", remap = true })
 map("n", "<Tab>Left", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "<Tab>Right", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
