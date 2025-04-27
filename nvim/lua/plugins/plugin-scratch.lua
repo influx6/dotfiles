@@ -1,5 +1,6 @@
 return {
-  {
-    "cenk1cenk2/scratch.nvim",
-  },
+  -- disabled for now
+  -- {
+  --   "cenk1cenk2/scratch.nvim",
+  -- },
 }

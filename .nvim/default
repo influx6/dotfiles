@@ -15,16 +15,18 @@ else
 endif
 badd +50 nvim/lua/plugins/plugin-surround.lua
 badd +6 Makefile
-badd +186 nvim/lua/config/keymaps.lua
+badd +187 nvim/lua/config/keymaps.lua
 badd +63 shell/alias
 badd +288 nvim/lua/plugins/plugin-ai.lua
 badd +29 shell/git
 badd +1 ~/code/dotfiles/tmux/tmux.conf
 badd +16 ~/Labs/ewestudios/dotfiles/examples/pyi/pyproject.toml
 badd +413 nvim/lua/plugins/plugin-snacks.lua
+badd +45 ~/Labs/ewestudios/dotfiles/nvim/lua/config/autocmds.lua
+badd +25 nvim/lua/config/options.lua
 argglobal
 %argdel
-edit nvim/lua/config/keymaps.lua
+edit ~/Labs/ewestudios/dotfiles/nvim/lua/config/autocmds.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -43,28 +45,7 @@ set winminwidth=0
 set winwidth=1
 wincmd =
 argglobal
-balt ~/Labs/ewestudios/dotfiles/examples/pyi/pyproject.toml
-setlocal foldmethod=expr
-setlocal foldexpr=nvim_treesitter#foldexpr()
-setlocal foldmarker={{{,}}}
-setlocal foldignore=#
-setlocal foldlevel=99
-setlocal foldminlines=1
-setlocal foldnestmax=20
-setlocal foldenable
-let s:l = 186 - ((53 * winheight(0) + 34) / 69)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 186
-normal! 0
-wincmd w
-argglobal
-if bufexists(fnamemodify("nvim/lua/plugins/plugin-snacks.lua", ":p")) | buffer nvim/lua/plugins/plugin-snacks.lua | else | edit nvim/lua/plugins/plugin-snacks.lua | endif
-if &buftype ==# 'terminal'
-  silent file nvim/lua/plugins/plugin-snacks.lua
-endif
-balt Makefile
+balt nvim/lua/config/keymaps.lua
 setlocal foldmethod=expr
 setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
@@ -73,23 +54,35 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-9
-normal! zo
-11
-normal! zo
-13
-normal! zo
-405
-normal! zo
-412
-normal! zo
-let s:l = 413 - ((32 * winheight(0) + 34) / 69)
+let s:l = 45 - ((44 * winheight(0) + 34) / 68)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 413
-normal! 018|
+keepjumps 45
+normal! 0
 wincmd w
+argglobal
+if bufexists(fnamemodify("nvim/lua/config/options.lua", ":p")) | buffer nvim/lua/config/options.lua | else | edit nvim/lua/config/options.lua | endif
+if &buftype ==# 'terminal'
+  silent file nvim/lua/config/options.lua
+endif
+balt nvim/lua/plugins/plugin-snacks.lua
+setlocal foldmethod=expr
+setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
+setlocal foldmarker={{{,}}}
+setlocal foldignore=#
+setlocal foldlevel=99
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldenable
+let s:l = 25 - ((24 * winheight(0) + 34) / 68)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 25
+normal! 023|
+wincmd w
+2wincmd w
 wincmd =
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'

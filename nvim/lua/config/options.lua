@@ -22,6 +22,8 @@ vim.opt.smarttab = true
 vim.opt.smartindent = true
 vim.opt.autoindent = true
 
+-- vim.opt.cmdheight = 1
+
 -- Treesitter folding
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
