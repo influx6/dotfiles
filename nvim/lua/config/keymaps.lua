@@ -42,6 +42,24 @@ map(
 -- Terminal Mappings
 map("n", "<TAB>t", "<cmd>terminal<cr>", { desc = "Terminal within current buffer", remap = true })
 map("t", "<esc>", "<C-\\><C-N>", { desc = "Remap <ESC> key to enter normal mode in terminal", remap = true })
+
+-- Snack Terminal Mappings - owning here
+map("n", "<c-/>", function()
+  Snacks.terminal(nil, { cwd = LazyVim.root() })
+end, { desc = "Terminal (Root Dir)" })
+map("n", "<c-?>", function()
+  Snacks.terminal(nil)
+end, { desc = "which_key_ignore" })
+
+-- Snack Terminal Mappings - alternative keys
+map("n", "<leader>fT", function()
+  Snacks.terminal(nil)
+end, { desc = "Terminal (cwd)" })
+map("n", "<leader>ft", function()
+  Snacks.terminal(nil, { cwd = LazyVim.root() })
+end, { desc = "Terminal (Root Dir)" })
+
+-- Snack terminal closing support
 map("t", "<C-/>", "<cmd>close<cr>", { desc = "Close Bottom Floating Terminal" })
 map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
