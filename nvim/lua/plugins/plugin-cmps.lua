@@ -130,9 +130,8 @@ return {
           "snippets",
           "buffer",
           "ripgrep",
-          "avante", -- only after I enable avante
           "minuet",
-          "conventional_commits",
+          "avante", -- only after I enable avante
           "omni",
           "emoji",
           "css_vars",
@@ -140,6 +139,7 @@ return {
           "digraphs",
           "references",
           "git",
+          "conventional_commits",
         },
         per_filetype = {
           sql = { "snippets", "dadbod", "buffer" },
@@ -171,7 +171,7 @@ return {
             module = "blink.compat.source",
 
             -- all blink.cmp source config options work as normal:
-            score_offset = -3,
+            score_offset = 15,
 
             -- this table is passed directly to the proxied completion source
             -- as the `option` field in nvim-cmp's source config
@@ -190,12 +190,15 @@ return {
           references = {
             name = "pandoc_references",
             module = "cmp-pandoc-references.blink",
+            score_offset = 50,
           },
           dadbod = {
             name = "Dadbod", -- provides sql and db command completion.
             module = "vim_dadbod_completion.blink",
+            score_offset = 30,
           },
           avante = {
+            score_offset = 20,
             module = "blink-cmp-avante",
             name = "Avante",
             opts = {
@@ -205,7 +208,7 @@ return {
           minuet = {
             name = "minuet",
             module = "minuet.blink",
-            score_offset = 200, -- Gives minuet higher priority among suggestions
+            score_offset = 10, -- Gives minuet higher priority among suggestions
           },
           conventional_commits = {
             name = "Conventional Commits",
@@ -220,7 +223,7 @@ return {
           git = {
             module = "blink-cmp-git",
             name = "Git",
-            score_offset = 50,
+            score_offset = 1000,
             opts = {
               -- options for the blink-cmp-git
               commit = {
@@ -282,6 +285,7 @@ return {
             },
           },
           dictionary = {
+            score_offset = 100,
             module = "blink-cmp-dictionary",
             name = "Dict",
             -- Make sure this is at least 2.
@@ -293,6 +297,7 @@ return {
           },
           env = {
             name = "Env",
+            score_offset = 50,
             module = "blink-cmp-env",
             opts = {
               item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
@@ -303,6 +308,7 @@ return {
           css_vars = {
             name = "css-vars",
             module = "css-vars.blink",
+            score_offset = 50,
             opts = {
               -- NOTE: The search is not optimized to look for variables in JS files.
               -- If you change the search_extensions you might get false positives and weird completion results.
@@ -312,7 +318,7 @@ return {
           nerdfont = {
             module = "blink-nerdfont",
             name = "Nerd Fonts",
-            score_offset = 15, -- Tune by preference
+            score_offset = 60, -- Tune by preference
             opts = { insert = true }, -- Insert nerdfont icon (default) or complete its name
           },
           emoji = {
@@ -332,6 +338,7 @@ return {
           spell = {
             name = "Spell",
             module = "blink-cmp-spell",
+            score_offset = 120,
             opts = {
               -- EXAMPLE: Only enable source in `@spell` captures, and disable it
               -- in `@nospell` captures.
@@ -529,7 +536,7 @@ return {
         ---@type vim.diagnostic.Opts
         diagnostics = {
           underline = true,
-          update_in_insert = false,
+          update_in_insert = true,
           virtual_text = {
             spacing = 4,
             source = "if_many",
@@ -559,7 +566,7 @@ return {
         -- Be aware that you also will need to properly configure your LSP server to
         -- provide the code lenses.
         codelens = {
-          enabled = false,
+          enabled = true,
         },
         -- add any global capabilities here
         capabilities = {
@@ -644,7 +651,7 @@ return {
                 -- Command line arguments to pass to bacon running in background (default "--headless -j bacon-ls")
                 runBaconInBackgroundCommandArguments = "--headless -j bacon-ls",
                 -- How many milliseconds to wait between background diagnostics check to synchronize all open files (default: 2000).
-                synchronizeAllOpenFilesWaitMillis = 1500,
+                synchronizeAllOpenFilesWaitMillis = 1300,
               },
             })
 

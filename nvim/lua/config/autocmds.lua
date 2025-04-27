@@ -42,8 +42,8 @@ autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
 
 -- Allows you to resize the terminal so that it
 -- its more usable and accessible for us.
-vim.cmd([[
-augroup myterm | au!
-    au TermOpen * if &buftype ==# 'terminal' | resize 20 | vert resize 50 | endif
-augroup end
-]])
+-- vim.cmd([[
+-- augroup myterm | au!
+--     au TermOpen * if &buftype ==# 'terminal' | resize 20 | vert resize 50 | endif
+-- augroup end
+-- ]])
