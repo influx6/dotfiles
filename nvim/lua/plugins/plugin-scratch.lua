@@ -1,6 +1,6 @@
 return {
-  -- disabled for now
-  -- {
-  --   "cenk1cenk2/scratch.nvim",
-  -- },
+  {
+    "cenk1cenk2/scratch.nvim",
+    enabled = false,
+  },
 }
