@@ -41,7 +41,7 @@ map(
 
 -- Terminal Mappings
 map("n", "<TAB>t", "<cmd>terminal<cr>", { desc = "Terminal within current buffer", remap = true })
-map("t", "<esc><esc>", "<C-\\><C-N>", { desc = "Remap <ESC> key to enter normal mode in terminal", remap = true })
+map("t", "<esc>", "<C-\\><C-N>", { desc = "Remap <ESC> key to enter normal mode in terminal", remap = true })
 
 -- Snack Terminal Mappings - owning here
 map("n", "<c-/>", function()
