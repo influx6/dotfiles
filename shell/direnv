@@ -7,10 +7,10 @@ if no_command "direnv"; then
 fi
 
 if has_command "direnv"; then
-  if [[ "$SHELL" = "/bin/bash"]]; then 
+  if [[ "$SHELL" = "/bin/bash" ]]; then 
     eval "$(direnv hook bash)"
   fi
-  if [[ "$SHELL" = "/bin/zsh"]]; then 
+  if [[ "$SHELL" = "/bin/zsh" ]]; then 
     eval "$(direnv hook zsh)"
   fi
 fi
