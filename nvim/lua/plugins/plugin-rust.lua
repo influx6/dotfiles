@@ -158,7 +158,7 @@ return {
     version = vim.fn.has("nvim-0.10.0") == 0 and "^4" or false,
     -- root = { "Cargo.toml", "rust-project.json" },
     ft = { "rust" },
-    ensure_installed = { "bacon-ls", "bacon" },
+    ensure_installed = { "bacon-ls", "bacon", "codelldb" },
     opts = {
       tools = {
         float_win_config = { auto_focus = true },
@@ -189,9 +189,29 @@ return {
             vim.cmd.RustLsp("expandMacro")
           end, { desc = "Rust: expandMacro", buffer = bufnr })
 
+          vim.keymap.set("n", "<leader>cxe", function()
+            vim.cmd.RustLsp({ "explainError", "cycle" })
+          end, { desc = "Rust: explainError(cycle)", buffer = bufnr })
+
+          vim.keymap.set("n", "<leader>cxt", function()
+            vim.cmd.RustLsp({ "renderDiagnostic", "cycle" })
+          end, { desc = "Rust: renderDiagnostic", buffer = bufnr })
+
           vim.keymap.set("n", "<leader>cxr", function()
             vim.cmd.RustLsp("rebuildProcMacros")
           end, { desc = "Rust: rebuildProcMacros", buffer = bufnr })
+
+          vim.keymap.set("n", "<leader>cxc", function()
+            vim.cmd.RustLsp("openCargo")
+          end, { desc = "Rust: openCargo", buffer = bufnr })
+
+          vim.keymap.set("n", "<leader>cxb", function()
+            vim.cmd.RustLsp("openDocs")
+          end, { desc = "Rust: openDocs", buffer = bufnr })
+
+          vim.keymap.set("n", "<leader>cxj", function()
+            vim.cmd.RustLsp("joinLines")
+          end, { desc = "Rust: joinLines", buffer = bufnr })
         end,
 
         default_settings = {
