@@ -72,7 +72,7 @@ end, { desc = "Small terminal at the bottom" })
 
 map("n", "<leader>w15", function()
   vim.api.nvim_win_set_height(0, 15)
-end, { desc = "Small terminal at the bottom" })
+end, { desc = "Resize the buffer to height of 15" })
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
