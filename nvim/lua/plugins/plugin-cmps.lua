@@ -186,18 +186,13 @@ return {
             -- fallbacks = {},
             -- override = nil, -- Override the source's functions
           },
-          references = {
-            name = "pandoc_references",
-            module = "cmp-pandoc-references.blink",
-            score_offset = 100,
-          },
           minuet = {
             name = "minuet",
             module = "minuet.blink",
-            score_offset = 50, -- Gives minuet higher priority among suggestions
+            score_offset = 90, -- Gives minuet higher priority among suggestions
           },
           avante = {
-            score_offset = 50,
+            score_offset = 90,
             module = "blink-cmp-avante",
             name = "Avante",
             opts = {
@@ -208,7 +203,7 @@ return {
           ripgrep = {
             module = "blink-ripgrep",
             name = "Ripgrep",
-            score_offset = 90,
+            score_offset = 80,
             -- the options below are optional, some default values are shown
             ---@module "blink-ripgrep"
             ---@type blink-ripgrep.Options
@@ -350,6 +345,11 @@ return {
                 return in_spell_capture
               end,
             },
+          },
+          references = {
+            name = "pandoc_references",
+            module = "cmp-pandoc-references.blink",
+            score_offset = 60,
           },
           dadbod = {
             name = "Dadbod", -- provides sql and db command completion.
