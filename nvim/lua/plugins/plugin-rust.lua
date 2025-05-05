@@ -8,8 +8,8 @@ if lazyvim_docs then
 end
 
 -- Switch to bacon-ls for rust
--- vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
-vim.g.lazyvim_rust_diagnostics = "bacon-ls"
+vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
+-- vim.g.lazyvim_rust_diagnostics = "bacon-ls"
 
 local diagnostics = vim.g.lazyvim_rust_diagnostics or "rust-analyzer"
 
@@ -215,7 +215,6 @@ return {
         end,
 
         default_settings = {
-          -- rust-analyzer language server configuration
           ["rust-analyzer"] = {
             cargo = {
               allFeatures = true,
@@ -223,6 +222,8 @@ return {
               buildScripts = {
                 enable = true,
               },
+              -- Reload rust-analyzer if the Cargo.toml/Cargo.lock file changes
+              autoreload = true,
             },
 
             -- Add clippy lints for Rust if using rust-analyzer
@@ -232,11 +233,39 @@ return {
             diagnostics = {
               enable = diagnostics == "rust-analyzer",
             },
+
+            -- Hover Actions!
+            hoverActions = {
+              enable = true,
+            },
+
+            -- Enable CodeLens and its various sub things
+            lens = {
+              enable = true,
+              references = true,
+              implementations = true,
+              enumVariantReferences = true,
+              methodReferences = true,
+            },
+
+            -- rust-analyzer language server configuration
+            callinfo = {
+              full = true,
+            },
+
+            -- Enable inlay hints
+            inlayHints = {
+              enable = true,
+              typeHints = true,
+              parameterHints = true,
+            },
+
             procMacro = {
               enable = true,
               ignored = {
                 ["async-trait"] = { "async_trait" },
                 ["napi-derive"] = { "napi" },
+                ["leptos-macro"] = { "server" },
                 ["async-recursion"] = { "async_recursion" },
               },
             },
@@ -290,6 +319,41 @@ return {
           enabled = diagnostics == "bacon-ls",
         },
         rust_analyzer = { enabled = false },
+      },
+      setup = {
+
+        -- If you enable this rustaceanvim will not functionm
+        -- basically its as it outlines itself, it will disable
+        -- rustaceanvim for lspconfig else if enabled, ensure Mason, installs
+        -- bacon and bacon-ls
+        --
+        -- Correctly setup lspconfig for rust
+        bacon_ls = function()
+          require("lspconfig").bacon_ls.setup({
+            init_options = {
+              -- Bacon export filename (default: .bacon-locations).
+              locationsFile = ".bacon-locations",
+              -- Try to update diagnostics every time the file is saved (default: true).
+              updateOnSave = true,
+              --  How many milliseconds to wait before updating diagnostics after a save (default: 1000).
+              updateOnSaveWaitMillis = 700,
+              -- Try to update diagnostics every time the file changes (default: true).
+              updateOnChange = true,
+              -- Try to validate that bacon preferences are setup correctly to work with bacon-ls (default: true).
+              validateBaconPreferences = true,
+              -- f no bacon preferences file is found, create a new preferences file with the bacon-ls job definition (default: true).
+              createBaconPreferencesFile = false,
+              -- Run bacon in background for the bacon-ls job (default: true)
+              runBaconInBackground = false,
+              -- Command line arguments to pass to bacon running in background (default "--headless -j bacon-ls")
+              runBaconInBackgroundCommandArguments = "--headless -j bacon-ls",
+              -- How many milliseconds to wait between background diagnostics check to synchronize all open files (default: 2000).
+              synchronizeAllOpenFilesWaitMillis = 1300,
+            },
+          })
+
+          return true
+        end,
       },
     },
   },

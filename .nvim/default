@@ -14,11 +14,14 @@ else
   set shortmess=aoO
 endif
 badd +56 ~/Labs/ewestudios/dotfiles/nvim/lua/config/autocmds.lua
-badd +40 ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
-badd +164 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua
+badd +56 ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
+badd +266 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua
+badd +13 ~/Labs/ewestudios/dotfiles/shell/direnv
+badd +4 ~/Labs/ewestudios/dotfiles/shell/rust
+badd +606 ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-cmps.lua
 argglobal
 %argdel
-edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua
+edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-cmps.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -37,7 +40,38 @@ set winminwidth=0
 set winwidth=1
 wincmd =
 argglobal
-balt ~/Labs/ewestudios/dotfiles/nvim/lua/config/autocmds.lua
+balt ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua
+setlocal foldmethod=expr
+setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
+setlocal foldmarker={{{,}}}
+setlocal foldignore=#
+setlocal foldlevel=99
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldenable
+15
+normal! zo
+518
+normal! zo
+532
+normal! zo
+534
+normal! zo
+588
+normal! zo
+let s:l = 606 - ((49 * winheight(0) + 35) / 70)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 606
+normal! 018|
+wincmd w
+argglobal
+if bufexists(fnamemodify("~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua", ":p")) | buffer ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua | else | edit ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua | endif
+if &buftype ==# 'terminal'
+  silent file ~/Labs/ewestudios/dotfiles/nvim/lua/plugins/plugin-rust.lua
+endif
+balt ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
 setlocal foldmethod=expr
 setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
@@ -48,66 +82,30 @@ setlocal foldnestmax=20
 setlocal foldenable
 61
 normal! zo
-109
-normal! zo
-111
-normal! zo
-112
-normal! zo
-121
-normal! zo
-124
-normal! zo
-125
-normal! zo
 155
 normal! zo
 162
 normal! zo
-163
+166
 normal! zo
-167
+217
 normal! zo
-168
+218
 normal! zo
-190
+288
 normal! zo
-192
+289
 normal! zo
-193
+304
 normal! zo
-208
-normal! zo
-216
-normal! zo
-let s:l = 164 - ((16 * winheight(0) + 35) / 70)
+let s:l = 266 - ((38 * winheight(0) + 35) / 70)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 164
-normal! 017|
+keepjumps 266
+normal! 014|
 wincmd w
-argglobal
-if bufexists(fnamemodify("~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua", ":p")) | buffer ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua | else | edit ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua | endif
-if &buftype ==# 'terminal'
-  silent file ~/Labs/ewestudios/dotfiles/nvim/lua/config/keymaps.lua
-endif
-balt ~/Labs/ewestudios/dotfiles/nvim/lua/config/autocmds.lua
-setlocal foldmethod=expr
-setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
-setlocal foldmarker={{{,}}}
-setlocal foldignore=#
-setlocal foldlevel=99
-setlocal foldminlines=1
-setlocal foldnestmax=20
-setlocal foldenable
-let s:l = 40 - ((30 * winheight(0) + 35) / 70)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 40
-normal! 0
-wincmd w
+2wincmd w
 wincmd =
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'

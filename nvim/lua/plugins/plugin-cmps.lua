@@ -124,20 +124,20 @@ return {
         default = {
           "lsp",
           "path",
-          "env",
-          "spell",
-          "dictionary",
           "snippets",
           "buffer",
           "ripgrep",
+          "spell",
           "minuet",
           "avante", -- only after I enable avante
+          "references",
+          "dictionary",
           "omni",
           "emoji",
+          "env",
           "css_vars",
           "nerdfont",
           "digraphs",
-          "references",
           "git",
           "conventional_commits",
         },
@@ -151,7 +151,7 @@ return {
             enabled = true, -- Whether or not to enable the provider
             async = false, -- Whether we should show the completions before this provider returns, without waiting for it
             timeout_ms = 2000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
-            score_offset = 0, -- Boost/penalize the score of the items
+            score_offset = 200, -- Boost/penalize the score of the items
             -- opts = {}, -- Passed to the source directly, varies by source
             -- REMARK: All of these options may be functions to get dynamic behavior
             --
@@ -165,210 +165,29 @@ return {
             -- fallbacks = {},
             -- override = nil, -- Override the source's functions
           },
-          digraphs = {
-            -- IMPORTANT: use the same name as you would for nvim-cmp
-            name = "digraphs",
-            module = "blink.compat.source",
-
-            -- all blink.cmp source config options work as normal:
-            score_offset = 15,
-
-            -- this table is passed directly to the proxied completion source
-            -- as the `option` field in nvim-cmp's source config
-            --
-            -- this is NOT the same as the opts in a plugin's lazy.nvim spec
-            opts = {
-              -- this is an option from cmp-digraphs
-              cache_digraphs_on_start = true,
-
-              -- If you'd like to use a `name` that does not exactly match nvim-cmp,
-              -- set `cmp_name` to the name you would use for nvim-cmp, for instance:
-              -- cmp_name = "digraphs"
-              -- then, you can set the source's `name` to whatever you like.
-            },
-          },
           references = {
             name = "pandoc_references",
             module = "cmp-pandoc-references.blink",
-            score_offset = 50,
+            score_offset = 100,
           },
-          dadbod = {
-            name = "Dadbod", -- provides sql and db command completion.
-            module = "vim_dadbod_completion.blink",
-            score_offset = 30,
+          minuet = {
+            name = "minuet",
+            module = "minuet.blink",
+            score_offset = 50, -- Gives minuet higher priority among suggestions
           },
           avante = {
-            score_offset = 20,
+            score_offset = 50,
             module = "blink-cmp-avante",
             name = "Avante",
             opts = {
               -- options for blink-cmp-avante
             },
           },
-          minuet = {
-            name = "minuet",
-            module = "minuet.blink",
-            score_offset = 10, -- Gives minuet higher priority among suggestions
-          },
-          conventional_commits = {
-            name = "Conventional Commits",
-            module = "blink-cmp-conventional-commits",
-            enabled = function()
-              return vim.bo.filetype == "gitcommit"
-            end,
-            ---@module 'blink-cmp-conventional-commits'
-            ---@type blink-cmp-conventional-commits.Options
-            opts = {}, -- none so far
-          },
-          git = {
-            module = "blink-cmp-git",
-            name = "Git",
-            score_offset = 1000,
-            opts = {
-              -- options for the blink-cmp-git
-              commit = {
-                -- You may want to customize when it should be enabled
-                -- The default will enable this when `git` is found and `cwd` is in a git repository
-                -- enable = function() end
-                -- You may want to change the triggers
-                triggers = { "%" },
-              },
-
-              git_centers = {
-                github = {
-                  issue = { get_token = get_github_token },
-                  pull_request = { get_token = get_github_token },
-                  mention = { get_token = get_github_token },
-                  -- Those below have the same fields with `commit`
-                  -- Those features will be enabled when `git` and `gh` (or `curl`) are found and
-                  -- remote contains `github.com`
-                  -- issue = {
-                  --     get_token = function() return '' end,
-                  -- },
-                  -- pull_request = {
-                  --     get_token = function() return '' end,
-                  -- },
-                  -- mention = {
-                  --     get_token = function() return '' end,
-                  --     get_documentation = function(item)
-                  --         local default = require('blink-cmp-git.default.github')
-                  --             .mention.get_documentation(item)
-                  --         default.get_token = function() return '' end
-                  --         return default
-                  --     end
-                  -- }
-                  --
-                },
-                gitlab = {
-                  -- Those below have the same fields with `commit`
-                  -- Those features will be enabled when `git` and `glab` (or `curl`) are found and
-                  -- remote contains `gitlab.com`
-                  -- issue = {
-                  --     get_token = function() return '' end,
-                  -- },
-                  -- NOTE:
-                  -- Even for `gitlab`, you should use `pull_request` rather than`merge_request`
-                  -- pull_request = {
-                  --     get_token = function() return '' end,
-                  -- },
-                  -- mention = {
-                  --     get_token = function() return '' end,
-                  --     get_documentation = function(item)
-                  --         local default = require('blink-cmp-git.default.gitlab')
-                  --            .mention.get_documentation(item)
-                  --         default.get_token = function() return '' end
-                  --         return default
-                  --     end
-                  -- }
-                },
-              },
-            },
-          },
-          dictionary = {
-            score_offset = 100,
-            module = "blink-cmp-dictionary",
-            name = "Dict",
-            -- Make sure this is at least 2.
-            -- 3 is recommended
-            min_keyword_length = 3,
-            opts = {
-              -- options for blink-cmp-dictionary
-            },
-          },
-          env = {
-            name = "Env",
-            score_offset = 50,
-            module = "blink-cmp-env",
-            opts = {
-              item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
-              show_braces = false,
-              show_documentation_window = true,
-            },
-          },
-          css_vars = {
-            name = "css-vars",
-            module = "css-vars.blink",
-            score_offset = 50,
-            opts = {
-              -- NOTE: The search is not optimized to look for variables in JS files.
-              -- If you change the search_extensions you might get false positives and weird completion results.
-              search_extensions = { ".js", ".ts", ".jsx", ".tsx" },
-            },
-          },
-          nerdfont = {
-            module = "blink-nerdfont",
-            name = "Nerd Fonts",
-            score_offset = 60, -- Tune by preference
-            opts = { insert = true }, -- Insert nerdfont icon (default) or complete its name
-          },
-          emoji = {
-            module = "blink-emoji",
-            name = "Emoji",
-            score_offset = 15, -- Tune by preference
-            opts = { insert = true }, -- Insert emoji (default) or complete its name
-            should_show_items = function()
-              return vim.tbl_contains(
-                -- Enable emoji completion only for git commits and markdown.
-                -- By default, enabled for all file-types.
-                { "gitcommit", "markdown" },
-                vim.o.filetype
-              )
-            end,
-          },
-          spell = {
-            name = "Spell",
-            module = "blink-cmp-spell",
-            score_offset = 120,
-            opts = {
-              -- EXAMPLE: Only enable source in `@spell` captures, and disable it
-              -- in `@nospell` captures.
-              score_offset = 120,
-              enable_in_context = function()
-                local curpos = vim.api.nvim_win_get_cursor(0)
-                local captures = vim.treesitter.get_captures_at_pos(0, curpos[1] - 1, curpos[2] - 1)
-                local in_spell_capture = false
-                for _, cap in ipairs(captures) do
-                  if cap.capture == "spell" then
-                    in_spell_capture = true
-                  elseif cap.capture == "nospell" then
-                    return false
-                  end
-                end
-                return in_spell_capture
-              end,
-            },
-          },
-          lazydev = {
-            name = "LazyDev",
-            module = "lazydev.integrations.blink",
-            -- make lazydev completions top priority (see `:h blink.cmp`)
-            score_offset = 100,
-          },
           -- 👇🏻👇🏻 add the ripgrep provider config below
           ripgrep = {
             module = "blink-ripgrep",
             name = "Ripgrep",
-            score_offset = 140,
+            score_offset = 90,
             -- the options below are optional, some default values are shown
             ---@module "blink-ripgrep"
             ---@type blink-ripgrep.Options
@@ -488,6 +307,188 @@ return {
               return items
             end,
           },
+          spell = {
+            name = "Spell",
+            module = "blink-cmp-spell",
+            score_offset = 70,
+            opts = {
+              -- EXAMPLE: Only enable source in `@spell` captures, and disable it
+              -- in `@nospell` captures.
+              score_offset = 70,
+              enable_in_context = function()
+                local curpos = vim.api.nvim_win_get_cursor(0)
+                local captures = vim.treesitter.get_captures_at_pos(0, curpos[1] - 1, curpos[2] - 1)
+                local in_spell_capture = false
+                for _, cap in ipairs(captures) do
+                  if cap.capture == "spell" then
+                    in_spell_capture = true
+                  elseif cap.capture == "nospell" then
+                    return false
+                  end
+                end
+                return in_spell_capture
+              end,
+            },
+          },
+          dadbod = {
+            name = "Dadbod", -- provides sql and db command completion.
+            module = "vim_dadbod_completion.blink",
+            score_offset = 60,
+          },
+          emoji = {
+            module = "blink-emoji",
+            name = "Emoji",
+            score_offset = 50, -- Tune by preference
+            opts = { insert = true }, -- Insert emoji (default) or complete its name
+            should_show_items = function()
+              return vim.tbl_contains(
+                -- Enable emoji completion only for git commits and markdown.
+                -- By default, enabled for all file-types.
+                { "gitcommit", "markdown" },
+                vim.o.filetype
+              )
+            end,
+          },
+          dictionary = {
+            score_offset = 20,
+            module = "blink-cmp-dictionary",
+            name = "Dict",
+            -- Make sure this is at least 2.
+            -- 3 is recommended
+            min_keyword_length = 3,
+            opts = {
+              -- options for blink-cmp-dictionary
+            },
+          },
+          css_vars = {
+            name = "css-vars",
+            module = "css-vars.blink",
+            score_offset = 20,
+            opts = {
+              -- NOTE: The search is not optimized to look for variables in JS files.
+              -- If you change the search_extensions you might get false positives and weird completion results.
+              search_extensions = { ".js", ".ts", ".jsx", ".tsx" },
+            },
+          },
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            -- make lazydev completions top priority (see `:h blink.cmp`)
+            score_offset = 30,
+          },
+          env = {
+            name = "Env",
+            score_offset = 10,
+            module = "blink-cmp-env",
+            opts = {
+              item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
+              show_braces = true,
+              show_documentation_window = true,
+            },
+          },
+          nerdfont = {
+            module = "blink-nerdfont",
+            name = "Nerd Fonts",
+            score_offset = 10, -- Tune by preference
+            opts = { insert = true }, -- Insert nerdfont icon (default) or complete its name
+          },
+          digraphs = {
+            -- IMPORTANT: use the same name as you would for nvim-cmp
+            name = "digraphs",
+            module = "blink.compat.source",
+
+            -- all blink.cmp source config options work as normal:
+            score_offset = 10,
+
+            -- this table is passed directly to the proxied completion source
+            -- as the `option` field in nvim-cmp's source config
+            --
+            -- this is NOT the same as the opts in a plugin's lazy.nvim spec
+            opts = {
+              -- this is an option from cmp-digraphs
+              cache_digraphs_on_start = true,
+
+              -- If you'd like to use a `name` that does not exactly match nvim-cmp,
+              -- set `cmp_name` to the name you would use for nvim-cmp, for instance:
+              -- cmp_name = "digraphs"
+              -- then, you can set the source's `name` to whatever you like.
+            },
+          },
+          conventional_commits = {
+            score_offset = 6,
+            name = "Conventional Commits",
+            module = "blink-cmp-conventional-commits",
+            enabled = function()
+              return vim.bo.filetype == "gitcommit"
+            end,
+            ---@module 'blink-cmp-conventional-commits'
+            ---@type blink-cmp-conventional-commits.Options
+            opts = {}, -- none so far
+          },
+          git = {
+            module = "blink-cmp-git",
+            name = "Git",
+            score_offset = 5,
+            opts = {
+              -- options for the blink-cmp-git
+              commit = {
+                -- You may want to customize when it should be enabled
+                -- The default will enable this when `git` is found and `cwd` is in a git repository
+                -- enable = function() end
+                -- You may want to change the triggers
+                triggers = { "%" },
+              },
+
+              git_centers = {
+                github = {
+                  issue = { get_token = get_github_token },
+                  pull_request = { get_token = get_github_token },
+                  mention = { get_token = get_github_token },
+                  -- Those below have the same fields with `commit`
+                  -- Those features will be enabled when `git` and `gh` (or `curl`) are found and
+                  -- remote contains `github.com`
+                  -- issue = {
+                  --     get_token = function() return '' end,
+                  -- },
+                  -- pull_request = {
+                  --     get_token = function() return '' end,
+                  -- },
+                  -- mention = {
+                  --     get_token = function() return '' end,
+                  --     get_documentation = function(item)
+                  --         local default = require('blink-cmp-git.default.github')
+                  --             .mention.get_documentation(item)
+                  --         default.get_token = function() return '' end
+                  --         return default
+                  --     end
+                  -- }
+                  --
+                },
+                gitlab = {
+                  -- Those below have the same fields with `commit`
+                  -- Those features will be enabled when `git` and `glab` (or `curl`) are found and
+                  -- remote contains `gitlab.com`
+                  -- issue = {
+                  --     get_token = function() return '' end,
+                  -- },
+                  -- NOTE:
+                  -- Even for `gitlab`, you should use `pull_request` rather than`merge_request`
+                  -- pull_request = {
+                  --     get_token = function() return '' end,
+                  -- },
+                  -- mention = {
+                  --     get_token = function() return '' end,
+                  --     get_documentation = function(item)
+                  --         local default = require('blink-cmp-git.default.gitlab')
+                  --            .mention.get_documentation(item)
+                  --         default.get_token = function() return '' end
+                  --         return default
+                  --     end
+                  -- }
+                },
+              },
+            },
+          },
         },
       },
 
@@ -586,10 +587,6 @@ return {
         },
         -- LSP Server Settings
         servers = {
-          bacon_ls = {
-            enabled = diagnostics == "bacon-ls",
-          },
-          rust_analyzer = { enabled = false },
           lua_ls = {
             -- mason = false, -- set to false if you don't want this server to be installed with mason
             -- Use this to add any additional keymaps
@@ -625,38 +622,6 @@ return {
         -- you can do any additional lsp server setup here
         -- return true if you don't want this server to be setup with lspconfig
         setup = {
-          -- If you enable this rustaceanvim will not functionm
-          -- basically its as it outlines itself, it will disable
-          -- rustaceanvim for lspconfig else if enabled, ensure Mason, installs
-          -- bacon and bacon-ls
-          --
-          -- Correctly setup lspconfig for rust
-          bacon_ls = function()
-            require("lspconfig").bacon_ls.setup({
-              init_options = {
-                -- Bacon export filename (default: .bacon-locations).
-                locationsFile = ".bacon-locations",
-                -- Try to update diagnostics every time the file is saved (default: true).
-                updateOnSave = true,
-                --  How many milliseconds to wait before updating diagnostics after a save (default: 1000).
-                updateOnSaveWaitMillis = 700,
-                -- Try to update diagnostics every time the file changes (default: true).
-                updateOnChange = true,
-                -- Try to validate that bacon preferences are setup correctly to work with bacon-ls (default: true).
-                validateBaconPreferences = true,
-                -- f no bacon preferences file is found, create a new preferences file with the bacon-ls job definition (default: true).
-                createBaconPreferencesFile = false,
-                -- Run bacon in background for the bacon-ls job (default: true)
-                runBaconInBackground = false,
-                -- Command line arguments to pass to bacon running in background (default "--headless -j bacon-ls")
-                runBaconInBackgroundCommandArguments = "--headless -j bacon-ls",
-                -- How many milliseconds to wait between background diagnostics check to synchronize all open files (default: 2000).
-                synchronizeAllOpenFilesWaitMillis = 1300,
-              },
-            })
-
-            return true
-          end,
 
           pyright = function()
             require("lspconfig").ruff.setup({
