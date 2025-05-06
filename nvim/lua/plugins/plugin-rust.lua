@@ -8,8 +8,8 @@ if lazyvim_docs then
 end
 
 -- Switch to bacon-ls for rust
-vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
--- vim.g.lazyvim_rust_diagnostics = "bacon-ls"
+-- vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
+vim.g.lazyvim_rust_diagnostics = "bacon-ls"
 
 local diagnostics = vim.g.lazyvim_rust_diagnostics or "rust-analyzer"
 

@@ -1,4 +1,4 @@
 #!/bin/env bash
 
 export RUST_BACKTRACE=full
-export RUSTFLAGS="-Z threads=10 -Zproc-macro-backtrace"
+# export RUSTFLAGS="-Z threads=10 -Zproc-macro-backtrace"
