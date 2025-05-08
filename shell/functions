@@ -13,7 +13,9 @@ no_dir() {
 }
 
 is_shell() {
-  shell_check=$(echo "$0" | grep -i "$1")
+  shell_check=$(echo "$SHELL" | grep -i "$1")
+  echo "Current shell: $shell_check (@0 - $0)"
+
   if [ -n "$shell_check" ]; then 
     return 0
   else
@@ -22,14 +24,22 @@ is_shell() {
 }
 
 is_bash(){
-  is_shell "bash"
+  if is_shell "bash"; then
+    return 0
+  else
+    return -1
+  fi
 }
 
 is_zsh(){
-  is_shell "zsh"
+  if is_shell "zsh"; then 
+    return 0
+  else
+    return -1
+  fi
 }
 
-is_shell() {
+is_system() {
   system_name=`uname`
   system_name_check=$(echo $system_name | grep -i "$1")
   if [ -n "$system_name_check" ]; then 
@@ -40,12 +50,20 @@ is_shell() {
 }
 
 is_mac() {
-  is_shell "Darwin"
+  if is_system "Darwin"; then
+    return 0
+  else
+    return -1
+  fi
 }
 
 
 is_ubuntu() {
-  is_shell "ubuntu"
+  if is_system "ubuntu"; then
+    return 0
+  else
+    return -1
+  fi
 }
 
 no_file() {

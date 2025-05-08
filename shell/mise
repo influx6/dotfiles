@@ -4,10 +4,14 @@
 if is_bash; then
     echo "Mise activating bash"
     eval "$(mise activate bash)"
+else
+    echo "Mise: not a bash shell"
 fi
 
 
 if is_zsh; then
     echo "Mise activating zsh"
     eval "$(mise activate zsh)"
+else
+    echo "Mise: not a zsh shell"
 fi
