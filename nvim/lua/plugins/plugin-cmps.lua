@@ -399,7 +399,7 @@ return {
           },
           env = {
             name = "Env",
-            score_offset = 10,
+            score_offset = -10,
             module = "blink-cmp-env",
             opts = {
               item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
