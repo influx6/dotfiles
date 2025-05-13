@@ -1,12 +1,12 @@
 #!/bin/bash
 
-alias vim="tvim"
+alias gvim="/usr/bin/vim"
+alias ovim="/usr/bin/vim"
+alias vim="nvim"
 
-if [[ -d "$HOME/.config/nvim" ]]; then
-  # already present
+if [[ -h "$HOME/.config/nvim" ]]; then
   echo "nvim is already linked"
 else
-  # link directory correctly.
   echo "Linking nvim"
   ln -s "$Dotfiles/nvim" "$HOME/.config/nvim"
 fi
