@@ -1,13 +1,13 @@
 #!/bin/bash
 
-if  no_command 'argon2-cli'; then
-  if no_command npm; then
-     npm install -g argon2-cli
-  fi
-fi
-
-hash_argon2() {
-  echo -n "$1"| argon2-cli -e
-}
-
-
+# if  no_command 'argon2-cli'; then
+#   if no_command npm; then
+#      npm install -g argon2-cli
+#   fi
+# fi
+#
+# hash_argon2() {
+#   echo -n "$1"| argon2-cli -e
+# }
+#
+#
