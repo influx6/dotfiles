@@ -22,6 +22,13 @@ vim.opt.smarttab = true
 vim.opt.smartindent = true
 vim.opt.autoindent = true
 
+-- LSP Server to use for Python.
+-- Set to "basedpyright" to use basedpyright instead of pyright.
+vim.g.lazyvim_python_lsp = "pyright"
+
+-- Set to "ruff_lsp" to use the old LSP implementation version.
+-- vim.g.lazyvim_python_ruff = "ruff"
+
 -- vim.opt.cmdheight = 1
 
 -- Treesitter folding

@@ -529,154 +529,194 @@ return {
       "netmute/ctags-lsp.nvim",
       { "j-hui/fidget.nvim", opts = {} },
     },
-    opts = function()
-      ---@class PluginLspOpts
-      local ret = {
-        -- options for vim.diagnostic.config()
-        ---@type vim.diagnostic.Opts
-        diagnostics = {
-          underline = true,
-          update_in_insert = true,
-          virtual_text = {
-            spacing = 4,
-            source = "if_many",
-            prefix = "●",
-            -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
-            -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
-            -- prefix = "icons",
+    opts = {
+      -- options for vim.diagnostic.config()
+      ---@type vim.diagnostic.Opts
+      diagnostics = {
+        underline = true,
+        update_in_insert = true,
+        virtual_text = {
+          spacing = 4,
+          source = "if_many",
+          prefix = "●",
+          -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+          -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+          -- prefix = "icons",
+        },
+        severity_sort = true,
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = LazyVim.config.icons.diagnostics.Error,
+            [vim.diagnostic.severity.WARN] = LazyVim.config.icons.diagnostics.Warn,
+            [vim.diagnostic.severity.HINT] = LazyVim.config.icons.diagnostics.Hint,
+            [vim.diagnostic.severity.INFO] = LazyVim.config.icons.diagnostics.Info,
           },
-          severity_sort = true,
-          signs = {
-            text = {
-              [vim.diagnostic.severity.ERROR] = LazyVim.config.icons.diagnostics.Error,
-              [vim.diagnostic.severity.WARN] = LazyVim.config.icons.diagnostics.Warn,
-              [vim.diagnostic.severity.HINT] = LazyVim.config.icons.diagnostics.Hint,
-              [vim.diagnostic.severity.INFO] = LazyVim.config.icons.diagnostics.Info,
+        },
+      },
+      -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
+      -- Be aware that you also will need to properly configure your LSP server to
+      -- provide the inlay hints.
+      inlay_hints = {
+        enabled = true,
+        exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
+      },
+      -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
+      -- Be aware that you also will need to properly configure your LSP server to
+      -- provide the code lenses.
+      codelens = {
+        enabled = true,
+      },
+      -- add any global capabilities here
+      capabilities = {
+        workspace = {
+          fileOperations = {
+            didRename = true,
+            willRename = true,
+          },
+        },
+      },
+      -- options for vim.lsp.buf.format
+      -- `bufnr` and `filter` is handled by the LazyVim formatter,
+      -- but can be also overridden when specified
+      format = {
+        formatting_options = nil,
+        timeout_ms = nil,
+      },
+      -- LSP Server Settings
+      servers = {
+        lua_ls = {
+          -- mason = false, -- set to false if you don't want this server to be installed with mason
+          -- Use this to add any additional keymaps
+          -- for specific lsp servers
+          -- ---@type LazyKeysSpec[]
+          -- keys = {},
+          settings = {
+            Lua = {
+              workspace = {
+                checkThirdParty = false,
+              },
+              codeLens = {
+                enable = true,
+              },
+              completion = {
+                callSnippet = "Replace",
+              },
+              doc = {
+                privateName = { "^_" },
+              },
+              hint = {
+                enable = true,
+                setType = false,
+                paramType = true,
+                paramName = "Disable",
+                semicolon = "Disable",
+                arrayIndex = "Disable",
+              },
             },
           },
         },
-        -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
-        -- Be aware that you also will need to properly configure your LSP server to
-        -- provide the inlay hints.
-        inlay_hints = {
-          enabled = true,
-          exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
-        },
-        -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
-        -- Be aware that you also will need to properly configure your LSP server to
-        -- provide the code lenses.
-        codelens = {
-          enabled = true,
-        },
-        -- add any global capabilities here
-        capabilities = {
-          workspace = {
-            fileOperations = {
-              didRename = true,
-              willRename = true,
-            },
-          },
-        },
-        -- options for vim.lsp.buf.format
-        -- `bufnr` and `filter` is handled by the LazyVim formatter,
-        -- but can be also overridden when specified
-        format = {
-          formatting_options = nil,
-          timeout_ms = nil,
-        },
-        -- LSP Server Settings
-        servers = {
-          lua_ls = {
-            -- mason = false, -- set to false if you don't want this server to be installed with mason
-            -- Use this to add any additional keymaps
-            -- for specific lsp servers
-            -- ---@type LazyKeysSpec[]
-            -- keys = {},
+        ruff = {
+          cmd_env = { RUFF_TRACE = "messages" },
+          init_options = {
+            -- Ruff language server settings go here
             settings = {
-              Lua = {
-                workspace = {
-                  checkThirdParty = false,
-                },
-                codeLens = {
-                  enable = true,
-                },
-                completion = {
-                  callSnippet = "Replace",
-                },
-                doc = {
-                  privateName = { "^_" },
-                },
-                hint = {
-                  enable = true,
-                  setType = false,
-                  paramType = true,
-                  paramName = "Disable",
-                  semicolon = "Disable",
-                  arrayIndex = "Disable",
-                },
+              logLevel = "error",
+              args = {},
+              fixAll = true,
+              organizeImports = true,
+              showSyntaxErrors = true,
+              lint = {
+                enable = true,
+                preview = true,
+              },
+            },
+          },
+          keys = {
+            {
+              "<leader>co",
+              LazyVim.lsp.action["source.organizeImports"],
+              desc = "Organize Imports",
+            },
+          },
+        },
+        pyright = {
+          settings = {
+            pyright = {
+              -- Using Ruff's import organizer
+              disableOrganizeImports = true,
+            },
+            python = {
+              analysis = {
+                -- Ignore all files for analysis to exclusively use Ruff for linting
+                ignore = { "*" },
               },
             },
           },
         },
-        -- you can do any additional lsp server setup here
-        -- return true if you don't want this server to be setup with lspconfig
-        setup = {
+      },
+      -- you can do any additional lsp server setup here
+      -- return true if you don't want this server to be setup with lspconfig
+      setup = {
+        -- example to setup with typescript.nvim
+        -- tsserver = function(_, opts)
+        --   require("typescript").setup({ server = opts })
+        --   return true
+        -- end,
+        -- Specify * to use this function as a fallback for any server
+        -- ["*"] = function(server, opts) end,
+        ruff = function()
+          -- Register attachment to LspAttach to ensure ruff and pyright play nice
+          vim.api.nvim_create_autocmd("LspAttach", {
+            group = vim.api.nvim_create_augroup("lsp_attach_disable_ruff_hover", { clear = true }),
+            callback = function(args)
+              local client = vim.lsp.get_client_by_id(args.data.client_id)
+              if client == nil then
+                return
+              end
+              if client.name == "ruff" then
+                -- Disable hover in favor of Pyright
+                client.server_capabilities.hoverProvider = false
+              end
+            end,
+            desc = "LSP: Disable hover capability from Ruff",
+          })
 
-          pyright = function()
-            require("lspconfig").ruff.setup({
-              settings = {
-                pyright = {
-                  -- Using Ruff's import organizer
-                  disableOrganizeImports = true,
-                },
-                python = {
-                  analysis = {
-                    -- Ignore all files for analysis to exclusively use Ruff for linting
-                    ignore = { "*" },
-                  },
+          -- Register attachment to LspAttach to ensure ruff and pyright play nice
+
+          -- require("lspconfig").ruff.setup({
+          --   init_options = {
+          --     settings = {
+          --       -- Ruff language server settings go here
+          --       -- logLevel = "debug",
+          --       args = {},
+          --       fixAll = true,
+          --       organizeImports = true,
+          --       showSyntaxErrors = true,
+          --       lint = {
+          --         enable = true,
+          --         preview = true,
+          --       },
+          --     },
+          --   },
+          -- })
+        end,
+        pyright = function()
+          require("lspconfig").ruff.setup({
+            settings = {
+              pyright = {
+                -- Using Ruff's import organizer
+                disableOrganizeImports = true,
+              },
+              python = {
+                analysis = {
+                  -- Ignore all files for analysis to exclusively use Ruff for linting
+                  ignore = { "*" },
                 },
               },
-            })
-          end,
-
-          ruff = function()
-            -- Register attachment to LspAttach to ensure ruff and pyright play nice
-            vim.api.nvim_create_autocmd("LspAttach", {
-              group = vim.api.nvim_create_augroup("lsp_attach_disable_ruff_hover", { clear = true }),
-              callback = function(args)
-                local client = vim.lsp.get_client_by_id(args.data.client_id)
-                if client == nil then
-                  return
-                end
-                if client.name == "ruff" then
-                  -- Disable hover in favor of Pyright
-                  client.server_capabilities.hoverProvider = false
-                end
-              end,
-              desc = "LSP: Disable hover capability from Ruff",
-            })
-
-            require("lspconfig").ruff.setup({
-              init_options = {
-                settings = {
-                  -- Ruff language server settings go here
-                  -- logLevel = "debug",
-                  args = {},
-                },
-              },
-            })
-          end,
-
-          -- example to setup with typescript.nvim
-          -- tsserver = function(_, opts)
-          --   require("typescript").setup({ server = opts })
-          --   return true
-          -- end,
-          -- Specify * to use this function as a fallback for any server
-          -- ["*"] = function(server, opts) end,
-        },
-      }
-      return ret
-    end,
+            },
+          })
+        end,
+      },
+    },
   },
 }

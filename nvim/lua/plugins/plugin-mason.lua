@@ -131,7 +131,7 @@ return {
         "pymarkdownlnt",
         "pyment",
         "pyright",
-        "python-lsp-server",
+        -- "python-lsp-server",
         "rubocop",
         "ruby-lsp",
         "rubyfmt",
