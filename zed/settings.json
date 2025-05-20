@@ -10,7 +10,7 @@
   "agent": {
     "default_model": {
       "provider": "ollama",
-      "model": "deepseek-r1:latest"
+      "model": "deepseek-r1:14b"
     },
     "version": "2"
   },
@@ -22,33 +22,43 @@
       "api_url": "http://localhost:11434",
       "available_models": [
         {
-          "name": "deepseek-r1:70b",
-          "display_name": "deepseek-r1:70b",
+          "name": "deepseek-r1:14b",
+          "display_name": "deepseek-r1:14b",
           "max_tokens": 32768
         },
         {
-          "name": "deepseek-r1:latest",
-          "display_name": "deepseek-r1:latest",
+          "name": "mistral:latest",
+          "display_name": "mistral:latest",
           "max_tokens": 32768
         },
         {
-          "name": "ollama3.1",
-          "display_name": "ollama3.1",
+          "name": "gemma3:4b",
+          "display_name": "gemma3:4b",
           "max_tokens": 32768
         },
         {
-          "name": "ollama3.2-vision",
-          "display_name": "ollama3.2-vision",
+          "name": "qwen3:latest",
+          "display_name": "qwen3:latest",
           "max_tokens": 32768
         },
         {
-          "name": "ollama3.2",
-          "display_name": "ollama3.2",
+          "name": "llama3.2:latest",
+          "display_name": "llama3.2:latest",
           "max_tokens": 32768
         },
         {
-          "name": "qwen2.5-coder",
-          "display_name": "qwen 2.5 coder 32K",
+          "name": "qwen2.5vl:7b",
+          "display_name": "qwen2.5vl:7b",
+          "max_tokens": 32768
+        },
+        {
+          "name": "mistral-small3.1:24b",
+          "display_name": "mistral-small3.1:24b",
+          "max_tokens": 32768
+        },
+        {
+          "name": "llama3.2-vision:latest",
+          "display_name": "llama3.2-vision:latest",
           "max_tokens": 32768
         }
       ]
