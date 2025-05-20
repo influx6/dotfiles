@@ -7,7 +7,7 @@
 // custom settings, run `zed: open default settings` from the
 // command palette
 {
-  "assistant": {
+  "agent": {
     "default_model": {
       "provider": "ollama",
       "model": "deepseek-r1:latest"
