@@ -21,50 +21,63 @@
 #   accepts_settings: null
 
 - name: ollama/llama3.2-vision:latest
+  use_repo_map: true
   extra_params:
     num_ctx: 65536
 
 - name: ollama/gemma3:12b
+  use_repo_map: true
   extra_params:
     num_ctx: 65536
 
 - name: ollama/gemma3:4b
+  use_repo_map: true
   extra_params:
     num_ctx: 65536
 
 - name: ollama/llama3.3:latest
+  use_repo_map: true
   extra_params:
     num_ctx: 65536
 
 - name: ollama/llama3.2:latest
+  use_repo_map: true
   extra_params:
     num_ctx: 65536
 
 - name: ollama/mistral:latest
+  use_repo_map: true
   extra_params:
     num_ctx: 65536
 
 - name: ollama/deepseek-r1:latest
+  use_temperature: true
+  use_repo_map: true
   extra_params:
     num_ctx: 65536
 
 - name: ollama/deepseek-r1:70b
+  use_repo_map: true
   extra_params:
     num_ctx: 65536
 
 - name: ollama/deepseek-r1:14b
+  use_repo_map: true
   extra_params:
     num_ctx: 65536
 
 - name: ollama/qwen3:latest
+  use_repo_map: true
   extra_params:
     num_ctx: 65536
 
 - name: ollama/qwq:latest
+  use_repo_map: true
   extra_params:
     num_ctx: 65536
 
 - name: ollama/qwen2.5-coder:latest
+  use_repo_map: true
   extra_params:
     num_ctx: 65536
 
