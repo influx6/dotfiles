@@ -55,3 +55,4 @@ Mercury.modules
 *.aliases
 *.lvlps
 
+.aider*

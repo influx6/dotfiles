@@ -83,7 +83,8 @@ has_command() {
 }
 
 no_command() {
-  if command -v "$1" 2>&1 >/dev/null; then
+  check_command=$(command -v "$1" 2>&1)
+  if [[ -n "$check_command" ]]; then
     return 1
   else
     return 0

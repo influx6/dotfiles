@@ -4,7 +4,6 @@ test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
 test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 if [[ -d /home/linuxbrew/.linuxbrew ]]; then
-	echo "Load linuxbrew"
 	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 	export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:$XDG_DATA_DIRS"
 	eval "\$($(brew --prefix)/bin/brew shellenv)"
