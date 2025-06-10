@@ -1,51 +1,42 @@
 #!/bin/bash
 
-if [[ -h "$HOME/.aider.model.settings.yml" ]]; then
+# Check if aider model is already linked
+if [[ -f "$Dotfiles/aider/aider.model.settings.yml" ]]; then
   echo "aider configuration is already linked"
 else
   ln -s "$Dotfiles/aider/aider.model.settings.yml" "$HOME/.aider.model.settings.yml"
 fi
 
-#  why does this command still trigger, whats wrong with no_command ?
-#  its supposed to only run when command does not exists! AI!
+# Install aider if not found
 if no_command "aider"; then 
   python -m pip install aider-install 
   aider-install
 fi
 
+# Available models
+aider-deepseek-latest():
+  aider --model ollama/deepseek-r1:latest --watch-files
 
-aider-deepseek-latest(){
-  aider --model ollama/deepseek-r1:latest  --watch-files
-}
-
-aider-deepseek-14b(){
+aider-deepseek-14b():
   aider --model ollama/deepseek-r1:14b --watch-files
-}
 
-aider-mistral(){
+aider-mistral():
   aider --model ollama/qwen-2.4-coder:latest --watch-files
-}
 
-aider-gemma3-12b(){
+aider-gemma3-12b():
   aider --model ollama/gemma3:12b --watch-files
-}
 
-aider-qwq(){
+aider-qwq():
   aider --model ollama/qwq:latest --watch-files
-}
 
-aider-qwen25-coder(){
+aider-qwen25-coder():
   aider --model ollama/qwen-2.4-coder:latest --watch-files
-}
 
-aider-qwen25-coder14b(){
+aider-qwen25-coder14b():
   aider --model ollama/qwen-2.4-coder:14b --watch-files
-}
 
-aider-llama33(){
+aider-llama33():
   aider --model ollama/ollama3.3:latest --watch-files
-}
 
-aider-llama32-vision(){
+aider-llama32-vision():
   aider --model ollama/ollama3.2-vision:latest --watch-files
-}
