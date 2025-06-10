@@ -60,6 +60,7 @@ source $Dotfiles/shell/wasm
 source $Dotfiles/shell/youtube
 source $Dotfiles/shell/nvidia
 source $Dotfiles/shell/gnome-hotkeys
+source $Dotfiles/shell/aider
 
 # bash completion
 # source $Dotfiles/shell/bash_completions
