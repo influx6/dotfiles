@@ -14,8 +14,6 @@ no_dir() {
 
 is_shell() {
   shell_name=$(echo "$SHELL")
-  echo "Current shell: $shell_name (@0 - $0)"
-
   shell_check=$(echo "$SHELL" | grep -i "$1")
   if [ -n "$shell_check" ]; then 
     return 0

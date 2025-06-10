@@ -6,8 +6,6 @@ alias paste-buffer="xclip -selection clipboard -o"
 
 export LANG=en_US.UTF-8
 
-echo "Sourcing shell files"
-
 # load functions first
 source $Dotfiles/shell/functions
 

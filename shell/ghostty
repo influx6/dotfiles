@@ -12,6 +12,4 @@ if [[ ! -d "$target_ghostty_directory" ]]; then
         else
             ln -s $base_ghostty_directory $target_ghostty_directory 
         fi
-    else
-        echo "Ghostty configuration already linked"
 fi
