@@ -24,7 +24,15 @@
   extra_params:
     num_ctx: 65536
 
+- name: ollama/gemma3:12b
+  extra_params:
+    num_ctx: 65536
+
 - name: ollama/gemma3:4b
+  extra_params:
+    num_ctx: 65536
+
+- name: ollama/llama3.3:latest
   extra_params:
     num_ctx: 65536
 
@@ -36,11 +44,27 @@
   extra_params:
     num_ctx: 65536
 
+- name: ollama/deepseek-r1:latest
+  extra_params:
+    num_ctx: 65536
+
+- name: ollama/deepseek-r1:70b
+  extra_params:
+    num_ctx: 65536
+
 - name: ollama/deepseek-r1:14b
   extra_params:
     num_ctx: 65536
 
 - name: ollama/qwen3:latest
+  extra_params:
+    num_ctx: 65536
+
+- name: ollama/qwq:latest
+  extra_params:
+    num_ctx: 65536
+
+- name: ollama/qwen2.5-coder:latest
   extra_params:
     num_ctx: 65536
 
