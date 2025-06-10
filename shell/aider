@@ -17,14 +17,8 @@ fi
 aider-deepseek-latest():
   aider --model ollama/deepseek-r1:latest --watch-files
 
-aider-deepseek-14b():
-  aider --model ollama/deepseek-r1:14b --watch-files
-
 aider-mistral():
   aider --model ollama/qwen-2.4-coder:latest --watch-files
-
-aider-gemma3-12b():
-  aider --model ollama/gemma3:12b --watch-files
 
 aider-qwq():
   aider --model ollama/qwq:latest --watch-files
@@ -32,11 +26,5 @@ aider-qwq():
 aider-qwen25-coder():
   aider --model ollama/qwen-2.4-coder:latest --watch-files
 
-aider-qwen25-coder14b():
-  aider --model ollama/qwen-2.4-coder:14b --watch-files
-
 aider-llama33():
   aider --model ollama/ollama3.3:latest --watch-files
-
-aider-llama32-vision():
-  aider --model ollama/ollama3.2-vision:latest --watch-files
