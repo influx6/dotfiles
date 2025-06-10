@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ -h "$HOME/.aider.model.settings.yml" ]]; then
+  echo "aider configuration is already linked"
+else
+  ln -s "$Dotfiles/aider/aider.model.settings.yml" "$HOME/.aider.model.settings.yml"
+fi
+
