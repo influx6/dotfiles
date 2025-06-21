@@ -32,8 +32,8 @@ vim.g.lazyvim_python_lsp = "pyright"
 -- vim.opt.cmdheight = 1
 
 -- Treesitter folding
-vim.wo.foldmethod = "expr"
-vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.wo.foldmethod = "expr"
+-- vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- Swap to neotree if you want to use neotree instead.
 vim.g.file_manager = "oil.nvim"
@@ -45,7 +45,7 @@ vim.g.file_manager = "oil.nvim"
 -- noselect: Do not select, force to select one from the menu
 -- shortness: avoid showing extra messages when using completion
 -- updatetime: set updatetime for CursorHold
--- vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }
-vim.opt.completeopt = { "menuone", "noselect", "noinsert" }
+vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }
+-- vim.opt.completeopt = { "menuone", "noselect", "noinsert" }
 vim.opt.shortmess = vim.opt.shortmess + { c = true }
 vim.api.nvim_set_option("updatetime", 300)
