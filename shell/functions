@@ -4,6 +4,46 @@ nodekill() {
   killall -9 node
 }
 
+no_symlink() {
+  if has_symlink "$1"; then
+    return -1
+  else
+    return 0
+  fi
+}
+
+has_symlink() {
+  if [ -h "$1" ]; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+has_dir() {
+  if [ -d "$1" ]; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+no_file() {
+  if has_file "$1"; then
+    return -1
+  else
+    return 0
+  fi
+}
+
+has_file() {
+  if [ -f "$1" ]; then
+    return 0
+  else
+    return -1
+  fi
+}
+
 no_dir() {
   if [ -d "$1" ]; then
     return -1

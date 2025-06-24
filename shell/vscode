@@ -10,7 +10,6 @@ if [[ ! -h "$VSCODE_DIRECTORY/settings.json" ]]; then
   ln -s "$Dotfiles/vscode/.vscode/settings.json" "$VSCODE_DIRECTORY/settings.json"
 fi
 
-
 if [[ ! -h "$VSCODE_DIRECTORY/keybindings.json" ]]; then
   ln -s "$Dotfiles/vscode/.vscode/keybindings.json" "$VSCODE_DIRECTORY/keybindings.json"
 fi
