@@ -5,6 +5,10 @@ export OLLAMA_API_BASE=http://127.0.0.1:11434 # Mac/Linux
 
 # setx   OLLAMA_API_BASE http://127.0.0.1:11434 # Windows, restart shell after setx
 
+if [[ ! -h "$HOME/.aider.model.metadata.json" ]]; then
+  ln -s "$Dotfiles/aider/aider.model.metadata.json" "$HOME/.aider.model.metadata.json"
+fi
+
 if [[ ! -h "$HOME/.aider.model.settings.yml" ]]; then
   ln -s "$Dotfiles/aider/aider.model.settings.yml" "$HOME/.aider.model.settings.yml"
 fi

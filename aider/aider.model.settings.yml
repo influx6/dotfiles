@@ -20,6 +20,11 @@
 #   system_prompt_prefix: null
 #   accepts_settings: null
 
+- name: litellm_proxy/azure-o1
+  extra_params:
+    drop_params: true
+    temperature: 1.0
+
 - name: ollama/llama3.2-vision:latest
   use_repo_map: true
   extra_params:
