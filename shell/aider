@@ -19,6 +19,56 @@ if no_command "aider"; then
 fi
 
 
+aider-devstral(){
+  ollama pull devstral:latest
+  aider --model ollama/devstral:latest --watch-files
+}
+
+aider-devstral-24b(){
+  ollama pull devstral:24b
+  aider --model ollama/devstral:24b --watch-files
+}
+
+aider-qwen25-coder(){
+  ollama pull qwen-2.5-coder:latest
+  aider --model ollama/qwen-2.5-coder:latest --watch-files
+}
+
+aider-qwen25-coder15b(){
+  ollama pull qwen2.5-coder:1.5b
+  aider --model ollama/qwen2.5-coder:1.5b --watch-files
+}
+
+aider-qwen25-coder05b(){
+  ollama pull qwen2.5-coder:0.5b
+  aider --model ollama/qwen2.5-coder:0.5b --watch-files
+}
+
+aider-qwen25-coder3b(){
+  ollama pull qwen2.5-coder:3b
+  aider --model ollama/qwen2.5-coder:3b --watch-files
+}
+
+aider-qwen25-coder7b(){
+  ollama pull qwen2.5-coder:7b
+  aider --model ollama/qwen2.5-coder:7b --watch-files
+}
+
+aider-qwen25-coder14b(){
+  ollama pull qwen-2.5-coder:14b
+  aider --model ollama/qwen-2.5-coder:14b --watch-files
+}
+
+aider-deepseek-coder(){
+  ollama pull deepseek-coder-v2:latest
+  aider --model ollama/deepseek-coder-v2:latest  --watch-files
+}
+
+aider-deepseek-coder-16b(){
+  ollama pull deepseek-coder-v2:16b
+  aider --model ollama/deepseek-coder-v2:16b  --watch-files
+}
+
 aider-deepseek-latest(){
   ollama pull deepseek-r1:latest
   aider --model ollama/deepseek-r1:latest  --watch-files
@@ -37,16 +87,6 @@ aider-deepseek-7b(){
 aider-deepseek-14b(){
   ollama pull deepseek-r1:14b
   aider --model ollama/deepseek-r1:14b --watch-files
-}
-
-aider-devstral-latest(){
-  ollama pull devstral:latest
-  aider --model ollama/devstral:latest --watch-files
-}
-
-aider-devstral-24b(){
-  ollama pull devstral:24b
-  aider --model ollama/devstral:24b --watch-files
 }
 
 aider-mistral(){
@@ -72,16 +112,6 @@ aider-code-llama-13b(){
 aider-qwq(){
   ollama pull qwq:latest
   aider --model ollama/qwq:latest --watch-files
-}
-
-aider-qwen25-coder(){
-  ollama pull qwen-2.5-coder:latest
-  aider --model ollama/qwen-2.5-coder:latest --watch-files
-}
-
-aider-qwen25-coder14b(){
-  ollama pull qwen-2.5-coder:14b
-  aider --model ollama/qwen-2.5-coder:14b --watch-files
 }
 
 aider-qwen3-4b(){
