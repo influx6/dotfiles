@@ -6,7 +6,7 @@ else
   export VSCODE_DIRECTORY="$HOME/.config/Code/User"
 fi
 
-if [[ ! -h "$VSCODE_DIRECTORY/setting.json" ]]; then
+if [[ ! -h "$VSCODE_DIRECTORY/settings.json" ]]; then
   ln -s "$Dotfiles/vscode/.vscode/settings.json" "$VSCODE_DIRECTORY/settings.json"
 fi
 
@@ -17,5 +17,4 @@ fi
 
 if [[ ! -h "$VSCODE_DIRECTORY/extensions.json" ]]; then
   ln -s "$Dotfiles/vscode/.vscode/extensions.json" "$VSCODE_DIRECTORY/extensions.json"
-  ln -s "$Dotfiles/vscode/.vscode/extensions.json" "$VSCODE_DIRECTORY/extension.json"
 fi
