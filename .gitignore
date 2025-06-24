@@ -1,4 +1,13 @@
 .DS_Store
+lock.md
+lock.mb
+lock.mdb
+*lock.md
+*lock.mb
+*lock.mdb
+**/lock.md
+**/lock.mb
+**/lock.mdb
 *.output
 *.DS_Store
 *.DS_Store*
