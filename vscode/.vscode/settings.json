@@ -82,11 +82,11 @@
     // "lineNumbers": "on",
     "lineNumbers": "relative",
     "renderWhitespace": "off",
-    "fontSize": 16,
-    "lineHeight": 22,
+    "fontSize": 14,
+    "lineHeight": 20,
     "letterSpacing": 0,
-    "suggestFontSize": 16,
-    "suggestLineHeight": 28,
+    "suggestFontSize": 14,
+    "suggestLineHeight": 20,
     "fontLigatures": true,
     "disableLigatures.mode": "Cursor",
     // When I accidentally hit copy without selecting anything and it overrides my clipboard - ugh.
@@ -226,6 +226,23 @@
       "<C-f>": false
     },
   },
+  "[yaml]": {
+      "editor.insertSpaces": true,
+      "editor.tabSize": 2,
+      "editor.autoIndent": "keep",
+      "diffEditor.ignoreTrimWhitespace": false,
+      "editor.defaultColorDecorators": "never",
+      "editor.quickSuggestions": {
+          "strings": true,
+          "other": true,
+          "comments": false
+      },
+      "editor.formatOnSave": true
+  },
+  "python.createEnvironment.contentButton": "show",
+  "python.venvFolders": [
+      "~/.pyenv"
+  ],
   "[ruff]": {
     "ruff.lint.args": [
       "--config=${workspaceFolder}/ruff.toml"
@@ -247,6 +264,8 @@
   "black-formatter.path": [
     "black"
   ],
+  "editor.formatOnSave": true,
+  "ruff.lint.preview": true,
   "[python]": {
     "testing": {
       "pytestArgs": [
@@ -333,17 +352,6 @@
       "x": 12,
       "y": 10
     }
-  },
-  // Cusom css
-  "apc.stylesheet": {
-    ".sidebar > .composite": "height: 12px !important",
-    ".title-label": "display: none !important",
-    ".title-actions": "display: none !important",
-    // ".tabs-and-actions-container > .editor-actions": "display: none !important",
-    ".titlebar-center": "display: none !important",
-    // ".titlebar-right": "display: none !important",
-    ".inline-tabs-placeholder": "display: none !important",
-    // ".split-view-view .visible": "background-color: #110f17 !important"
   },
   // Aura theme customisation
   "workbench.colorCustomizations": {
@@ -1346,9 +1354,6 @@
   "redhat.telemetry.enabled": true,
   "workbench.activityBar.location": "hidden",
   "terminal.integrated.scrollback": 1000000,
-  "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
-  },
   "window.customTitleBarVisibility": "show",
   "window.menuBarVisibility": "toggle",
   "vs-kubernetes": {
