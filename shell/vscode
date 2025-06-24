@@ -7,7 +7,7 @@ else
 fi
 
 if [[ ! -h "$VSCODE_DIRECTORY/setting.json" ]]; then
-  ln -s "$Dotfiles/vscode/.vscode/settings.json" "$VSCODE_DIRECTORY/setting.json"
+  ln -s "$Dotfiles/vscode/.vscode/settings.json" "$VSCODE_DIRECTORY/settings.json"
 fi
 
 
@@ -17,4 +17,5 @@ fi
 
 if [[ ! -h "$VSCODE_DIRECTORY/extensions.json" ]]; then
   ln -s "$Dotfiles/vscode/.vscode/extensions.json" "$VSCODE_DIRECTORY/extensions.json"
+  ln -s "$Dotfiles/vscode/.vscode/extensions.json" "$VSCODE_DIRECTORY/extension.json"
 fi
