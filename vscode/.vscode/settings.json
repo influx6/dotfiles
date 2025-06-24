@@ -165,15 +165,6 @@
       "**/.env.example": false
     }
   },
-  "extensions": {
-    "experimental": {
-      "affinity": {
-        // To improve performance
-        // "vscodevim.vim": 1,
-        "asvetliakov.vscode-neovim": 1
-      }
-    },
-  },
   "vim": {
     "easymotion": true,
     "incsearch": true,
@@ -252,18 +243,8 @@
     ]
   },
   "python.analysis.autoImportCompletions": true,
-  "isort.check": true,
-  "isort.args": [
-    "--profile",
-    "black"
-  ],
   "python.testing.pytestEnabled": true,
   "python.linting.pylintEnabled": true,
-  "python.linting.flake8Enabled": true,
-  "python.formatting.provider": "black",
-  "black-formatter.path": [
-    "black"
-  ],
   "editor.formatOnSave": true,
   "ruff.lint.preview": true,
   "[python]": {
@@ -273,9 +254,6 @@
       ],
       "unittestEnabled": false,
       "pytestEnabled": true
-    },
-    "formatting": {
-      "provider": "black",
     },
     "editor": {
       "formatOnType": true,
@@ -322,35 +300,6 @@
         "problems.visibility",
         "editor.lineNumbers"
       ]
-    }
-  },
-  // NeoVim
-  "vscode-neovim": {
-    "neovimInitVimPaths": {
-      "darwin": "$HOME/.config/nvim-vscode/init.vim"
-    },
-    "neovimExecutablePaths": {
-      "darwin": "/home/linuxbrew/.linuxbrew/bin/nvim"
-    }
-  },
-  // APC customizations
-  "apc.font.family": "Geist Mono",
-  "apc.monospace.font.family": "Geist Mono",
-  "apc.statusBar": {
-    "position": "editor-bottom",
-    "height": 28,
-    "fontSize": 12
-  },
-  "apc.activityBar": {
-    "position": "bottom",
-    "hideSettings": true,
-    "size": 28
-  },
-  "apc.electron": {
-    "titleBarStyle": "hiddenInset",
-    "trafficLightPosition": {
-      "x": 12,
-      "y": 10
     }
   },
   // Aura theme customisation
@@ -1344,7 +1293,6 @@
   "lldb.library": "~/.vscode/extensions/codelldb/",
   "extensions.experimental.affinity": {
     "vscodevim.vim": 1,
-    "asvetliakov.vscode-neovim": 1
   },
   "terminal.integrated.enableImages": true,
   "search.showLineNumbers": true,
@@ -1354,15 +1302,16 @@
   "redhat.telemetry.enabled": true,
   "workbench.activityBar.location": "hidden",
   "terminal.integrated.scrollback": 1000000,
-  "window.customTitleBarVisibility": "show",
-  "window.menuBarVisibility": "toggle",
-  "vs-kubernetes": {
-    "vscode-kubernetes.helm-path-linux": "/home/darkvoid/.local/state/vs-kubernetes/tools/helm/linux-amd64/helm",
-    "vscode-kubernetes.minikube-path-linux": "/home/darkvoid/.local/state/vs-kubernetes/tools/minikube/linux-amd64/minikube",
-    "vscode-kubernetes.kubectl-path-linux": "/home/darkvoid/.local/state/vs-kubernetes/tools/kubectl/kubectl"
-  },
   "makefile.configureOnOpen": true,
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "editor.suggestFontSize": 15,
+  "editor.fontSize": 15,
+  "chat.editor.fontSize": 13,
+  "vs-kubernetes": {
+    "vscode-kubernetes.helm-path-mac": "/Users/alexander.ewetumo@cloverhealth.com/.vs-kubernetes/tools/helm/darwin-arm64/helm",
+    "vscode-kubernetes.kubectl-path-mac": "/Users/alexander.ewetumo@cloverhealth.com/.vs-kubernetes/tools/kubectl/kubectl",
+    "vscode-kubernetes.minikube-path-mac": "/Users/alexander.ewetumo@cloverhealth.com/.vs-kubernetes/tools/minikube/darwin-arm64/minikube"
   },
 }
