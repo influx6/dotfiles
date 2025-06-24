@@ -385,7 +385,7 @@
     // -- Key Customization Overrides ----
     {
         "key": "tab",
-        "command": "extension.vim_tab",
+        "command": "-extension.vim_tab",
         "when": "editorTextFocus && vim.active && !inDebugRepl && !inlineEditIsVisible && vim.mode != 'Insert'"
     },
     // -- Key Customization that must be last ----
