@@ -231,9 +231,6 @@
       "editor.formatOnSave": true
   },
   "python.createEnvironment.contentButton": "show",
-  "python.venvFolders": [
-      "~/.pyenv"
-  ],
   "[ruff]": {
     "ruff.lint.args": [
       "--config=${workspaceFolder}/ruff.toml"
@@ -1314,4 +1311,24 @@
     "vscode-kubernetes.kubectl-path-mac": "/Users/alexander.ewetumo@cloverhealth.com/.vs-kubernetes/tools/kubectl/kubectl",
     "vscode-kubernetes.minikube-path-mac": "/Users/alexander.ewetumo@cloverhealth.com/.vs-kubernetes/tools/minikube/darwin-arm64/minikube"
   },
+  "files.autoSaveWhenNoErrors": true,
+  "html.format.indentHandlebars": true,
+  "html.format.indentInnerHtml": true,
+  "prettier.vueIndentScriptAndStyle": true,
+  "pythonIndent.keepHangingBracketOnLine": true,
+  "pythonIndent.trimLinesWithOnlyWhitespace": true,
+  "pythonIndent.useTabOnHangingIndent": true,
+  "editor.guides.highlightActiveIndentation": "always",
+  "files.associations": {
+    ".php_cs": "php",
+    ".php_cs.dist": "php",
+    "*.php": "php",
+    "*.python": "python",
+    ".direnv": "shellscript"
+  },
+  "direnv.path.executable": "/opt/homebrew/Cellar/direnv/2.36.0/bin/direnv",
+  "direnv.restart.automatic": true,
+  "python.venvFolders": [
+    "~/.pyenv"
+  ],
 }

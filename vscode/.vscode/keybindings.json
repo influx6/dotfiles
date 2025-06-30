@@ -388,6 +388,11 @@
         "command": "-extension.vim_tab",
         "when": "editorTextFocus && vim.active && !inDebugRepl && !inlineEditIsVisible && vim.mode != 'Insert'"
     },
+    {
+        "key": "tab shift+1",
+        "command": "editor.action.quickFix",
+        "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+    },
     // -- Key Customization that must be last ----
     {
         "key": "alt+tab",
