@@ -19,6 +19,16 @@ if no_command "aider"; then
 fi
 
 
+aider-zeta-q4(){
+  ollama pull huggingface.co/lmstudio-community/zeta-GGUF:zeta-Q4_K_M.gguf
+  aider --model ollama/huggingface.co/lmstudio-community/zeta-GGUF:zeta-Q4_K_M.gguf --watch-files
+}
+
+aider-zeta-q8(){
+  ollama pull huggingface.co/lmstudio-community/zeta-GGUF:zeta-Q8_0.gguf
+  aider --model ollama/huggingface.co/lmstudio-community/zeta-GGUF:zeta-Q8_0.gguf --watch-files
+}
+
 aider-devstral(){
   ollama pull devstral:latest
   aider --model ollama/devstral:latest --watch-files

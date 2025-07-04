@@ -101,6 +101,62 @@
   extra_params:
     num_ctx: 65536
 
+- name: ollama/devstral:7b
+  # edit_format: diff
+  use_repo_map: true
+  reminder: sys
+  examples_as_sys_msg: true
+  extra_params:
+    max_tokens: 48000
+    num_ctx: 32768
+    num_predict: 16384
+    timeout: 1200
+
+
+- name: ollama/devstral:24b
+  # edit_format: diff
+  use_repo_map: true
+  reminder: sys
+  examples_as_sys_msg: true
+  extra_params:
+    max_tokens: 48000
+    num_ctx: 32768
+    num_predict: 16384
+    timeout: 1200
+
+- name: ollama/devstral:latest
+  # edit_format: diff
+  use_repo_map: true
+  reminder: sys
+  examples_as_sys_msg: true
+  extra_params:
+    max_tokens: 48000
+    num_ctx: 32768
+    num_predict: 16384
+    timeout: 1200
+
+- name: huggingface.co/lmstudio-community/zeta-GGUF:zeta-Q4_K_M.gguf
+  # edit_format: diff
+  # reminder: sys
+  use_repo_map: true
+  # examples_as_sys_msg: true
+  extra_params:
+    max_tokens: 48000
+    num_ctx: 32768
+    num_predict: 16384
+    timeout: 1200
+
+- name:  huggingface.co/lmstudio-community/zeta-GGUF:zeta-Q8_0.gguf
+  # edit_format: diff
+  # reminder: sys
+  use_repo_map: true
+  # examples_as_sys_msg: true
+  extra_params:
+    max_tokens: 48000
+    num_ctx: 32768
+    num_predict: 16384
+    timeout: 1200
+
 - name: anthropic.claude-opus-4-20250514-v1:0
   edit_format: diff
   weak_model_name: anthropic.claude-3-5-haiku-20241022-v1:0
