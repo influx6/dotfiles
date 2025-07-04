@@ -34,12 +34,12 @@ aider-qwen25-coder(){
   aider --model ollama/qwen-2.5-coder:latest --watch-files
 }
 
-aider-qwen25-coder15b(){
+aider-qwen25-coder1-5b(){
   ollama pull qwen2.5-coder:1.5b
   aider --model ollama/qwen2.5-coder:1.5b --watch-files
 }
 
-aider-qwen25-coder05b(){
+aider-qwen25-coder0-5b(){
   ollama pull qwen2.5-coder:0.5b
   aider --model ollama/qwen2.5-coder:0.5b --watch-files
 }
@@ -94,9 +94,29 @@ aider-mistral(){
   aider --model ollama/mistral:latest --watch-files
 }
 
+aider-gemma3-latest(){
+  ollama pull gemma3:latest
+  aider --model ollama/gemma3:latest --watch-files
+}
+
+aider-gemma3-27b(){
+  ollama pull gemma3:27b
+  aider --model ollama/gemma3:27b --watch-files
+}
+
 aider-gemma3-12b(){
   ollama pull gemma3:12b
   aider --model ollama/gemma3:12b --watch-files
+}
+
+aider-gemma3-4b(){
+  ollama pull gemma3:4b
+  aider --model ollama/gemma3:4b --watch-files
+}
+
+aider-gemma3-1b(){
+  ollama pull gemma3:1b
+  aider --model ollama/gemma3:1b --watch-files
 }
 
 aider-code-llama-7b(){
@@ -127,6 +147,11 @@ aider-qwen3-8b(){
 aider-qwen3-14b(){
   ollama pull qwen-3:14b
   aider --model ollama/qwen-3:14b --watch-files
+}
+
+aider-smollm-1-7b(){
+  ollama pull smollm:1.7b
+  aider --model ollama/smollm:1.7b --watch-files
 }
 
 aider-llama33(){
