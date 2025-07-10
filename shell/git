@@ -82,5 +82,15 @@ gcla() {
 	fi
 }
 
+git_pull_all() {
+	for dir in */; do
+		cd "$dir"
+		git pull origin
+		cd ..
+	done
+}
 
-
+gcla_sync() {
+    gcla $*
+    git_pull_all
+}

@@ -13,6 +13,10 @@ if [[ ! -h "$HOME/.aider.model.settings.yml" ]]; then
   ln -s "$Dotfiles/aider/aider.model.settings.yml" "$HOME/.aider.model.settings.yml"
 fi
 
+if [[ ! -h "$HOME/.aider.conf.yml" ]]; then
+  ln -s "$Dotfiles/aider/aider.config.yml" "$HOME/.aider.conf.yml"
+fi
+
 if no_command "aider"; then 
   python -m pip install aider-install 
   aider-install
