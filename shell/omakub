@@ -4,3 +4,4 @@ if [[ ! -d $HOME/.local/share/omakub ]]; then
   mkdir -p $HOME/.local/share/omakub
   ln -s $DOTFILES/omakub $HOME/.local/share/omakub
 fi
+
