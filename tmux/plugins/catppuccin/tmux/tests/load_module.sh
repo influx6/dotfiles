@@ -8,7 +8,4 @@ source "${script_dir}/helpers.sh"
 tmux source "${script_dir}/../catppuccin_options_tmux.conf"
 tmux source "${script_dir}/../catppuccin_tmux.conf"
 
-print_option @catppuccin_status_application | grep -q "@thm_" &&
-  echo "@catppuccin_status_application did not expand all colors"
-
-print_option @catppuccin_status_application | sed -E 's/(bash|fish|zsh)/<application>/'
+print_option E:@catppuccin_status_load
