@@ -42,7 +42,9 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 
+font-family = "Noto Serif Lao"
 font-family = "CaskaydiaMono Nerd Font"
+font-size = 9.5
 
 background = #1a1b26
 foreground = #a9b1d6
