@@ -7,15 +7,17 @@ if no_command tmux; then
    fi
 fi
 
-if [[ ! -h "$HOME/.tmux" ]]; then 
-  ln -s "$Dotfiles/tmux" "$HOME/.tmux"
-fi
-
-
-if [[ ! -h "$HOME/.config/tmux" ]]; then 
-  ln -s "$Dotfiles/tmux" "$HOME/.config/tmux"
-fi
+mkdir -p "$HOME/.tmux"
 
 if [ ! -h "$HOME/.tmux.conf" ]; then 
   ln -s "$Dotfiles/tmux/tmux.conf" "$HOME/.tmux.conf"
 fi
+
+if [ ! -h "$HOME/.tmux/.tmux.conf" ]; then 
+  ln -s "$Dotfiles/tmux/tmux.conf" "$HOME/.tmux.conf"
+fi
+
+if [ ! -h "$HOME/.tmux/tmux.conf" ]; then 
+  ln -s "$Dotfiles/tmux/tmux.conf" "$HOME/.tmux/tmux.conf"
+fi
+
