@@ -1,100 +1,86 @@
 #!/bin/bash
 
 if [[ ! -d $HOME/.config/omarchy ]]; then
-  mkdir -p $HOME/.config/omarchy
   ln -s $DOTFILES/omarchy $HOME/.config/omarchy
 fi
 
+if [[ ! -d $HOME/.local/share/omarchy ]]; then
+  ln -s $DOTFILES/omarchy $HOME/.local/share/omarchy
+fi
+
+if [[ ! -d $HOME/.local/share/hypr ]]; then
+  ln -s $DOTFILES/omarchy/config/hypr $HOME/.local/share/hypr
+fi
+
+if [[ ! -d $HOME/.config/hypr ]]; then
+  ln -s $DOTFILES/omarchy/config/hypr $HOME/.config/hypr
+fi
+
 if [[ ! -d $HOME/.config/systemd ]]; then
-  mkdir -p $HOME/.config/systemd
   ln -s $DOTFILES/systemd $HOME/.config/systemd
 fi
 
 if [[ ! -d $HOME/.config/Typora ]]; then
-  mkdir -p $HOME/.config/Typora
   ln -s $DOTFILES/Typora $HOME/.config/Typora
 fi
 
 if [[ ! -d $HOME/.config/waybar ]]; then
-  mkdir -p $HOME/.config/waybar
   ln -s $DOTFILES/waybar $HOME/.config/waybar
 fi
 
 if [[ ! -d $HOME/.config/wofi ]]; then
-  mkdir -p $HOME/.config/wofi
   ln -s $DOTFILES/wofi $HOME/.config/wofi
 fi
 
 if [[ ! -d $HOME/.config/yay ]]; then
-  mkdir -p $HOME/.config/yay
   ln -s $DOTFILES/yay $HOME/.config/yay
 fi
 
 if [[ ! -d $HOME/.config/nautilus ]]; then
-  mkdir -p $HOME/.config/nautilus
   ln -s $DOTFILES/nautilus $HOME/.config/nautilus
 fi
 
 if [[ ! -d $HOME/.config/kitty ]]; then
-  mkdir -p $HOME/.config/kitty
   ln -s $DOTFILES/kitty $HOME/.config/kitty
 fi
 
-if [[ ! -d $HOME/.config/hypr ]]; then
-  mkdir -p $HOME/.config/hypr
-  ln -s $DOTFILES/hypr $HOME/.config/hypr
-fi
-
 if [[ ! -d $HOME/.config/fcitx5 ]]; then
-  mkdir -p $HOME/.config/fcitx5
   ln -s $DOTFILES/fcitx5 $HOME/.config/fcitx5
 fi
 
 if [[ ! -d $HOME/.config/fcitx ]]; then
-  mkdir -p $HOME/.config/fcitx
   ln -s $DOTFILES/fcitx $HOME/.config/fcitx
 fi
 
 if [[ ! -d $HOME/.config/fastfetch ]]; then
-  mkdir -p $HOME/.config/fastfetch
   ln -s $DOTFILES/fastfetch $HOME/.config/fastfetch
 fi
 
 if [[ ! -d $HOME/.config/alacritty ]]; then
-  mkdir -p $HOME/.config/alacritty
   ln -s $DOTFILES/alacritty $HOME/.config/alacritty
 fi
 
-
 if [[ ! -d $HOME/.config/btop ]]; then
-  mkdir -p $HOME/.config/btop
   ln -s $DOTFILES/btop $HOME/.config/btop
 fi
 
 if [[ ! -d $HOME/.config/environment.d ]]; then
-  mkdir -p $HOME/.config/environment.d
   ln -s $DOTFILES/environment.d $HOME/.config/environment.d
 fi
 
 if [[ ! -d $HOME/.config/fontconfig ]]; then
-  mkdir -p $HOME/.config/fontconfig
   ln -s $DOTFILES/fontconfig $HOME/.config/fontconfig
 fi
 
 if [[ ! -d $HOME/.config/lazydocker ]]; then
-  mkdir -p $HOME/.config/lazydocker
   ln -s $DOTFILES/lazydocker $HOME/.config/lazydocker
 fi
 
-
 if [[ ! -d $HOME/.config/lazygit ]]; then
-  mkdir -p $HOME/.config/lazygit
   ln -s $DOTFILES/lazygit $HOME/.config/lazygit
 fi
 
-
 if [[ ! -d $HOME/.config/xournalpp ]]; then
-  mkdir -p $HOME/.config/xournalpp
   ln -s $DOTFILES/xournalpp $HOME/.config/xournalpp
 fi
 
