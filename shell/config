@@ -29,6 +29,7 @@ source $Dotfiles/shell/paths
 source $Dotfiles/shell/brew
 source $Dotfiles/shell/mise
 source $Dotfiles/shell/symlinks
+source $Dotfiles/shell/ghostty
 source $Dotfiles/shell/gitcrypt
 source $Dotfiles/shell/direnv
 source $Dotfiles/shell/alias

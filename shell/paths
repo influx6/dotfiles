@@ -54,7 +54,7 @@ export NODE_MODULES=$HOME/node_modules
 export ANDROID_SDK_BIN=$ANDROID_HOME/sdk/cmdline-tools/latest/bin
 export ANDROID_TOOLS_BIN=$ANDROID_HOME/sdk/tools/bin
 
-export PATH=$HOME/.local/go/bin:/usr/local/go/bin:$HOME/Lab/bin:$NODE_MODULES/bin:$NODE_MODULES/.bin:$LINUXBREW/bin:$Projects/bin:$HOME/local/bin:$HOME/local/go/bin:$HOME/.cargo/bin:$PATH
+export PATH=$HOME/.local/go/bin:$HOME/.rustup/bin:$HOME/.cargo/bin:/usr/local/go/bin:$HOME/Lab/bin:$NODE_MODULES/bin:$NODE_MODULES/.bin:$LINUXBREW/bin:$Projects/bin:$HOME/local/bin:$HOME/local/go/bin:$HOME/.cargo/bin:$PATH
 export PATH=$ANDROID_TOOLS_BIN:$ANDROID_SDK_BIN:$HOME/Devlabs/flutter/bin:$HOME/Devlabs/local/bin:$HOME/Devlabs/local/sbin/bin:$HOME/Devlabs/local/sbin/go/bin:$PATH
 
 export PATH="$PATH:$HOME/.rvm/bin"
