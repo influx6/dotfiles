@@ -4,3 +4,7 @@
 if no_command "bat"; then
     curl -s https://sh.rustup.rs | bat
 fi
+
+if has_command "bat"; then 
+    alias cat="bat"
+fi
