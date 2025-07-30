@@ -39,7 +39,7 @@ return {
       },
     },
     build = function()
-      vim.cmd("KanagawaCompile")
+      -- vim.cmd("KanagawaCompile")
     end,
   },
   {
