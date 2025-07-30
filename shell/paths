@@ -27,6 +27,7 @@ export BOOST_ROOT=/usr/boost
 export ANACONDA_PATH=$HOME/anaconda3
 
 export BOX_DEV=$HOME/Documents/box/box.dev
+export EWE_PLATFORM=$BOX_DEV/ewe_platform
 export BOX_BIN=$HOME/box.bin
 
 export USR_LOCAL=$HOME/.local
