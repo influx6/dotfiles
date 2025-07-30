@@ -4,49 +4,53 @@
 # <file system> <dir> <type> <options> <dump> <pass>
 
 # /dev/mapper/root
-UUID=958a0cc5-9ccf-457f-b5dc-a265e681f43d	/         	btrfs     	rw,relatime,compress=zstd:3,ssd,space_cache=v2,subvol=/@	0 0
+UUID=958a0cc5-9ccf-457f-b5dc-a265e681f43d	/         	btrfs     	rw,relatime,compress=zstd:3,ssd,space_cache=v2,subvol=/@	0 2
 
 # /dev/mapper/root
-UUID=958a0cc5-9ccf-457f-b5dc-a265e681f43d	/home     	btrfs     	rw,relatime,compress=zstd:3,ssd,space_cache=v2,subvol=/@home	0 0
+UUID=958a0cc5-9ccf-457f-b5dc-a265e681f43d	/home     	btrfs     	rw,relatime,compress=zstd:3,ssd,space_cache=v2,subvol=/@home	0 2
 
 # /dev/mapper/root
-UUID=958a0cc5-9ccf-457f-b5dc-a265e681f43d	/var/cache/pacman/pkg	btrfs     	rw,relatime,compress=zstd:3,ssd,space_cache=v2,subvol=/@pkg	0 0
+UUID=958a0cc5-9ccf-457f-b5dc-a265e681f43d	/var/cache/pacman/pkg	btrfs     	rw,relatime,compress=zstd:3,ssd,space_cache=v2,subvol=/@pkg	0 2
 
 # /dev/mapper/root
-UUID=958a0cc5-9ccf-457f-b5dc-a265e681f43d	/var/log  	btrfs     	rw,relatime,compress=zstd:3,ssd,space_cache=v2,subvol=/@log	0 0
+UUID=958a0cc5-9ccf-457f-b5dc-a265e681f43d	/var/log  	btrfs     	rw,relatime,compress=zstd:3,ssd,space_cache=v2,subvol=/@log	0 2
 
 # /dev/nvme0n1p1
 UUID=30EB-E6AE      	/boot     	vfat      	rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro	0 2
 
 # /dev/sda/@
-UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Boxd     	btrfs     	rw,relatime,exec,users,user,acl,compress=zstd:3,ssd,space_cache=v2	0 0
+UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Boxd     	btrfs     	rw,relatime,exec,users,user,acl,compress=zstd:3,ssd,space_cache=v2	0 2
 
 # /dev/sda/@dev
-UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.dev     	btrfs     	rw,relatime,users,user,exec,acl,compress=zstd:3,ssd,space_cache=v2,subvol=/@dev	0 0
+UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.dev     	btrfs     	rw,relatime,users,user,exec,acl,compress=zstd:3,ssd,space_cache=v2,subvol=/@dev	0 2
+
+# /dev/sda/@bins
+UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/box.bin     	btrfs     	rw,relatime,users,user,exec,acl,compress=zstd:3,ssd,space_cache=v2,subvol=/@bins	0 2
 
 # /dev/sda/@dotfiles
-UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.dotfiles     	btrfs     	rw,relatime,users,user,exec,acl,compress=zstd:3,ssd,space_cache=v2,subvol=/@dotfiles	0 0
+UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.dotfiles     	btrfs     	rw,relatime,users,user,exec,acl,compress=zstd:3,ssd,space_cache=v2,subvol=/@dotfiles	0 2
 
 # /dev/sda/@documents
-UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.documents     	btrfs     	rw,relatime,users,user,exec,acl,compress=zstd:3,ssd,space_cache=v2,subvol=/@documents	0 0
-
-# /dev/sda/@photos
-UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Pictures     	btrfs     	rw,relatime,user,compress=zstd:3,ssd,space_cache=v2,subvol=/@photos	0 0
-
-# /dev/sda/@photos
-UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.photos     	btrfs     	rw,relatime,user,compress=zstd:3,ssd,space_cache=v2,subvol=/@photos	0 0
+UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.documents     	btrfs     	rw,relatime,users,user,exec,acl,compress=zstd:3,ssd,space_cache=v2,subvol=/@documents	0 2
 
 # /dev/sda/@videos
-UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Videos     	btrfs     	rw,relatime,user,exec,compress=zstd:3,ssd,space_cache=v2,subvol=/@videos	0 0
-
-# /dev/sda/@videos
-UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.videos     	btrfs     	rw,relatime,user,exec,compress=zstd:3,ssd,space_cache=v2,subvol=/@videos	0 0
+UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.videos     	btrfs     	rw,relatime,user,exec,compress=zstd:3,ssd,space_cache=v2,subvol=/@videos	0 2
 
 # /dev/sda/@Backups
-UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.backups     	btrfs     	rw,relatime,user,exec,compress=zstd:3,ssd,space_cache=v2,subvol=/@backups	0 0
+UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.backups     	btrfs     	rw,relatime,user,exec,compress=zstd:3,ssd,space_cache=v2,subvol=/@backups	0 2
 
 # /dev/sda/@formulas
-UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.formulas     	btrfs     	rw,relatime,users,user,exec,acl,compress=zstd:3,ssd,space_cache=v2,subvol=/@formulas	0 0
+UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.formulas     	btrfs     	rw,relatime,users,user,exec,acl,compress=zstd:3,ssd,space_cache=v2,subvol=/@formulas	0 2
+
+
+# /dev/sda/@photos
+UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Documents/box/box.photos     	btrfs     	rw,relatime,user,compress=zstd:3,ssd,space_cache=v2,subvol=/@photos	0 2
+
+# /dev/sda/@photos
+UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Pictures     	btrfs     	rw,relatime,user,compress=zstd:3,ssd,space_cache=v2,subvol=/@photos	0 2
+
+# /dev/sda/@videos
+UUID=65803216-2b1b-4eac-ace6-3339c1c96f4a	/home/darkvoid/Videos     	btrfs     	rw,relatime,user,exec,compress=zstd:3,ssd,space_cache=v2,subvol=/@videos	0 2
 
 # /dev/sdb
 UUID=013558b3-e042-4813-81a0-ca506db14230	/run/media/darkvoid/EWEStore     	ext4     	defaults,nofail,users,user	0 2
