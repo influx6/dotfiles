@@ -1,30 +1,23 @@
 #!/bin/env bash
 
-export GEM_HOME=$HOME/.gems
-export Devlabs=$HOME/Labs
+export EDITOR='nvim'
 
-export Local=$HOME/local
-export SRC=$Devlabs/src
+export GEM_HOME=$HOME/.gems
+
 export GOBASE=$HOME/go
-export DOOMDIR=$HOME/.doom.d/
-export EMACSDIR=$HOME/.emacs.d/
+
 export GITHUB=$SRC/github.com
-export ZIG=$GITHUB/ziglang/zig/
+
 export NPM=$HOME/.node_modules
-export EMSC=$SRC/github.com/juj/emsdk
-export LINUXBREW=/home/linuxbrew/.linuxbrew
-export BREWOPT=/opt/homebrew/opt/
-export AndroidSDK=$HOME/Library/Android/sdk
 export GETH=$HOME/local/geth
+export BREWOPT=/opt/homebrew/opt/
+export LINUXBREW=/home/linuxbrew/.linuxbrew
+
+export ANDROIDSDK=$HOME/Library/Android/sdk
 export NIX_PROFILE_HOME=$HOME/.nix-profile
 
-export mylab=$HOME/Lab
-export Lab=$HOME/Lab
-export mycode=$Devlabs/code
-export github=$SRC/github.com
-export influx6=$SRC/github.com/influx6
-export forkkit=$SRC/github.com/forkkit
-export work=$SRC/github.com/JSchillinger
+export LDFLAGS="-L/usr/local/opt/ncurses/lib"
+export CPPFLAGS="-I/usr/local/opt/ncurses/include"
 
 export NODE_OPTIONS="--max-old-space-size=4096"
 export GOPATH="$HOME/go"
@@ -32,46 +25,29 @@ export GOPATH="$HOME/go"
 export EMCC=$GITHUB/juj/emsdk
 export BOOST_ROOT=/usr/boost
 export ANACONDA_PATH=$HOME/anaconda3
-export SDKManager=$Devlabs/tools
-export codelab=$HOME/Lab/codes
-export darkvoidlab=$HOME/Lab/codes/darkvoid
-export ewestudiolab=$HOME/Lab/codes/ewe-studios
-export Darkminilab=$HOME/Lab
-export darkminilab=$HOME/Lab
 
+export BOX_DEV=$HOME/Documents/box/box.dev
+export BOX_BIN=$HOME/box.bin
+
+export USR_LOCAL=$HOME/.local
+export LOCAL_VAR=$HOME/.local/var
+export LOCAL_SHARE=$HOME/.local/share
+
+export PYENV_ROOT="$HOME/.pyenv"
+export SDKMAN_DIR="$HOME/.sdkman"
 export RBENV=$HOME/.rbenv/
-
-export PATH=$NIX_PROFILE_HOME/bin:$GEM_HOME/bin::$GOBASE/bin:$BREWOPT:/usr/local/sbin:$HOME/local/gecko:$GETH/:$AndroidSDK/platform-tools/:$HOME/.local/bin:$HOME/.cargo/bin:$Devlabs/bin:$Local/bin:$PATH
-
-export LDFLAGS="-L/usr/local/opt/ncurses/lib"
-export CPPFLAGS="-I/usr/local/opt/ncurses/include"
-
-# add nix based information
-export PATH="$HOME/.rbenv/bin:$PATH"
-
-export ANDROID_HOME=$HOME/Devlabs/android
+export ANDROID_HOME=$USR_LOCAL/android
 export NODE_MODULES=$HOME/node_modules
 export ANDROID_SDK_BIN=$ANDROID_HOME/sdk/cmdline-tools/latest/bin
 export ANDROID_TOOLS_BIN=$ANDROID_HOME/sdk/tools/bin
 
-export PATH=$HOME/.local/go/bin:$HOME/.rustup/bin:$HOME/.cargo/bin:/usr/local/go/bin:$HOME/Lab/bin:$NODE_MODULES/bin:$NODE_MODULES/.bin:$LINUXBREW/bin:$Projects/bin:$HOME/local/bin:$HOME/local/go/bin:$HOME/.cargo/bin:$PATH
-export PATH=$ANDROID_TOOLS_BIN:$ANDROID_SDK_BIN:$HOME/Devlabs/flutter/bin:$HOME/Devlabs/local/bin:$HOME/Devlabs/local/sbin/bin:$HOME/Devlabs/local/sbin/go/bin:$PATH
 
-export PATH="$PATH:$HOME/.rvm/bin"
-
-export EDITOR='vim'
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'
-
-
-export SDKMAN_DIR="$HOME/.sdkman"
-export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/dotfiles/bin:$PATH"
-export PATH=$HOME/apache-tomcat-7.0.104/bin:$PATH
-export PATH=$HOME/apache-tomcat-7.0.104/bin:$HOME/apache-tomcat-7.0.105/bin:$PATH
-
-[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
-
-export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+export PATH=$GETH/:$ANDROIDSDK/platform-tools/:$HOME/.local/bin:$HOME/.cargo/bin:$Devlabs/bin:$USR_LOCAL/bin:$PATH
+export PATH=$HOME/.rbenv/bin:$GEM_HOME/bin::$GOBASE/bin:$BREWOPT:/usr/local/sbin:$HOME/local/gecko:$PATH
+export PATH=$HOME/.local/go/bin:$HOME/.rustup/bin:$HOME/.cargo/bin:/usr/local/go/bin:$HOME/Lab/bin:$PATH
+export PATH=$NODE_MODULES/bin:$NODE_MODULES/.bin:$LINUXBREW/bin:$Projects/bin:$HOME/local/bin:$HOME/local/go/bin:$HOME/.cargo/bin:$PATH
+export PATH=$ANDROID_TOOLS_BIN:$ANDROID_SDK_BIN:$BOX_BIN:$PATH
 export PATH="$PYENV_ROOT/bin:$PATH"
 
 if [ -e $HOME/.profile.custom ]; then . $HOME/.profile.custom; fi # load .profile.custom
@@ -79,9 +55,4 @@ if [ -e $HOME/.profile.firebase ]; then . $HOME/.profile.firebase; fi # load .pr
 if [ -e $HOME/.profile.git ]; then . $HOME/.profile.git; fi # load .profile.custom
 if [ -e $HOME/.profile.linode ]; then . $HOME/.profile.linode; fi # load .profile.custom
 
-test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-
-# add Pulumi to the PATH
-export PATH=$PATH:$HOME/.pulumi/bin:/opt/homebrew/opt/
 
