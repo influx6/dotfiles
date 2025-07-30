@@ -1,0 +1,6 @@
+
+#!/bin/bash
+
+if no_command "bat"; then
+    curl -s https://sh.rustup.rs | bat
+fi
