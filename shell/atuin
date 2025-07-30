@@ -1,0 +1,8 @@
+#!/bin/bash
+
+export PATH=$HOME/.atuin/bin:$PATH
+
+if no_command "atuin"; then
+    curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+fi
+

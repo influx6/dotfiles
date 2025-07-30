@@ -1,5 +1,8 @@
 #!/bin/env bash
 
+# set bash into vim mode
+set -o vi
+
 alias docker-compose="docker compose"
 alias copy-buffer="xclip -selection clipboard"
 alias paste-buffer="xclip -selection clipboard -o"
@@ -32,6 +35,8 @@ source $Dotfiles/shell/symlinks
 source $Dotfiles/shell/ghostty
 source $Dotfiles/shell/gitcrypt
 source $Dotfiles/shell/direnv
+source $Dotfiles/shell/atuin
+source $Dotfiles/shell/jj
 source $Dotfiles/shell/alias
 source $Dotfiles/shell/omakub
 source $Dotfiles/shell/neovim

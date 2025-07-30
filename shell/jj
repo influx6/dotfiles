@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if has_command "brew"; then
+    if no_command "brew"; then
+        brew install jj
+    fi
+fi
+
