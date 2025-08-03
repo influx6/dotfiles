@@ -70,6 +70,14 @@ is_bash(){
   fi
 }
 
+is_fish(){
+  if is_shell "fish"; then 
+    return 0
+  else
+    return -1
+  fi
+}
+
 is_zsh(){
   if is_shell "zsh"; then 
     return 0
@@ -122,12 +130,29 @@ has_command() {
   fi
 }
 
+test_has_command() {
+  if has_command $1; then
+    echo "Command $1 found"
+  else
+    echo "Command $1 not found"
+  fi
+}
+
 no_command() {
   check_command=$(command -v "$1" 2>&1)
   if [[ -n "$check_command" ]]; then
+    echo "Command at: $check_command"
     return 1
   else
     return 0
+  fi
+}
+
+test_no_command() {
+  if no_command $1; then
+    echo "Command $1 not found"
+  else
+    echo "Command $1 found"
   fi
 }
 

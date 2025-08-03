@@ -2,3 +2,12 @@
 
 export RUST_BACKTRACE=full
 # export RUSTFLAGS="-Z threads=10 -Zproc-macro-backtrace"
+
+if no_command rust-analyzer; then
+    mkdir -p ~/.local/bin
+    wget -O $HOME/.local/bin/rust-analyzer.gz https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz
+    gunzip ~/.local/bin/rust-analyzer.gz
+    chmod +x ~/.local/bin/rust-analyzer
+fi
+
+export PATH=$HOME/.local/bin:/usr/lib/rustup/bin:$PATH

@@ -4,9 +4,7 @@ alias gvim="/usr/bin/vim"
 alias ovim="/usr/bin/vim"
 alias vim="nvim"
 
-if [[ -h "$HOME/.config/nvim" ]]; then
-  echo "nvim is already linked"
-else
+if [[ ! -h "$HOME/.config/nvim" ]]; then
   ln -s "$Dotfiles/nvim" "$HOME/.config/nvim"
 fi
 
