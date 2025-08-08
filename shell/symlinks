@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ ! -d $HOME/.config/bacon ]]; then
+  ln -s $DOTFILES/bacon $HOME/.config/bacon
+fi
+
 if [[ ! -d $HOME/.config/omarchy ]]; then
   ln -s $DOTFILES/omarchy $HOME/.config/omarchy
 fi
