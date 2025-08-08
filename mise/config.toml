@@ -2,6 +2,6 @@
 ruby = "3.3"
 node = "lts"
 go = "latest"
-python = "latest"
+python = "system"
 erlang = "latest"
 elixir = "latest"

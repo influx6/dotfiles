@@ -1,0 +1,1 @@
+/home/darkvoid/.config/omarchy/current/theme/neovim.lua
