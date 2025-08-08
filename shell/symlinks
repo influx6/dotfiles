@@ -4,14 +4,6 @@ if [[ ! -d $HOME/.config/bacon ]]; then
   ln -s $DOTFILES/bacon $HOME/.config/bacon
 fi
 
-if [[ ! -d $HOME/.config/omarchy ]]; then
-  ln -s $DOTFILES/omarchy $HOME/.config/omarchy
-fi
-
-if [[ ! -d $HOME/.local/share/omarchy ]]; then
-  ln -s $DOTFILES/omarchy $HOME/.local/share/omarchy
-fi
-
 if [[ ! -d $HOME/.local/share/hypr ]]; then
   ln -s $DOTFILES/omarchy/config/hypr $HOME/.local/share/hypr
 fi
@@ -86,5 +78,9 @@ fi
 
 if [[ ! -d $HOME/.config/xournalpp ]]; then
   ln -s $DOTFILES/xournalpp $HOME/.config/xournalpp
+fi
+
+if [[ ! -d $HOME/.config/wpaperd ]]; then
+  ln -s $DOTFILES/wpaperd $HOME/.config/wpaperd
 fi
 

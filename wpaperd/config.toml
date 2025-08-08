@@ -1,0 +1,9 @@
+# [DP-1]
+# path = "~/Pictures/backgrounds"
+# duration = "60s"
+# mode = "tile"
+
+[any]
+path = "~/Pictures/backgrounds"
+duration = "60s"
+mode = "tile"

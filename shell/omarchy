@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [[ ! -d $HOME/.config/omarchy ]]; then
+  ln -s $DOTFILES/omarchy $HOME/.config/omarchy
+fi
+
+if [[ ! -d $HOME/.local/share/omarchy ]]; then
+  ln -s $DOTFILES/omarchy $HOME/.local/share/omarchy
+fi
+
+
