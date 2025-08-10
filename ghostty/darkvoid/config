@@ -74,6 +74,23 @@ background-blur = 20
 
 # key bindings
 # keybind = all:ctrl+c=copy_to_clipboard
+#
+# macos-option-as-alt = left
+keybind=clear
+
+keybind = alt+left=unbind
+keybind = alt+right=unbind
+keybind = alt+0=unbind
+keybind = alt+1=unbind
+keybind = alt+2=unbind
+keybind = alt+3=unbind
+keybind = alt+4=unbind
+keybind = alt+5=unbind
+keybind = alt+6=unbind
+keybind = alt+7=unbind
+keybind = alt+8=unbind
+keybind = alt+9=unbind
+
 keybind = global:cmd+home=toggle_quick_terminal
 keybind = performable:ctrl+c=copy_to_clipboard
 keybind = performable:ctrl+v=paste_from_clipboard
@@ -84,3 +101,4 @@ keybind = shift+down=adjust_selection:down
 keybind = ctrl+shift+c=text:\x03
 keybind = ctrl+l=clear_screen
 keybind = ctrl+r=reset
+

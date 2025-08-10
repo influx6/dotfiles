@@ -30,10 +30,6 @@ alias gunstage="git reset -- ."
 alias grb="git rebase"
 alias gcp="git cherry-pick"
 
-# dotfiles
-alias dotfiles_commit="cd $HOME/dotfiles && git commit -am 'UPT: Updated dotfiles'; cd -"
-alias dotfiles_push="cd $HOME/dotfiles && git push origin master; cd -"
-
 alias pbcopy='xclip -selection clipboard'
 alias ec="emacsclient -n -a emacs"
 alias ssh_up='eval $(ssh-agent)'

@@ -10,8 +10,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $OHMYZSH/cust
 
 
 mkdir -p $HOME/.tmux/plugins
-export TMUX_DIR=$HOME/.tmu
+export TMUX_DIR=$HOME/.tmux
 git clone https://github.com/tmux-plugins/tpm $TMUX_DIR/plugins/tpm
-ln -s $HOME/dotfiles/Mackup/.tmux.conf $HOME/.tmux.conf
 
 

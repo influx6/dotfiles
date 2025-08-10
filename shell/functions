@@ -203,3 +203,11 @@ renameset() {
     mv "$f" "$(pwd)/$((n++)) - $name"
   done
 }
+
+kx_show_ctrl_mapping() {
+  grep 'caps' /usr/share/X11/xkb/rules/base.lst
+}
+
+show_keybinding() {
+  wev
+}
