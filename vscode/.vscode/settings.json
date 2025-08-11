@@ -228,7 +228,8 @@
           "other": true,
           "comments": false
       },
-      "editor.formatOnSave": true
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "python.createEnvironment.contentButton": "show",
   "[ruff]": {
@@ -1301,7 +1302,7 @@
   "terminal.integrated.scrollback": 1000000,
   "makefile.configureOnOpen": true,
   "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "editor.suggestFontSize": 15,
   "editor.fontSize": 15,
@@ -1330,5 +1331,51 @@
   "direnv.restart.automatic": true,
   "python.venvFolders": [
     "~/.pyenv"
-  ],
+],
+"terminal.integrated.tabs.defaultIcon": "question",
+"cSpell.userWords": [
+  "appendleft",
+  "Archiver",
+  "atmoz",
+  "configrations",
+  "datadelivery",
+  "definining",
+  "deliverying",
+  "dorny",
+  "ewetumo",
+  "filekey",
+  "filestat",
+  "googlesheet",
+  "GUNICORN",
+  "ingestions",
+  "Instrumentor",
+  "jsonify",
+  "jsonlogger",
+  "localstack",
+  "localstacks",
+  "meladoc",
+  "millis",
+  "mwriter",
+  "mylogger",
+  "PARRALLELISM",
+  "parsables",
+  "parserdb",
+  "pgpfile",
+  "poolclass",
+  "popleft",
+  "prebuild",
+  "procs",
+  "pyenv",
+  "pythonjsonlogger",
+  "PYTHONUNBUFFERED",
+  "readv",
+  "Renamer",
+  "resumeable",
+  "SENDGRID",
+  "sessionmaker",
+  "Singlepart",
+  "textmap",
+  "upgrader",
+  "vnext"
+],
 }

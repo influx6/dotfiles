@@ -11,8 +11,7 @@
     "default_model": {
       "provider": "ollama",
       "model": "deepseek-r1:14b"
-    },
-    "version": "2"
+    }
   },
   "features": {
     "edit_prediction_provider": "zed"
@@ -98,6 +97,23 @@
       "soft_wrap": "preferred_line_length",
       "format_on_save": "language_server",
       "language_servers": ["rust-analyzer", "slcs"]
+    },
+    "Python": {
+      "language_servers": ["ruff"],
+      "format_on_save": "on",
+      "formatter": [
+        {
+          "code_actions": {
+            "source.fixAll.ruff": true,
+            "source.organizeImports.ruff": true
+          }
+        },
+        {
+          "language_server": {
+            "name": "ruff"
+          }
+        }
+      ]
     }
   }
 }
