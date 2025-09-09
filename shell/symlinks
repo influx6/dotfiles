@@ -5,11 +5,11 @@ if [[ ! -d $HOME/.config/bacon ]]; then
 fi
 
 if [[ ! -d $HOME/.local/share/hypr ]]; then
-  ln -s $DOTFILES/omarchy/config/hypr $HOME/.local/share/hypr
+  ln -s $DOTFILES/omarchy/hypr $HOME/.local/share/hypr
 fi
 
 if [[ ! -d $HOME/.config/hypr ]]; then
-  ln -s $DOTFILES/omarchy/config/hypr $HOME/.config/hypr
+  ln -s $DOTFILES/omarchy/hypr $HOME/.config/hypr
 fi
 
 if [[ ! -d $HOME/.config/systemd ]]; then
@@ -83,4 +83,3 @@ fi
 if [[ ! -d $HOME/.config/wpaperd ]]; then
   ln -s $DOTFILES/wpaperd $HOME/.config/wpaperd
 fi
-

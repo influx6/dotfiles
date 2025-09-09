@@ -1,7 +1,8 @@
 #!/bin/sh
 
 alias ls="ls -la"
-alias vim="nvim"
+# alias vim="nvim"
+alias editor="vim"
 alias edit_aliases="vim ~/.bash_aliases"
 alias edit_profile="vim ~/.profile"
 alias edit_bash="vim ~/.bashrc"
