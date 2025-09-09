@@ -1,0 +1,21 @@
+#!/bin/bash
+
+
+update_user_systemd(){
+    mkdir -p $HOME/.config/systemd/user
+    cp -r $Dotfiles/systemd/user $HOME/.config/systemd/
+}
+
+
+show_user_services(){
+    ls -a $HOME/.config/systemd/user
+}
+
+enable_service(){
+    systemctl --user daemon-reload
+    systemctl --user enable --now $HOME/.config/systemd/user/$1
+}
+
+show_service(){
+    systemctl --user status $1
+}

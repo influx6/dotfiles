@@ -13,7 +13,8 @@ if [[ ! -d $HOME/.config/hypr ]]; then
 fi
 
 if [[ ! -d $HOME/.config/systemd ]]; then
-  ln -s $DOTFILES/systemd $HOME/.config/systemd
+  # ln -s $DOTFILES/systemd $HOME/.config/systemd
+  cp -r $DOTFILES/systemd/user $HOME/.config/systemd/user
 fi
 
 if [[ ! -d $HOME/.config/Typora ]]; then

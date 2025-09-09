@@ -30,6 +30,7 @@ fi
 source $Dotfiles/shell/paths
 
 source $Dotfiles/shell/installer
+source $Dotfiles/shell/systemd
 source $Dotfiles/shell/brew
 source $Dotfiles/shell/mise
 source $Dotfiles/shell/symlinks

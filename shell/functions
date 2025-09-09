@@ -237,3 +237,13 @@ kx_show_ctrl_mapping() {
 show_keybinding() {
   wev
 }
+
+create_links(){
+    from_location="$1"
+    to_location="$2"
+    for f in "$from_location"/*; do
+        name=$(basename "$f")
+        echo "Symlinking to: ${to_location}: with ln -s $f $to_location/$name"
+        ln -s "$f" "$to_location/$name"
+    done
+}
