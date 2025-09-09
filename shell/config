@@ -73,4 +73,4 @@ source $Dotfiles/shell/aider
 source $Dotfiles/shell/vscode
 
 # bash completion
-# source $Dotfiles/shell/bash_completions
+source $Dotfiles/shell/bash_completions
