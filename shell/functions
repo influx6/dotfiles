@@ -55,7 +55,7 @@ no_dir() {
 is_shell() {
   shell_name=$(echo "$SHELL")
   shell_check=$(echo "$SHELL" | grep -i "$1")
-  if [ -n "$shell_check" ]; then 
+  if [ -n "$shell_check" ]; then
     return 0
   else
     return 1
@@ -71,7 +71,7 @@ is_bash(){
 }
 
 is_fish(){
-  if is_shell "fish"; then 
+  if is_shell "fish"; then
     return 0
   else
     return -1
@@ -79,7 +79,7 @@ is_fish(){
 }
 
 is_zsh(){
-  if is_shell "zsh"; then 
+  if is_shell "zsh"; then
     return 0
   else
     return -1
@@ -89,28 +89,54 @@ is_zsh(){
 is_system() {
   system_name=`uname`
   system_name_check=$(echo $system_name | grep -i "$1")
-  if [ -n "$system_name_check" ]; then 
+  if [ -n "$system_name_check" ]; then
     return 0
   else
     return -1
   fi
 }
 
+is_release() {
+    release_content=`cat /etc/*-release`
+    system_name_check=$(echo $release_content | grep -i "$1")
+    if [ -n "$system_name_check" ]; then
+        return 0
+    else
+        return -1
+    fi
+}
+
+ask_os() {
+    if is_system "$1" || is_release "$1"; then
+        echo "Yes, Operating system is: $1"
+    else
+        echo "No, Operating system is: $1"
+    fi
+}
+
 is_mac() {
-  if is_system "Darwin"; then
-    return 0
-  else
-    return -1
-  fi
+    if is_system "Darwin" || is_release "Darwin"; then
+        return 0
+    else
+        return -1
+    fi
+}
+
+is_archlinux() {
+    if is_system "Arch Linux" || is_release "Arch Linux"; then
+        return 0
+    else
+        return -1
+    fi
 }
 
 
 is_ubuntu() {
-  if is_system "ubuntu"; then
-    return 0
-  else
-    return -1
-  fi
+    if is_system "ubuntu" || is_release "ubuntu"; then
+        return 0
+    else
+        return -1
+    fi
 }
 
 no_file() {
@@ -141,7 +167,7 @@ test_has_command() {
 no_command() {
   check_command=$(command -v "$1" 2>&1)
   if [[ -n "$check_command" ]]; then
-    echo "Command at: $check_command"
+    # echo "Command at: $check_command"
     return 1
   else
     return 0

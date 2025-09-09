@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# install mise
+if no_command mise; then
+  curl https://mise.run | sh
+fi
 
 if is_bash; then
     echo "Mise activating bash"

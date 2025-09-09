@@ -1,0 +1,15 @@
+[Unit]
+Description=Homebrew generated unit for ollama
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Type=simple
+ExecStart="/home/linuxbrew/.linuxbrew/opt/ollama/bin/ollama" "serve"
+Restart=always
+WorkingDirectory=/home/linuxbrew/.linuxbrew/var
+StandardOutput=append:/home/linuxbrew/.linuxbrew/var/log/ollama.log
+StandardError=append:/home/linuxbrew/.linuxbrew/var/log/ollama.log
+Environment="OLLAMA_FLASH_ATTENTION=1"
+Environment="OLLAMA_KV_CACHE_TYPE=q8_0"
