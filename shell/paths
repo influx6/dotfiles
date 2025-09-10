@@ -26,12 +26,9 @@ export EMCC=$GITHUB/juj/emsdk
 export BOOST_ROOT=/usr/boost
 export ANACONDA_PATH=$HOME/anaconda3
 
-export BOX_BIN=$HOME/box.bin
-export BOX_ROOT=$HOME/Boxd/
-export BOX_DOCS=$HOME/Documents/box/
-
-export BOX_FORMULAS=$HOME/Documents/box/box.formulas
-export BOX_DEV=$HOME/Documents/box/box.dev
+export BOX_ROOT=$HOME/Boxx
+export BOX_DEV=$BOX_ROOT/@dev
+export BOX_FORMULAS=$BOX_ROOT/@formulas
 export EWE_PLATFORM=$BOX_DEV/ewe_platform
 
 export USR_LOCAL=$HOME/.local
