@@ -1327,7 +1327,7 @@
     "*.python": "python",
     ".direnv": "shellscript"
   },
-  "direnv.path.executable": "/opt/homebrew/Cellar/direnv/2.36.0/bin/direnv",
+  "direnv.path.executable": "direnv",
   "direnv.restart.automatic": true,
   "python.venvFolders": [
     "~/.pyenv"
