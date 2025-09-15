@@ -34,7 +34,7 @@
       "shift-backspace": "editor::Backspace",
       "delete": "editor::Delete",
       "tab": "editor::Tab",
-      "shift-tab": "editor::Backtab",
+      "shift-tab": "editor::TabPrev",
       "ctrl-k": "editor::CutToEndOfLine",
       "ctrl-backspace": "editor::DeleteToPreviousWordStart",
       "ctrl-delete": "editor::DeleteToNextWordEnd",
@@ -141,7 +141,7 @@
     }
   },
   {
-    "context": "Editor && edit_prediction && !showing_completions",
+    "context": "Editor && inline_completion && !showing_completions",
     "use_key_equivalents": true,
     "bindings": {
       "enter": "editor::AcceptInlineCompletion"
@@ -173,14 +173,14 @@
       "tab ?": "assistant::ToggleFocus",
       "ctrl-alt-s": "workspace::SaveAll",
       "tab m": "diagnostics::Deploy",
-      "tab h": "workspace::ActivatePaneLeft",
-      "tab l": "workspace::ActivatePaneRight",
-      "tab k": "workspace::ActivatePaneUp",
-      "tab j": "workspace::ActivatePaneDown",
-      "tab shift-h": "workspace::SwapPaneLeft",
-      "tab shift-l": "workspace::SwapPaneRight",
-      "tab shift-k": "workspace::SwapPaneUp",
-      "tab shift-j": "workspace::SwapPaneDown",
+      "tab h": ["workspace::ActivatePaneInDirection", "Left"],
+      "tab l": ["workspace::ActivatePaneInDirection", "Right"],
+      "tab k": ["workspace::ActivatePaneInDirection", "Up"],
+      "tab j": ["workspace::ActivatePaneInDirection", "Down"],
+      "tab shift-h": ["workspace::SwapPaneInDirection", "Left"],
+      "tab shift-l": ["workspace::SwapPaneInDirection", "Right"],
+      "tab shift-k": ["workspace::SwapPaneInDirection", "Up"],
+      "tab shift-j": ["workspace::SwapPaneInDirection", "Down"],
       "tab 1": ["workspace::ActivatePane", 0],
       "tab 2": ["workspace::ActivatePane", 1],
       "tab 3": ["workspace::ActivatePane", 2],
@@ -204,7 +204,7 @@
       "tab q": "pane::CloseActiveItem",
       "ctrl-shift-f": "project_search::ToggleFocus",
       "ctrl-alt-g": "search::SelectNextMatch",
-      "ctrl-alt-shift-g": "search::SelectPreviousMatch",
+      "ctrl-alt-shift-g": "search::SelectPrevMatch",
       "ctrl-alt-shift-h": "search::ToggleReplace",
       "ctrl-alt-shift-l": "search::ToggleSelection",
       "alt-enter": "search::SelectAllMatches",
@@ -231,7 +231,7 @@
       "alt-9": ["pane::ActivateItem", 8],
       "alt-0": "pane::ActivateLastItem",
       // others
-      "ctrl-pageup": "pane::ActivatePreviousItem",
+      "ctrl-pageup": "pane::ActivatePrevItem",
       "ctrl-pagedown": "pane::ActivateNextItem",
       "alt-ctrl-t": "pane::CloseInactiveItems",
       "alt-ctrl-shift-w": "workspace::CloseInactiveTabsAndPanes",
@@ -241,7 +241,7 @@
       "ctrl-alt-_": "pane::GoForward",
       "ctrl-shift-t": "pane::ReopenClosedItem",
       "f3": "search::SelectNextMatch",
-      "shift-f3": "search::SelectPreviousMatch"
+      "shift-f3": "search::SelectPrevMatch"
     }
   },
   {

@@ -1310,7 +1310,8 @@
   "vs-kubernetes": {
     "vscode-kubernetes.helm-path-mac": "/Users/alexander.ewetumo@cloverhealth.com/.vs-kubernetes/tools/helm/darwin-arm64/helm",
     "vscode-kubernetes.kubectl-path-mac": "/Users/alexander.ewetumo@cloverhealth.com/.vs-kubernetes/tools/kubectl/kubectl",
-    "vscode-kubernetes.minikube-path-mac": "/Users/alexander.ewetumo@cloverhealth.com/.vs-kubernetes/tools/minikube/darwin-arm64/minikube"
+    "vscode-kubernetes.minikube-path-mac": "/Users/alexander.ewetumo@cloverhealth.com/.vs-kubernetes/tools/minikube/darwin-arm64/minikube",
+    "vs-kubernetes.minikube-show-information-expiration": "2026-03-10T00:01:05.052Z"
   },
   "files.autoSaveWhenNoErrors": true,
   "html.format.indentHandlebars": true,
