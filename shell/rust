@@ -13,3 +13,5 @@ if no_command rust-analyzer; then
 fi
 
 export PATH=$HOME/.local/bin:/usr/lib/rustup/bin:$PATH
+
+. "$HOME/.cargo/env"

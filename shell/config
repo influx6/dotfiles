@@ -71,6 +71,7 @@ source $Dotfiles/shell/nvidia
 source $Dotfiles/shell/gnome-hotkeys
 source $Dotfiles/shell/aider
 source $Dotfiles/shell/vscode
+source $Dotfiles/shell/zed
 
 # bash completion
 source $Dotfiles/shell/bash_completions

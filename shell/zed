@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if is_mac; then
+  export ZED_DIRECTORY="$HOME/Library/Application Support/zed"
+else
+  export ZED_DIRECTORY="$HOME/.config/zed"
+fi
+
+if no_symlink "$ZED_DIRECTORY/settings.json"; then
+  ln -s "$Dotfiles/zed/settings.json" "$ZED_DIRECTORY/settings.json"
+fi
+
+if no_symlink "$ZED_DIRECTORY/keymap.json"; then
+  ln -s "$Dotfiles/zed/keymap.json" "$ZED_DIRECTORY/keymap.json"
+fi
+
